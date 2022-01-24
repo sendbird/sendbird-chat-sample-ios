@@ -7,4 +7,10 @@
    <FileRef
       location = "group:BaseSample/BaseSample.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:AFeatureSample/AFeatureSample.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:BFeatureSample/BFeatureSample.xcodeproj">
+   </FileRef>
 </Workspace>
