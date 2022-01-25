@@ -7,12 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F64AA28279FBB0E006B7088 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA27279FBB0E006B7088 /* LoginView.swift */; };
+		5F64AA2A279FC009006B7088 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA29279FC009006B7088 /* LoginModel.swift */; };
+		5F64AA2C279FD113006B7088 /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA2B279FD113006B7088 /* LogoutViewController.swift */; };
 		5FA1AF74279E923C00BD14EC /* Common.docc in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF73279E923C00BD14EC /* Common.docc */; };
 		5FA1AF7A279E923C00BD14EC /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FA1AF6F279E923C00BD14EC /* Common.framework */; };
 		5FA1AF7F279E923C00BD14EC /* CommonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF7E279E923C00BD14EC /* CommonTests.swift */; };
 		5FA1AF80279E923C00BD14EC /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FA1AF72279E923C00BD14EC /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FA1AF8B279E926400BD14EC /* SendBirdSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5FA1AF8A279E926400BD14EC /* SendBirdSDK */; };
 		5FA1AF91279E938300BD14EC /* BaseAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF90279E938300BD14EC /* BaseAppDelegate.swift */; };
+		5FA1B051279E9F4E00BD14EC /* BaseSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B050279E9F4E00BD14EC /* BaseSceneDelegate.swift */; };
+		5FA1B058279EA49900BD14EC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B057279EA49900BD14EC /* LoginViewController.swift */; };
+		5FA1B05B279EA4D700BD14EC /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B05A279EA4D700BD14EC /* ConnectionManager.swift */; };
+		5FA1B05E279EDE6F00BD14EC /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B05D279EDE6F00BD14EC /* CustomTextField.swift */; };
+		5FA1B061279EDFFF00BD14EC /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B060279EDFFF00BD14EC /* UIViewController+Extension.swift */; };
+		5FA1B062279EE3EA00BD14EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FA1B053279EA02B00BD14EC /* Assets.xcassets */; };
+		5FA1B064279EE55A00BD14EC /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B063279EE55A00BD14EC /* UIImage+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,12 +36,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F64AA27279FBB0E006B7088 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		5F64AA29279FC009006B7088 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		5F64AA2B279FD113006B7088 /* LogoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
 		5FA1AF6F279E923C00BD14EC /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA1AF72279E923C00BD14EC /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		5FA1AF73279E923C00BD14EC /* Common.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Common.docc; sourceTree = "<group>"; };
 		5FA1AF79279E923C00BD14EC /* CommonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CommonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA1AF7E279E923C00BD14EC /* CommonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTests.swift; sourceTree = "<group>"; };
 		5FA1AF90279E938300BD14EC /* BaseAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAppDelegate.swift; sourceTree = "<group>"; };
+		5FA1B050279E9F4E00BD14EC /* BaseSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSceneDelegate.swift; sourceTree = "<group>"; };
+		5FA1B053279EA02B00BD14EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5FA1B057279EA49900BD14EC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		5FA1B05A279EA4D700BD14EC /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
+		5FA1B05D279EDE6F00BD14EC /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		5FA1B060279EDFFF00BD14EC /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		5FA1B063279EE55A00BD14EC /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +74,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F64AA2D279FD3B0006B7088 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5FA1AF90279E938300BD14EC /* BaseAppDelegate.swift */,
+				5FA1B050279E9F4E00BD14EC /* BaseSceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		5FA1AF65279E923C00BD14EC = {
 			isa = PBXGroup;
 			children = (
@@ -75,9 +104,13 @@
 		5FA1AF71279E923C00BD14EC /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				5F64AA2D279FD3B0006B7088 /* App */,
+				5FA1B05C279EDE4B00BD14EC /* UIComponent */,
+				5FA1B059279EA4C700BD14EC /* Login */,
+				5FA1B05F279EDFEC00BD14EC /* Extension */,
 				5FA1AF72279E923C00BD14EC /* Common.h */,
 				5FA1AF73279E923C00BD14EC /* Common.docc */,
-				5FA1AF90279E938300BD14EC /* BaseAppDelegate.swift */,
+				5FA1B053279EA02B00BD14EC /* Assets.xcassets */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -88,6 +121,35 @@
 				5FA1AF7E279E923C00BD14EC /* CommonTests.swift */,
 			);
 			path = CommonTests;
+			sourceTree = "<group>";
+		};
+		5FA1B059279EA4C700BD14EC /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				5F64AA27279FBB0E006B7088 /* LoginView.swift */,
+				5FA1B057279EA49900BD14EC /* LoginViewController.swift */,
+				5F64AA2B279FD113006B7088 /* LogoutViewController.swift */,
+				5FA1B05A279EA4D700BD14EC /* ConnectionManager.swift */,
+				5F64AA29279FC009006B7088 /* LoginModel.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		5FA1B05C279EDE4B00BD14EC /* UIComponent */ = {
+			isa = PBXGroup;
+			children = (
+				5FA1B05D279EDE6F00BD14EC /* CustomTextField.swift */,
+			);
+			path = UIComponent;
+			sourceTree = "<group>";
+		};
+		5FA1B05F279EDFEC00BD14EC /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5FA1B060279EDFFF00BD14EC /* UIViewController+Extension.swift */,
+				5FA1B063279EE55A00BD14EC /* UIImage+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,6 +250,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FA1B062279EE3EA00BD14EC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,8 +268,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FA1B05B279EA4D700BD14EC /* ConnectionManager.swift in Sources */,
+				5FA1B058279EA49900BD14EC /* LoginViewController.swift in Sources */,
+				5FA1B05E279EDE6F00BD14EC /* CustomTextField.swift in Sources */,
+				5F64AA28279FBB0E006B7088 /* LoginView.swift in Sources */,
+				5F64AA2C279FD113006B7088 /* LogoutViewController.swift in Sources */,
+				5FA1B064279EE55A00BD14EC /* UIImage+Extension.swift in Sources */,
+				5F64AA2A279FC009006B7088 /* LoginModel.swift in Sources */,
 				5FA1AF74279E923C00BD14EC /* Common.docc in Sources */,
+				5FA1B061279EDFFF00BD14EC /* UIViewController+Extension.swift in Sources */,
 				5FA1AF91279E938300BD14EC /* BaseAppDelegate.swift in Sources */,
+				5FA1B051279E9F4E00BD14EC /* BaseSceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +353,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -339,7 +411,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -358,13 +430,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_ASSET_PATHS = Common/Assets.xcassets;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -387,13 +460,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_ASSET_PATHS = Common/Assets.xcassets;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

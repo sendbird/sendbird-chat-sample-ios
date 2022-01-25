@@ -8,23 +8,17 @@
 import UIKit
 import Common
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
-    var window: UIWindow?
-    var identifier: String?
+class SceneDelegate: BaseSceneDelegate {
+        
+    @available(iOS 13.0, *)
+    override func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        super.scene(scene, willConnectTo: session, options: connectionOptions)
+    }
     
-    @available(iOS 13.0, *)
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) { }
-
-    @available(iOS 13.0, *)
-    func sceneDidEnterBackground(_ scene: UIScene) { }
+    override func createViewController() -> UIViewController {
+        let mainViewController = LogoutViewController()
+        mainViewController.view.backgroundColor = .systemGray
+        return mainViewController
+    }
     
-    @available(iOS 13.0, *)
-    func sceneWillEnterForeground(_ scene: UIScene) { }
-    
-    @available(iOS 13.0, *)
-    func sceneDidBecomeActive(_ scene: UIScene) { }
-    
-    @available(iOS 13.0, *)
-    func sceneWillResignActive(_ scene: UIScene) { }
 }
