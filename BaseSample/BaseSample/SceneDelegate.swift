@@ -15,7 +15,7 @@ class SceneDelegate: BaseSceneDelegate {
         super.scene(scene, willConnectTo: session, options: connectionOptions)
     }
     
-    override func createViewController() -> UIViewController {
+    override func createMainViewController() -> UIViewController {
         let mainViewController = LogoutViewController()
         mainViewController.view.backgroundColor = .systemGray
         return mainViewController

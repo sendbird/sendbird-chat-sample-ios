@@ -11,7 +11,7 @@ open class BaseSceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     public var window: UIWindow?
     
-    open func createViewController() -> UIViewController {
+    open func createMainViewController() -> UIViewController {
         UIViewController()
     }
     
@@ -24,7 +24,7 @@ open class BaseSceneDelegate: UIResponder, UIWindowSceneDelegate {
             let viewController = LoginViewController(didConnectUser: { [weak self] _ in
                 guard let self = self else { return }
                 
-                let mainViewController = self.createViewController()
+                let mainViewController = self.createMainViewController()
                 mainViewController.modalPresentationStyle = .fullScreen
                 self.window?.rootViewController?.present(mainViewController, animated: true)
             })
