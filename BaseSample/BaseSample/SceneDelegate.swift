@@ -16,8 +16,7 @@ class SceneDelegate: BaseSceneDelegate {
     }
     
     override func createMainViewController() -> UIViewController {
-        let mainViewController = LogoutViewController()
-        mainViewController.view.backgroundColor = .systemGray
+        let mainViewController = BaseTabViewController()
         return mainViewController
     }
     

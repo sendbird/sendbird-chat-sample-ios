@@ -10,6 +10,10 @@
 		5F64AA28279FBB0E006B7088 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA27279FBB0E006B7088 /* LoginView.swift */; };
 		5F64AA2A279FC009006B7088 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA29279FC009006B7088 /* LoginModel.swift */; };
 		5F64AA2C279FD113006B7088 /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA2B279FD113006B7088 /* LogoutViewController.swift */; };
+		5F64AA30279FE92A006B7088 /* BaseTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA2F279FE92A006B7088 /* BaseTabViewController.swift */; };
+		5F64AA35279FEA31006B7088 /* BaseGroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA34279FEA31006B7088 /* BaseGroupChannelViewController.swift */; };
+		5F64AA37279FEA4D006B7088 /* BaseOpenChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA36279FEA4D006B7088 /* BaseOpenChannelViewController.swift */; };
+		5F64AA39279FEA60006B7088 /* BaseSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA38279FEA60006B7088 /* BaseSettingViewController.swift */; };
 		5FA1AF74279E923C00BD14EC /* Common.docc in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF73279E923C00BD14EC /* Common.docc */; };
 		5FA1AF7A279E923C00BD14EC /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FA1AF6F279E923C00BD14EC /* Common.framework */; };
 		5FA1AF7F279E923C00BD14EC /* CommonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF7E279E923C00BD14EC /* CommonTests.swift */; };
@@ -19,7 +23,7 @@
 		5FA1B051279E9F4E00BD14EC /* BaseSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B050279E9F4E00BD14EC /* BaseSceneDelegate.swift */; };
 		5FA1B058279EA49900BD14EC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B057279EA49900BD14EC /* LoginViewController.swift */; };
 		5FA1B05B279EA4D700BD14EC /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B05A279EA4D700BD14EC /* ConnectionManager.swift */; };
-		5FA1B05E279EDE6F00BD14EC /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B05D279EDE6F00BD14EC /* CustomTextField.swift */; };
+		5FA1B05E279EDE6F00BD14EC /* UnderlineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B05D279EDE6F00BD14EC /* UnderlineTextField.swift */; };
 		5FA1B061279EDFFF00BD14EC /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B060279EDFFF00BD14EC /* UIViewController+Extension.swift */; };
 		5FA1B062279EE3EA00BD14EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FA1B053279EA02B00BD14EC /* Assets.xcassets */; };
 		5FA1B064279EE55A00BD14EC /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B063279EE55A00BD14EC /* UIImage+Extension.swift */; };
@@ -39,6 +43,10 @@
 		5F64AA27279FBB0E006B7088 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		5F64AA29279FC009006B7088 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		5F64AA2B279FD113006B7088 /* LogoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
+		5F64AA2F279FE92A006B7088 /* BaseTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabViewController.swift; sourceTree = "<group>"; };
+		5F64AA34279FEA31006B7088 /* BaseGroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupChannelViewController.swift; sourceTree = "<group>"; };
+		5F64AA36279FEA4D006B7088 /* BaseOpenChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseOpenChannelViewController.swift; sourceTree = "<group>"; };
+		5F64AA38279FEA60006B7088 /* BaseSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSettingViewController.swift; sourceTree = "<group>"; };
 		5FA1AF6F279E923C00BD14EC /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA1AF72279E923C00BD14EC /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		5FA1AF73279E923C00BD14EC /* Common.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Common.docc; sourceTree = "<group>"; };
@@ -49,7 +57,7 @@
 		5FA1B053279EA02B00BD14EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5FA1B057279EA49900BD14EC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		5FA1B05A279EA4D700BD14EC /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
-		5FA1B05D279EDE6F00BD14EC /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		5FA1B05D279EDE6F00BD14EC /* UnderlineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineTextField.swift; sourceTree = "<group>"; };
 		5FA1B060279EDFFF00BD14EC /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		5FA1B063279EE55A00BD14EC /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,6 +91,38 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		5F64AA2E279FE799006B7088 /* Tab */ = {
+			isa = PBXGroup;
+			children = (
+				5F64AA2F279FE92A006B7088 /* BaseTabViewController.swift */,
+			);
+			path = Tab;
+			sourceTree = "<group>";
+		};
+		5F64AA31279FE99D006B7088 /* GroupChannel */ = {
+			isa = PBXGroup;
+			children = (
+				5F64AA34279FEA31006B7088 /* BaseGroupChannelViewController.swift */,
+			);
+			path = GroupChannel;
+			sourceTree = "<group>";
+		};
+		5F64AA32279FE9A9006B7088 /* OpenChannel */ = {
+			isa = PBXGroup;
+			children = (
+				5F64AA36279FEA4D006B7088 /* BaseOpenChannelViewController.swift */,
+			);
+			path = OpenChannel;
+			sourceTree = "<group>";
+		};
+		5F64AA33279FE9B0006B7088 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				5F64AA38279FEA60006B7088 /* BaseSettingViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
 		5FA1AF65279E923C00BD14EC = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +147,10 @@
 				5F64AA2D279FD3B0006B7088 /* App */,
 				5FA1B05C279EDE4B00BD14EC /* UIComponent */,
 				5FA1B059279EA4C700BD14EC /* Login */,
+				5F64AA2E279FE799006B7088 /* Tab */,
+				5F64AA31279FE99D006B7088 /* GroupChannel */,
+				5F64AA32279FE9A9006B7088 /* OpenChannel */,
+				5F64AA33279FE9B0006B7088 /* Setting */,
 				5FA1B05F279EDFEC00BD14EC /* Extension */,
 				5FA1AF72279E923C00BD14EC /* Common.h */,
 				5FA1AF73279E923C00BD14EC /* Common.docc */,
@@ -138,7 +182,7 @@
 		5FA1B05C279EDE4B00BD14EC /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
-				5FA1B05D279EDE6F00BD14EC /* CustomTextField.swift */,
+				5FA1B05D279EDE6F00BD14EC /* UnderlineTextField.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -270,15 +314,19 @@
 			files = (
 				5FA1B05B279EA4D700BD14EC /* ConnectionManager.swift in Sources */,
 				5FA1B058279EA49900BD14EC /* LoginViewController.swift in Sources */,
-				5FA1B05E279EDE6F00BD14EC /* CustomTextField.swift in Sources */,
+				5FA1B05E279EDE6F00BD14EC /* UnderlineTextField.swift in Sources */,
+				5F64AA30279FE92A006B7088 /* BaseTabViewController.swift in Sources */,
+				5F64AA39279FEA60006B7088 /* BaseSettingViewController.swift in Sources */,
 				5F64AA28279FBB0E006B7088 /* LoginView.swift in Sources */,
 				5F64AA2C279FD113006B7088 /* LogoutViewController.swift in Sources */,
 				5FA1B064279EE55A00BD14EC /* UIImage+Extension.swift in Sources */,
 				5F64AA2A279FC009006B7088 /* LoginModel.swift in Sources */,
 				5FA1AF74279E923C00BD14EC /* Common.docc in Sources */,
+				5F64AA37279FEA4D006B7088 /* BaseOpenChannelViewController.swift in Sources */,
 				5FA1B061279EDFFF00BD14EC /* UIViewController+Extension.swift in Sources */,
 				5FA1AF91279E938300BD14EC /* BaseAppDelegate.swift in Sources */,
 				5FA1B051279E9F4E00BD14EC /* BaseSceneDelegate.swift in Sources */,
+				5F64AA35279FEA31006B7088 /* BaseGroupChannelViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

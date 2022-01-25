@@ -19,6 +19,7 @@ public final class LogoutViewController: UIViewController {
     
     public init() {
         super.init(nibName: nil, bundle: nil)
+        title = "Logout"
     }
     
     required init?(coder: NSCoder) {
@@ -28,6 +29,7 @@ public final class LogoutViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemGray
         view.addSubview(logoutButton)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         

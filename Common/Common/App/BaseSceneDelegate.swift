@@ -12,7 +12,7 @@ open class BaseSceneDelegate: UIResponder, UIWindowSceneDelegate {
     public var window: UIWindow?
     
     open func createMainViewController() -> UIViewController {
-        UIViewController()
+        BaseTabViewController()
     }
     
     @available(iOS 13.0, *)
