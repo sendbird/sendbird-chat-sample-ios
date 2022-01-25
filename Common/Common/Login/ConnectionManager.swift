@@ -1,8 +1,9 @@
 //
 //  ConnectionManager.swift
-//  Common
+//  SendBird-iOS-LocalCache-Sample-swift
 //
-//  Created by Ernest Hong on 2022/01/24.
+//  Created by sendbird-young on 2018. 4. 11..
+//  Copyright © 2018년 SendBird. All rights reserved.
 //
 
 import UIKit
