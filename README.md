@@ -15,7 +15,7 @@
   - Common 기본 틀 + 확장 기능 추가 
 
 ## To do
-## Open
+### Open
 - [ ] Create, view, update, or delete channel
 - [ ] Enter and exit channel
 - [ ] Send, receive message
@@ -25,7 +25,7 @@
 - [ ] Retrieve a list of channels
 - [ ] Event handlers/Delegates
 
-## Group
+### Group
 - [ ] Create, view, or update channel
 - [ ] Join and leave channel
 - [ ] Invite as members
@@ -41,6 +41,6 @@
 - [ ] Logger
 - [ ] Event handlers
 
-## User
+### User
 - [ ] Profile image
 - [ ] Nick name
