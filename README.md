@@ -3,6 +3,7 @@
 
 ## Structure
 - Common: 기본 기능 Libary
+  - 모듈화는 [UIKit](https://github.com/sendbird/uikit-ios/tree/release/3.0) 참고
   - 로그인
   - 설정
   - Group Channel
