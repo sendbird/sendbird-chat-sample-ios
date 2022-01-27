@@ -14,7 +14,6 @@ open class BaseTabViewController: UITabBarController {
         UINavigationController(rootViewController: BaseOpenChannelViewController()),
         UINavigationController(rootViewController: LogoutViewController())
     ]) {
-        
         super.init(nibName: nil, bundle: nil)
         setViewControllers(viewControllers, animated: false)
     }

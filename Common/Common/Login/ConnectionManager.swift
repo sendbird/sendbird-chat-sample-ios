@@ -21,6 +21,7 @@ public class ConnectionManager: NSObject, SBDConnectionDelegate {
     }
     
     static let shared = ConnectionManager()
+    
     static var stopConnectionRetry: Bool = false
     
     private var observers: NSMapTable<NSString, AnyObject> = NSMapTable(keyOptions: .copyIn, valueOptions: .weakMemory)
@@ -31,7 +32,7 @@ public class ConnectionManager: NSObject, SBDConnectionDelegate {
     }
     
     deinit {
-        SBDMain.removeConnectionDelegate(forIdentifier: self.description)
+        SBDMain.removeConnectionDelegate(forIdentifier: description)
     }
     
     static public func startLogin(){
@@ -91,28 +92,19 @@ public class ConnectionManager: NSObject, SBDConnectionDelegate {
         self.login(userId: theUserId, nickname: theNickname, completionHandler: completionHandler)
     }
     
-    static public func login(userId: String, nickname: String, completionHandler: ((_ user: SBDUser?, _ error: NSError?) -> Void)?) {
+    static public func login(userId: String, nickname: String, completionHandler: ((_ user: SBDUser?, _ error: SBDError?) -> Void)?) {
         self.shared.login(userId: userId, nickname: nickname, completionHandler: completionHandler)
     }
     
-    private func login(userId: String, nickname: String, completionHandler: ((_ user: SBDUser?, _ error: NSError?) -> Void)?) {
+    private func login(userId: String, nickname: String, completionHandler: ((_ user: SBDUser?, _ error: SBDError?) -> Void)?) {
         SBDMain.connect(withUserId: userId) { (user, error) in
             let userDefault = UserDefaults.standard
             
-            if let theError: NSError = error {
-                if let handler = completionHandler {
-                    var userInfo: [String: Any] = Dictionary()
-                    if let reason: String = theError.localizedFailureReason {
-                        userInfo[NSLocalizedFailureReasonErrorKey] = reason
-                    }
-                    userInfo[NSLocalizedDescriptionKey] = theError.localizedDescription
-                    userInfo[NSUnderlyingErrorKey] = theError
-                    let connectionError: NSError = NSError.init(domain: Constant.errorDomainConnection, code: theError.code, userInfo: userInfo)
-                    handler(nil, connectionError)
-                }
+            if let error = error {
+                completionHandler?(nil, error)
                 return
             }
-            
+                        
             if let pushToken: Data = SBDMain.getPendingPushToken() {
                 SBDMain.registerDevicePushToken(pushToken, unique: true, completionHandler: { (status, error) in
                     guard let _: SBDError = error else {
@@ -150,7 +142,7 @@ public class ConnectionManager: NSObject, SBDConnectionDelegate {
             
             userDefault.setValue(SBDMain.getCurrentUser()?.userId, forKey: "sendbird_user_id")
             userDefault.setValue(SBDMain.getCurrentUser()?.nickname, forKey: "sendbird_user_nickname")
-            userDefault.setValue(true, forKey: "sendbird_auto_login")
+            SampleUserDefaults.isAutoLogin = true
         }
     }
     
@@ -162,7 +154,7 @@ public class ConnectionManager: NSObject, SBDConnectionDelegate {
         SBDMain.disconnect {
             self.broadcastDisconnection()
             let userDefault = UserDefaults.standard
-            userDefault.setValue(false, forKey: "sendbird_auto_login")
+            SampleUserDefaults.isAutoLogin = false
             userDefault.removeObject(forKey: "sendbird_dnd_start_hour")
             userDefault.removeObject(forKey: "sendbird_dnd_start_min")
             userDefault.removeObject(forKey: "sendbird_dnd_end_hour")

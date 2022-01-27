@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		5F64AA28279FBB0E006B7088 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA27279FBB0E006B7088 /* LoginView.swift */; };
-		5F64AA2A279FC009006B7088 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA29279FC009006B7088 /* LoginModel.swift */; };
+		5F64AA2A279FC009006B7088 /* SampleUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA29279FC009006B7088 /* SampleUserDefaults.swift */; };
 		5F64AA2C279FD113006B7088 /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA2B279FD113006B7088 /* LogoutViewController.swift */; };
 		5F64AA30279FE92A006B7088 /* BaseTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA2F279FE92A006B7088 /* BaseTabViewController.swift */; };
 		5F64AA35279FEA31006B7088 /* BaseGroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA34279FEA31006B7088 /* BaseGroupChannelViewController.swift */; };
 		5F64AA37279FEA4D006B7088 /* BaseOpenChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA36279FEA4D006B7088 /* BaseOpenChannelViewController.swift */; };
 		5F64AA39279FEA60006B7088 /* BaseSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64AA38279FEA60006B7088 /* BaseSettingViewController.swift */; };
+		5F901AE127A2347800D1D5D7 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901AE027A2347800D1D5D7 /* UserDefault.swift */; };
+		5F901AE327A235D300D1D5D7 /* VersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901AE227A235D300D1D5D7 /* VersionInfo.swift */; };
+		5F901AE627A2819300D1D5D7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901AE527A2819300D1D5D7 /* LoginViewModel.swift */; };
 		5FA1AF74279E923C00BD14EC /* Common.docc in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF73279E923C00BD14EC /* Common.docc */; };
 		5FA1AF7A279E923C00BD14EC /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FA1AF6F279E923C00BD14EC /* Common.framework */; };
 		5FA1AF7F279E923C00BD14EC /* CommonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF7E279E923C00BD14EC /* CommonTests.swift */; };
@@ -41,12 +44,15 @@
 
 /* Begin PBXFileReference section */
 		5F64AA27279FBB0E006B7088 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		5F64AA29279FC009006B7088 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		5F64AA29279FC009006B7088 /* SampleUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleUserDefaults.swift; sourceTree = "<group>"; };
 		5F64AA2B279FD113006B7088 /* LogoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
 		5F64AA2F279FE92A006B7088 /* BaseTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabViewController.swift; sourceTree = "<group>"; };
 		5F64AA34279FEA31006B7088 /* BaseGroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupChannelViewController.swift; sourceTree = "<group>"; };
 		5F64AA36279FEA4D006B7088 /* BaseOpenChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseOpenChannelViewController.swift; sourceTree = "<group>"; };
 		5F64AA38279FEA60006B7088 /* BaseSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSettingViewController.swift; sourceTree = "<group>"; };
+		5F901AE027A2347800D1D5D7 /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
+		5F901AE227A235D300D1D5D7 /* VersionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionInfo.swift; sourceTree = "<group>"; };
+		5F901AE527A2819300D1D5D7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		5FA1AF6F279E923C00BD14EC /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA1AF72279E923C00BD14EC /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		5FA1AF73279E923C00BD14EC /* Common.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Common.docc; sourceTree = "<group>"; };
@@ -85,8 +91,10 @@
 		5F64AA2D279FD3B0006B7088 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				5F901AE227A235D300D1D5D7 /* VersionInfo.swift */,
 				5FA1AF90279E938300BD14EC /* BaseAppDelegate.swift */,
 				5FA1B050279E9F4E00BD14EC /* BaseSceneDelegate.swift */,
+				5F64AA29279FC009006B7088 /* SampleUserDefaults.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -123,6 +131,14 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
+		5F901ADF27A2346500D1D5D7 /* PropertyWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				5F901AE027A2347800D1D5D7 /* UserDefault.swift */,
+			);
+			path = PropertyWrapper;
+			sourceTree = "<group>";
+		};
 		5FA1AF65279E923C00BD14EC = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +160,7 @@
 		5FA1AF71279E923C00BD14EC /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				5F901ADF27A2346500D1D5D7 /* PropertyWrapper */,
 				5F64AA2D279FD3B0006B7088 /* App */,
 				5FA1B05C279EDE4B00BD14EC /* UIComponent */,
 				5FA1B059279EA4C700BD14EC /* Login */,
@@ -172,9 +189,9 @@
 			children = (
 				5F64AA27279FBB0E006B7088 /* LoginView.swift */,
 				5FA1B057279EA49900BD14EC /* LoginViewController.swift */,
+				5F901AE527A2819300D1D5D7 /* LoginViewModel.swift */,
 				5F64AA2B279FD113006B7088 /* LogoutViewController.swift */,
 				5FA1B05A279EA4D700BD14EC /* ConnectionManager.swift */,
-				5F64AA29279FC009006B7088 /* LoginModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -312,6 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F901AE127A2347800D1D5D7 /* UserDefault.swift in Sources */,
 				5FA1B05B279EA4D700BD14EC /* ConnectionManager.swift in Sources */,
 				5FA1B058279EA49900BD14EC /* LoginViewController.swift in Sources */,
 				5FA1B05E279EDE6F00BD14EC /* UnderlineTextField.swift in Sources */,
@@ -319,8 +337,10 @@
 				5F64AA39279FEA60006B7088 /* BaseSettingViewController.swift in Sources */,
 				5F64AA28279FBB0E006B7088 /* LoginView.swift in Sources */,
 				5F64AA2C279FD113006B7088 /* LogoutViewController.swift in Sources */,
+				5F901AE627A2819300D1D5D7 /* LoginViewModel.swift in Sources */,
 				5FA1B064279EE55A00BD14EC /* UIImage+Extension.swift in Sources */,
-				5F64AA2A279FC009006B7088 /* LoginModel.swift in Sources */,
+				5F901AE327A235D300D1D5D7 /* VersionInfo.swift in Sources */,
+				5F64AA2A279FC009006B7088 /* SampleUserDefaults.swift in Sources */,
 				5FA1AF74279E923C00BD14EC /* Common.docc in Sources */,
 				5F64AA37279FEA4D006B7088 /* BaseOpenChannelViewController.swift in Sources */,
 				5FA1B061279EDFFF00BD14EC /* UIViewController+Extension.swift in Sources */,
@@ -491,7 +511,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sendbird.chat.Common;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -521,7 +541,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sendbird.chat.Common;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

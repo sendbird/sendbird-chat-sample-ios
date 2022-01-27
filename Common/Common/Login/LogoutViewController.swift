@@ -29,7 +29,7 @@ public final class LogoutViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemGray
+        view.backgroundColor = .systemBackground
         view.addSubview(logoutButton)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         

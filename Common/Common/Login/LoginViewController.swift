@@ -12,19 +12,24 @@ public final class LoginViewController: UIViewController, UITextFieldDelegate {
     
     typealias DidConnectUserHandler = (SBDUser) -> Void
     
-    private let loginModel = LoginModel()
+    // MARK: - Property
     
     private let didConnectUser: DidConnectUserHandler
     
-    private lazy var loginView = LoginView(
-        onRequestConnect: { [weak self] in
-            self?.connect()
-        }
-    )
+    private lazy var viewModel: LoginViewModel = {
+        let viewModel = LoginViewModel()
+        viewModel.delegate = self
+        return viewModel
+    }()
+    
+    private lazy var loginView = LoginView(onRequestConnect: { [weak self] in
+        self?.connect()
+    })
     
     private var loginViewBottomConstraint: NSLayoutConstraint?
     
-    // MARK: - Override
+    // MARK: - Life Cycle
+    
     init(didConnectUser: @escaping DidConnectUserHandler) {
         self.didConnectUser = didConnectUser
         super.init(nibName: nil, bundle: nil)
@@ -37,6 +42,24 @@ public final class LoginViewController: UIViewController, UITextFieldDelegate {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+        viewModel.loadSavedInfo()
+        viewModel.loginIfNeeded()
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        addKeyboardNotification()
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeKeyboardNotification()
+    }
+    
+    private func setupUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(loginView)
         loginView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,24 +73,65 @@ public final class LoginViewController: UIViewController, UITextFieldDelegate {
             loginView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             loginView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
         ])
+    }
+    
+    private func connect() {
+        view.endEditing(true)
         
+        viewModel.login(
+            userId: loginView.userId,
+            nickname: loginView.nickname
+        )
+    }
+    
+}
+
+
+// MARK: - LoginViewModelDelegate
+
+extension LoginViewController: LoginViewModelDelegate {
+    
+    func loginViewModelDidLoadSavedInfo(_ viewModel: LoginViewModel, userId: String?, nickname: String?, versionInfo: String?) {
+        loginView.userId = userId
+        loginView.nickname = nickname
+        loginView.versionInfo = versionInfo
+    }
+    
+    func loginViewModelUpdateUIForNormal(_ viewModel: LoginViewModel) {
+        loginView.updateUIForConnectiong(isConnecting: false)
+    }
+    
+    func loginViewModelUpdateUIForConnectiong(_ viewModel: LoginViewModel) {
+        loginView.updateUIForConnectiong(isConnecting: true)
+    }
+    
+    func loginViewModel(_ viewModel: LoginViewModel, didConnect user: SBDUser) {
+        didConnectUser(user)
+    }
+    
+    func loginViewModel(_ viewModel: LoginViewModel, didReceive error: SBDError) {
+        showAlertController(error: error)
+    }
+    
+    func loginViewModelShowAlert(_ viewModel: LoginViewModel, title: String, message: String) {
+        showAlertController(title: title, message: message)
+    }
+    
+}
+
+// MARK: - Keyboard
+
+extension LoginViewController {
+    
+    private func addKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIWindow.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
-        
-        loadData()
     }
     
-    private func loadData() {
-        loginView.userId = loginModel.userId
-        loginView.nickname = loginModel.nickname
-        loginView.versionInfo = loginModel.versionInfo
-        
-        if loginModel.isAutoLogin {
-            connect()
-        }
+    private func removeKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillHideNotification, object: nil)
     }
-    
-    // MARK: - Keyboard
     
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let keyboardFrameBegin = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else  { return }
@@ -89,47 +153,6 @@ public final class LoginViewController: UIViewController, UITextFieldDelegate {
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.layoutIfNeeded()
             self?.loginView.isLogoHidden = keyboardHeight > 0
-        }
-    }
-    
-    func connect() {
-        view.endEditing(true)
-        
-        if SBDMain.getConnectState() == .open {
-            SBDMain.disconnect { [weak self] in
-                DispatchQueue.main.async {
-                    self?.loginView.updateUIForConnectiong(isConnecting: false)
-                }
-            }
-        } else {
-            let userId = loginView.userId?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            let nickname = loginView.nickname?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            
-            guard let userId = userId, let nickname = nickname else {
-                showAlertController(title: "Error", message: "User ID and Nickname are required.", viewController: self)
-                return
-            }
-            
-            loginModel.userId = userId
-            loginModel.nickname = nickname
-            loginView.updateUIForConnectiong(isConnecting: true)
-            
-            ConnectionManager.login(userId: userId, nickname: nickname) { [weak self] user, error in
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self?.loginView.updateUIForConnectiong(isConnecting: false)
-                    }
-                    self?.showAlertController(error: SBDError.init(nsError: error))
-                    return
-                }
-                
-                guard let user = user else { return }
-                
-                DispatchQueue.main.async {
-                    self?.loginView.updateUIForConnectiong(isConnecting: false)
-                    self?.didConnectUser(user)
-                }
-            }
         }
     }
     

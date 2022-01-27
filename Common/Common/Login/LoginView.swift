@@ -54,7 +54,7 @@ final class LoginView: UIView {
         userIdTextField.placeholder = "User ID"
         userIdTextField.minimumFontSize = 17
         userIdTextField.bottomBorderWidth = 1
-        
+        userIdTextField.returnKeyType = .next
         return userIdTextField
     }()
     
@@ -64,6 +64,7 @@ final class LoginView: UIView {
         nicknameTextField.placeholder = "Nickname"
         nicknameTextField.minimumFontSize = 17
         nicknameTextField.bottomBorderWidth = 1
+        nicknameTextField.returnKeyType = .done
         return nicknameTextField
     }()
     

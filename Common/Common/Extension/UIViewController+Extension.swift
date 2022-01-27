@@ -25,12 +25,12 @@ enum AlertAction {
 
 extension UIViewController {
     
-    public func showAlertController(title: String?, message: String?, viewController: UIViewController) {
+    public func showAlertController(title: String?, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let actionCancel = AlertAction.close.create(on: viewController)
+        let actionCancel = AlertAction.close.create(on: self)
         alert.addAction(actionCancel)
-        DispatchQueue.main.async {
-            viewController.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true, completion: nil)
         }
     }
     
