@@ -19,6 +19,8 @@
 		5F901AE627A2819300D1D5D7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901AE527A2819300D1D5D7 /* LoginViewModel.swift */; };
 		5F901B2927A28EF200D1D5D7 /* BaseGroupChannelListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B2827A28EF200D1D5D7 /* BaseGroupChannelListViewModel.swift */; };
 		5F901B2B27A36D7E00D1D5D7 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B2A27A36D7E00D1D5D7 /* ChannelCell.swift */; };
+		5F901B7027A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B6F27A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift */; };
+		5F901B7A27A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B7927A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift */; };
 		5FA1AF74279E923C00BD14EC /* Common.docc in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF73279E923C00BD14EC /* Common.docc */; };
 		5FA1AF7A279E923C00BD14EC /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FA1AF6F279E923C00BD14EC /* Common.framework */; };
 		5FA1AF7F279E923C00BD14EC /* CommonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF7E279E923C00BD14EC /* CommonTests.swift */; };
@@ -57,6 +59,8 @@
 		5F901AE527A2819300D1D5D7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		5F901B2827A28EF200D1D5D7 /* BaseGroupChannelListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupChannelListViewModel.swift; sourceTree = "<group>"; };
 		5F901B2A27A36D7E00D1D5D7 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
+		5F901B6F27A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupChannelViewController.swift; sourceTree = "<group>"; };
+		5F901B7927A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupChannelViewModel.swift; sourceTree = "<group>"; };
 		5FA1AF6F279E923C00BD14EC /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA1AF72279E923C00BD14EC /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		5FA1AF73279E923C00BD14EC /* Common.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Common.docc; sourceTree = "<group>"; };
@@ -114,8 +118,8 @@
 		5F64AA31279FE99D006B7088 /* GroupChannel */ = {
 			isa = PBXGroup;
 			children = (
-				5F64AA34279FEA31006B7088 /* BaseGroupChannelListViewController.swift */,
-				5F901B2827A28EF200D1D5D7 /* BaseGroupChannelListViewModel.swift */,
+				5F901B6E27A3D0B500D1D5D7 /* GroupChannel */,
+				5F901B6D27A3D0AD00D1D5D7 /* GroupChannelList */,
 			);
 			path = GroupChannel;
 			sourceTree = "<group>";
@@ -142,6 +146,24 @@
 				5F901AE027A2347800D1D5D7 /* UserDefault.swift */,
 			);
 			path = PropertyWrapper;
+			sourceTree = "<group>";
+		};
+		5F901B6D27A3D0AD00D1D5D7 /* GroupChannelList */ = {
+			isa = PBXGroup;
+			children = (
+				5F64AA34279FEA31006B7088 /* BaseGroupChannelListViewController.swift */,
+				5F901B2827A28EF200D1D5D7 /* BaseGroupChannelListViewModel.swift */,
+			);
+			path = GroupChannelList;
+			sourceTree = "<group>";
+		};
+		5F901B6E27A3D0B500D1D5D7 /* GroupChannel */ = {
+			isa = PBXGroup;
+			children = (
+				5F901B6F27A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift */,
+				5F901B7927A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift */,
+			);
+			path = GroupChannel;
 			sourceTree = "<group>";
 		};
 		5FA1AF65279E923C00BD14EC = {
@@ -342,6 +364,7 @@
 				5FA1B05E279EDE6F00BD14EC /* UnderlineTextField.swift in Sources */,
 				5F64AA30279FE92A006B7088 /* BaseTabViewController.swift in Sources */,
 				5F64AA39279FEA60006B7088 /* BaseSettingViewController.swift in Sources */,
+				5F901B7027A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift in Sources */,
 				5F64AA28279FBB0E006B7088 /* LoginView.swift in Sources */,
 				5F64AA2C279FD113006B7088 /* LogoutViewController.swift in Sources */,
 				5F901B2B27A36D7E00D1D5D7 /* ChannelCell.swift in Sources */,
@@ -353,6 +376,7 @@
 				5F64AA37279FEA4D006B7088 /* BaseOpenChannelViewController.swift in Sources */,
 				5FA1B061279EDFFF00BD14EC /* UIViewController+Extension.swift in Sources */,
 				5FA1AF91279E938300BD14EC /* BaseAppDelegate.swift in Sources */,
+				5F901B7A27A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift in Sources */,
 				5FA1B051279E9F4E00BD14EC /* BaseSceneDelegate.swift in Sources */,
 				5F64AA35279FEA31006B7088 /* BaseGroupChannelListViewController.swift in Sources */,
 			);
