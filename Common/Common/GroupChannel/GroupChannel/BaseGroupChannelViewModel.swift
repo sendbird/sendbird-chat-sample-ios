@@ -16,7 +16,7 @@ public class BaseGroupChannelViewModel: NSObject {
     
     weak var delegate: BaseGroupChannelViewModelModelDelegate?
     
-    private(set) var messages: [SBDBaseMessage] = []
+    public private(set) var messages: [SBDBaseMessage] = []
     
     private let channel: SBDGroupChannel
     

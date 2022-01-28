@@ -18,6 +18,7 @@
 		5F901B5C27A3CFA100D1D5D7 /* UpdateCopyDeleteMessageUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B5B27A3CFA100D1D5D7 /* UpdateCopyDeleteMessageUITestsLaunchTests.swift */; };
 		5F901B7627A3D4D100D1D5D7 /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F901B7527A3D4D100D1D5D7 /* Common.framework */; };
 		5F901B7727A3D4D100D1D5D7 /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F901B7527A3D4D100D1D5D7 /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F901B7C27A3E17000D1D5D7 /* CopyMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B7B27A3E17000D1D5D7 /* CopyMessageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		5F901B5B27A3CFA100D1D5D7 /* UpdateCopyDeleteMessageUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCopyDeleteMessageUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5F901B6927A3CFBE00D1D5D7 /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F901B7527A3D4D100D1D5D7 /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F901B7B27A3E17000D1D5D7 /* CopyMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyMessageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				5F901B3827A3CFA000D1D5D7 /* AppDelegate.swift */,
 				5F901B3A27A3CFA000D1D5D7 /* SceneDelegate.swift */,
 				5F901B3C27A3CFA000D1D5D7 /* ViewController.swift */,
+				5F901B7B27A3E17000D1D5D7 /* CopyMessageViewController.swift */,
 				5F901B3E27A3CFA000D1D5D7 /* Main.storyboard */,
 				5F901B4127A3CFA100D1D5D7 /* Assets.xcassets */,
 				5F901B4327A3CFA100D1D5D7 /* LaunchScreen.storyboard */,
@@ -289,6 +292,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F901B3D27A3CFA000D1D5D7 /* ViewController.swift in Sources */,
+				5F901B7C27A3E17000D1D5D7 /* CopyMessageViewController.swift in Sources */,
 				5F901B3927A3CFA000D1D5D7 /* AppDelegate.swift in Sources */,
 				5F901B3B27A3CFA000D1D5D7 /* SceneDelegate.swift in Sources */,
 			);

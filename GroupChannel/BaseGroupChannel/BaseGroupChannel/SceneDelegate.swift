@@ -12,7 +12,9 @@ class SceneDelegate: BaseSceneDelegate {
     
     override func createMainViewController() -> UIViewController {
         UINavigationController(
-            rootViewController: BaseGroupChannelListViewController()
+            rootViewController: BaseGroupChannelListViewController(
+                groupChannelViewControllerType: BaseGroupChannelViewController.self
+            )
         )
     }
     

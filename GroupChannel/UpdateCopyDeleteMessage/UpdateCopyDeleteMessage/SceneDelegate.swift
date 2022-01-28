@@ -11,7 +11,11 @@ import Common
 class SceneDelegate: BaseSceneDelegate {
     
     override func createMainViewController() -> UIViewController {
-        ViewController()
+        UINavigationController(
+            rootViewController: BaseGroupChannelListViewController(
+                groupChannelViewControllerType: EditMessageViewController.self
+            )
+        )
     }
     
 }

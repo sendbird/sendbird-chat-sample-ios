@@ -8,11 +8,15 @@
 import UIKit
 import SendBirdSDK
 
-open class BaseGroupChannelViewController: UIViewController {
+public protocol GroupChannelViewControllerInitializable: UIViewController {
+    init(channel: SBDGroupChannel)
+}
+
+open class BaseGroupChannelViewController: UIViewController, GroupChannelViewControllerInitializable {
     
     private let channel: SBDGroupChannel
     
-    private lazy var viewModel: BaseGroupChannelViewModel = {
+    public private(set) lazy var viewModel: BaseGroupChannelViewModel = {
         let viewModel = BaseGroupChannelViewModel(channel: channel)
         viewModel.delegate = self
         return viewModel
@@ -21,11 +25,12 @@ open class BaseGroupChannelViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "GroupChannelCell") // TO DO: Replace to real cell
         return tableView
     }()
         
-    public init(channel: SBDGroupChannel) {
+    required public init(channel: SBDGroupChannel) {
         self.channel = channel
         super.init(nibName: nil, bundle: nil)
     }
@@ -34,7 +39,7 @@ open class BaseGroupChannelViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
@@ -77,6 +82,17 @@ extension BaseGroupChannelViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.messages.count
+    }
+    
+}
+
+// MARK: - UITableViewDelegate
+
+extension BaseGroupChannelViewController: UITableViewDelegate {
+    
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
     }
     
 }

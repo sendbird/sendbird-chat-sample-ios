@@ -9,6 +9,8 @@ import UIKit
 
 open class BaseGroupChannelListViewController: UIViewController {
     
+    private let groupChannelViewControllerType: GroupChannelViewControllerInitializable.Type
+    
     private lazy var viewModel: BaseGroupChannelListViewModel = {
         let viewModel = BaseGroupChannelListViewModel()
         viewModel.delegate = self
@@ -23,7 +25,8 @@ open class BaseGroupChannelListViewController: UIViewController {
         return tableView
     }()
     
-    public init() {
+    public init(groupChannelViewControllerType: GroupChannelViewControllerInitializable.Type = BaseGroupChannelViewController.self) {
+        self.groupChannelViewControllerType = groupChannelViewControllerType
         super.init(nibName: nil, bundle: nil)
         title = "Group"
     }
@@ -87,7 +90,7 @@ extension BaseGroupChannelListViewController: UITableViewDelegate {
         
         let channel = viewModel.channels[indexPath.row]
         
-        navigationController?.pushViewController(BaseGroupChannelViewController(channel: channel), animated: true)
+        navigationController?.pushViewController(groupChannelViewControllerType.init(channel: channel), animated: true)
     }
     
 }
