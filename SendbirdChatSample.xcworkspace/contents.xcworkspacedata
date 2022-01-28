@@ -5,7 +5,7 @@
       location = "group:Common/Common.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:BaseSample/BaseSample.xcodeproj">
+      location = "group:BaseGroupChannel/BaseGroupChannel.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AFeatureSample/AFeatureSample.xcodeproj">

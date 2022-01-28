@@ -12,7 +12,7 @@ open class BaseSceneDelegate: UIResponder, UIWindowSceneDelegate {
     public var window: UIWindow?
     
     open func createMainViewController() -> UIViewController {
-        BaseTabViewController()
+        fatalError("Please implement `createMainViewController()`")
     }
     
     @available(iOS 13.0, *)
@@ -26,7 +26,10 @@ open class BaseSceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
                 let mainViewController = self.createMainViewController()
                 mainViewController.modalPresentationStyle = .fullScreen
-                self.window?.rootViewController?.present(mainViewController, animated: true)
+                
+                let tabBarController = BaseTabViewController(viewControllers: [mainViewController, LogoutViewController()])
+                tabBarController.modalPresentationStyle = .fullScreen
+                self.window?.rootViewController?.present(tabBarController, animated: true)
             })
             window.backgroundColor = .systemBackground
             window.rootViewController = viewController

@@ -9,11 +9,7 @@ import UIKit
 
 open class BaseTabViewController: UITabBarController {
     
-    public init(viewControllers: [UIViewController] = [
-        UINavigationController(rootViewController: BaseGroupChannelViewController()),
-        UINavigationController(rootViewController: BaseOpenChannelViewController()),
-        UINavigationController(rootViewController: LogoutViewController())
-    ]) {
+    public init(viewControllers: [UIViewController]) {
         super.init(nibName: nil, bundle: nil)
         setViewControllers(viewControllers, animated: false)
     }
