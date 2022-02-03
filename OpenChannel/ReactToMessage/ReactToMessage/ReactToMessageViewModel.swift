@@ -31,10 +31,10 @@ final class ReactToMessageViewModel: BaseGroupChannelViewModel {
         let reactions = message.reactions.map { $0.key }.joined(separator: ",")
         return cellText?.appending("\nreactions: \(reactions)")
     }
-        
+    
     func addReaction(to message: SBDBaseMessage) {
         let emojiKey = "smile"
-
+        
         channel.addReaction(with: message, key: emojiKey) { [weak self] event, error in
             if let error = error {
                 self?.notify(error)
@@ -49,7 +49,7 @@ final class ReactToMessageViewModel: BaseGroupChannelViewModel {
     
     func deleteReaction(in message: SBDBaseMessage) {
         let emojiKey = "smile"
-
+        
         channel.deleteReaction(with: message, key: emojiKey) { [weak self] event, error in
             if let error = error {
                 self?.notify(error)
@@ -61,7 +61,7 @@ final class ReactToMessageViewModel: BaseGroupChannelViewModel {
             print("[Delete Reaction] event: \(event)")
         }
     }
-        
+    
 }
 
 // MARK: - SBDChannelDelegate
