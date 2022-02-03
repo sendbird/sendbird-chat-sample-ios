@@ -8,19 +8,13 @@
 import UIKit
 import SendBirdSDK
 
-public protocol GroupChannelViewControllerInitializable: UIViewController {
-    init(channel: SBDGroupChannel)
-}
-
-open class BaseGroupChannelViewController: UIViewController, GroupChannelViewControllerInitializable, UITableViewDelegate {
+open class BaseGroupChannelViewController<ViewModel: BaseGroupChannelViewModel>:
+    UIViewController,
+    UITableViewDataSource,
+    UITableViewDelegate,
+    BaseGroupChannelViewModelModelDelegate {
     
-    private let channel: SBDGroupChannel
-    
-    public private(set) lazy var baseViewModel: BaseGroupChannelViewModel = {
-        let viewModel = BaseGroupChannelViewModel(channel: channel)
-        viewModel.delegate = self
-        return viewModel
-    }()
+    open var viewModel: ViewModel
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -29,10 +23,11 @@ open class BaseGroupChannelViewController: UIViewController, GroupChannelViewCon
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "GroupChannelCell") // TO DO: Replace to real cell
         return tableView
     }()
-        
-    required public init(channel: SBDGroupChannel) {
-        self.channel = channel
+    
+    required public init(viewModel: ViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        viewModel.delegate = self
     }
     
     required public init?(coder: NSCoder) {
@@ -43,8 +38,7 @@ open class BaseGroupChannelViewController: UIViewController, GroupChannelViewCon
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        title = "Group Channels"
-        navigationController?.title = "Group"
+        title = viewModel.channel.name
         
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -55,57 +49,50 @@ open class BaseGroupChannelViewController: UIViewController, GroupChannelViewCon
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        baseViewModel.reloadData()
+        viewModel.reloadData()
     }
     
-}
+    // MARK: - UITableViewDataSource
     
-// MARK: - UITableViewDataSource
-    
-extension BaseGroupChannelViewController: UITableViewDataSource {
-            
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelCell", for: indexPath)
-        guard let message = baseViewModel.message(at: indexPath) else {
-            return cell
-        }
-        
-        let text = "\(message.sender?.nickname ?? "Unknown"): \(message.message)"
+        guard let message = viewModel.message(at: indexPath),
+              let cellText = viewModel.cellText(for: message) else {
+                  return cell
+              }
         
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()
-            content.text = text
+            content.text = cellText
             cell.contentConfiguration = content
         } else {
-            cell.textLabel?.text = text
+            cell.textLabel?.text = cellText
         }
         
         return cell
     }
     
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        baseViewModel.numberOfMessages()
+        viewModel.numberOfMessages()
     }
     
-}
-
-// MARK: - UITableViewDelegate
-    
-extension BaseGroupChannelViewController {
+    // MARK: - UITableViewDelegate
     
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
     }
     
-}
-
-// MARK: - BaseGroupChannelViewModelModelDelegate
-
-extension BaseGroupChannelViewController: BaseGroupChannelViewModelModelDelegate {
-
-    open func baseGroupChannelViewModelDidUpdateMessages(_ viewModel: BaseGroupChannelViewModel) {
+    // MARK: - BaseGroupChannelViewModelModelDelegate
+    
+    open func groupChannelViewModelDidUpdateMessages(_ viewModel: BaseGroupChannelViewModel) {
         tableView.reloadData()
+    }
+    
+    public func groupChannelViewModel(_ viewModel: BaseGroupChannelViewModel, didReceiveError error: SBDError) {
+        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(.init(title: "Ok", style: .cancel))
+        present(alert, animated: true)
     }
     
 }

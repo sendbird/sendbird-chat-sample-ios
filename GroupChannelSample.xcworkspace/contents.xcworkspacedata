@@ -8,6 +8,6 @@
       location = "group:GroupChannel/BaseGroupChannel/BaseGroupChannel.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:GroupChannel/UpdateCopyDeleteMessage/UpdateCopyDeleteMessage.xcodeproj">
+      location = "group:OpenChannel/ReactToMessage/ReactToMessage.xcodeproj">
    </FileRef>
 </Workspace>

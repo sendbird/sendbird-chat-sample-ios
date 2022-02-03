@@ -7,9 +7,13 @@
 
 import UIKit
 
-open class BaseGroupChannelListViewController: UIViewController {
-    
-    private let groupChannelViewControllerType: GroupChannelViewControllerInitializable.Type
+open class BaseGroupChannelListViewController<ChannelViewController, ChannelViewModel>:
+    UIViewController,
+    UITableViewDataSource,
+    UITableViewDelegate,
+    BaseGroupChannelListViewModelDelegate
+where ChannelViewController: BaseGroupChannelViewController<ChannelViewModel>,
+      ChannelViewModel: BaseGroupChannelViewModel {
     
     private lazy var viewModel: BaseGroupChannelListViewModel = {
         let viewModel = BaseGroupChannelListViewModel()
@@ -25,8 +29,7 @@ open class BaseGroupChannelListViewController: UIViewController {
         return tableView
     }()
     
-    public init(groupChannelViewControllerType: GroupChannelViewControllerInitializable.Type = BaseGroupChannelViewController.self) {
-        self.groupChannelViewControllerType = groupChannelViewControllerType
+    public init() {
         super.init(nibName: nil, bundle: nil)
         title = "Group"
     }
@@ -54,12 +57,8 @@ open class BaseGroupChannelListViewController: UIViewController {
         viewModel.reloadData()
     }
     
-}
+    // MARK: - UITableViewDataSource
 
-// MARK: - UITableViewDataSource
-
-extension BaseGroupChannelListViewController: UITableViewDataSource {
-    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelListCell", for: indexPath)
         let channel = viewModel.channels[indexPath.row]
@@ -79,25 +78,17 @@ extension BaseGroupChannelListViewController: UITableViewDataSource {
         viewModel.channels.count
     }
     
-}
-
-// MARK: - UITableViewDelegate
-
-extension BaseGroupChannelListViewController: UITableViewDelegate {
+    // MARK: - UITableViewDelegate
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let channel = viewModel.channels[indexPath.row]
         
-        navigationController?.pushViewController(groupChannelViewControllerType.init(channel: channel), animated: true)
+        navigationController?.pushViewController(ChannelViewController(viewModel: .init(channel: channel)), animated: true)
     }
     
-}
-
-// MARK: - BaseGroupChannelListViewModelDelegate
-
-extension BaseGroupChannelListViewController: BaseGroupChannelListViewModelDelegate {
+    // MARK: - BaseGroupChannelListViewModelDelegate
 
     func baseGroupChannelListViewModelEndLoading(_ viewModel: BaseGroupChannelListViewModel) {
         tableView.reloadData()

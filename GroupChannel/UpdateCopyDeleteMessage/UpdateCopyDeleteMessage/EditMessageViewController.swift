@@ -20,7 +20,7 @@ final class EditMessageViewController: BaseGroupChannelViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
         
-        guard let message = baseViewModel.message(at: indexPath) else {
+        guard let message = viewModel.message(at: indexPath) else {
             return
         }
         

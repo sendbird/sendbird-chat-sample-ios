@@ -8,6 +8,6 @@
 import Foundation
 import SendBirdSDK
 
-public protocol GroupChannelViewModelInitializable: AnyObject {
-    init(channel: SBDGroupChannel)
-}
+//public protocol GroupChannelViewModelInitializable: AnyObject {
+//    init(channel: SBDGroupChannel)
+//}

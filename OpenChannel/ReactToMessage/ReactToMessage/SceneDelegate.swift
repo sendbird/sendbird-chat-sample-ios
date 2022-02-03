@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  BaseGroupChannel
+//  ReactToMessage
 //
-//  Created by Ernest Hong on 2022/01/27.
+//  Created by Ernest Hong on 2022/02/03.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ class SceneDelegate: BaseSceneDelegate {
     
     override func createMainViewController() -> UIViewController {
         UINavigationController(
-            rootViewController: BaseGroupChannelListViewController()
+            rootViewController: BaseGroupChannelListViewController<ReactToMessageViewController, ReactToMessageViewModel>()
         )
     }
     

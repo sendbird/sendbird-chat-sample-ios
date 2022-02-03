@@ -9,17 +9,17 @@ import Foundation
 import SendBirdSDK
 
 public protocol BaseGroupChannelViewModelModelDelegate: AnyObject {
-    func baseGroupChannelViewModelDidUpdateMessages(_ viewModel: BaseGroupChannelViewModel)
+    func groupChannelViewModelDidUpdateMessages(_ viewModel: BaseGroupChannelViewModel)
+    func groupChannelViewModel(_ viewModel: BaseGroupChannelViewModel, didReceiveError error: SBDError)
 }
 
-open class BaseGroupChannelViewModel: NSObject,
-                                                                                        GroupChannelViewModelInitializable {
+open class BaseGroupChannelViewModel: NSObject {
     
     open weak var delegate: BaseGroupChannelViewModelModelDelegate?
     
-    private var messages: [SBDBaseMessage] = []
+    public let channel: SBDGroupChannel
     
-    private let channel: SBDGroupChannel
+    private var messages: [SBDBaseMessage] = []
     
     private let identifier = UUID().uuidString
         
@@ -30,20 +30,45 @@ open class BaseGroupChannelViewModel: NSObject,
         super.init()
     }
     
+    open func createMessageListParams() -> SBDMessageListParams {
+        let params = SBDMessageListParams()
+        params.reverse = false
+        return params
+    }
+    
+    open func createMessageCollection() -> SBDMessageCollection {
+        let params = createMessageListParams()
+        let collection = SBDMessageCollection(channel: channel, startingPoint: Int64(Date().timeIntervalSince1970), params: params)
+        collection.delegate = self
+        return collection
+    }
+    
+    open func cellText(for message: SBDBaseMessage) -> String? {
+        "\(message.sender?.nickname ?? "Unknown"): \(message.message)"
+    }
+    
     public func reloadData() {
         collection.dispose()
         collection = createMessageCollection()
         collection.start(
             with: .cacheAndReplaceByApi,
             cacheResultHandler: { [weak self] messages, error in
-                guard let self = self, error == nil, let messages = messages else { return }
+                if let error = error {
+                    self?.notify(error)
+                    return
+                }
+                guard let self = self, let messages = messages else { return }
                 self.messages = messages
-                self.delegate?.baseGroupChannelViewModelDidUpdateMessages(self)
+                self.delegate?.groupChannelViewModelDidUpdateMessages(self)
             },
             apiResultHandler: { [weak self] messages, error in
-                guard let self = self, error == nil, let messages = messages else { return }
+                if let error = error {
+                    self?.notify(error)
+                    return
+                }
+                guard let self = self, let messages = messages else { return }
                 self.messages = messages
-                self.delegate?.baseGroupChannelViewModelDidUpdateMessages(self)
+                self.delegate?.groupChannelViewModelDidUpdateMessages(self)
             }
         )
     }
@@ -52,18 +77,30 @@ open class BaseGroupChannelViewModel: NSObject,
         guard collection.hasPrevious else { return }
         
         collection.loadPrevious { [weak self] messages, error in
-            guard let self = self, error == nil, let messages = messages else { return }
+            if let error = error {
+                self?.notify(error)
+                return
+            }
+            guard let self = self, let messages = messages else { return }
             self.messages.insert(contentsOf: messages, at: 0)
-            self.delegate?.baseGroupChannelViewModelDidUpdateMessages(self)
+            self.delegate?.groupChannelViewModelDidUpdateMessages(self)
         }
     }
     
     public func loadNextMessages() {
         collection.loadNext { [weak self] messages, error in
-            guard let self = self, error == nil, let messages = messages else { return }
+            if let error = error {
+                self?.notify(error)
+                return
+            }
+            guard let self = self, let messages = messages else { return }
             self.messages.append(contentsOf: messages)
-            self.delegate?.baseGroupChannelViewModelDidUpdateMessages(self)
+            self.delegate?.groupChannelViewModelDidUpdateMessages(self)
         }
+    }
+    
+    public func message(byMessageId messageId: Int64) -> SBDBaseMessage? {
+        messages.first { $0.messageId == messageId }
     }
     
     public func message(at indexPath: IndexPath) -> SBDBaseMessage? {
@@ -73,20 +110,15 @@ open class BaseGroupChannelViewModel: NSObject,
         
         return messages[indexPath.row]
     }
-    
+        
     public func numberOfMessages() -> Int {
         messages.count
     }
     
-    private func createMessageCollection() -> SBDMessageCollection {
-        let params = SBDMessageListParams()
-        params.reverse = false
-        
-        let collection = SBDMessageCollection(channel: channel, startingPoint: Int64(Date().timeIntervalSince1970), params: params)
-        collection.delegate = self
-        return collection
+    public func notify(_ error: SBDError) {
+        delegate?.groupChannelViewModel(self, didReceiveError: error)
     }
-    
+        
 }
         
 // MARK: - SBDMessageCollectionDelegate
