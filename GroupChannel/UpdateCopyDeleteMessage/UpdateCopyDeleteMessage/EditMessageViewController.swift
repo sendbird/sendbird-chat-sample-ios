@@ -10,7 +10,7 @@ import Common
 import SendBirdSDK
 
 final class EditMessageViewController: BaseGroupChannelViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,7 +20,9 @@ final class EditMessageViewController: BaseGroupChannelViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
         
-        let message = viewModel.messages[indexPath.row]
+        guard let message = baseViewModel.message(at: indexPath) else {
+            return
+        }
         
         present(actionSheet(for: message), animated: true)
     }

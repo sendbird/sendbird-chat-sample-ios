@@ -12,11 +12,11 @@ public protocol GroupChannelViewControllerInitializable: UIViewController {
     init(channel: SBDGroupChannel)
 }
 
-open class BaseGroupChannelViewController: UIViewController, GroupChannelViewControllerInitializable {
+open class BaseGroupChannelViewController: UIViewController, GroupChannelViewControllerInitializable, UITableViewDelegate {
     
     private let channel: SBDGroupChannel
     
-    public private(set) lazy var viewModel: BaseGroupChannelViewModel = {
+    public private(set) lazy var baseViewModel: BaseGroupChannelViewModel = {
         let viewModel = BaseGroupChannelViewModel(channel: channel)
         viewModel.delegate = self
         return viewModel
@@ -55,18 +55,21 @@ open class BaseGroupChannelViewController: UIViewController, GroupChannelViewCon
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        viewModel.reloadData()
+        baseViewModel.reloadData()
     }
-
-}
-
-// MARK: - UITableViewDataSource
-
-extension BaseGroupChannelViewController: UITableViewDataSource {
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+}
+    
+// MARK: - UITableViewDataSource
+    
+extension BaseGroupChannelViewController: UITableViewDataSource {
+            
+    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelCell", for: indexPath)
-        let message = viewModel.messages[indexPath.row]
+        guard let message = baseViewModel.message(at: indexPath) else {
+            return cell
+        }
+        
         let text = "\(message.sender?.nickname ?? "Unknown"): \(message.message)"
         
         if #available(iOS 14.0, *) {
@@ -80,15 +83,15 @@ extension BaseGroupChannelViewController: UITableViewDataSource {
         return cell
     }
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.messages.count
+    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        baseViewModel.numberOfMessages()
     }
     
 }
 
 // MARK: - UITableViewDelegate
-
-extension BaseGroupChannelViewController: UITableViewDelegate {
+    
+extension BaseGroupChannelViewController {
     
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -100,9 +103,9 @@ extension BaseGroupChannelViewController: UITableViewDelegate {
 // MARK: - BaseGroupChannelViewModelModelDelegate
 
 extension BaseGroupChannelViewController: BaseGroupChannelViewModelModelDelegate {
-    
-    func baseGroupChannelViewModelDidUpdateMessages(_ viewModel: BaseGroupChannelViewModel) {
+
+    open func baseGroupChannelViewModelDidUpdateMessages(_ viewModel: BaseGroupChannelViewModel) {
         tableView.reloadData()
     }
-        
+    
 }

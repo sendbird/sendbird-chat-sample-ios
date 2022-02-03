@@ -8,15 +8,16 @@
 import Foundation
 import SendBirdSDK
 
-protocol BaseGroupChannelViewModelModelDelegate: AnyObject {
+public protocol BaseGroupChannelViewModelModelDelegate: AnyObject {
     func baseGroupChannelViewModelDidUpdateMessages(_ viewModel: BaseGroupChannelViewModel)
 }
 
-public class BaseGroupChannelViewModel: NSObject {
+open class BaseGroupChannelViewModel: NSObject,
+                                                                                        GroupChannelViewModelInitializable {
     
-    weak var delegate: BaseGroupChannelViewModelModelDelegate?
+    open weak var delegate: BaseGroupChannelViewModelModelDelegate?
     
-    public private(set) var messages: [SBDBaseMessage] = []
+    private var messages: [SBDBaseMessage] = []
     
     private let channel: SBDGroupChannel
     
@@ -24,7 +25,7 @@ public class BaseGroupChannelViewModel: NSObject {
         
     private lazy var collection: SBDMessageCollection = createMessageCollection()
     
-    public init(channel: SBDGroupChannel) {
+    required public init(channel: SBDGroupChannel) {
         self.channel = channel
         super.init()
     }
@@ -65,6 +66,18 @@ public class BaseGroupChannelViewModel: NSObject {
         }
     }
     
+    public func message(at indexPath: IndexPath) -> SBDBaseMessage? {
+        guard messages.count > indexPath.row else {
+            return nil
+        }
+        
+        return messages[indexPath.row]
+    }
+    
+    public func numberOfMessages() -> Int {
+        messages.count
+    }
+    
     private func createMessageCollection() -> SBDMessageCollection {
         let params = SBDMessageListParams()
         params.reverse = false
@@ -73,9 +86,9 @@ public class BaseGroupChannelViewModel: NSObject {
         collection.delegate = self
         return collection
     }
-        
+    
 }
-
+        
 // MARK: - SBDMessageCollectionDelegate
 
 extension BaseGroupChannelViewModel: SBDMessageCollectionDelegate {

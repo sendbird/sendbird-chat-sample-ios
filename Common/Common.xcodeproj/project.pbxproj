@@ -21,6 +21,7 @@
 		5F901B2B27A36D7E00D1D5D7 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B2A27A36D7E00D1D5D7 /* ChannelCell.swift */; };
 		5F901B7027A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B6F27A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift */; };
 		5F901B7A27A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B7927A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift */; };
+		5F901B7E27AB7AC100D1D5D7 /* GroupChannelViewModelInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B7D27AB7AC100D1D5D7 /* GroupChannelViewModelInitializable.swift */; };
 		5FA1AF74279E923C00BD14EC /* Common.docc in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF73279E923C00BD14EC /* Common.docc */; };
 		5FA1AF7A279E923C00BD14EC /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FA1AF6F279E923C00BD14EC /* Common.framework */; };
 		5FA1AF7F279E923C00BD14EC /* CommonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF7E279E923C00BD14EC /* CommonTests.swift */; };
@@ -61,6 +62,7 @@
 		5F901B2A27A36D7E00D1D5D7 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		5F901B6F27A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupChannelViewController.swift; sourceTree = "<group>"; };
 		5F901B7927A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupChannelViewModel.swift; sourceTree = "<group>"; };
+		5F901B7D27AB7AC100D1D5D7 /* GroupChannelViewModelInitializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelViewModelInitializable.swift; sourceTree = "<group>"; };
 		5FA1AF6F279E923C00BD14EC /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA1AF72279E923C00BD14EC /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		5FA1AF73279E923C00BD14EC /* Common.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Common.docc; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 			children = (
 				5F901B6F27A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift */,
 				5F901B7927A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift */,
+				5F901B7D27AB7AC100D1D5D7 /* GroupChannelViewModelInitializable.swift */,
 			);
 			path = GroupChannel;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				5FA1AF91279E938300BD14EC /* BaseAppDelegate.swift in Sources */,
 				5F901B7A27A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift in Sources */,
 				5FA1B051279E9F4E00BD14EC /* BaseSceneDelegate.swift in Sources */,
+				5F901B7E27AB7AC100D1D5D7 /* GroupChannelViewModelInitializable.swift in Sources */,
 				5F64AA35279FEA31006B7088 /* BaseGroupChannelListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
