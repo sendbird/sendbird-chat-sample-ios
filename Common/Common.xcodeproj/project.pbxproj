@@ -21,7 +21,6 @@
 		5F901B2B27A36D7E00D1D5D7 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B2A27A36D7E00D1D5D7 /* ChannelCell.swift */; };
 		5F901B7027A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B6F27A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift */; };
 		5F901B7A27A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B7927A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift */; };
-		5F901B7E27AB7AC100D1D5D7 /* GroupChannelViewModelInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F901B7D27AB7AC100D1D5D7 /* GroupChannelViewModelInitializable.swift */; };
 		5FA1AF74279E923C00BD14EC /* Common.docc in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF73279E923C00BD14EC /* Common.docc */; };
 		5FA1AF7A279E923C00BD14EC /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FA1AF6F279E923C00BD14EC /* Common.framework */; };
 		5FA1AF7F279E923C00BD14EC /* CommonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1AF7E279E923C00BD14EC /* CommonTests.swift */; };
@@ -35,6 +34,7 @@
 		5FA1B061279EDFFF00BD14EC /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B060279EDFFF00BD14EC /* UIViewController+Extension.swift */; };
 		5FA1B062279EE3EA00BD14EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FA1B053279EA02B00BD14EC /* Assets.xcassets */; };
 		5FA1B064279EE55A00BD14EC /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1B063279EE55A00BD14EC /* UIImage+Extension.swift */; };
+		5FAF80A627AD0C97001A75EE /* BaseOpenChannelListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAF80A527AD0C97001A75EE /* BaseOpenChannelListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +62,6 @@
 		5F901B2A27A36D7E00D1D5D7 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		5F901B6F27A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupChannelViewController.swift; sourceTree = "<group>"; };
 		5F901B7927A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupChannelViewModel.swift; sourceTree = "<group>"; };
-		5F901B7D27AB7AC100D1D5D7 /* GroupChannelViewModelInitializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelViewModelInitializable.swift; sourceTree = "<group>"; };
 		5FA1AF6F279E923C00BD14EC /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA1AF72279E923C00BD14EC /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		5FA1AF73279E923C00BD14EC /* Common.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Common.docc; sourceTree = "<group>"; };
@@ -76,6 +75,7 @@
 		5FA1B05D279EDE6F00BD14EC /* UnderlineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineTextField.swift; sourceTree = "<group>"; };
 		5FA1B060279EDFFF00BD14EC /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		5FA1B063279EE55A00BD14EC /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		5FAF80A527AD0C97001A75EE /* BaseOpenChannelListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseOpenChannelListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +129,7 @@
 		5F64AA32279FE9A9006B7088 /* OpenChannel */ = {
 			isa = PBXGroup;
 			children = (
+				5FAF80A427AD0C89001A75EE /* OpenChannelList */,
 				5F64AA36279FEA4D006B7088 /* BaseOpenChannelViewController.swift */,
 			);
 			path = OpenChannel;
@@ -164,7 +165,6 @@
 			children = (
 				5F901B6F27A3D0D400D1D5D7 /* BaseGroupChannelViewController.swift */,
 				5F901B7927A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift */,
-				5F901B7D27AB7AC100D1D5D7 /* GroupChannelViewModelInitializable.swift */,
 			);
 			path = GroupChannel;
 			sourceTree = "<group>";
@@ -242,6 +242,14 @@
 				5FA1B063279EE55A00BD14EC /* UIImage+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		5FAF80A427AD0C89001A75EE /* OpenChannelList */ = {
+			isa = PBXGroup;
+			children = (
+				5FAF80A527AD0C97001A75EE /* BaseOpenChannelListViewModel.swift */,
+			);
+			path = OpenChannelList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,13 +383,13 @@
 				5FA1B064279EE55A00BD14EC /* UIImage+Extension.swift in Sources */,
 				5F901AE327A235D300D1D5D7 /* VersionInfo.swift in Sources */,
 				5F64AA2A279FC009006B7088 /* SampleUserDefaults.swift in Sources */,
+				5FAF80A627AD0C97001A75EE /* BaseOpenChannelListViewModel.swift in Sources */,
 				5FA1AF74279E923C00BD14EC /* Common.docc in Sources */,
 				5F64AA37279FEA4D006B7088 /* BaseOpenChannelViewController.swift in Sources */,
 				5FA1B061279EDFFF00BD14EC /* UIViewController+Extension.swift in Sources */,
 				5FA1AF91279E938300BD14EC /* BaseAppDelegate.swift in Sources */,
 				5F901B7A27A3D5CC00D1D5D7 /* BaseGroupChannelViewModel.swift in Sources */,
 				5FA1B051279E9F4E00BD14EC /* BaseSceneDelegate.swift in Sources */,
-				5F901B7E27AB7AC100D1D5D7 /* GroupChannelViewModelInitializable.swift in Sources */,
 				5F64AA35279FEA31006B7088 /* BaseGroupChannelListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

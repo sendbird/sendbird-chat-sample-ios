@@ -10,6 +10,7 @@ import SendBirdSDK
 
 protocol BaseGroupChannelListViewModelDelegate: AnyObject {
     func baseGroupChannelListViewModelEndLoading(_ viewModel: BaseGroupChannelListViewModel)
+    func baseGroupChannelListViewModel(_ viewModel: BaseGroupChannelListViewModel, didUpdateTotalUnreadMessageCount totalUnreadMessageCount: Int)
 }
 
 public class BaseGroupChannelListViewModel: NSObject {
@@ -17,15 +18,20 @@ public class BaseGroupChannelListViewModel: NSObject {
     weak var delegate: BaseGroupChannelListViewModelDelegate?
     
     private(set) var channels: [SBDGroupChannel] = []
-    
-    private let identifier = UUID().uuidString
-    
+        
     private lazy var channelListQuery: SBDGroupChannelListQuery = createGroupChannelListQuery()
     
     public override init() {
         super.init()
-        SBDMain.add(self as SBDChannelDelegate, identifier: identifier)
-        SBDMain.add(self as SBDConnectionDelegate, identifier: identifier)
+        SBDMain.add(self as SBDChannelDelegate, identifier: description)
+        SBDMain.add(self as SBDConnectionDelegate, identifier: description)
+        SBDMain.add(self as SBDUserEventDelegate, identifier: description)
+    }
+    
+    deinit {
+        SBDMain.removeChannelDelegate(forIdentifier: description)
+        SBDMain.removeConnectionDelegate(forIdentifier: description)
+        SBDMain.removeUserEventDelegate(forIdentifier: description)
     }
     
     public func reloadData() {
@@ -76,6 +82,18 @@ public class BaseGroupChannelListViewModel: NSObject {
         }
     }
     
+    public func updateTotalUnreadMessageCount() {
+        SBDMain.getTotalUnreadMessageCount { [weak self] unreadCount, error in
+            if error != nil {
+                return
+            }
+            
+            guard let self = self else { return }
+
+            self.delegate?.baseGroupChannelListViewModel(self, didUpdateTotalUnreadMessageCount: Int(unreadCount))
+        }
+    }
+    
     private func createGroupChannelListQuery() -> SBDGroupChannelListQuery {
         let channelListQuery = SBDGroupChannel.createMyGroupChannelListQuery() ?? SBDGroupChannelListQuery.init(dictionary: [:])
         channelListQuery.order = .latestLastMessage
@@ -83,41 +101,6 @@ public class BaseGroupChannelListViewModel: NSObject {
         channelListQuery.includeEmptyChannel = true
         return channelListQuery
     }
-
-//    func updateTotalUnreadMessageCountBadge() {
-//        SBDMain.getTotalUnreadMessageCount { (unreadCount, error) in
-//            guard let navigationController = self.navigationController else { return }
-//            if error != nil {
-//                navigationController.tabBarItem.badgeValue = nil
-//
-//                return
-//            }
-//
-//            if unreadCount > 0 {
-//                navigationController.tabBarItem.badgeValue = String(format: "%ld", unreadCount)
-//            }
-//            else {
-//                navigationController.tabBarItem.badgeValue = nil
-//            }
-//        }
-//
-//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
-//            SBDMain.getTotalUnreadMessageCount { (unreadCount, error) in
-//                guard let navigationController = self.navigationController else { return }
-//                if error != nil {
-//                    navigationController.tabBarItem.badgeValue = nil
-//                    return
-//                }
-//
-//                if unreadCount > 0 {
-//                    navigationController.tabBarItem.badgeValue = String(format: "%ld", unreadCount)
-//                }
-//                else {
-//                    navigationController.tabBarItem.badgeValue = nil
-//                }
-//            }
-//        }
-//    }
     
 }
 
@@ -130,5 +113,15 @@ extension BaseGroupChannelListViewModel: SBDChannelDelegate {
 // MARK: - SBDConnectionDelegate
 
 extension BaseGroupChannelListViewModel: SBDConnectionDelegate {
+    
+}
+
+// MARK: - SBDUserEventDelegate
+
+extension BaseGroupChannelListViewModel: SBDUserEventDelegate {
+    
+    public func didUpdateTotalUnreadMessageCount(_ totalCount: Int32, totalCountByCustomType: [String : NSNumber]?) {
+        delegate?.baseGroupChannelListViewModel(self, didUpdateTotalUnreadMessageCount: Int(totalCount))
+    }
     
 }

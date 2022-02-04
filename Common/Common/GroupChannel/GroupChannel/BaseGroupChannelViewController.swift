@@ -14,7 +14,7 @@ open class BaseGroupChannelViewController<ViewModel: BaseGroupChannelViewModel>:
     UITableViewDelegate,
     BaseGroupChannelViewModelModelDelegate {
     
-    open var viewModel: ViewModel
+    open private(set) var viewModel: ViewModel
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()

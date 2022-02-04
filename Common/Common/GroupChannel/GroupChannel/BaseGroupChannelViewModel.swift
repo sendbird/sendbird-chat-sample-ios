@@ -21,8 +21,6 @@ open class BaseGroupChannelViewModel: NSObject {
     
     private var messages: [SBDBaseMessage] = []
     
-    private let identifier = UUID().uuidString
-        
     private lazy var collection: SBDMessageCollection = createMessageCollection()
     
     required public init(channel: SBDGroupChannel) {
@@ -110,7 +108,7 @@ open class BaseGroupChannelViewModel: NSObject {
         
         return messages[indexPath.row]
     }
-        
+    
     public func numberOfMessages() -> Int {
         messages.count
     }
@@ -118,9 +116,9 @@ open class BaseGroupChannelViewModel: NSObject {
     public func notify(_ error: SBDError) {
         delegate?.groupChannelViewModel(self, didReceiveError: error)
     }
-        
+    
 }
-        
+
 // MARK: - SBDMessageCollectionDelegate
 
 extension BaseGroupChannelViewModel: SBDMessageCollectionDelegate {
@@ -147,7 +145,7 @@ extension BaseGroupChannelViewModel: SBDMessageCollectionDelegate {
     
     public func didDetectHugeGap(_ collection: SBDMessageCollection) {
         collection.dispose()
-        self.collection = createMessageCollection()
+        reloadData()
     }
     
 }

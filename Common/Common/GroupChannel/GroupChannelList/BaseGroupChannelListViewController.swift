@@ -55,6 +55,7 @@ where ChannelViewController: BaseGroupChannelViewController<ChannelViewModel>,
         ])
         
         viewModel.reloadData()
+        viewModel.updateTotalUnreadMessageCount()
     }
     
     // MARK: - UITableViewDataSource
@@ -92,6 +93,12 @@ where ChannelViewController: BaseGroupChannelViewController<ChannelViewModel>,
 
     func baseGroupChannelListViewModelEndLoading(_ viewModel: BaseGroupChannelListViewModel) {
         tableView.reloadData()
+    }
+    
+    func baseGroupChannelListViewModel(_ viewModel: BaseGroupChannelListViewModel, didUpdateTotalUnreadMessageCount totalUnreadMessageCount: Int) {
+        guard let navigationController = self.navigationController else { return }
+        
+        navigationController.tabBarItem.badgeValue = totalUnreadMessageCount > 0 ? "\(totalUnreadMessageCount)" : nil
     }
     
 }
