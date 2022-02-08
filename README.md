@@ -2,6 +2,9 @@
 [Temporary] This repository provides feature-level Chat samples with Swift
 
 ## Project Design
+
+https://sendbird.atlassian.net/wiki/spaces/SDK/pages/1767407864/Sample+2.0
+
 - `Samples.workspace`
     - Base module
         - Business Logic
