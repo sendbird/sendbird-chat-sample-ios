@@ -2,6 +2,9 @@
 [Temporary] This repository provides feature-level Chat samples with Swift
 
 ## Project Design
+
+https://sendbird.atlassian.net/wiki/spaces/SDK/pages/1767407864/Sample+2.0
+
 - `Samples.workspace`
     - Base module
         - Business Logic
@@ -17,15 +20,6 @@
 - Minimum deployment target: 13.0
 
 ## To do
-### Open
-- [ ] Create, view, update, or delete channel
-- [ ] Enter and exit channel
-- [ ] Send, receive message
-- [ ] Send and receive media files (MIME types)
-- [ ] Load previous messages
-- [ ] Load messages by timestamp or message ID
-- [ ] Retrieve a list of channels
-- [ ] Event handlers/Delegates
 
 ### Group
 - [ ] Create, view, or update channel
@@ -42,6 +36,16 @@
 - [ ] Retrieve a list of members
 - [ ] Logger
 - [ ] Event handlers
+
+### Open
+- [ ] Create, view, update, or delete channel
+- [ ] Enter and exit channel
+- [ ] Send, receive message
+- [ ] Send and receive media files (MIME types)
+- [ ] Load previous messages
+- [ ] Load messages by timestamp or message ID
+- [ ] Retrieve a list of channels
+- [ ] Event handlers/Delegates
 
 ### User
 - [ ] Profile image
