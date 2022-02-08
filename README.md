@@ -33,7 +33,7 @@
 - [ ] Retrieve a list of members
 - [ ] Logger
 - [ ] Event handlers
-- [ ] 
+
 ### Open
 - [ ] Create, view, update, or delete channel
 - [ ] Enter and exit channel
