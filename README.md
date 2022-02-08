@@ -1,19 +1,20 @@
 # examples-chat-ios
 [Temporary] This repository provides feature-level Chat samples with Swift
 
-## Structure
-- Common: 기본 기능 Libary
-  - 모듈화는 [UIKit](https://github.com/sendbird/uikit-ios/tree/release/3.0) 참고
-  - 로그인
-  - 설정
-  - Group Channel
-  - Open Channel
-- BaseSample: 기본 기능 App
-  - 대부분 Common에서 가져와서 사용 
-- AFeatureSample: 확장 기능 App 1
-  - Common 기본 틀 + 확장 기능 추가 
-- BFeatureSample: 확장 기능 App 2
-  - Common 기본 틀 + 확장 기능 추가 
+## Project Design
+- `Samples.workspace`
+    - Base module
+        - Business Logic
+        - (Optional) Small Views that can be easily modularized
+        - It is used as an embedded framework in each Sample App.
+    - Basic Open Channel Sample App
+    - Basic Group Channel Sample App
+    - Feature Sample 1 App: Implementing additional functions after copying and pasting the basic sample
+    - Feature Sample 2 App: Implementing additional functions after copying and pasting the basic sample
+    - Feature Sample N App: Implementing additional functions after copying and pasting the basic sample
+- How should I implement a feature that is applied to both Open and Group Channels?
+    - Implementation based only on Group Sample
+- Minimum deployment target: 13.0
 
 ## To do
 ### Open
