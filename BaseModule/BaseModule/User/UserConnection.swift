@@ -10,6 +10,8 @@ import SendBirdSDK
 
 public class UserConnection {
     
+    public static let shared = UserConnection()
+    
     @UserDefault(key: "sendbird_auto_login", defaultValue: false)
     public private(set) var isAutoLogin: Bool
     
@@ -18,24 +20,8 @@ public class UserConnection {
     
     @UserDefault(key: "sendbird_user_nickname", defaultValue: nil)
     public private(set) var userNickname: String?
-    
-    public private(set) var doNotDisturbInfo: DoNotDisturbInfo? {
-        get {
-            doNotDistrubData.flatMap {
-                try? JSONDecoder().decode(DoNotDisturbInfo.self, from: $0)
-            }
-        }
-        set {
-            doNotDistrubData = newValue.flatMap {
-                try? JSONEncoder().encode($0)
-            }
-        }
-    }
-    
-    @UserDefault(key: "sendbird_do_not_distrub", defaultValue: nil)
-    private var doNotDistrubData: Data?
-    
-    public init() { }
+        
+    private init() { }
     
     public func login(userId: String,
                       nickname: String,
@@ -49,7 +35,6 @@ public class UserConnection {
             guard let user = user else { return }
             
             self?.registerPushTokenIfNeeded()
-            self?.storeDoNotDistrubInfo()
             self?.updateNicknameIfNeeded(nickname: nickname, user: user, completion: completion)
         }
     }
@@ -57,7 +42,6 @@ public class UserConnection {
     public func logout(completion: @escaping () -> Void) {
         SBDMain.disconnect { [weak self] in
             self?.isAutoLogin = false
-            self?.doNotDisturbInfo = nil
             completion()
         }
     }
@@ -100,22 +84,5 @@ public class UserConnection {
         userNickname = user.nickname
         isAutoLogin = true
     }
-    
-    private func storeDoNotDistrubInfo() {
-        SBDMain.getDoNotDisturb { [weak self] isDoNotDisturbOn, startHour, startMin, endHour, endMin, timezone, error in
-            guard error == nil else {
-                self?.doNotDisturbInfo = nil
-                return
-            }
             
-            self?.doNotDisturbInfo = .init(
-                startHour: Int(startHour),
-                startMin: Int(startMin),
-                endHour: Int(endHour),
-                endMin: Int(endMin),
-                isDoNotDisturbOn: isDoNotDisturbOn
-            )
-        }
-    }
-        
 }

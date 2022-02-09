@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingViewController" customModule="BaseModule" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="jnT-OF-4aV"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F4a-tU-6hd">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nav-Fe-wXV">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Htd-gL-xlT">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="User"/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lXl-yq-alO">
+                                    <rect key="frame" x="0.0" y="40" width="414" height="30"/>
+                                    <color key="tintColor" systemColor="systemRedColor"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="Logout"/>
+                                    <connections>
+                                        <action selector="didTouchLogoutButton:" destination="-1" eventType="touchUpInside" id="Xeh-kT-K5c"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="nav-Fe-wXV" firstAttribute="bottom" secondItem="f72-Ui-OBL" secondAttribute="bottom" id="B7y-uQ-FCf"/>
+                        <constraint firstItem="nav-Fe-wXV" firstAttribute="top" secondItem="f72-Ui-OBL" secondAttribute="top" id="IWg-bT-3oo"/>
+                        <constraint firstItem="nav-Fe-wXV" firstAttribute="width" secondItem="VuS-n7-GXW" secondAttribute="width" id="PJO-jX-v5j"/>
+                        <constraint firstItem="nav-Fe-wXV" firstAttribute="leading" secondItem="f72-Ui-OBL" secondAttribute="leading" id="dRV-qa-Xw9"/>
+                        <constraint firstItem="nav-Fe-wXV" firstAttribute="trailing" secondItem="f72-Ui-OBL" secondAttribute="trailing" id="ks2-kT-HXo"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="f72-Ui-OBL"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="VuS-n7-GXW"/>
+                </scrollView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="F4a-tU-6hd" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="L3P-YF-Rvj"/>
+                <constraint firstItem="F4a-tU-6hd" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="MuA-9c-Zqv"/>
+                <constraint firstItem="F4a-tU-6hd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Qa3-lK-ZQa"/>
+                <constraint firstItem="F4a-tU-6hd" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="tgI-u3-53H"/>
+            </constraints>
+            <point key="canvasLocation" x="137.68115942028987" y="129.91071428571428"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
