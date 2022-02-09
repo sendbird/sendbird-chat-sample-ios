@@ -19,9 +19,7 @@ public final class LoginViewController: UIViewController {
     public typealias DidConnectUserHandler = (SBDUser) -> Void
     
     private let didConnectUser: DidConnectUserHandler
-    
-    private lazy var userConnection = UserConnection()
-    
+        
     public init(didConnectUser: @escaping DidConnectUserHandler) {
         self.didConnectUser = didConnectUser
         super.init(nibName: "LoginViewController", bundle: Bundle(for: Self.self))
@@ -38,15 +36,15 @@ public final class LoginViewController: UIViewController {
     }
     
     private func loadCachedUser() {
-        if let userId = userConnection.userId {
+        if let userId = UserConnection.shared.userId {
             userIdTextField.text = userId
         }
         
-        if let nickname = userConnection.userNickname {
+        if let nickname = UserConnection.shared.userNickname {
             nicknameTextField.text = nickname
         }
         
-        if userConnection.isAutoLogin {
+        if UserConnection.shared.isAutoLogin {
             connectUser()
         }
     }
@@ -65,7 +63,7 @@ public final class LoginViewController: UIViewController {
         
         updateUIForConnecting()
         
-        userConnection.login(userId: userId, nickname: nickname) { [weak self] result in
+        UserConnection.shared.login(userId: userId, nickname: nickname) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.didConnectUser(user)
