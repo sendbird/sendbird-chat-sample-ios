@@ -11,13 +11,20 @@ import SendBirdSDK
 
 final class GroupChannelListViewController: UIViewController {
     
+    @IBOutlet private weak var tableView: UITableView!
+    
+    private lazy var createChannelBarButton = UIBarButtonItem(
+        image: UIImage(named: "img_btn_create_group_channel"),
+        style: .plain,
+        target: self,
+        action: #selector(didTouchCreatChannelButton)
+    )
+    
     private lazy var viewModel: GroupChannelListViewModel = {
         let viewModel = GroupChannelListViewModel()
         viewModel.delegate = self
         return viewModel
     }()
-    
-    @IBOutlet private weak var tableView: UITableView!
     
     init() {
         super.init(nibName: "GroupChannelListViewController", bundle: Bundle(for: Self.self))
@@ -31,9 +38,14 @@ final class GroupChannelListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavigation()
         setupTableView()
         viewModel.reloadChannels()
         viewModel.loadTotalUnreadMessageCount()
+    }
+    
+    private func setupNavigation() {
+        navigationItem.rightBarButtonItem = createChannelBarButton
     }
     
     private func setupTableView() {
@@ -41,7 +53,19 @@ final class GroupChannelListViewController: UIViewController {
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "GroupChannelListCell")
     }
+    
+    @objc private func didTouchCreatChannelButton() {
+        let userSelectionViewController = UserSelectionViewController(didSelectUsers: { sender, users in
+            let createGroupChannelViewController = CreateGroupChannelViewController(users: users) { channel in
+                
+            }
+            sender.navigationController?.pushViewController(createGroupChannelViewController, animated: true)
+        })
+        let navigation = UINavigationController(rootViewController: userSelectionViewController)
         
+        present(navigation, animated: true)
+    }
+    
 }
 
 // MARK: - UITableViewDataSource
@@ -88,17 +112,21 @@ extension GroupChannelListViewController: UITableViewDelegate {
 // MARK: - GroupChannelListDelegate
 
 extension GroupChannelListViewController: GroupChannelListViewModelDelegate {
-
+    
+    func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didReceiveError error: SBDError) {
+        DispatchQueue.main.async { [weak self] in
+            self?.presentAlert(error: error)
+        }
+    }
+    
     func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didUpdateChannels: [SBDGroupChannel]) {
-        tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 
     func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didUpdateUnreadMessageCount unreadMessageCount: Int) {
         navigationController?.tabBarItem.badgeValue = unreadMessageCount > 0 ? "\(unreadMessageCount)" : nil
     }
     
-    func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didReceiveError error: SBDError) {
-        presentAlert(error: error)
-    }
-        
 }
