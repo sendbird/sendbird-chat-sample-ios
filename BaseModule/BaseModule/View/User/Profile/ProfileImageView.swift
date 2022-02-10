@@ -106,30 +106,30 @@ public class ProfileImageView: UIView {
     }
     
     
-    init(users: [SBDUser], frame: CGRect){
+    public init(users: [SBDUser], frame: CGRect){
         super.init(frame: frame)
         self.setUser(newUsers: users)
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    func setUser(newUsers: [SBDUser]) {
+    public func setUser(newUsers: [SBDUser]) {
         self.users = newUsers
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func setImage(withCoverUrl coverUrl: String){
+    public func setImage(withCoverUrl coverUrl: String){
         let imageView = UIImageView()
         if let url = URL(string: coverUrl){
-            imageView.kf.setImage(with: url, placeholder: UIImage(named: "img_cover_image_placeholder_1"))
+            imageView.kf.setImage(with: url, placeholder: UIImage.named("img_cover_image_placeholder_1"))
         }
         else {
-            imageView.image = UIImage(named: "img_cover_image_placeholder_1")
+            imageView.image = UIImage.named("img_cover_image_placeholder_1")
         }
         
         let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
@@ -140,7 +140,7 @@ public class ProfileImageView: UIView {
         makeCircularWithSpacing(spacing: 0)
     }
     
-    func setImage(withImage image: UIImage){
+    public func setImage(withImage image: UIImage){
         let imageView = UIImageView(image: image)
         
         let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
@@ -155,12 +155,12 @@ public class ProfileImageView: UIView {
 
 extension UIImageView {
     
-    convenience init(withUser user: SBDUser) {
+    public convenience init(withUser user: SBDUser) {
         self.init()
         setProfileImageView(for: user)
     }
     
-    func setProfileImageView(for user: SBDUser) {
+    public func setProfileImageView(for user: SBDUser) {
         if let url = URL(string: ImageUtil.transformUserProfileImage(user: user)){
             kf.setImage(with: url, placeholder: ImageUtil.getDefaultUserProfileImage(user: user))
         } else {
@@ -184,10 +184,10 @@ class ImageUtil {
     }
     
     static func getDefaultUserProfileImage(user: SBDUser) -> UIImage? {
-        if let nickname = user.nickname, let image = UIImage(named: "img_default_profile_image_\(nickname.count % 4)") {
+        if let nickname = user.nickname, let image = UIImage.named("img_default_profile_image_\(nickname.count % 4)") {
             return image
         }
         
-        return UIImage(named: "img_default_profile_image_1")
+        return UIImage.named("img_default_profile_image_1")
     }
 }
