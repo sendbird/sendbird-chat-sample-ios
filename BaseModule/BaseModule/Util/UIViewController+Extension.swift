@@ -15,4 +15,15 @@ extension UIViewController {
 
         return instantiateFromNib()
     }
+    
+    public func presentAlert(title: String, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+        present(alert, animated: true)
+    }
+    
+    public func presentAlert(error: Error) {
+        presentAlert(title: "Error", message: error.localizedDescription)
+    }
+    
 }

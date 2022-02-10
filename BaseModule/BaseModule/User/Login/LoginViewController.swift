@@ -68,7 +68,7 @@ public final class LoginViewController: UIViewController {
             case .success(let user):
                 self?.didConnectUser(user)
             case .failure(let error):
-                self?.presentAlert(title: "Error", message: error.localizedDescription)
+                self?.presentAlert(error: error)
             }
             
             self?.updateUIForDefault()
@@ -78,12 +78,6 @@ public final class LoginViewController: UIViewController {
     private func validateText(userId: String, nickname: String) -> Bool {
         userId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
         && nickname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
-    }
-    
-    private func presentAlert(title: String, message: String?) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Close", style: .cancel))
-        present(alert, animated: true)
     }
     
     private func updateUIForDefault() {
