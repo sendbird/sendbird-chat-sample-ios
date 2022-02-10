@@ -9,13 +9,14 @@ import UIKit
 
 public final class SettingViewController: UIViewController {
     
-    public init() {
-        super.init(nibName: "SettingViewController", bundle: .init(for: Self.self))
+    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         title = "Setting"
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        title = "Setting"
     }
     
     public override func viewDidLoad() {
