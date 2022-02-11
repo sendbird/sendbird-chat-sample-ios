@@ -11,6 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GroupChannelViewController" customModule="BasicGruopChannel" customModuleProvider="target">
             <connections>
+                <outlet property="messageInputView" destination="6yg-kE-Xbi" id="DbR-Gm-diO"/>
+                <outlet property="tableView" destination="qGm-ET-PiU" id="K3Z-uL-GdB"/>
                 <outlet property="view" destination="iN0-l3-epB" id="haN-rk-KrN"/>
             </connections>
         </placeholder>
@@ -19,6 +21,10 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qGm-ET-PiU">
+                    <rect key="frame" x="0.0" y="44" width="414" height="763"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6yg-kE-Xbi" customClass="MessageInputView" customModule="BaseModule">
                     <rect key="frame" x="0.0" y="807" width="414" height="55"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -31,8 +37,12 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="6yg-kE-Xbi" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="6mi-MP-owV"/>
+                <constraint firstItem="qGm-ET-PiU" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="6ye-R8-qWf"/>
+                <constraint firstItem="qGm-ET-PiU" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="91X-r6-rIm"/>
                 <constraint firstItem="6yg-kE-Xbi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="A96-BB-VvV"/>
+                <constraint firstItem="6yg-kE-Xbi" firstAttribute="top" secondItem="qGm-ET-PiU" secondAttribute="bottom" id="NG9-7q-Uv8"/>
                 <constraint firstItem="6yg-kE-Xbi" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="oPk-bw-bBE"/>
+                <constraint firstItem="qGm-ET-PiU" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="ps7-8Y-qtW"/>
             </constraints>
             <point key="canvasLocation" x="137.68115942028987" y="136.60714285714286"/>
         </view>
