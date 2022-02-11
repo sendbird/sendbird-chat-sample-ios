@@ -15,10 +15,12 @@ class UserSelectionViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView!
     
+    private let excludeUsers: [SBDUser]
+    
     private let didSelectUsers: DidSelectUserHandler
     
     private lazy var viewModel: UserSelectionViewModel = {
-        let viewModel = UserSelectionViewModel()
+        let viewModel = UserSelectionViewModel(excludeUsers: excludeUsers)
         viewModel.delegate = self
         return viewModel
     }()
@@ -37,7 +39,8 @@ class UserSelectionViewController: UIViewController {
         action: #selector(onTouchCancelButton(_:))
     )
     
-    init(didSelectUsers: @escaping DidSelectUserHandler) {
+    init(excludeUsers: [SBDUser] = [], didSelectUsers: @escaping DidSelectUserHandler) {
+        self.excludeUsers = excludeUsers
         self.didSelectUsers = didSelectUsers
         super.init(nibName: "UserSelectionViewController", bundle: Bundle(for: Self.self))
     }

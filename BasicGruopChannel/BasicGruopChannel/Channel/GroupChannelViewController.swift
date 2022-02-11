@@ -53,6 +53,13 @@ class GroupChannelViewController: UIViewController {
     
     private func setupNavigation() {
         title = channel.name
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Setting", style: .plain, target: self, action: #selector(didTouchSettingButton))
+    }
+    
+    @objc private func didTouchSettingButton() {
+        let settingController = GroupChannelSettingViewController(channel: channel)
+        
+        navigationController?.pushViewController(settingController, animated: true)
     }
     
     private func setupTableView() {
