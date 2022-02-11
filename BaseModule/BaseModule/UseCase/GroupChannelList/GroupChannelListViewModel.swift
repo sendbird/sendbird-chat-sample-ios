@@ -10,7 +10,6 @@ import SendBirdSDK
 
 public protocol GroupChannelListViewModelDelegate: AnyObject {
     func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didUpdateChannels channels: [SBDGroupChannel])
-    func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didUpdateUnreadMessageCount unreadMessageCount: Int)
     func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didReceiveError error: SBDError)
 }
 
@@ -61,20 +60,7 @@ open class GroupChannelListViewModel: NSObject {
             self.delegate?.groupChannelListViewModel(self, didUpdateChannels: self.channels)
         }
     }
-    
-    open func loadTotalUnreadMessageCount() {
-        SBDMain.getTotalUnreadMessageCount { [weak self] unreadCount, error in
-            guard let self = self else { return }
-            
-            if let error = error {
-                self.delegate?.groupChannelListViewModel(self, didReceiveError: error)
-                return
-            }
-            
-            self.delegate?.groupChannelListViewModel(self, didUpdateUnreadMessageCount: Int(unreadCount))
-        }
-    }
-    
+        
     open func createGroupChannelListCollection() -> SBDGroupChannelCollection {
         let channelListQuery = SBDGroupChannel.createMyGroupChannelListQuery() ?? SBDGroupChannelListQuery.init(dictionary: [:])
         channelListQuery.order = .latestLastMessage
@@ -85,6 +71,16 @@ open class GroupChannelListViewModel: NSObject {
         collection.delegate = self
 
         return collection
+    }
+    
+    open func leaveChannel(_ channel: SBDGroupChannel, completion: @escaping (Result<Void, SBDError>) -> Void) {
+        channel.leave { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
     }
 
 }

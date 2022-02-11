@@ -41,7 +41,6 @@ final class GroupChannelListViewController: UIViewController {
         setupNavigation()
         setupTableView()
         viewModel.reloadChannels()
-        viewModel.loadTotalUnreadMessageCount()
     }
     
     private func setupNavigation() {
@@ -106,6 +105,25 @@ extension GroupChannelListViewController: UITableViewDelegate {
         
         navigationController?.pushViewController(channelViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let leaveAction = UIContextualAction(style: .destructive, title: "Leave") { [weak self] _, _, completion in
+            guard let self = self else { return }
+            
+            let channel = self.viewModel.channels[indexPath.row]
+            
+            self.viewModel.leaveChannel(channel) { result in
+                switch result {
+                case .success:
+                    completion(true)
+                case .failure:
+                    completion(false)
+                }
+            }
+        }
+
+        return UISwipeActionsConfiguration(actions: [leaveAction])
+    }
 
 }
 
@@ -123,10 +141,6 @@ extension GroupChannelListViewController: GroupChannelListViewModelDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
-    }
-
-    func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didUpdateUnreadMessageCount unreadMessageCount: Int) {
-        navigationController?.tabBarItem.badgeValue = unreadMessageCount > 0 ? "\(unreadMessageCount)" : nil
     }
     
 }
