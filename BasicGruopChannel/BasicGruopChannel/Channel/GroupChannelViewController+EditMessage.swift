@@ -52,7 +52,7 @@ extension GroupChannelViewController {
         alert.addAction(UIAlertAction(title: "Update", style: .default) { [weak alert, weak self] _ in
             guard let textField = alert?.textFields?.first else { return }
             
-            self?.inputUseCase.updateMessage(message, to: textField.text ?? "", completion: { result in
+            self?.userMessageUseCase.updateMessage(message, to: textField.text ?? "", completion: { result in
                 switch result {
                 case .success:
                     break
@@ -66,7 +66,7 @@ extension GroupChannelViewController {
     }
     
     private func deleteMessage(_ message: SBDBaseMessage) {
-        inputUseCase.deleteMessage(message) { [weak self] result in
+        userMessageUseCase.deleteMessage(message) { [weak self] result in
             switch result {
             case .success:
                 break
@@ -77,7 +77,7 @@ extension GroupChannelViewController {
     }
     
     private func presentEditFileMessageAlert(for message: SBDFileMessage) {
-        let alert = UIAlertController(title: "Choose action for message", message: "(File)", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Choose action for message", message: message.name, preferredStyle: .actionSheet)
         
         alert.addAction(
             UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in

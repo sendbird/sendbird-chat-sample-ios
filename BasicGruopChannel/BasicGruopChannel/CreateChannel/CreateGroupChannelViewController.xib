@@ -57,7 +57,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="xYB-aw-hh8" firstAttribute="leading" secondItem="lgf-EK-sW4" secondAttribute="trailing" constant="17" id="0KG-ZC-0TG"/>
                         <constraint firstItem="lgf-EK-sW4" firstAttribute="centerY" secondItem="DJB-ze-mW5" secondAttribute="centerY" id="2vd-PR-rRU"/>
@@ -87,6 +87,9 @@
         <image name="img_icon_edit_camera" width="30" height="30"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

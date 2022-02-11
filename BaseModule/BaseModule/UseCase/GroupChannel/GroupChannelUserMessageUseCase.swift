@@ -8,7 +8,7 @@
 import Foundation
 import SendBirdSDK
 
-public class GroupChannelInputUseCase {
+public class GroupChannelUserMessageUseCase {
     
     private let channel: SBDGroupChannel
     
