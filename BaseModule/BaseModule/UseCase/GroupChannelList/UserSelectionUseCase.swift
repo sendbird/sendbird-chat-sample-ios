@@ -8,17 +8,17 @@
 import Foundation
 import SendBirdSDK
 
-public protocol UserSelectionViewModelDelegate: AnyObject {
-    func userSelectionViewModel(_ userSelectionViewModel: UserSelectionViewModel, didReceiveError error: SBDError)
-    func userSelectionViewModel(_ userSelectionViewModel: UserSelectionViewModel, didUpdateUsers users: [SBDUser])
-    func userSelectionViewModel(_ userSelectionViewModel: UserSelectionViewModel, didUpdateSelectedUsers selectedUsers: [SBDUser])
+public protocol UserSelectionUseCaseDelegate: AnyObject {
+    func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didReceiveError error: SBDError)
+    func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didUpdateUsers users: [SBDUser])
+    func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didUpdateSelectedUsers selectedUsers: [SBDUser])
 }
 
-// MARK: - UserSelectionViewModel
+// MARK: - UserSelectionUseCase
 
-open class UserSelectionViewModel {
+open class UserSelectionUseCase {
     
-    public weak var delegate: UserSelectionViewModelDelegate?
+    public weak var delegate: UserSelectionUseCaseDelegate?
     
     public private(set) var users: [SBDUser] = []
     
@@ -41,14 +41,14 @@ open class UserSelectionViewModel {
             guard let self = self else { return }
             
             if let error = error {
-                self.delegate?.userSelectionViewModel(self, didReceiveError: error)
+                self.delegate?.userSelectionUseCase(self, didReceiveError: error)
                 return
             }
             
             guard let users = users else { return }
             
             self.users = self.filterUsers(users)
-            self.delegate?.userSelectionViewModel(self, didUpdateUsers: users)
+            self.delegate?.userSelectionUseCase(self, didUpdateUsers: users)
         }
     }
     
@@ -59,14 +59,14 @@ open class UserSelectionViewModel {
             guard let self = self else { return }
             
             if let error = error {
-                self.delegate?.userSelectionViewModel(self, didReceiveError: error)
+                self.delegate?.userSelectionUseCase(self, didReceiveError: error)
                 return
             }
             
             guard let users = users else { return }
             
             self.users.append(contentsOf: self.filterUsers(users))
-            self.delegate?.userSelectionViewModel(self, didUpdateUsers: self.users)
+            self.delegate?.userSelectionUseCase(self, didUpdateUsers: self.users)
         }
     }
     
@@ -83,7 +83,7 @@ open class UserSelectionViewModel {
             selectedUsers.insert(user)
         }
         
-        delegate?.userSelectionViewModel(self, didUpdateSelectedUsers: Array(selectedUsers))
+        delegate?.userSelectionUseCase(self, didUpdateSelectedUsers: Array(selectedUsers))
     }
     
     public func isSelectedUser(_ user: SBDUser) -> Bool {

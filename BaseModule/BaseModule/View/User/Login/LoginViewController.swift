@@ -36,15 +36,15 @@ public final class LoginViewController: UIViewController {
     }
     
     private func loadCachedUser() {
-        if let userId = UserConnection.shared.userId {
+        if let userId = UserConnectionUseCase.shared.userId {
             userIdTextField.text = userId
         }
         
-        if let nickname = UserConnection.shared.userNickname {
+        if let nickname = UserConnectionUseCase.shared.userNickname {
             nicknameTextField.text = nickname
         }
         
-        if UserConnection.shared.isAutoLogin {
+        if UserConnectionUseCase.shared.isAutoLogin {
             connectUser()
         }
     }
@@ -63,7 +63,7 @@ public final class LoginViewController: UIViewController {
         
         updateUIForConnecting()
         
-        UserConnection.shared.login(userId: userId, nickname: nickname) { [weak self] result in
+        UserConnectionUseCase.shared.login(userId: userId, nickname: nickname) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.didConnectUser(user)

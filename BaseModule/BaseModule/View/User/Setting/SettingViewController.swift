@@ -24,7 +24,7 @@ public final class SettingViewController: UIViewController {
     }
     
     @IBAction func didTouchLogoutButton(_ sender: UIButton) {
-        UserConnection.shared.logout { [weak self] in
+        UserConnectionUseCase.shared.logout { [weak self] in
             self?.dismiss(animated: true)
         }
     }

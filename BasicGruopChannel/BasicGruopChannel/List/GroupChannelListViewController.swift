@@ -20,8 +20,8 @@ final class GroupChannelListViewController: UIViewController {
         action: #selector(didTouchCreatChannelButton)
     )
     
-    private lazy var viewModel: GroupChannelListViewModel = {
-        let viewModel = GroupChannelListViewModel()
+    private lazy var viewModel: GroupChannelListUseCase = {
+        let viewModel = GroupChannelListUseCase()
         viewModel.delegate = self
         return viewModel
     }()
@@ -127,17 +127,17 @@ extension GroupChannelListViewController: UITableViewDelegate {
 
 }
 
-// MARK: - GroupChannelListDelegate
+// MARK: - GroupChannelListUseCaseDelegate
 
-extension GroupChannelListViewController: GroupChannelListViewModelDelegate {
+extension GroupChannelListViewController: GroupChannelListUseCaseDelegate {
     
-    func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didReceiveError error: SBDError) {
+    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didReceiveError error: SBDError) {
         DispatchQueue.main.async { [weak self] in
             self?.presentAlert(error: error)
         }
     }
     
-    func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didUpdateChannels: [SBDGroupChannel]) {
+    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didUpdateChannels: [SBDGroupChannel]) {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }

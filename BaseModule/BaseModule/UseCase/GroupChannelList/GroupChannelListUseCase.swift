@@ -8,16 +8,16 @@
 import Foundation
 import SendBirdSDK
 
-public protocol GroupChannelListViewModelDelegate: AnyObject {
-    func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didUpdateChannels channels: [SBDGroupChannel])
-    func groupChannelListViewModel(_ groupChannelListViewModel: GroupChannelListViewModel, didReceiveError error: SBDError)
+public protocol GroupChannelListUseCaseDelegate: AnyObject {
+    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didUpdateChannels channels: [SBDGroupChannel])
+    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didReceiveError error: SBDError)
 }
 
-// MARK: - GroupChannelListViewModel
+// MARK: - GroupChannelListUseCase
 
-open class GroupChannelListViewModel: NSObject {
+open class GroupChannelListUseCase: NSObject {
     
-    public weak var delegate: GroupChannelListViewModelDelegate?
+    public weak var delegate: GroupChannelListUseCaseDelegate?
     
     public var channels: [SBDGroupChannel] = []
     
@@ -34,13 +34,13 @@ open class GroupChannelListViewModel: NSObject {
             guard let self = self else { return }
             
             if let error = error {
-                self.delegate?.groupChannelListViewModel(self, didReceiveError: error)
+                self.delegate?.groupChannelListUseCase(self, didReceiveError: error)
                 return
             }
             
             guard let channels = channels else { return }
             self.channels = channels
-            self.delegate?.groupChannelListViewModel(self, didUpdateChannels: self.channels)
+            self.delegate?.groupChannelListUseCase(self, didUpdateChannels: self.channels)
         }
     }
     
@@ -51,13 +51,13 @@ open class GroupChannelListViewModel: NSObject {
             guard let self = self else { return }
             
             if let error = error {
-                self.delegate?.groupChannelListViewModel(self, didReceiveError: error)
+                self.delegate?.groupChannelListUseCase(self, didReceiveError: error)
                 return
             }
 
             guard let channels = channels else { return }
             self.channels.append(contentsOf: channels)
-            self.delegate?.groupChannelListViewModel(self, didUpdateChannels: self.channels)
+            self.delegate?.groupChannelListUseCase(self, didUpdateChannels: self.channels)
         }
     }
         
@@ -87,11 +87,11 @@ open class GroupChannelListViewModel: NSObject {
 
 // MARK: - SBDGroupChannelCollectionDelegate
 
-extension GroupChannelListViewModel: SBDGroupChannelCollectionDelegate {
+extension GroupChannelListUseCase: SBDGroupChannelCollectionDelegate {
     
     public func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, addedChannels channels: [SBDGroupChannel]) {
         self.channels.insert(contentsOf: channels, at: 0)
-        self.delegate?.groupChannelListViewModel(self, didUpdateChannels: self.channels)
+        self.delegate?.groupChannelListUseCase(self, didUpdateChannels: self.channels)
     }
     
     public func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, updatedChannels channels: [SBDGroupChannel]) {
@@ -101,7 +101,7 @@ extension GroupChannelListViewModel: SBDGroupChannelCollectionDelegate {
             updatedChannels.first(where: { $0.channelUrl == channel.channelUrl }) ?? channel
         }
         
-        self.delegate?.groupChannelListViewModel(self, didUpdateChannels: self.channels)
+        self.delegate?.groupChannelListUseCase(self, didUpdateChannels: self.channels)
     }
     
     public func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, deletedChannelUrls: [String]) {
@@ -109,7 +109,7 @@ extension GroupChannelListViewModel: SBDGroupChannelCollectionDelegate {
             deletedChannelUrls.contains($0.channelUrl) == false
         }
         
-        self.delegate?.groupChannelListViewModel(self, didUpdateChannels: self.channels)
+        self.delegate?.groupChannelListUseCase(self, didUpdateChannels: self.channels)
     }
     
 }

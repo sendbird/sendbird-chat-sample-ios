@@ -19,8 +19,8 @@ class UserSelectionViewController: UIViewController {
     
     private let didSelectUsers: DidSelectUserHandler
     
-    private lazy var viewModel: UserSelectionViewModel = {
-        let viewModel = UserSelectionViewModel(excludeUsers: excludeUsers)
+    private lazy var viewModel: UserSelectionUseCase = {
+        let viewModel = UserSelectionUseCase(excludeUsers: excludeUsers)
         viewModel.delegate = self
         return viewModel
     }()
@@ -132,19 +132,19 @@ extension UserSelectionViewController: UITableViewDelegate {
 
 }
 
-// MARK: - UserSelectionViewModelDelegate
+// MARK: - UserSelectionUseCaseDelegate
 
-extension UserSelectionViewController: UserSelectionViewModelDelegate {
+extension UserSelectionViewController: UserSelectionUseCaseDelegate {
 
-    func userSelectionViewModel(_ userSelectionViewModel: UserSelectionViewModel, didReceiveError error: SBDError) {
+    func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didReceiveError error: SBDError) {
         presentAlert(error: error)
     }
     
-    func userSelectionViewModel(_ userSelectionViewModel: UserSelectionViewModel, didUpdateUsers users: [SBDUser]) {
+    func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didUpdateUsers users: [SBDUser]) {
         tableView.reloadData()
     }
     
-    func userSelectionViewModel(_ userSelectionViewModel: UserSelectionViewModel, didUpdateSelectedUsers users: [SBDUser]) {
+    func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didUpdateSelectedUsers users: [SBDUser]) {
         updateOkButton()
     }
 
