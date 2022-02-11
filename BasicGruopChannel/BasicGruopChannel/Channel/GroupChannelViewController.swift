@@ -16,17 +16,13 @@ class GroupChannelViewController: UIViewController {
     
     private let channel: SBDGroupChannel
     
-    private lazy var messagesUseCase: GroupChannelUseCase = {
-        let messagesUseCase = GroupChannelUseCase(channel: channel, isReversed: true)
-        messagesUseCase.delegate = self
-        return messagesUseCase
+    public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
+        let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, isReversed: true)
+        messageListUseCase.delegate = self
+        return messageListUseCase
     }()
     
-    private lazy var sendUseCase: SendGroupChannelUseCase = {
-        let sendUseCase = SendGroupChannelUseCase(channel: channel)
-        sendUseCase.delegate = self
-        return sendUseCase
-    }()
+    public private(set) lazy var inputUseCase = GroupChannelInputUseCase(channel: channel)
     
     init(channel: SBDGroupChannel) {
         self.channel = channel
@@ -41,14 +37,30 @@ class GroupChannelViewController: UIViewController {
         super.viewDidLoad()
         
         title = channel.name
+        setupTableView()
+        messageInputView.delegate = self
         
+        messageListUseCase.loadInitialMessages()
+    }
+    
+    private func setupTableView() {
         tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "GroupChannelCell")
-        messageInputView.delegate = self
+        tableView.register(GroupChannelCell.self, forCellReuseIdentifier: "GroupChannelCell")
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
+        tableView.addGestureRecognizer(longPress)
+    }
+    
+    @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
+        guard sender.state == .began else { return }
         
-        messagesUseCase.loadInitialMessages()
+        let touchPoint = sender.location(in: tableView)
+        guard let indexPath = tableView.indexPathForRow(at: touchPoint) else { return }
+
+        let message = messageListUseCase.messages[indexPath.row]
+        
+        presentEditMessageAlert(for: message)
     }
 
 }
@@ -58,13 +70,16 @@ class GroupChannelViewController: UIViewController {
 extension GroupChannelViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        messagesUseCase.messages.count
+        messageListUseCase.messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelCell", for: indexPath)
-        cell.textLabel?.text = messagesUseCase.messages[indexPath.row].message
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelCell", for: indexPath) as! GroupChannelCell
+        let message = messageListUseCase.messages[indexPath.row]
+        
+        cell.configure(with: message)
         cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+        
         return cell
     }
     
@@ -80,14 +95,14 @@ extension GroupChannelViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if willScrollReachTop(with: indexPath) {
-            messagesUseCase.loadPreviousMessages()
+            messageListUseCase.loadPreviousMessages()
         } else if willScrollReachBottom(with: indexPath) {
-            messagesUseCase.loadNextMessages()
+            messageListUseCase.loadNextMessages()
         }
     }
     
     private func willScrollReachTop(with indexPath: IndexPath) -> Bool {
-        indexPath.row == messagesUseCase.messages.count - 1
+        indexPath.row == messageListUseCase.messages.count - 1
     }
     
     private func willScrollReachBottom(with indexPath: IndexPath) -> Bool {
@@ -98,13 +113,13 @@ extension GroupChannelViewController: UITableViewDelegate {
 
 // MARK: - GroupChannelUseCaseDelegate
 
-extension GroupChannelViewController: GroupChannelUseCaseDelegate {
+extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     
-    func groupChannelUseCase(_ groupChannelUseCase: GroupChannelUseCase, didReceiveError error: SBDError) {
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBDError) {
         presentAlert(error: error)
     }
     
-    func groupChannelUseCase(_ groupChannelUseCase: GroupChannelUseCase, didUpdateMessages messages: [SBDBaseMessage]) {
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage]) {
         tableView.reloadData()
     }
     
@@ -115,21 +130,18 @@ extension GroupChannelViewController: GroupChannelUseCaseDelegate {
 extension GroupChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
-        sendUseCase.sendMessage(message)
+        inputUseCase.sendMessage(message) { [weak self] result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                self?.presentAlert(error: error)
+            }
+        }
     }
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchSendFileMessageButton sender: UIButton) {
         
-    }
-    
-}
-
-// MARK: - SendGroupChannelUseCaseDelegate
-
-extension GroupChannelViewController: SendGroupChannelUseCaseDelegate {
-    
-    func sendGroupChannelUseCase(_ sendGroupChannelUseCase: SendGroupChannelUseCase, didReceiveError error: SBDError) {
-        presentAlert(error: error)
     }
     
 }

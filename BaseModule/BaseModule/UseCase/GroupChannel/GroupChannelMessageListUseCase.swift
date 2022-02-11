@@ -8,14 +8,14 @@
 import Foundation
 import SendBirdSDK
 
-public protocol GroupChannelUseCaseDelegate: AnyObject {
-    func groupChannelUseCase(_ groupChannelUseCase: GroupChannelUseCase, didReceiveError error: SBDError)
-    func groupChannelUseCase(_ groupChannelUseCase: GroupChannelUseCase, didUpdateMessages messages: [SBDBaseMessage])
+public protocol GroupChannelMessageListUseCaseDelegate: AnyObject {
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBDError)
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage])
 }
 
-open class GroupChannelUseCase: NSObject {
+open class GroupChannelMessageListUseCase: NSObject {
     
-    public weak var delegate: GroupChannelUseCaseDelegate?
+    public weak var delegate: GroupChannelMessageListUseCaseDelegate?
     
     public private(set) var messages: [SBDBaseMessage] = []
 
@@ -50,13 +50,13 @@ open class GroupChannelUseCase: NSObject {
     
     private func handleInitialMessages(messages: [SBDBaseMessage]?, error: SBDError?) {
         if let error = error {
-            delegate?.groupChannelUseCase(self, didReceiveError: error)
+            delegate?.groupChannelMessageListUseCase(self, didReceiveError: error)
             return
         }
         
         guard let messages = messages else { return }
         self.messages = messages
-        delegate?.groupChannelUseCase(self, didUpdateMessages: messages)
+        delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: messages)
     }
     
     open func loadPreviousMessages() {
@@ -66,7 +66,7 @@ open class GroupChannelUseCase: NSObject {
             guard let self = self else { return }
             
             if let error = error {
-                self.delegate?.groupChannelUseCase(self, didReceiveError: error)
+                self.delegate?.groupChannelMessageListUseCase(self, didReceiveError: error)
                 return
             }
             
@@ -77,7 +77,7 @@ open class GroupChannelUseCase: NSObject {
             } else {
                 self.messages.insert(contentsOf: messages, at: 0)
             }
-            self.delegate?.groupChannelUseCase(self, didUpdateMessages: self.messages)
+            self.delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: self.messages)
         }
     }
     
@@ -88,7 +88,7 @@ open class GroupChannelUseCase: NSObject {
             guard let self = self else { return }
             
             if let error = error {
-                self.delegate?.groupChannelUseCase(self, didReceiveError: error)
+                self.delegate?.groupChannelMessageListUseCase(self, didReceiveError: error)
                 return
             }
             
@@ -99,7 +99,7 @@ open class GroupChannelUseCase: NSObject {
             } else {
                 self.messages.append(contentsOf: messages)
             }
-            self.delegate?.groupChannelUseCase(self, didUpdateMessages: self.messages)
+            self.delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: self.messages)
         }
     }
     
@@ -117,7 +117,7 @@ open class GroupChannelUseCase: NSObject {
 
 // MARK: - SBDMessageCollectionDelegate
 
-extension GroupChannelUseCase: SBDMessageCollectionDelegate {
+extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
     
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, addedMessages messages: [SBDBaseMessage]) {
         if self.isReversed {
@@ -126,35 +126,52 @@ extension GroupChannelUseCase: SBDMessageCollectionDelegate {
             self.messages.append(contentsOf: messages)
         }
         
-        delegate?.groupChannelUseCase(self, didUpdateMessages: self.messages)
+        delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: self.messages)
     }
 
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, updatedMessages messages: [SBDBaseMessage]) {
-//        switch context.messageSendingStatus {
-//        case .succeeded:
-//            // Update the messages status of sent messages.
-//        case .pending:  (failed -> pending)
-//            // Update the message status from failed to pending in your data source.
-//            // Remove the failed message from the data source.
-//        case .failed:   (pending -> failed)
-//            // Update the message status from pending to failed in your data source.
-//            // Remove the pending message from the data source.
-//        case .canceled: (pending -> canceled)
-//            // Remove the pending message from the data source.
-//            // Implement codes to process canceled messages on your end. The Chat SDK doesn't store canceled messages.
-//        default:
-//        }
+        switch context.messageSendingStatus {
+        case .succeeded:
+            // Update the messages status of sent messages.
+            print("[GroupChannelMessageListUseCase] succeeded updatedMessages: \(messages)")
+            self.messages = self.messages.map { oldMessage in
+                messages.first { $0.messageId == oldMessage.messageId } ?? oldMessage
+            }
+        case .pending: // (failed -> pending)
+            // Update the message status from failed to pending in your data source.
+            // Remove the failed message from the data source.
+            print("[GroupChannelMessageListUseCase] pending updatedMessages: \(messages)")
+        case .failed: // (pending -> failed)
+            // Update the message status from pending to failed in your data source.
+            // Remove the pending message from the data source.
+            print("[GroupChannelMessageListUseCase] failed updatedMessages: \(messages)")
+        case .canceled: // (pending -> canceled)
+            // Remove the pending message from the data source.
+            // Implement codes to process canceled messages on your end. The Chat SDK doesn't store canceled messages.
+            print("[GroupChannelMessageListUseCase] canceled updatedMessages: \(messages)")
+        default:
+            print("[GroupChannelMessageListUseCase] default updatedMessages: \(messages)")
+        }
+        
+        delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: self.messages)
     }
 
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, deletedMessages messages: [SBDBaseMessage]) {
+        switch context.messageSendingStatus {
+        case .succeeded:
+            // Remove the sent message from your data source.
+            print("[GroupChannelMessageListUseCase] succeeded deletedMessages: \(messages)")
+            self.messages = self.messages.filter { oldMessage in
+                messages.map { $0.messageId }.contains(oldMessage.messageId) == false
+            }
+        case .failed:
+            // Remove the failed message from your data source.
+            print("[GroupChannelMessageListUseCase] failed deletedMessages: \(messages)")
+        default:
+            print("[GroupChannelMessageListUseCase] default deletedMessages: \(messages)")
+        }
         
-//        switch context.messageSendingStatus {
-//        case .succeeded:
-//            // Remove the sent message from your data source.
-//        case .failed:
-//            // Remove the failed message from your data source.
-//        default:
-//        }
+        delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: self.messages)
     }
 
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, updatedChannel channel: SBDGroupChannel) {
