@@ -55,9 +55,7 @@ final class GroupChannelListViewController: UIViewController {
     
     @objc private func didTouchCreatChannelButton() {
         let userSelectionViewController = UserSelectionViewController(didSelectUsers: { sender, users in
-            let createGroupChannelViewController = CreateGroupChannelViewController(users: users) { channel in
-                
-            }
+            let createGroupChannelViewController = CreateGroupChannelViewController(users: users)
             sender.navigationController?.pushViewController(createGroupChannelViewController, animated: true)
         })
         let navigation = UINavigationController(rootViewController: userSelectionViewController)
@@ -86,6 +84,8 @@ extension GroupChannelListViewController: UITableViewDataSource {
         } else {
             cell.textLabel?.text = channel.name
         }
+        
+        cell.accessoryType = .disclosureIndicator
         
         return cell
     }

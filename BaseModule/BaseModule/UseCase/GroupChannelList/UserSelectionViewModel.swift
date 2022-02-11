@@ -21,12 +21,16 @@ open class UserSelectionViewModel {
     public weak var delegate: UserSelectionViewModelDelegate?
     
     public private(set) var users: [SBDUser] = []
-        
+    
     public private(set) var selectedUsers: Set<SBDUser> = []
+    
+    private let excludeUsers: [SBDUser]
     
     private var userListQuery: SBDApplicationUserListQuery?
     
-    public init() { }
+    public init(excludeUsers: [SBDUser]) {
+        self.excludeUsers = excludeUsers
+    }
         
     open func reloadUsers() {
         userListQuery = createApplicationUserListQuery()
@@ -43,9 +47,7 @@ open class UserSelectionViewModel {
             
             guard let users = users else { return }
             
-            let currentUser = SBDMain.getCurrentUser()
-            self.users = users.filter { $0.userId != currentUser?.userId }
-            
+            self.users = self.filterUsers(users)
             self.delegate?.userSelectionViewModel(self, didUpdateUsers: users)
         }
     }
@@ -63,9 +65,7 @@ open class UserSelectionViewModel {
             
             guard let users = users else { return }
             
-            let currentUser = SBDMain.getCurrentUser()
-            self.users.append(contentsOf: users.filter { $0.userId != currentUser?.userId })
-            
+            self.users.append(contentsOf: self.filterUsers(users))
             self.delegate?.userSelectionViewModel(self, didUpdateUsers: self.users)
         }
     }
@@ -88,6 +88,15 @@ open class UserSelectionViewModel {
     
     public func isSelectedUser(_ user: SBDUser) -> Bool {
         selectedUsers.contains(user)
+    }
+    
+    private func filterUsers(_ users: [SBDUser]) -> [SBDUser] {
+        let currentUser = SBDMain.getCurrentUser()
+
+        return users.filter {
+            $0.userId != currentUser?.userId
+            && excludeUsers.map { $0.userId }.contains($0.userId) == false
+        }
     }
     
 }
