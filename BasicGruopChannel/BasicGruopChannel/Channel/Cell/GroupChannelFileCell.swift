@@ -43,8 +43,11 @@ final class GroupChannelFileCell: UITableViewCell {
         messageTextLabel.textAlignment = isMyMessage ? .right : .left
         imageViewLeadingConstraint.isActive = isMyMessage == false
         imageViewTrailingConstraint.isActive = isMyMessage
-
-        if message.type.hasPrefix("image"), let imageURL = URL(string: message.url) {
+        
+        if let thumbnailURLString = message.thumbnails?.first?.url,
+           let thumbnailURL = URL(string: thumbnailURLString) {
+            messageImageView.kf.setImage(with: thumbnailURL)
+        } else if message.type.hasPrefix("image"), let imageURL = URL(string: message.url) {
             messageImageView.kf.setImage(with: imageURL)
         }
     }

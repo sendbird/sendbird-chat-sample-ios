@@ -32,8 +32,8 @@ public class GroupChannelFileMessageUseCase {
         guard let fileMessageParams = SBDFileMessageParams(file: mediaFile.data) else { return }
         
         fileMessageParams.fileName = mediaFile.name
-        fileMessageParams.mimeType = mediaFile.mimeType
         fileMessageParams.fileSize = UInt(mediaFile.data.count)
+        fileMessageParams.mimeType = mediaFile.mimeType
         fileMessageParams.thumbnailSizes = [SBDThumbnailSize.make(withMaxWidth: 320.0, maxHeight: 320.0)]
 
         channel.sendFileMessage(with: fileMessageParams) { message, error in
