@@ -113,6 +113,14 @@ open class GroupChannelMessageListUseCase: NSObject {
         return collection
     }
     
+    open func markAsRead() {
+        channel.markAsRead { error in
+            if let error = error {
+                print("[GroupChannelMessageListUseCase] markAsRead error: \(error)")
+            }
+        }
+    }
+    
 }
 
 // MARK: - SBDMessageCollectionDelegate

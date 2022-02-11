@@ -45,6 +45,12 @@ class GroupChannelViewController: UIViewController {
         messageListUseCase.loadInitialMessages()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        messageListUseCase.markAsRead()
+    }
+    
     private func setupNavigation() {
         title = channel.name
     }
