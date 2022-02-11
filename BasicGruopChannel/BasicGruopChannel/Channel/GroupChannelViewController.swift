@@ -22,8 +22,10 @@ class GroupChannelViewController: UIViewController {
         return messageListUseCase
     }()
     
-    public private(set) lazy var inputUseCase = GroupChannelInputUseCase(channel: channel)
+    public private(set) lazy var userMessageUseCase = GroupChannelUserMessageUseCase(channel: channel)
     
+    public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
+
     init(channel: SBDGroupChannel) {
         self.channel = channel
         super.init(nibName: "GroupChannelViewController", bundle: Bundle(for: Self.self))
@@ -36,11 +38,15 @@ class GroupChannelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = channel.name
+        setupNavigation()
         setupTableView()
         messageInputView.delegate = self
         
         messageListUseCase.loadInitialMessages()
+    }
+    
+    private func setupNavigation() {
+        title = channel.name
     }
     
     private func setupTableView() {
@@ -48,6 +54,11 @@ class GroupChannelViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(GroupChannelCell.self, forCellReuseIdentifier: "GroupChannelCell")
+        tableView.register(UINib(nibName: "GroupChannelFileCell", bundle: Bundle(for: GroupChannelFileCell.self)), forCellReuseIdentifier: "GroupChannelFileCell")
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 140.0
+        
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
         tableView.addGestureRecognizer(longPress)
     }
@@ -74,13 +85,23 @@ extension GroupChannelViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelCell", for: indexPath) as! GroupChannelCell
         let message = messageListUseCase.messages[indexPath.row]
         
-        cell.configure(with: message)
-        cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-        
-        return cell
+        if let fileMessage = message as? SBDFileMessage {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelFileCell", for: indexPath) as! GroupChannelFileCell
+            
+            cell.configure(with: fileMessage)
+            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelCell", for: indexPath) as! GroupChannelCell
+            
+            cell.configure(with: message)
+            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            
+            return cell
+        }
     }
     
 }
@@ -90,7 +111,7 @@ extension GroupChannelViewController: UITableViewDataSource {
 extension GroupChannelViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -130,7 +151,7 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
 extension GroupChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
-        inputUseCase.sendMessage(message) { [weak self] result in
+        userMessageUseCase.sendMessage(message) { [weak self] result in
             switch result {
             case .success:
                 break
@@ -141,7 +162,7 @@ extension GroupChannelViewController: MessageInputViewDelegate {
     }
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchSendFileMessageButton sender: UIButton) {
-        
+        presentAttachFileAlert()
     }
     
 }
