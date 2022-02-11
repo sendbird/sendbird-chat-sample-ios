@@ -28,7 +28,7 @@ https://sendbird.atlassian.net/wiki/spaces/SDK/pages/1767407864/Sample+2.0
 - [x] Send, receive, update, copy or delete message
 - [x] Load previous messages
 - [x] Send and receive media files (MIME types)
-- [x] Load messages by timestamp or message ID
+- [ ] Load messages by timestamp or message ID
 - [x] Generate thumbnails of file message
 - [x] Mark messages as read
 - [x] Retrieve a list of channels
