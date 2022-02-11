@@ -8,9 +8,9 @@
 import Foundation
 import SendBirdSDK
 
-public class UserConnection {
+public class UserConnectionUseCase {
     
-    public static let shared = UserConnection()
+    public static let shared = UserConnectionUseCase()
     
     @UserDefault(key: "sendbird_auto_login", defaultValue: false)
     public private(set) var isAutoLogin: Bool
