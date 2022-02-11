@@ -22,20 +22,20 @@ https://sendbird.atlassian.net/wiki/spaces/SDK/pages/1767407864/Sample+2.0
 ## To do
 
 ### Group
-- [ ] Create, view, or update channel
-- [ ] Join and leave channel
-- [ ] Invite as members
-- [ ] Send, receive, update, copy or delete message
-- [ ] Load previous messages
-- [ ] Send and receive media files (MIME types)
-- [ ] Load messages by timestamp or message ID
-- [ ] Generate thumbnails of file message
-- [ ] Mark messages as read
-- [ ] Retrieve a list of channels
-- [ ] Retrieve the last message of a channel
-- [ ] Retrieve a list of members
-- [ ] Logger
-- [ ] Event handlers
+- [x] Create, view, or update channel
+- [x] Join and leave channel
+- [x] Invite as members
+- [x] Send, receive, update, copy or delete message
+- [x] Load previous messages
+- [x] Send and receive media files (MIME types)
+- [x] Load messages by timestamp or message ID
+- [x] Generate thumbnails of file message
+- [x] Mark messages as read
+- [x] Retrieve a list of channels
+- [x] Retrieve the last message of a channel
+- [x] Retrieve a list of members
+- [x] Logger
+- [x] Event handlers
 
 ### Open
 - [ ] Create, view, update, or delete channel
