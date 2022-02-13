@@ -15,6 +15,7 @@ public final class LoginViewController: UIViewController {
     @IBOutlet private weak var userIdTextField: UITextField!
     @IBOutlet private weak var nicknameTextField: UITextField!
     @IBOutlet private weak var versionInfoLabel: UILabel!
+    @IBOutlet private weak var scrollViewBottomConstraint: NSLayoutConstraint!
     
     public typealias DidConnectUserHandler = (SBDUser) -> Void
     
@@ -33,6 +34,19 @@ public final class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         loadCachedUser()
+        loadVersion()
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        addKeyboardNotifications()
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeKeyboardNotifications()
     }
     
     private func loadCachedUser() {
@@ -47,6 +61,10 @@ public final class LoginViewController: UIViewController {
         if UserConnectionUseCase.shared.isAutoLogin {
             connectUser()
         }
+    }
+    
+    private func loadVersion() {
+        versionInfoLabel.text = VersionInfo().description
     }
     
     private func connectUser() {
@@ -114,6 +132,51 @@ extension LoginViewController: UITextFieldDelegate {
         }
         
         return true
+    }
+    
+}
+
+// MARK: - Keyboard
+
+extension LoginViewController {
+    
+    private func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(notification:)), name: UIApplication.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(notification:)), name: UIApplication.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.keyboardWillHideNotification , object: nil)
+    }
+    
+    @objc
+    private func keyboardWillAppear(notification: NSNotification?) {
+        guard let notification = notification,
+                let keyboardFrame = notification.userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? NSValue,
+                let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+                let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
+        
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        
+        scrollViewBottomConstraint.constant = keyboardHeight
+        
+        UIView.animate(withDuration: duration, delay: 0, options: .init(rawValue: curve)) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc
+    private func keyboardWillDisappear(notification: NSNotification?) {
+        guard let notification = notification,
+                let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+                let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
+
+        scrollViewBottomConstraint.constant = 0.0
+        
+        UIView.animate(withDuration: duration, delay: 0, options: .init(rawValue: curve)) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
     }
     
 }

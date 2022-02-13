@@ -13,6 +13,7 @@ class GroupChannelViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var messageInputView: MessageInputView!
+    @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
     
     private let channel: SBDGroupChannel
     
@@ -45,10 +46,22 @@ class GroupChannelViewController: UIViewController {
         messageListUseCase.loadInitialMessages()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        addKeyboardNotifications()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         messageListUseCase.markAsRead()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        removeKeyboardNotifications()
     }
     
     private func setupNavigation() {
@@ -176,6 +189,51 @@ extension GroupChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchSendFileMessageButton sender: UIButton) {
         presentAttachFileAlert()
+    }
+    
+}
+
+// MARK: - Keyboard
+
+extension GroupChannelViewController {
+    
+    private func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(notification:)), name: UIApplication.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(notification:)), name: UIApplication.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.keyboardWillHideNotification , object: nil)
+    }
+    
+    @objc
+    private func keyboardWillAppear(notification: NSNotification?) {
+        guard let notification = notification,
+                let keyboardFrame = notification.userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? NSValue,
+                let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+                let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
+        
+        let keyboardHeight = keyboardFrame.cgRectValue.height - self.view.safeAreaInsets.bottom
+        
+        messageInputBottomConstraint.constant = -keyboardHeight
+        
+        UIView.animate(withDuration: duration, delay: 0, options: .init(rawValue: curve)) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc
+    private func keyboardWillDisappear(notification: NSNotification?) {
+        guard let notification = notification,
+                let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+                let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
+
+        messageInputBottomConstraint.constant = 0.0
+        
+        UIView.animate(withDuration: duration, delay: 0, options: .init(rawValue: curve)) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
     }
     
 }
