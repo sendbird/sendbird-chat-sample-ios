@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GroupChannelViewController" customModule="BasicGruopChannel" customModuleProvider="target">
             <connections>
+                <outlet property="messageInputBottomConstraint" destination="6mi-MP-owV" id="8xI-ow-RVR"/>
                 <outlet property="messageInputView" destination="6yg-kE-Xbi" id="DbR-Gm-diO"/>
                 <outlet property="tableView" destination="qGm-ET-PiU" id="K3Z-uL-GdB"/>
                 <outlet property="view" destination="iN0-l3-epB" id="haN-rk-KrN"/>
@@ -21,7 +22,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qGm-ET-PiU">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qGm-ET-PiU">
                     <rect key="frame" x="0.0" y="44" width="414" height="763"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>

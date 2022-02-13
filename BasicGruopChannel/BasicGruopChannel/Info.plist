@@ -4,6 +4,14 @@
 <dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
+		<key>NSAppleMusicUsageDescription</key>
+		<string>For uploading media</string>
+		<key>NSCameraUsageDescription</key>
+		<string>For uploading media</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>For uploading media</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>For uploading media</string>
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
 		<key>UISceneConfigurations</key>
