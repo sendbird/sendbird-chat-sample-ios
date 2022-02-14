@@ -128,7 +128,7 @@ extension CreateOpenChannelViewController: UIImagePickerControllerDelegate, UINa
         picker.dismiss(animated: true) { [weak self] in
             guard CFStringCompare(mediaType, kUTTypeImage, []) == .compareEqualTo,
                   let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-            self?.profileImageView.setImage(withImage: originalImage)
+            self?.profileImageView.setImage(with: originalImage)
 
             guard let imageData = originalImage.jpegData(compressionQuality: 0.5) else { return }
             self?.channelImageData = imageData
