@@ -19,10 +19,10 @@ class UserSelectionViewController: UIViewController {
     
     private let didSelectUsers: DidSelectUserHandler
     
-    private lazy var viewModel: UserSelectionUseCase = {
-        let viewModel = UserSelectionUseCase(excludeUsers: excludeUsers)
-        viewModel.delegate = self
-        return viewModel
+    private lazy var useCase: UserSelectionUseCase = {
+        let useCase = UserSelectionUseCase(excludeUsers: excludeUsers)
+        useCase.delegate = self
+        return useCase
     }()
     
     private lazy var okButtonItem = UIBarButtonItem(
@@ -55,7 +55,7 @@ class UserSelectionViewController: UIViewController {
         setupNavigation()
         setupTableView()
         
-        viewModel.reloadUsers()
+        useCase.reloadUsers()
     }
     
     private func setupNavigation() {
@@ -73,7 +73,7 @@ class UserSelectionViewController: UIViewController {
     }
     
     private func updateOkButton() {
-        let numberOfSelectedUsers = viewModel.selectedUsers.count
+        let numberOfSelectedUsers = useCase.selectedUsers.count
         
         okButtonItem.title = "OK(\(numberOfSelectedUsers))"
         okButtonItem.isEnabled = numberOfSelectedUsers > 0
@@ -84,7 +84,7 @@ class UserSelectionViewController: UIViewController {
     }
 
     @objc private func onTouchOkButton(_ sender: AnyObject) {
-        didSelectUsers(self, Array(viewModel.selectedUsers))
+        didSelectUsers(self, Array(useCase.selectedUsers))
     }
     
 }
@@ -94,7 +94,7 @@ class UserSelectionViewController: UIViewController {
 extension UserSelectionViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.users.count
+        useCase.users.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -103,9 +103,9 @@ extension UserSelectionViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectableUserTableViewCell") as! SelectableUserTableViewCell
-        let user = viewModel.users[indexPath.row]
+        let user = useCase.users[indexPath.row]
         
-        cell.configure(with: user, isSelected: viewModel.isSelectedUser(user))
+        cell.configure(with: user, isSelected: useCase.isSelectedUser(user))
         
         return cell
     }
@@ -117,15 +117,15 @@ extension UserSelectionViewController: UITableViewDataSource {
 extension UserSelectionViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard viewModel.users.count > 0 && indexPath.row == viewModel.users.count - 1 else { return }
+        guard useCase.users.count > 0 && indexPath.row == useCase.users.count - 1 else { return }
         
-        viewModel.loadNextPage()
+        useCase.loadNextPage()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let user = viewModel.users[indexPath.row]
+        let user = useCase.users[indexPath.row]
 
-        viewModel.toggleSelectUser(user)
+        useCase.toggleSelectUser(user)
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }

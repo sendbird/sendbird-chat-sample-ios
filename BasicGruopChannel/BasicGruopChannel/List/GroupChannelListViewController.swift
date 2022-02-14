@@ -20,10 +20,10 @@ final class GroupChannelListViewController: UIViewController {
         action: #selector(didTouchCreatChannelButton)
     )
     
-    private lazy var viewModel: GroupChannelListUseCase = {
-        let viewModel = GroupChannelListUseCase()
-        viewModel.delegate = self
-        return viewModel
+    private lazy var useCase: GroupChannelListUseCase = {
+        let useCase = GroupChannelListUseCase()
+        useCase.delegate = self
+        return useCase
     }()
     
     init() {
@@ -40,7 +40,7 @@ final class GroupChannelListViewController: UIViewController {
         
         setupNavigation()
         setupTableView()
-        viewModel.reloadChannels()
+        useCase.reloadChannels()
     }
     
     private func setupNavigation() {
@@ -70,12 +70,12 @@ final class GroupChannelListViewController: UIViewController {
 extension GroupChannelListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.channels.count
+        useCase.channels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelListCell", for: indexPath)
-        let channel = viewModel.channels[indexPath.row]
+        let channel = useCase.channels[indexPath.row]
         
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()
@@ -99,7 +99,7 @@ extension GroupChannelListViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let channel = viewModel.channels[indexPath.row]
+        let channel = useCase.channels[indexPath.row]
         let channelViewController = GroupChannelViewController(channel: channel)
         channelViewController.hidesBottomBarWhenPushed = true
         
@@ -110,9 +110,9 @@ extension GroupChannelListViewController: UITableViewDelegate {
         let leaveAction = UIContextualAction(style: .destructive, title: "Leave") { [weak self] _, _, completion in
             guard let self = self else { return }
             
-            let channel = self.viewModel.channels[indexPath.row]
+            let channel = self.useCase.channels[indexPath.row]
             
-            self.viewModel.leaveChannel(channel) { result in
+            self.useCase.leaveChannel(channel) { result in
                 switch result {
                 case .success:
                     completion(true)

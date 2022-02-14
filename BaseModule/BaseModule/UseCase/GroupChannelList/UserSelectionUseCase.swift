@@ -1,5 +1,5 @@
 //
-//  UserSelectionViewModel.swift
+//  UserSelectionUseCase.swift
 //  BaseModule
 //
 //  Created by Ernest Hong on 2022/02/10.
