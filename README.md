@@ -38,14 +38,14 @@ https://sendbird.atlassian.net/wiki/spaces/SDK/pages/1767407864/Sample+2.0
 - [x] Event handlers
 
 ### Open
-- [ ] Create, view, update, or delete channel
-- [ ] Enter and exit channel
-- [ ] Send, receive message
-- [ ] Send and receive media files (MIME types)
-- [ ] Load previous messages
+- [x] Create, view, update, or delete channel
+- [x] Enter and exit channel
+- [x] Send, receive message
+- [x] Send and receive media files (MIME types)
+- [x] Load previous messages
 - [ ] Load messages by timestamp or message ID
-- [ ] Retrieve a list of channels
-- [ ] Event handlers/Delegates
+- [x] Retrieve a list of channels
+- [x] Event handlers/Delegates
 
 ### User
 - [ ] Profile image
