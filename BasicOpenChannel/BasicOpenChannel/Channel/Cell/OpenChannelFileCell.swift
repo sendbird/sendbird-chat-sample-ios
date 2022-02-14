@@ -13,8 +13,6 @@ final class OpenChannelFileCell: UITableViewCell {
     
     @IBOutlet private weak var messageTextLabel: UILabel!
     @IBOutlet private weak var messageImageView: UIImageView!
-    @IBOutlet private weak var imageViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var imageViewTrailingConstraint: NSLayoutConstraint!
     
     private weak var message: SBDFileMessage?
     
@@ -22,7 +20,6 @@ final class OpenChannelFileCell: UITableViewCell {
         super.prepareForReuse()
         
         message = nil
-        messageTextLabel.textAlignment = .left
         messageTextLabel.text = nil
         
         messageImageView.kf.cancelDownloadTask()
@@ -32,17 +29,7 @@ final class OpenChannelFileCell: UITableViewCell {
     func configure(with message: SBDFileMessage) {
         self.message = message
         
-        let isMyMessage = message.sender?.userId == SBDMain.getCurrentUser()?.userId
-        
-        if isMyMessage {
-            messageTextLabel.text = "(FILE) \(message.name)"
-        } else {
-            messageTextLabel.text = "\(message.sender?.nickname ?? "-"): (FILE) \(message.message)"
-        }
-        
-        messageTextLabel.textAlignment = isMyMessage ? .right : .left
-        imageViewLeadingConstraint.isActive = isMyMessage == false
-        imageViewTrailingConstraint.isActive = isMyMessage
+        messageTextLabel.text = "\(message.sender?.nickname ?? "-"): (FILE) \(message.message)"
         
         if let thumbnailURLString = message.thumbnails?.first?.url,
            let thumbnailURL = URL(string: thumbnailURLString) {

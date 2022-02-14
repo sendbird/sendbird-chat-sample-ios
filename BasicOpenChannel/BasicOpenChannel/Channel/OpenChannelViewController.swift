@@ -15,19 +15,19 @@ class OpenChannelViewController: UIViewController {
     @IBOutlet private weak var messageInputView: MessageInputView!
     @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
     
-    private let channel: SBDGroupChannel
+    private let channel: SBDOpenChannel
     
-    public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
-        let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, isReversed: true)
+    public private(set) lazy var messageListUseCase: OpenChannelMessageListUseCase = {
+        let messageListUseCase = OpenChannelMessageListUseCase(channel: channel, isReversed: true)
         messageListUseCase.delegate = self
         return messageListUseCase
     }()
     
-    public private(set) lazy var userMessageUseCase = GroupChannelUserMessageUseCase(channel: channel)
+    public private(set) lazy var userMessageUseCase = OpenChannelUserMessageUseCase(channel: channel)
     
-    public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
+    public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
 
-    init(channel: SBDGroupChannel) {
+    init(channel: SBDOpenChannel) {
         self.channel = channel
         super.init(nibName: "OpenChannelViewController", bundle: Bundle(for: Self.self))
     }
@@ -50,18 +50,14 @@ class OpenChannelViewController: UIViewController {
         super.viewWillAppear(animated)
 
         addKeyboardNotifications()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        messageListUseCase.markAsRead()
+        messageListUseCase.addEventObserver()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         removeKeyboardNotifications()
+        messageListUseCase.removeEventObserver()
     }
     
     private func setupNavigation() {
@@ -143,8 +139,6 @@ extension OpenChannelViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if willScrollReachTop(with: indexPath) {
             messageListUseCase.loadPreviousMessages()
-        } else if willScrollReachBottom(with: indexPath) {
-            messageListUseCase.loadNextMessages()
         }
     }
     
@@ -160,13 +154,13 @@ extension OpenChannelViewController: UITableViewDelegate {
 
 // MARK: - GroupChannelUseCaseDelegate
 
-extension OpenChannelViewController: GroupChannelMessageListUseCaseDelegate {
+extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
     
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBDError) {
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didReceiveError error: SBDError) {
         presentAlert(error: error)
     }
     
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage]) {
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage]) {
         tableView.reloadData()
     }
     
@@ -179,8 +173,8 @@ extension OpenChannelViewController: MessageInputViewDelegate {
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
         userMessageUseCase.sendMessage(message) { [weak self] result in
             switch result {
-            case .success:
-                break
+            case .success(let message):
+                self?.messageListUseCase.didSendMessage(message)
             case .failure(let error):
                 self?.presentAlert(error: error)
             }

@@ -62,7 +62,9 @@ final class OpenChannelListViewController: UIViewController {
     }
     
     @objc private func didTouchCreatChannelButton() {
-        let createGroupChannelViewController = CreateOpenChannelViewController()
+        let createGroupChannelViewController = CreateOpenChannelViewController { [weak self] _ in
+            self?.useCase.reloadChannels()
+        }
         let navigation = UINavigationController(rootViewController: createGroupChannelViewController)
         
         present(navigation, animated: true)
@@ -105,10 +107,17 @@ extension OpenChannelListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let channel = useCase.channels[indexPath.row]
-//        let channelViewController = OpenChannelViewController(channel: channel)
-//        channelViewController.hidesBottomBarWhenPushed = true
-//
-//        navigationController?.pushViewController(channelViewController, animated: true)
+        
+        useCase.enterChannel(channel) { [weak self] result in
+            switch result {
+            case .success:
+                let channelViewController = OpenChannelViewController(channel: channel)
+                channelViewController.hidesBottomBarWhenPushed = true
+                self?.navigationController?.pushViewController(channelViewController, animated: true)
+            case .failure(let error):
+                self?.presentAlert(error: error)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -117,7 +126,7 @@ extension OpenChannelListViewController: UITableViewDelegate {
             
             let channel = self.useCase.channels[indexPath.row]
             
-            self.useCase.leaveChannel(channel) { result in
+            self.useCase.exitChannel(channel) { result in
                 switch result {
                 case .success:
                     completion(true)
