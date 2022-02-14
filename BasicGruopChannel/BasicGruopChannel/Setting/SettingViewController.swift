@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import BaseModule
 
 public final class SettingViewController: UIViewController {
     
@@ -22,7 +23,15 @@ public final class SettingViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    @IBAction func didTouchLogoutButton(_ sender: UIButton) {
+    @IBAction private func didTouchEditUserProfileButton(_ sender: Any) {
+        let profileEditViewController = ProfileEditViewController()
+        let navigation = UINavigationController(rootViewController: profileEditViewController)
+        
+        present(navigation, animated: true)
+    }
+        
+    
+    @IBAction private func didTouchLogoutButton(_ sender: UIButton) {
         UserConnectionUseCase.shared.logout { [weak self] in
             self?.dismiss(animated: true)
         }

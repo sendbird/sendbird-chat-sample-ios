@@ -20,6 +20,10 @@ public class UserConnectionUseCase {
     
     @UserDefault(key: "sendbird_user_nickname", defaultValue: nil)
     public private(set) var userNickname: String?
+    
+    public var currentUser: SBDUser? {
+        SBDMain.getCurrentUser()
+    }
         
     private init() { }
     
@@ -43,6 +47,17 @@ public class UserConnectionUseCase {
         SBDMain.disconnect { [weak self] in
             self?.isAutoLogin = false
             completion()
+        }
+    }
+    
+    public func updateUserInfo(nickname: String?, profileImage: Data?, completion: @escaping (Result<Void, SBDError>) -> Void){
+        SBDMain.updateCurrentUserInfo(withNickname: nickname, profileImage: profileImage) { error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            completion(.success(()))
         }
     }
     
@@ -72,9 +87,9 @@ public class UserConnectionUseCase {
             storeUserInfo(user)
             completion(.success(user))
         } else {
-            SBDMain.updateCurrentUserInfo(withNickname: nickname, profileUrl: nil) { [weak self] _ in
+            updateUserInfo(nickname: nickname, profileImage: nil) { [weak self] result in
                 self?.storeUserInfo(user)
-                completion(.success(user))
+                completion(result.map { _ in user })
             }
         }
     }

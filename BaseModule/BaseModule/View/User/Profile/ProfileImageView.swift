@@ -13,15 +13,15 @@ public class ProfileImageView: UIView {
     
     public var users: [SBDUser] = [] {
         didSet {
-            let index = (users.count > 3) ? 4 : users.count
-            users = Array(users[0..<index])
+            let maxLength = min(4, users.count)
+            users = Array(users.prefix(maxLength))
             setUpImageStack()
         }
     }
     
     public var spacing: CGFloat = 0 {
         didSet {
-            for subView in self.subviews{
+            for subView in self.subviews {
                 if let stack = subView as? UIStackView{
                     for subStack in stack.arrangedSubviews{
                         (subStack as? UIStackView)?.spacing = spacing
@@ -38,7 +38,7 @@ public class ProfileImageView: UIView {
     }
     
     private func setUpImageStack() {
-        for subView in self.subviews{
+        for subView in self.subviews {
             subView.removeFromSuperview()
         }
         
@@ -46,7 +46,7 @@ public class ProfileImageView: UIView {
         mainStackView.axis = .horizontal
         mainStackView.spacing = spacing
         mainStackView.distribution = .fillEqually
-        self.addSubview(mainStackView)
+        addSubview(mainStackView)
         
         if users.isEmpty {
             let imageContainerView = UIView(frame: self.frame)
@@ -63,21 +63,18 @@ public class ProfileImageView: UIView {
             imageView.centerXAnchor.constraint(equalTo: imageContainerView.centerXAnchor).isActive = true
             imageView.centerYAnchor.constraint(equalTo: imageContainerView.centerYAnchor).isActive = true
             imageContainerView.clipsToBounds = true
-            
-            
         }
         
-        for user in users{
+        users.forEach { user in
             let imageContainerView = UIView(frame: self.frame)
-            let imageView = UIImageView(withUser: user)
+            let imageView = UIImageView(with: user)
             imageContainerView.addSubview(imageView)
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageContainerView.translatesAutoresizingMaskIntoConstraints = false
+
             if users.count == 1 {
                 mainStackView.addArrangedSubview(imageContainerView)
-            }
-            else {
-                
+            } else {
                 let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
                 stackView.addArrangedSubview(imageContainerView)
                 stackView.axis = .vertical
@@ -89,13 +86,11 @@ public class ProfileImageView: UIView {
                 
                 if mainStackView.arrangedSubviews.count < 2 {
                     mainStackView.addArrangedSubview(stackView)
-                }
-                else {
-                    for subView in mainStackView.arrangedSubviews {
-                        if (subView as? UIStackView)?.arrangedSubviews.count == 1 {
-                            (subView as? UIStackView)?.addArrangedSubview(imageContainerView)
-                        }
-                    }
+                } else {
+                    mainStackView.arrangedSubviews
+                        .compactMap { $0 as? UIStackView }
+                        .filter { $0.arrangedSubviews.count == 1 }
+                        .forEach { $0.addArrangedSubview($0) }
                 }
             }
             
@@ -105,22 +100,21 @@ public class ProfileImageView: UIView {
         }
     }
     
-    
     public init(users: [SBDUser], frame: CGRect){
         super.init(frame: frame)
-        self.setUser(newUsers: users)
+        self.setUsers(users)
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
-    public func setUser(newUsers: [SBDUser]) {
-        self.users = newUsers
-    }
-    
+        
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    public func setUsers(_ newUsers: [SBDUser]) {
+        self.users = newUsers
     }
     
     public func setImage(withCoverUrl coverUrl: String){
@@ -140,7 +134,7 @@ public class ProfileImageView: UIView {
         makeCircularWithSpacing(spacing: 0)
     }
     
-    public func setImage(withImage image: UIImage){
+    public func setImage(with image: UIImage){
         let imageView = UIImageView(image: image)
         
         let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
@@ -155,22 +149,20 @@ public class ProfileImageView: UIView {
 
 extension UIImageView {
     
-    public convenience init(withUser user: SBDUser) {
+    public convenience init(with user: SBDUser) {
         self.init()
         setProfileImageView(for: user)
     }
     
     public func setProfileImageView(for user: SBDUser) {
-        if let url = URL(string: ImageUtil.transformUserProfileImage(user: user)){
-            kf.setImage(with: url, placeholder: ImageUtil.getDefaultUserProfileImage(user: user))
+        if let url = URL(string: transformUserProfileImage(user: user)){
+            kf.setImage(with: url, placeholder: defaultUserProfileImage(user: user))
         } else {
-            image = ImageUtil.getDefaultUserProfileImage(user: user)
+            image = defaultUserProfileImage(user: user)
         }
     }
-}
-
-class ImageUtil {
-    static func transformUserProfileImage(user: SBDUser) -> String {
+    
+    private func transformUserProfileImage(user: SBDUser) -> String {
         if let profileUrl = user.profileUrl {
             if profileUrl.hasPrefix("https://sendbird.com/main/img/profiles") {
                 return ""
@@ -183,11 +175,12 @@ class ImageUtil {
         return ""
     }
     
-    static func getDefaultUserProfileImage(user: SBDUser) -> UIImage? {
+    private func defaultUserProfileImage(user: SBDUser) -> UIImage? {
         if let nickname = user.nickname, let image = UIImage.named("img_default_profile_image_\(nickname.count % 4)") {
             return image
         }
         
         return UIImage.named("img_default_profile_image_1")
     }
+    
 }
