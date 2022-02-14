@@ -10,6 +10,10 @@ import SendBirdSDK
 
 public class GroupChannelInviteMemberUseCase {
     
+    public var members: [SBDUser] {
+        (channel.members as? [SBDUser]) ?? []
+    }
+    
     private let channel: SBDGroupChannel
     
     public init(channel: SBDGroupChannel) {

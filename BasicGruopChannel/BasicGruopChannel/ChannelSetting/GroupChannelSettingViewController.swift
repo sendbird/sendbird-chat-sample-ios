@@ -16,16 +16,21 @@ class GroupChannelSettingViewController: UIViewController {
         case members
     }
     
+    enum ChannelRow: Int, CaseIterable {
+        case name = 0
+        case changeName
+        case leave
+    }
+    
     enum MemberRow {
+        case memberInfo(SBDUser)
         case inviteMember
-        case memberInfo
         
-        init(rawValue: Int) {
-            switch rawValue {
-            case 0:
+        init(rawValue: Int, members: [SBDUser]) {
+            if rawValue < members.count {
+                self = .memberInfo(members[rawValue])
+            } else {
                 self = .inviteMember
-            default:
-                self = .memberInfo
             }
         }
     }
@@ -66,7 +71,7 @@ extension GroupChannelSettingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section) {
         case .channelInfo:
-            return 1
+            return ChannelRow.allCases.count
         case .members:
             return (channel.members?.count ?? 0) + 1
         case .none:
@@ -77,7 +82,7 @@ extension GroupChannelSettingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch Section(rawValue: section) {
         case .channelInfo:
-            return "Change Channel Info"
+            return "Channel"
         case .members:
             return "Members"
         default:
@@ -88,20 +93,32 @@ extension GroupChannelSettingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingCell", for: indexPath)
 
+        cell.textLabel?.textColor = .label
+        cell.textLabel?.textAlignment = .left
+        cell.accessoryType = .none
+        
         switch Section(rawValue: indexPath.section) {
         case .channelInfo:
-            cell.textLabel?.text = "\(channel.name)"
-            cell.accessoryType = .disclosureIndicator
+            switch ChannelRow(rawValue: indexPath.row) {
+            case .name:
+                cell.textLabel?.text = "\(channel.name)"
+            case .changeName:
+                cell.textLabel?.text = "Change Channel Name"
+                cell.accessoryType = .disclosureIndicator
+            case .leave:
+                cell.textLabel?.textColor = .systemRed
+                cell.textLabel?.text = "Leave Channel"
+                cell.accessoryType = .disclosureIndicator
+            default:
+                break
+            }
         case .members:
-            switch MemberRow(rawValue: indexPath.row) {
+            switch MemberRow(rawValue: indexPath.row, members: inviteMemberUseCase.members) {
+            case .memberInfo(let member):
+                cell.textLabel?.text = member.nickname ?? ""
             case .inviteMember:
                 cell.textLabel?.text = "👋 Invite a member"
-                cell.textLabel?.textAlignment = .center
                 cell.accessoryType = .disclosureIndicator
-            case .memberInfo:
-                cell.textLabel?.text = (channel.members?[indexPath.row - 1] as? SBDUser)?.nickname ?? ""
-                cell.textLabel?.textAlignment = .left
-                cell.accessoryType = .none
             }
         default:
             break
@@ -120,13 +137,22 @@ extension GroupChannelSettingViewController: UITableViewDelegate {
         
         switch Section(rawValue: indexPath.section) {
         case .channelInfo:
-            break
+            switch ChannelRow(rawValue: indexPath.row) {
+            case .name:
+                break
+            case .changeName:
+                break
+            case .leave:
+                break
+            default:
+                break
+            }
         case .members:
-            switch MemberRow(rawValue: indexPath.row) {
-            case .inviteMember:
-                presentInviteMember()
+            switch MemberRow(rawValue: indexPath.row, members: inviteMemberUseCase.members) {
             case .memberInfo:
                 break
+            case .inviteMember:
+                presentInviteMember()
             }
         default:
             break
