@@ -7,14 +7,14 @@
 
 import UIKit
 import SendBirdSDK
+import BaseModule
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    private let applicationId: String = "A74A3E6C-ECE4-410C-AA5D-69D397B1EA73"
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        SBDMain.initWithApplicationId(applicationId)
+        EnvironmentUseCase.initializeSendbirdSDK()
+        BaseAppearance.apply()
         return true
     }
 
@@ -31,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
 
 }
 
