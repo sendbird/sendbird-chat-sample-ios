@@ -70,8 +70,8 @@ extension OpenChannelViewController: UIImagePickerControllerDelegate & UINavigat
         picker.dismiss(animated: true) { [weak self] in
             self?.fileMessageUseCase.sendFile(.init(data: file.data, name: file.name, mimeType: file.mimeType)) { result in
                 switch result {
-                case .success:
-                    break
+                case .success(let message):
+                    self?.messageListUseCase.didSendMessage(message)
                 case .failure(let error):
                     self?.presentAlert(error: error)
                 }

@@ -70,7 +70,17 @@ open class OpenChannelListUseCase: NSObject {
         return channelListQuery
     }
     
-    open func leaveChannel(_ channel: SBDOpenChannel, completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func enterChannel(_ channel: SBDOpenChannel, completion: @escaping (Result<Void, SBDError>) -> Void) {
+        channel.enter { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
+    
+    open func exitChannel(_ channel: SBDOpenChannel, completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.exitChannel { error in
             if let error = error {
                 completion(.failure(error))

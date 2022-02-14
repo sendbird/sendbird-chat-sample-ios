@@ -13,7 +13,7 @@ class OpenChannelSettingViewController: UIViewController {
     
     enum Section: Int, CaseIterable {
         case channelInfo = 0
-        case members
+        case operators
     }
     
     enum ChannelRow: Int, CaseIterable {
@@ -22,26 +22,21 @@ class OpenChannelSettingViewController: UIViewController {
         case leave
     }
     
-    enum MemberRow {
+    enum OperatorRow {
         case memberInfo(SBDUser)
-        case inviteMember
         
         init(rawValue: Int, members: [SBDUser]) {
-            if rawValue < members.count {
-                self = .memberInfo(members[rawValue])
-            } else {
-                self = .inviteMember
-            }
+            self = .memberInfo(members[rawValue])
         }
     }
     
     @IBOutlet private weak var tableView: UITableView!
     
-    private let channel: SBDGroupChannel
+    private let channel: SBDOpenChannel
     
-    private lazy var inviteMemberUseCase = GroupChannelInviteMemberUseCase(channel: channel)
+    private lazy var operatorListUseCase = OpenChannelOperatorListUseCase(channel: channel)
     
-    init(channel: SBDGroupChannel) {
+    init(channel: SBDOpenChannel) {
         self.channel = channel
         super.init(nibName: "OpenChannelSettingViewController", bundle: Bundle(for: Self.self))
     }
@@ -72,8 +67,8 @@ extension OpenChannelSettingViewController: UITableViewDataSource {
         switch Section(rawValue: section) {
         case .channelInfo:
             return ChannelRow.allCases.count
-        case .members:
-            return (channel.members?.count ?? 0) + 1
+        case .operators:
+            return operatorListUseCase.operators.count
         case .none:
             return 0
         }
@@ -83,8 +78,8 @@ extension OpenChannelSettingViewController: UITableViewDataSource {
         switch Section(rawValue: section) {
         case .channelInfo:
             return "Channel"
-        case .members:
-            return "Members"
+        case .operators:
+            return "Operators"
         default:
             return nil
         }
@@ -112,13 +107,10 @@ extension OpenChannelSettingViewController: UITableViewDataSource {
             default:
                 break
             }
-        case .members:
-            switch MemberRow(rawValue: indexPath.row, members: inviteMemberUseCase.members) {
+        case .operators:
+            switch OperatorRow(rawValue: indexPath.row, members: operatorListUseCase.operators) {
             case .memberInfo(let member):
                 cell.textLabel?.text = member.nickname ?? ""
-            case .inviteMember:
-                cell.textLabel?.text = "👋 Invite a member"
-                cell.accessoryType = .disclosureIndicator
             }
         default:
             break
@@ -147,37 +139,11 @@ extension OpenChannelSettingViewController: UITableViewDelegate {
             default:
                 break
             }
-        case .members:
-            switch MemberRow(rawValue: indexPath.row, members: inviteMemberUseCase.members) {
-            case .memberInfo:
-                break
-            case .inviteMember:
-                presentInviteMember()
-            }
+        case .operators:
+            break
         default:
             break
         }
     }
-    
-    private func presentInviteMember() {
-        guard let members = channel.members as? [SBDUser] else { return }
         
-        let userSelection = UserSelectionViewController(excludeUsers: members) { [weak self] sender, users in
-            self?.inviteMemberUseCase.invite(users: users) { result in
-                sender.dismiss(animated: true) {
-                    switch result {
-                    case .success:
-                        self?.tableView.reloadData()
-                    case .failure(let error):
-                        self?.presentAlert(error: error)
-                    }
-                }
-            }
-        }
-        
-        let navigation = UINavigationController(rootViewController: userSelection)
-        
-        present(navigation, animated: true)
-    }
-    
 }

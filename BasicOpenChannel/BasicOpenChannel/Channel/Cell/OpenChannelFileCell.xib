@@ -35,19 +35,11 @@
                     <constraint firstItem="pOl-KQ-VLI" firstAttribute="top" secondItem="vJH-VJ-hQ4" secondAttribute="bottom" constant="10" id="3p9-pm-5V1"/>
                     <constraint firstItem="vJH-VJ-hQ4" firstAttribute="leading" secondItem="99l-Ik-0o3" secondAttribute="leading" constant="20" id="789-ls-qy4"/>
                     <constraint firstItem="vJH-VJ-hQ4" firstAttribute="top" secondItem="99l-Ik-0o3" secondAttribute="top" constant="20" id="L58-a4-7iB"/>
-                    <constraint firstAttribute="trailing" secondItem="pOl-KQ-VLI" secondAttribute="trailing" constant="20" id="Vsp-Q1-QEf"/>
                     <constraint firstAttribute="bottom" secondItem="pOl-KQ-VLI" secondAttribute="bottom" constant="20" id="eVV-cV-P81"/>
                     <constraint firstAttribute="trailing" secondItem="vJH-VJ-hQ4" secondAttribute="trailing" constant="20" id="zKM-FY-hz6"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="Vsp-Q1-QEf"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
-                <outlet property="imageViewLeadingConstraint" destination="30G-pY-Zjc" id="4EP-Lb-JvH"/>
-                <outlet property="imageViewTrailingConstraint" destination="Vsp-Q1-QEf" id="ljR-SI-1eB"/>
                 <outlet property="messageImageView" destination="pOl-KQ-VLI" id="Agl-wm-mNQ"/>
                 <outlet property="messageTextLabel" destination="vJH-VJ-hQ4" id="9Ob-nm-6xi"/>
             </connections>
