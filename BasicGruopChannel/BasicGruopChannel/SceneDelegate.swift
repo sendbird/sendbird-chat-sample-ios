@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([
             UINavigationController(rootViewController: GroupChannelListViewController()),
-            UINavigationController(rootViewController: SettingViewController.loadFromNib())
+            UINavigationController(rootViewController: SettingViewController())
         ], animated: false)
         tabBarController.modalPresentationStyle = .fullScreen
         window?.rootViewController?.present(tabBarController, animated: true)
