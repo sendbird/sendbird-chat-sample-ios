@@ -48,5 +48,5 @@ https://sendbird.atlassian.net/wiki/spaces/SDK/pages/1767407864/Sample+2.0
 - [x] Event handlers/Delegates
 
 ### User
-- [ ] Profile image
-- [ ] Nick name
+- [x] Profile image
+- [x] Nick name
