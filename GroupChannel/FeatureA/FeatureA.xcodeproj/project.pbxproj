@@ -13,8 +13,8 @@
 		5F00C9E627B2475900206750 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00C9E427B2475900206750 /* Main.storyboard */; };
 		5F00C9E827B2475900206750 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F00C9E727B2475900206750 /* Assets.xcassets */; };
 		5F00C9EB27B2475900206750 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00C9E927B2475900206750 /* LaunchScreen.storyboard */; };
-		5F00CA4F27B24BC200206750 /* BaseModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F00CA4E27B24BC200206750 /* BaseModule.framework */; };
-		5F00CA5027B24BC200206750 /* BaseModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F00CA4E27B24BC200206750 /* BaseModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F796FA827BCFD620074720C /* BaseModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F796FA727BCFD620074720C /* BaseModule.framework */; };
+		5F796FA927BCFD620074720C /* BaseModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F796FA727BCFD620074720C /* BaseModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5FD8CEB027B371BE006F539B /* GroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CEAF27B371BE006F539B /* GroupChannelViewController.swift */; };
 		5FD8CEB227B371D9006F539B /* GroupChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FD8CEB127B371D9006F539B /* GroupChannelViewController.xib */; };
 		5FD8CED427B4E732006F539B /* CreateGroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CED327B4E732006F539B /* CreateGroupChannelViewController.swift */; };
@@ -33,13 +33,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5F00CA5127B24BC200206750 /* Embed Frameworks */ = {
+		5F796FAA27BCFD620074720C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5F00CA5027B24BC200206750 /* BaseModule.framework in Embed Frameworks */,
+				5F796FA927BCFD620074720C /* BaseModule.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,7 +47,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5F00C9DB27B2475900206750 /* BasicGruopChannel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BasicGruopChannel.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F00C9DB27B2475900206750 /* FeatureA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeatureA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F00C9DE27B2475900206750 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5F00C9E027B2475900206750 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5F00C9E227B2475900206750 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +56,7 @@
 		5F00C9EA27B2475900206750 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5F00C9EC27B2475900206750 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F00CA4E27B24BC200206750 /* BaseModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F796FA727BCFD620074720C /* BaseModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FD8CEAF27B371BE006F539B /* GroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelViewController.swift; sourceTree = "<group>"; };
 		5FD8CEB127B371D9006F539B /* GroupChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupChannelViewController.xib; sourceTree = "<group>"; };
 		5FD8CED327B4E732006F539B /* CreateGroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupChannelViewController.swift; sourceTree = "<group>"; };
@@ -78,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F00CA4F27B24BC200206750 /* BaseModule.framework in Frameworks */,
+				5F796FA827BCFD620074720C /* BaseModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,7 +89,7 @@
 		5F00C9D227B2475900206750 = {
 			isa = PBXGroup;
 			children = (
-				5F00C9DD27B2475900206750 /* BasicGruopChannel */,
+				5F00C9DD27B2475900206750 /* FeatureA */,
 				5F00C9DC27B2475900206750 /* Products */,
 				5F00CA4D27B24BC200206750 /* Frameworks */,
 			);
@@ -97,12 +98,12 @@
 		5F00C9DC27B2475900206750 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5F00C9DB27B2475900206750 /* BasicGruopChannel.app */,
+				5F00C9DB27B2475900206750 /* FeatureA.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5F00C9DD27B2475900206750 /* BasicGruopChannel */ = {
+		5F00C9DD27B2475900206750 /* FeatureA */ = {
 			isa = PBXGroup;
 			children = (
 				5FD8CED227B4E70C006F539B /* CreateChannel */,
@@ -118,12 +119,13 @@
 				5F00C9E927B2475900206750 /* LaunchScreen.storyboard */,
 				5F00C9EC27B2475900206750 /* Info.plist */,
 			);
-			path = BasicGruopChannel;
+			path = FeatureA;
 			sourceTree = "<group>";
 		};
 		5F00CA4D27B24BC200206750 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F796FA727BCFD620074720C /* BaseModule.framework */,
 				5F00CA4E27B24BC200206750 /* BaseModule.framework */,
 			);
 			name = Frameworks;
@@ -190,22 +192,22 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5F00C9DA27B2475900206750 /* BasicGruopChannel */ = {
+		5F00C9DA27B2475900206750 /* FeatureA */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5F00CA0527B2475900206750 /* Build configuration list for PBXNativeTarget "BasicGruopChannel" */;
+			buildConfigurationList = 5F00CA0527B2475900206750 /* Build configuration list for PBXNativeTarget "FeatureA" */;
 			buildPhases = (
 				5F00C9D727B2475900206750 /* Sources */,
 				5F00C9D827B2475900206750 /* Frameworks */,
 				5F00C9D927B2475900206750 /* Resources */,
-				5F00CA5127B24BC200206750 /* Embed Frameworks */,
+				5F796FAA27BCFD620074720C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = BasicGruopChannel;
+			name = FeatureA;
 			productName = BasicGruopChannel;
-			productReference = 5F00C9DB27B2475900206750 /* BasicGruopChannel.app */;
+			productReference = 5F00C9DB27B2475900206750 /* FeatureA.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -223,7 +225,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5F00C9D627B2475900206750 /* Build configuration list for PBXProject "BasicGruopChannel" */;
+			buildConfigurationList = 5F00C9D627B2475900206750 /* Build configuration list for PBXProject "FeatureA" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -236,7 +238,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5F00C9DA27B2475900206750 /* BasicGruopChannel */,
+				5F00C9DA27B2475900206750 /* FeatureA */,
 			);
 		};
 /* End PBXProject section */
@@ -426,7 +428,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BasicGruopChannel/Info.plist;
+				INFOPLIST_FILE = FeatureA/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -454,7 +456,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BasicGruopChannel/Info.plist;
+				INFOPLIST_FILE = FeatureA/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -477,7 +479,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5F00C9D627B2475900206750 /* Build configuration list for PBXProject "BasicGruopChannel" */ = {
+		5F00C9D627B2475900206750 /* Build configuration list for PBXProject "FeatureA" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5F00CA0327B2475900206750 /* Debug */,
@@ -486,7 +488,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5F00CA0527B2475900206750 /* Build configuration list for PBXNativeTarget "BasicGruopChannel" */ = {
+		5F00CA0527B2475900206750 /* Build configuration list for PBXNativeTarget "FeatureA" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5F00CA0627B2475900206750 /* Debug */,

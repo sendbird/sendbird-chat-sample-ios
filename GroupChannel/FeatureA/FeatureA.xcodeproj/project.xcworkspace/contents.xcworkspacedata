@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:">
+      location = "self:/Users/ernest.hong/Dev/examples-chat-ios/GroupChannel/FeatureA/FeatureA.xcodeproj">
    </FileRef>
 </Workspace>
