@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GroupChannelViewController" customModule="BasicGruopChannel" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GroupChannelViewController" customModule="BasicGroupChannel" customModuleProvider="target">
             <connections>
                 <outlet property="messageInputBottomConstraint" destination="6mi-MP-owV" id="8xI-ow-RVR"/>
                 <outlet property="messageInputView" destination="6yg-kE-Xbi" id="DbR-Gm-diO"/>
@@ -26,7 +26,7 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="763"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6yg-kE-Xbi" customClass="MessageInputView" customModule="BaseModule">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6yg-kE-Xbi" customClass="MessageInputView" customModule="CommonModule">
                     <rect key="frame" x="0.0" y="807" width="414" height="55"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>

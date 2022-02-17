@@ -13,8 +13,8 @@
 		5F00C9E627B2475900206750 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00C9E427B2475900206750 /* Main.storyboard */; };
 		5F00C9E827B2475900206750 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F00C9E727B2475900206750 /* Assets.xcassets */; };
 		5F00C9EB27B2475900206750 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00C9E927B2475900206750 /* LaunchScreen.storyboard */; };
-		5F796FA827BCFD620074720C /* BaseModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F796FA727BCFD620074720C /* BaseModule.framework */; };
-		5F796FA927BCFD620074720C /* BaseModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F796FA727BCFD620074720C /* BaseModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5FD2500C27BE139200D04ACC /* CommonModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500B27BE139200D04ACC /* CommonModule.framework */; };
+		5FD2500D27BE139200D04ACC /* CommonModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500B27BE139200D04ACC /* CommonModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5FD8CEB027B371BE006F539B /* GroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CEAF27B371BE006F539B /* GroupChannelViewController.swift */; };
 		5FD8CEB227B371D9006F539B /* GroupChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FD8CEB127B371D9006F539B /* GroupChannelViewController.xib */; };
 		5FD8CED427B4E732006F539B /* CreateGroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CED327B4E732006F539B /* CreateGroupChannelViewController.swift */; };
@@ -33,13 +33,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5F796FAA27BCFD620074720C /* Embed Frameworks */ = {
+		5FD2500E27BE139200D04ACC /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5F796FA927BCFD620074720C /* BaseModule.framework in Embed Frameworks */,
+				5FD2500D27BE139200D04ACC /* CommonModule.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -57,6 +57,7 @@
 		5F00C9EC27B2475900206750 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F00CA4E27B24BC200206750 /* BaseModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F796FA727BCFD620074720C /* BaseModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FD2500B27BE139200D04ACC /* CommonModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CommonModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FD8CEAF27B371BE006F539B /* GroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelViewController.swift; sourceTree = "<group>"; };
 		5FD8CEB127B371D9006F539B /* GroupChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupChannelViewController.xib; sourceTree = "<group>"; };
 		5FD8CED327B4E732006F539B /* CreateGroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupChannelViewController.swift; sourceTree = "<group>"; };
@@ -79,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F796FA827BCFD620074720C /* BaseModule.framework in Frameworks */,
+				5FD2500C27BE139200D04ACC /* CommonModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +126,7 @@
 		5F00CA4D27B24BC200206750 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FD2500B27BE139200D04ACC /* CommonModule.framework */,
 				5F796FA727BCFD620074720C /* BaseModule.framework */,
 				5F00CA4E27B24BC200206750 /* BaseModule.framework */,
 			);
@@ -199,7 +201,7 @@
 				5F00C9D727B2475900206750 /* Sources */,
 				5F00C9D827B2475900206750 /* Frameworks */,
 				5F00C9D927B2475900206750 /* Resources */,
-				5F796FAA27BCFD620074720C /* Embed Frameworks */,
+				5FD2500E27BE139200D04ACC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

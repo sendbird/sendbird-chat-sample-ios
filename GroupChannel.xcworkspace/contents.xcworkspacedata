@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:BaseModule/BaseModule.xcodeproj">
+      location = "group:CommonModule/CommonModule.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:BaseModule/../GroupChannel/BasicGroupChannel/BasicGroupChannel.xcodeproj">

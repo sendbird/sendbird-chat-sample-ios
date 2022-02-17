@@ -7,7 +7,7 @@
 
 import UIKit
 import SendBirdSDK
-import BaseModule
+import CommonModule
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

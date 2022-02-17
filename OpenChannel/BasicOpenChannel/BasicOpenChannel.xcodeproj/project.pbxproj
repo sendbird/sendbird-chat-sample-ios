@@ -13,8 +13,6 @@
 		5F00CA2227B2479B00206750 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00CA2027B2479B00206750 /* Main.storyboard */; };
 		5F00CA2427B2479B00206750 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F00CA2327B2479B00206750 /* Assets.xcassets */; };
 		5F00CA2727B2479B00206750 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00CA2527B2479B00206750 /* LaunchScreen.storyboard */; };
-		5F00CA5427B24BCC00206750 /* BaseModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F00CA5327B24BCC00206750 /* BaseModule.framework */; };
-		5F00CA5527B24BCC00206750 /* BaseModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F00CA5327B24BCC00206750 /* BaseModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F6F62C527B9E85900FD6121 /* OpenChannelFileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F62B627B9E78900FD6121 /* OpenChannelFileCell.xib */; };
 		5F6F62C627B9E85900FD6121 /* OpenChannelViewController+FileMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62B027B9E78900FD6121 /* OpenChannelViewController+FileMessage.swift */; };
 		5F6F62C727B9E85900FD6121 /* CreateOpenChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62BF27B9E7CD00FD6121 /* CreateOpenChannelViewController.swift */; };
@@ -28,18 +26,20 @@
 		5F6F62CF27B9E85900FD6121 /* OpenChannelListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F62AC27B9E6F100FD6121 /* OpenChannelListViewController.xib */; };
 		5F6F62D727B9EB9200FD6121 /* OpenChannelSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62D627B9EB9200FD6121 /* OpenChannelSettingViewController.swift */; };
 		5F6F62D827B9EB9A00FD6121 /* OpenChannelSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F62D527B9EB9200FD6121 /* OpenChannelSettingViewController.xib */; };
+		5FD2501027BE159D00D04ACC /* CommonModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500F27BE159D00D04ACC /* CommonModule.framework */; };
+		5FD2501127BE159D00D04ACC /* CommonModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500F27BE159D00D04ACC /* CommonModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5FDE176E27BA4C1F0009CB39 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE176D27BA4C1F0009CB39 /* SettingViewController.swift */; };
 		5FDE177027BA4C6D0009CB39 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE176C27BA4C1F0009CB39 /* SettingViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5F00CA5627B24BCC00206750 /* Embed Frameworks */ = {
+		5FD2501227BE159D00D04ACC /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5F00CA5527B24BCC00206750 /* BaseModule.framework in Embed Frameworks */,
+				5FD2501127BE159D00D04ACC /* CommonModule.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,6 +69,7 @@
 		5F6F62BF27B9E7CD00FD6121 /* CreateOpenChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOpenChannelViewController.swift; sourceTree = "<group>"; };
 		5F6F62D527B9EB9200FD6121 /* OpenChannelSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenChannelSettingViewController.xib; sourceTree = "<group>"; };
 		5F6F62D627B9EB9200FD6121 /* OpenChannelSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelSettingViewController.swift; sourceTree = "<group>"; };
+		5FD2500F27BE159D00D04ACC /* CommonModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CommonModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FDE176C27BA4C1F0009CB39 /* SettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
 		5FDE176D27BA4C1F0009CB39 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F00CA5427B24BCC00206750 /* BaseModule.framework in Frameworks */,
+				5FD2501027BE159D00D04ACC /* CommonModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +125,7 @@
 		5F00CA5227B24BCC00206750 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FD2500F27BE159D00D04ACC /* CommonModule.framework */,
 				5F00CA5327B24BCC00206750 /* BaseModule.framework */,
 			);
 			name = Frameworks;
@@ -197,7 +199,7 @@
 				5F00CA1327B2479B00206750 /* Sources */,
 				5F00CA1427B2479B00206750 /* Frameworks */,
 				5F00CA1527B2479B00206750 /* Resources */,
-				5F00CA5627B24BCC00206750 /* Embed Frameworks */,
+				5FD2501227BE159D00D04ACC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
