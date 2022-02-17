@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateGroupChannelViewController" customModule="BasicGruopChannel" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateGroupChannelViewController" customModule="FeatureA" customModuleProvider="target">
             <connections>
                 <outlet property="channelNameTextField" destination="xYB-aw-hh8" id="go4-ms-eQL"/>
                 <outlet property="profileImageView" destination="lgf-EK-sW4" id="bfE-hW-nH0"/>
@@ -31,7 +31,7 @@
                                 <constraint firstAttribute="height" constant="1" id="c99-ru-d61"/>
                             </constraints>
                         </view>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lgf-EK-sW4" userLabel="Profile Image View" customClass="ProfileImageView" customModule="BaseModule">
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lgf-EK-sW4" userLabel="Profile Image View" customClass="ProfileImageView" customModule="CommonModule">
                             <rect key="frame" x="16" y="10" width="100" height="100"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>

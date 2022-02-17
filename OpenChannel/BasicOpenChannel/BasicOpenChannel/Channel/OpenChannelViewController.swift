@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import BaseModule
+import CommonModule
 import SendBirdSDK
 
 class OpenChannelViewController: UIViewController {

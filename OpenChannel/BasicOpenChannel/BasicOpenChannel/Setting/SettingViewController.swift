@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import BaseModule
+import CommonModule
 
 public final class SettingViewController: UIViewController {
     
