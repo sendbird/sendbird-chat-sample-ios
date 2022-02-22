@@ -7,7 +7,4 @@
    <FileRef
       location = "group:BaseModule/../GroupChannel/BasicGroupChannel/BasicGroupChannel.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:GroupChannel/FeatureA/FeatureA.xcodeproj">
-   </FileRef>
 </Workspace>

@@ -26,7 +26,13 @@ class OpenChannelViewController: UIViewController {
     public private(set) lazy var userMessageUseCase = OpenChannelUserMessageUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
-
+    
+    public private(set) lazy var imagePickerRouter: ImagePickerRouter = {
+        let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoCamera, .photoLibrary])
+        imagePickerRouter.delegate = self
+        return imagePickerRouter
+    }()
+    
     init(channel: SBDOpenChannel) {
         self.channel = channel
         super.init(nibName: "OpenChannelViewController", bundle: Bundle(for: Self.self))
