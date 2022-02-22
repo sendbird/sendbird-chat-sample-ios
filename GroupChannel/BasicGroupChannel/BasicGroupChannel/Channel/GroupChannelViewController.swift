@@ -33,6 +33,12 @@ class GroupChannelViewController: UIViewController {
         return imagePickerRouter
     }()
     
+    private lazy var keyboardObserver: KeyboardObserver = {
+        let keyboardObserver = KeyboardObserver()
+        keyboardObserver.delegate = self
+        return keyboardObserver
+    }()
+    
     init(channel: SBDGroupChannel) {
         self.channel = channel
         super.init(nibName: "GroupChannelViewController", bundle: Bundle(for: Self.self))
@@ -55,7 +61,7 @@ class GroupChannelViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        addKeyboardNotifications()
+        keyboardObserver.add()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -67,7 +73,7 @@ class GroupChannelViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        removeKeyboardNotifications()
+        keyboardObserver.remove()
     }
     
     private func setupNavigation() {
@@ -199,45 +205,23 @@ extension GroupChannelViewController: MessageInputViewDelegate {
     
 }
 
-// MARK: - Keyboard
+// MARK: - KeyboardObserverDelegate
 
-extension GroupChannelViewController {
+extension GroupChannelViewController: KeyboardObserverDelegate {
     
-    private func addKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(notification:)), name: UIApplication.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(notification:)), name: UIApplication.keyboardWillHideNotification, object: nil)
-    }
-    
-    private func removeKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self, name: UIApplication.keyboardWillShowNotification , object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIApplication.keyboardWillHideNotification , object: nil)
-    }
-    
-    @objc
-    private func keyboardWillAppear(notification: NSNotification?) {
-        guard let notification = notification,
-                let keyboardFrame = notification.userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? NSValue,
-                let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
-                let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
-        
-        let keyboardHeight = keyboardFrame.cgRectValue.height - self.view.safeAreaInsets.bottom
-        
+    func keyboardObserver(_ keyboardObserver: KeyboardObserver, willShowKeyboardWith keyboardInfo: KeyboardInfo) {
+        let keyboardHeight = keyboardInfo.height - view.safeAreaInsets.bottom
         messageInputBottomConstraint.constant = -keyboardHeight
         
-        UIView.animate(withDuration: duration, delay: 0, options: .init(rawValue: curve)) { [weak self] in
+        keyboardInfo.animate { [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
     
-    @objc
-    private func keyboardWillDisappear(notification: NSNotification?) {
-        guard let notification = notification,
-                let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
-                let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
-
-        messageInputBottomConstraint.constant = 0.0
+    func keyboardObserver(_ keyboardObserver: KeyboardObserver, willHideKeyboardWith keyboardInfo: KeyboardInfo) {
+        messageInputBottomConstraint.constant = keyboardInfo.height
         
-        UIView.animate(withDuration: duration, delay: 0, options: .init(rawValue: curve)) { [weak self] in
+        keyboardInfo.animate { [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
