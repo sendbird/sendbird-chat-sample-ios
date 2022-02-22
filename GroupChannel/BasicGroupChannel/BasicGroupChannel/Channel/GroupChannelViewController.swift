@@ -26,7 +26,13 @@ class GroupChannelViewController: UIViewController {
     public private(set) lazy var userMessageUseCase = GroupChannelUserMessageUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
-
+    
+    public private(set) lazy var imagePickerRouter: ImagePickerRouter = {
+        let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoLibrary, .photoCamera, .videoCamera])
+        imagePickerRouter.delegate = self
+        return imagePickerRouter
+    }()
+    
     init(channel: SBDGroupChannel) {
         self.channel = channel
         super.init(nibName: "GroupChannelViewController", bundle: Bundle(for: Self.self))

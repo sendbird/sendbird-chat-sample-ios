@@ -22,6 +22,12 @@ class CreateGroupChannelViewController: UIViewController {
     private var channelImageData: Data?
     
     private lazy var useCase = CreateGroupChannelUseCase(users: users)
+    
+    private lazy var imagePickerRouter: ImagePickerRouter = {
+        let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoCamera, .photoLibrary])
+        imagePickerRouter.delegate = self
+        return imagePickerRouter
+    }()
 
     init(users: [SBDUser], didCreateChannel: DidCreateChannelHandler? = nil) {
         self.users = users
@@ -82,66 +88,20 @@ class CreateGroupChannelViewController: UIViewController {
     }
     
     @objc private func didTouchProfileImageView(_ sender: UIView) {
-        let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
-        
-        alert.modalPresentationStyle = .popover
-        
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alert.addAction(
-                UIAlertAction(title: "Take Photo...", style: .default) { [weak self] action in
-                    let picker = UIImagePickerController()
-                    picker.sourceType = .camera
-                    let mediaTypes = [String(kUTTypeImage)]
-                    picker.mediaTypes = mediaTypes
-                    picker.delegate = self
-                    self?.present(picker, animated: true)
-                }
-            )
-        }
-        
-        alert.addAction(
-            UIAlertAction(title: "Choose from Library...", style: .default) { [weak self] action in
-                let picker = UIImagePickerController()
-                picker.sourceType = UIImagePickerController.SourceType.photoLibrary
-                let mediaTypes = [String(kUTTypeImage)]
-                picker.mediaTypes = mediaTypes
-                picker.delegate = self
-                self?.present(picker, animated: true)
-            }
-        )
-        
-        alert.addAction(
-            UIAlertAction(title: "Close", style: .cancel)
-        )
-        
-        if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = sender
-            presenter.sourceRect = sender.frame
-        }
-        
-        present(alert, animated: true, completion: nil)
+        imagePickerRouter.presentAlert()
     }
     
 }
 
-// MARK: - UIImagePickerControllerDelegate
+// MARK: - ImagePickerRouterDelegate
 
-extension CreateGroupChannelViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension CreateGroupChannelViewController: ImagePickerRouterDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! CFString
-        picker.dismiss(animated: true) { [weak self] in
-            guard CFStringCompare(mediaType, kUTTypeImage, []) == .compareEqualTo,
-                  let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-            self?.profileImageView.setImage(with: originalImage)
-            
-            guard let imageData = originalImage.jpegData(compressionQuality: 0.5) else { return }
-            self?.channelImageData = imageData
-        }
+    func imagePickerRouter(_ imagePickerRouter: ImagePickerRouter, didFinishPickingMediaFile mediaFile: ImagePickerMediaFile) {
+        guard let image = UIImage(data: mediaFile.data) else { return }
+        
+        profileImageView.setImage(with: image)
+        channelImageData = mediaFile.data
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true)
-    }
-
 }

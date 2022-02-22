@@ -20,6 +20,7 @@
 		5F6F62A827B90AA000FD6121 /* VersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A727B90AA000FD6121 /* VersionInfo.swift */; };
 		5F6F62AA27B90FB600FD6121 /* BaseAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */; };
 		5F6F62D327B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62D227B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift */; };
+		5FD2501427C4729300D04ACC /* ImagePickerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */; };
 		5FD8CE9E27B35A72006F539B /* GroupChannelListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CE9D27B35A72006F539B /* GroupChannelListUseCase.swift */; };
 		5FD8CEA827B36332006F539B /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CEA727B36332006F539B /* ProfileImageView.swift */; };
 		5FD8CEAB27B36519006F539B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5FD8CEAA27B36519006F539B /* Kingfisher */; };
@@ -76,6 +77,7 @@
 		5F6F62A727B90AA000FD6121 /* VersionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionInfo.swift; sourceTree = "<group>"; };
 		5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAppearance.swift; sourceTree = "<group>"; };
 		5F6F62D227B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOpenChannelUseCase.swift; sourceTree = "<group>"; };
+		5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerRouter.swift; sourceTree = "<group>"; };
 		5FD8CE9D27B35A72006F539B /* GroupChannelListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelListUseCase.swift; sourceTree = "<group>"; };
 		5FD8CEA727B36332006F539B /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		5FD8CEB427B37406006F539B /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				5FD8CEB827B375F9006F539B /* NibLoadable.swift */,
 				5FD8CED027B4DED5006F539B /* UIImage+Extension.swift */,
 				5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */,
+				5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				5F6F62AA27B90FB600FD6121 /* BaseAppearance.swift in Sources */,
 				5F6F62A627B6A4F300FD6121 /* GroupChannelInviteMemberUseCase.swift in Sources */,
 				5FDE176427BA48060009CB39 /* ProfileEditView.swift in Sources */,
+				5FD2501427C4729300D04ACC /* ImagePickerRouter.swift in Sources */,
 				5FD8CEDB27B50792006F539B /* GroupChannelMessageListUseCase.swift in Sources */,
 				5FD8CEC627B4A429006F539B /* SelectableUserTableViewCell.swift in Sources */,
 				5FD8CEB527B37406006F539B /* MessageInputView.swift in Sources */,
