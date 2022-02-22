@@ -26,6 +26,8 @@ final class GroupChannelListViewController: UIViewController {
         return useCase
     }()
     
+    private lazy var timestampStorage = TimestampStorage()
+    
     init() {
         super.init(nibName: "GroupChannelListViewController", bundle: Bundle(for: Self.self))
         title = "GroupChannel"
@@ -100,7 +102,7 @@ extension GroupChannelListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let channel = useCase.channels[indexPath.row]
-        let channelViewController = GroupChannelViewController(channel: channel)
+        let channelViewController = GroupChannelViewController(channel: channel, timestampStorage: timestampStorage)
         channelViewController.hidesBottomBarWhenPushed = true
         
         navigationController?.pushViewController(channelViewController, animated: true)

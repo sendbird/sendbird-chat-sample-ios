@@ -17,7 +17,13 @@ open class GroupChannelMessageListUseCase: NSObject {
     
     public weak var delegate: GroupChannelMessageListUseCaseDelegate?
     
-    public private(set) var messages: [SBDBaseMessage] = []
+    public private(set) var messages: [SBDBaseMessage] = [] {
+        didSet {
+            if let lastTimestamp = messages.map(\.createdAt).max() {
+                timestampStorage.update(timestamp: lastTimestamp, for: channel)
+            }
+        }
+    }
 
     private let channel: SBDGroupChannel
 
@@ -25,12 +31,12 @@ open class GroupChannelMessageListUseCase: NSObject {
     
     private lazy var messageCollection: SBDMessageCollection = createMessageCollection()
     
-    private var startingPoint: Int64?
+    private var timestampStorage: TimestampStorage
     
-    public init(channel: SBDGroupChannel, isReversed: Bool, startingPoint: Int64? = nil) {
+    public init(channel: SBDGroupChannel, isReversed: Bool, timestampStorage: TimestampStorage) {
         self.channel = channel
         self.isReversed = isReversed
-        self.startingPoint = startingPoint
+        self.timestampStorage = timestampStorage
         super.init()
     }
         
@@ -107,8 +113,14 @@ open class GroupChannelMessageListUseCase: NSObject {
         // You can use a SBDMessageListParams instance for the SBDMessageCollection.
         let params = SBDMessageListParams()
         params.reverse = isReversed
+        params.previousResultSize = 3
+        params.nextResultSize = 3
         
-        let collection = SBDMessageCollection(channel: channel, startingPoint: startingPoint ?? .max, params: params)
+        let collection = SBDMessageCollection(
+            channel: channel,
+            startingPoint: timestampStorage.lastTimestamp(for: channel) ?? .max,
+            params: params
+        )
         collection.delegate = self
         return collection
     }
