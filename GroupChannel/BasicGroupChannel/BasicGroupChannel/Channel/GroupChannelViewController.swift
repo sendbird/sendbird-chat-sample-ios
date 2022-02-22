@@ -17,8 +17,10 @@ class GroupChannelViewController: UIViewController {
     
     private let channel: SBDGroupChannel
     
+    private let timestampStorage: TimestampStorage
+    
     public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
-        let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, isReversed: true)
+        let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, isReversed: true, timestampStorage: timestampStorage)
         messageListUseCase.delegate = self
         return messageListUseCase
     }()
@@ -39,8 +41,9 @@ class GroupChannelViewController: UIViewController {
         return keyboardObserver
     }()
     
-    init(channel: SBDGroupChannel) {
+    init(channel: SBDGroupChannel, timestampStorage: TimestampStorage) {
         self.channel = channel
+        self.timestampStorage = timestampStorage
         super.init(nibName: "GroupChannelViewController", bundle: Bundle(for: Self.self))
     }
     
