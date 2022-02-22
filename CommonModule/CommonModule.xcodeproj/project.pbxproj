@@ -21,6 +21,7 @@
 		5F6F62AA27B90FB600FD6121 /* BaseAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */; };
 		5F6F62D327B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62D227B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift */; };
 		5FD2501427C4729300D04ACC /* ImagePickerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */; };
+		5FD2501627C4AFFB00D04ACC /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2501527C4AFFB00D04ACC /* KeyboardObserver.swift */; };
 		5FD8CE9E27B35A72006F539B /* GroupChannelListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CE9D27B35A72006F539B /* GroupChannelListUseCase.swift */; };
 		5FD8CEA827B36332006F539B /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CEA727B36332006F539B /* ProfileImageView.swift */; };
 		5FD8CEAB27B36519006F539B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5FD8CEAA27B36519006F539B /* Kingfisher */; };
@@ -78,6 +79,7 @@
 		5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAppearance.swift; sourceTree = "<group>"; };
 		5F6F62D227B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOpenChannelUseCase.swift; sourceTree = "<group>"; };
 		5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerRouter.swift; sourceTree = "<group>"; };
+		5FD2501527C4AFFB00D04ACC /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		5FD8CE9D27B35A72006F539B /* GroupChannelListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelListUseCase.swift; sourceTree = "<group>"; };
 		5FD8CEA727B36332006F539B /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		5FD8CEB427B37406006F539B /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				5FD8CED027B4DED5006F539B /* UIImage+Extension.swift */,
 				5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */,
 				5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */,
+				5FD2501527C4AFFB00D04ACC /* KeyboardObserver.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				5F00CA6527B2639B00206750 /* UIViewController+Extension.swift in Sources */,
 				5FDF2B5227B2A45E00C3A8A2 /* UserDefault.swift in Sources */,
 				5FD8CED627B4E762006F539B /* CreateGroupChannelUseCase.swift in Sources */,
+				5FD2501627C4AFFB00D04ACC /* KeyboardObserver.swift in Sources */,
 				5FDE175327B9EC770009CB39 /* UserSelectionViewController.swift in Sources */,
 				5FDE176227B9FFE40009CB39 /* OpenChannelOperatorListUseCase.swift in Sources */,
 				5FD8CEB927B375F9006F539B /* NibLoadable.swift in Sources */,
