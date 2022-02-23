@@ -9,16 +9,21 @@ import UIKit
 import SendBirdSDK
 import Kingfisher
 
-public final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelImageCell {
+public final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelImageCell, GroupChannelSendingStatusCell, GroupChannelOutgoingCell {
     
-    @IBOutlet private weak var messageImageView: UIImageView!
-    @IBOutlet private weak var placeholderImageView: UIImageView!
-    @IBOutlet private weak var sendingIndicator: UIActivityIndicatorView!
-    @IBOutlet private weak var resendButton: UIButton!
+    public weak var delegate: GroupChannelOutgoingCellDelegate?
+    private weak var message: SBDFileMessage?
+    
+    @IBOutlet weak var messageImageView: UIImageView!
+    @IBOutlet weak var placeholderImageView: UIImageView!
+    @IBOutlet weak var sendingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var resendButton: UIButton!
     
     public override func prepareForReuse() {
         super.prepareForReuse()
         
+        message = nil
+        delegate = nil
         messageImageView.kf.cancelDownloadTask()
         messageImageView.image = nil
         placeholderImageView.isHidden = false
@@ -27,13 +32,8 @@ public final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelI
     }
     
     public func configure(with message: SBDFileMessage) {
-        resendButton.isHidden = shouldHideResendButton(for: message)
-
-        if shouldStartSendingIndicator(for: message) {
-            sendingIndicator.startAnimating()
-        } else {
-            sendingIndicator.stopAnimating()
-        }
+        self.message = message
+        updateSendingStatusUI(for: message)
         
         guard let imageURL = imageURL(for: message) else { return }
         
@@ -56,26 +56,9 @@ public final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelI
         
         return nil
     }
-    
-    private func shouldStartSendingIndicator(for message: SBDBaseMessage) -> Bool {
-        switch message.sendingStatus {
-        case .pending:
-            return true
-        default:
-            return false
-        }
-    }
-    
-    private func shouldHideResendButton(for message: SBDBaseMessage) -> Bool {
-        switch message.sendingStatus {
-        case .failed, .canceled:
-            return false
-        default:
-            return true
-        }
-    }
-    
+
     @IBAction private func didTouchResendButton(_ sender: UIButton) {
-        
+        guard let message = message else { return }
+        delegate?.groupChannelOutgoingCell(self, didTouchResendButton: sender, forFileMessage: message)
     }
 }

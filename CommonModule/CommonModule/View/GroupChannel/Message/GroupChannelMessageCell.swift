@@ -9,5 +9,5 @@ import UIKit
 import SendBirdSDK
 
 public protocol GroupChannelMessageCell: UITableViewCell {
-    func configure(with message: SBDBaseMessage)
+    func configure(with message: SBDUserMessage)
 }

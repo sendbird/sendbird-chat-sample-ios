@@ -11,10 +11,10 @@ import Kingfisher
 
 public final class GroupChannelIncomingImageCell: UITableViewCell, GroupChannelImageCell {
     
-    @IBOutlet private weak var profileImageView: UIImageView!
-    @IBOutlet private weak var nicknameTextLabel: UILabel!
-    @IBOutlet private weak var messageImageView: UIImageView!
-    @IBOutlet private weak var placeholderImageView: UIImageView!
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var nicknameTextLabel: UILabel!
+    @IBOutlet weak var messageImageView: UIImageView!
+    @IBOutlet weak var placeholderImageView: UIImageView!
     
     public override func prepareForReuse() {
         super.prepareForReuse()
