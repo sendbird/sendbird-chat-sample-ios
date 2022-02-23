@@ -15,8 +15,6 @@
 		5F00C9EB27B2475900206750 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00C9E927B2475900206750 /* LaunchScreen.storyboard */; };
 		5FD2500827BE138B00D04ACC /* CommonModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500727BE138B00D04ACC /* CommonModule.framework */; };
 		5FD2500927BE138B00D04ACC /* CommonModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500727BE138B00D04ACC /* CommonModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5FD2501F27C6146100D04ACC /* GroupChannelOutgoingImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2501B27C5D11A00D04ACC /* GroupChannelOutgoingImageCell.swift */; };
-		5FD2502027C6146900D04ACC /* GroupChannelOutgoingImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FD2501C27C5D11A00D04ACC /* GroupChannelOutgoingImageCell.xib */; };
 		5FD8CEB027B371BE006F539B /* GroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CEAF27B371BE006F539B /* GroupChannelViewController.swift */; };
 		5FD8CEB227B371D9006F539B /* GroupChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FD8CEB127B371D9006F539B /* GroupChannelViewController.xib */; };
 		5FD8CED427B4E732006F539B /* CreateGroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CED327B4E732006F539B /* CreateGroupChannelViewController.swift */; };
@@ -30,8 +28,6 @@
 		5FF9F9DB27B5FD5F0080565A /* GroupChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9F9DA27B5FD5F0080565A /* GroupChannelCell.swift */; };
 		5FF9F9DD27B603EA0080565A /* GroupChannelViewController+EditMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9F9DC27B603EA0080565A /* GroupChannelViewController+EditMessage.swift */; };
 		5FF9F9E527B62CCF0080565A /* GroupChannelViewController+FileMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9F9E427B62CCF0080565A /* GroupChannelViewController+FileMessage.swift */; };
-		5FF9F9EA27B639850080565A /* GroupChannelIncomingImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9F9E927B639850080565A /* GroupChannelIncomingImageCell.swift */; };
-		5FF9F9EC27B64A4D0080565A /* GroupChannelIncomingImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FF9F9EB27B64A4D0080565A /* GroupChannelIncomingImageCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -59,8 +55,6 @@
 		5F00C9EC27B2475900206750 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F00CA4E27B24BC200206750 /* BaseModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FD2500727BE138B00D04ACC /* CommonModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CommonModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FD2501B27C5D11A00D04ACC /* GroupChannelOutgoingImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelOutgoingImageCell.swift; sourceTree = "<group>"; };
-		5FD2501C27C5D11A00D04ACC /* GroupChannelOutgoingImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupChannelOutgoingImageCell.xib; sourceTree = "<group>"; };
 		5FD8CEAF27B371BE006F539B /* GroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelViewController.swift; sourceTree = "<group>"; };
 		5FD8CEB127B371D9006F539B /* GroupChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupChannelViewController.xib; sourceTree = "<group>"; };
 		5FD8CED327B4E732006F539B /* CreateGroupChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupChannelViewController.swift; sourceTree = "<group>"; };
@@ -74,8 +68,6 @@
 		5FF9F9DA27B5FD5F0080565A /* GroupChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelCell.swift; sourceTree = "<group>"; };
 		5FF9F9DC27B603EA0080565A /* GroupChannelViewController+EditMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GroupChannelViewController+EditMessage.swift"; sourceTree = "<group>"; };
 		5FF9F9E427B62CCF0080565A /* GroupChannelViewController+FileMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GroupChannelViewController+FileMessage.swift"; sourceTree = "<group>"; };
-		5FF9F9E927B639850080565A /* GroupChannelIncomingImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelIncomingImageCell.swift; sourceTree = "<group>"; };
-		5FF9F9EB27B64A4D0080565A /* GroupChannelIncomingImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupChannelIncomingImageCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,10 +179,6 @@
 			isa = PBXGroup;
 			children = (
 				5FF9F9DA27B5FD5F0080565A /* GroupChannelCell.swift */,
-				5FD2501B27C5D11A00D04ACC /* GroupChannelOutgoingImageCell.swift */,
-				5FD2501C27C5D11A00D04ACC /* GroupChannelOutgoingImageCell.xib */,
-				5FF9F9E927B639850080565A /* GroupChannelIncomingImageCell.swift */,
-				5FF9F9EB27B64A4D0080565A /* GroupChannelIncomingImageCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -255,7 +243,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FDF2B6927B3598400C3A8A2 /* GroupChannelListViewController.xib in Resources */,
-				5FD2502027C6146900D04ACC /* GroupChannelOutgoingImageCell.xib in Resources */,
 				5FDE176F27BA4C680009CB39 /* SettingViewController.xib in Resources */,
 				5F00C9EB27B2475900206750 /* LaunchScreen.storyboard in Resources */,
 				5F00C9E827B2475900206750 /* Assets.xcassets in Resources */,
@@ -263,7 +250,6 @@
 				5F00C9E627B2475900206750 /* Main.storyboard in Resources */,
 				5FEEB65427B65DA600677373 /* GroupChannelSettingViewController.xib in Resources */,
 				5FD8CED827B4F2A1006F539B /* CreateGroupChannelViewController.xib in Resources */,
-				5FF9F9EC27B64A4D0080565A /* GroupChannelIncomingImageCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,13 +266,11 @@
 				5FF9F9E527B62CCF0080565A /* GroupChannelViewController+FileMessage.swift in Sources */,
 				5FEEB65227B65D7E00677373 /* GroupChannelSettingViewController.swift in Sources */,
 				5F00C9E327B2475900206750 /* ViewController.swift in Sources */,
-				5FF9F9EA27B639850080565A /* GroupChannelIncomingImageCell.swift in Sources */,
 				5FD8CED427B4E732006F539B /* CreateGroupChannelViewController.swift in Sources */,
 				5F00C9DF27B2475900206750 /* AppDelegate.swift in Sources */,
 				5F00C9E127B2475900206750 /* SceneDelegate.swift in Sources */,
 				5FF9F9DB27B5FD5F0080565A /* GroupChannelCell.swift in Sources */,
 				5FDE176A27BA4C0D0009CB39 /* SettingViewController.swift in Sources */,
-				5FD2501F27C6146100D04ACC /* GroupChannelOutgoingImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

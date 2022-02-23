@@ -95,8 +95,8 @@ class GroupChannelViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(GroupChannelCell.self, forCellReuseIdentifier: "GroupChannelCell")
-        tableView.register(UINib(nibName: "GroupChannelIncomingImageCell", bundle: Bundle(for: GroupChannelIncomingImageCell.self)), forCellReuseIdentifier: "GroupChannelIncomingImageCell")
-        tableView.register(UINib(nibName: "GroupChannelOutgoingImageCell", bundle: Bundle(for: GroupChannelOutgoingImageCell.self)), forCellReuseIdentifier: "GroupChannelOutgoingImageCell")
+        tableView.registerNib(GroupChannelIncomingImageCell.self)
+        tableView.registerNib(GroupChannelOutgoingImageCell.self)
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -131,12 +131,12 @@ extension GroupChannelViewController: UITableViewDataSource {
         let isOutgoingMessage = messageListUseCase.isOutgoingMessage(message)
         
         if let fileMessage = message as? SBDFileMessage {
-            let cell: GroupChannelFileCell
+            let cell: GroupChannelImageCell
             
             if isOutgoingMessage {
-                cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelOutgoingImageCell", for: indexPath) as! GroupChannelOutgoingImageCell
+                cell = tableView.dequeueReusableCell(for: indexPath) as GroupChannelOutgoingImageCell
             } else {
-                cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelIncomingImageCell", for: indexPath) as! GroupChannelIncomingImageCell
+                cell = tableView.dequeueReusableCell(for: indexPath) as GroupChannelIncomingImageCell
             }
             
             cell.configure(with: fileMessage)
