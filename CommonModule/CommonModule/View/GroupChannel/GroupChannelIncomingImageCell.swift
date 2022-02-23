@@ -9,14 +9,14 @@ import UIKit
 import SendBirdSDK
 import Kingfisher
 
-final class GroupChannelIncomingImageCell: UITableViewCell, GroupChannelFileCell {
+public final class GroupChannelIncomingImageCell: UITableViewCell, GroupChannelImageCell {
     
     @IBOutlet private weak var profileImageView: UIImageView!
     @IBOutlet private weak var nicknameTextLabel: UILabel!
     @IBOutlet private weak var messageImageView: UIImageView!
     @IBOutlet private weak var placeholderImageView: UIImageView!
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         
         nicknameTextLabel.text = nil
@@ -26,7 +26,7 @@ final class GroupChannelIncomingImageCell: UITableViewCell, GroupChannelFileCell
         messageImageView.image = nil
     }
     
-    func configure(with message: SBDFileMessage) {
+    public func configure(with message: SBDFileMessage) {
         if let sender = message.sender {
             nicknameTextLabel.text = "\(sender.nickname ?? "(Unknown)")"
             profileImageView.setProfileImageView(for: sender)

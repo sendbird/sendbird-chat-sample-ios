@@ -9,18 +9,14 @@ import UIKit
 import SendBirdSDK
 import Kingfisher
 
-protocol GroupChannelFileCell: UITableViewCell {
-    func configure(with message: SBDFileMessage)
-}
-
-final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelFileCell {
+public final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelImageCell {
     
     @IBOutlet private weak var messageImageView: UIImageView!
     @IBOutlet private weak var placeholderImageView: UIImageView!
     @IBOutlet private weak var sendingIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var resendButton: UIButton!
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         
         messageImageView.kf.cancelDownloadTask()
@@ -30,7 +26,7 @@ final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelFileCell
         sendingIndicator.stopAnimating()
     }
     
-    func configure(with message: SBDFileMessage) {
+    public func configure(with message: SBDFileMessage) {
         resendButton.isHidden = shouldHideResendButton(for: message)
 
         if shouldStartSendingIndicator(for: message) {
