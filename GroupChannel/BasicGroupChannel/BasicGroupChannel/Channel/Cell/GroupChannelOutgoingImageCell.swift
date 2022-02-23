@@ -31,21 +31,22 @@ final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelFileCell
     }
     
     func configure(with message: SBDFileMessage) {
+        resendButton.isHidden = shouldHideResendButton(for: message)
+
         if shouldStartSendingIndicator(for: message) {
             sendingIndicator.startAnimating()
         } else {
             sendingIndicator.stopAnimating()
         }
-        resendButton.isHidden = shouldHideResendButton(for: message)
         
-        if let imageURL = imageURL(for: message) {
-            messageImageView.kf.setImage(with: imageURL) { [weak self] result in
-                switch result {
-                case .success:
-                    self?.placeholderImageView.isHidden = true
-                case .failure:
-                    self?.placeholderImageView.isHidden = false
-                }
+        guard let imageURL = imageURL(for: message) else { return }
+        
+        messageImageView.kf.setImage(with: imageURL) { [weak self] result in
+            switch result {
+            case .success:
+                self?.placeholderImageView.isHidden = true
+            case .failure:
+                self?.placeholderImageView.isHidden = false
             }
         }
     }
