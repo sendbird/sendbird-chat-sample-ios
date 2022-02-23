@@ -24,6 +24,8 @@ public class GroupChannelFileMessageUseCase {
     
     private let channel: SBDGroupChannel
     
+    private var cachedDatasForResending: [String: Data] = [:]
+    
     public init(channel: SBDGroupChannel) {
         self.channel = channel
     }
@@ -36,7 +38,22 @@ public class GroupChannelFileMessageUseCase {
         fileMessageParams.mimeType = mediaFile.mimeType
         fileMessageParams.thumbnailSizes = [SBDThumbnailSize.make(withMaxWidth: 320.0, maxHeight: 320.0)]
 
-        channel.sendFileMessage(with: fileMessageParams) { message, error in
+        let fileMessage = channel.sendFileMessage(with: fileMessageParams) { [weak self] message, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let message = message else { return }
+            self?.cachedDatasForResending.removeValue(forKey: message.requestId)
+            completion(.success(message))
+        }
+        
+        cachedDatasForResending[fileMessage.requestId] = mediaFile.data
+    }
+    
+    public func resendMessage(_ message: SBDFileMessage, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
+        channel.resendFileMessage(with: message, binaryData: cachedDatasForResending[message.requestId]) { message, error in
             if let error = error {
                 completion(.failure(error))
                 return

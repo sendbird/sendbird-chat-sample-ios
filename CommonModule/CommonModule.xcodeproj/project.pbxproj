@@ -21,6 +21,8 @@
 		5F60E83B27C6770F00C02B5E /* GroupChannelMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F60E83A27C6770F00C02B5E /* GroupChannelMessageCell.swift */; };
 		5F60E83D27C6779400C02B5E /* GroupChannelOutgoingMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F60E83C27C6779400C02B5E /* GroupChannelOutgoingMessageCell.xib */; };
 		5F60E84127C67DBA00C02B5E /* GroupChannelIncomingMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F60E84027C67DBA00C02B5E /* GroupChannelIncomingMessageCell.xib */; };
+		5F60E84527C680A500C02B5E /* GroupChannelSendingStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F60E84427C680A500C02B5E /* GroupChannelSendingStatusCell.swift */; };
+		5F60E84727C682FD00C02B5E /* GroupChannelOutgoingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F60E84627C682FC00C02B5E /* GroupChannelOutgoingCell.swift */; };
 		5F6F62A627B6A4F300FD6121 /* GroupChannelInviteMemberUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A527B6A4F300FD6121 /* GroupChannelInviteMemberUseCase.swift */; };
 		5F6F62A827B90AA000FD6121 /* VersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A727B90AA000FD6121 /* VersionInfo.swift */; };
 		5F6F62AA27B90FB600FD6121 /* BaseAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */; };
@@ -91,6 +93,8 @@
 		5F60E83A27C6770F00C02B5E /* GroupChannelMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelMessageCell.swift; sourceTree = "<group>"; };
 		5F60E83C27C6779400C02B5E /* GroupChannelOutgoingMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupChannelOutgoingMessageCell.xib; sourceTree = "<group>"; };
 		5F60E84027C67DBA00C02B5E /* GroupChannelIncomingMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupChannelIncomingMessageCell.xib; sourceTree = "<group>"; };
+		5F60E84427C680A500C02B5E /* GroupChannelSendingStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelSendingStatusCell.swift; sourceTree = "<group>"; };
+		5F60E84627C682FC00C02B5E /* GroupChannelOutgoingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelOutgoingCell.swift; sourceTree = "<group>"; };
 		5F6F62A527B6A4F300FD6121 /* GroupChannelInviteMemberUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelInviteMemberUseCase.swift; sourceTree = "<group>"; };
 		5F6F62A727B90AA000FD6121 /* VersionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionInfo.swift; sourceTree = "<group>"; };
 		5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAppearance.swift; sourceTree = "<group>"; };
@@ -229,6 +233,17 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		5F60E84227C6808900C02B5E /* User */ = {
+			isa = PBXGroup;
+			children = (
+				5FD8CEC227B4A3F9006F539B /* SelectableUserTableViewCell.swift */,
+				5FD8CEC327B4A3F9006F539B /* SelectableUserTableViewCell.xib */,
+				5FD8CEC527B4A3F9006F539B /* SelectedUserCollectionViewCell.swift */,
+				5FD8CEC427B4A3F9006F539B /* SelectedUserCollectionViewCell.xib */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
 		5F6F62D127B9EA5500FD6121 /* OpenChannel */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,12 +337,11 @@
 		5FD8CEC127B4A3C0006F539B /* GroupChannel */ = {
 			isa = PBXGroup;
 			children = (
+				5F60E84227C6808900C02B5E /* User */,
 				5FD2503027C6767B00D04ACC /* Message */,
 				5FD2502F27C6767300D04ACC /* Image */,
-				5FD8CEC227B4A3F9006F539B /* SelectableUserTableViewCell.swift */,
-				5FD8CEC327B4A3F9006F539B /* SelectableUserTableViewCell.xib */,
-				5FD8CEC527B4A3F9006F539B /* SelectedUserCollectionViewCell.swift */,
-				5FD8CEC427B4A3F9006F539B /* SelectedUserCollectionViewCell.xib */,
+				5F60E84427C680A500C02B5E /* GroupChannelSendingStatusCell.swift */,
+				5F60E84627C682FC00C02B5E /* GroupChannelOutgoingCell.swift */,
 			);
 			path = GroupChannel;
 			sourceTree = "<group>";
@@ -524,12 +538,14 @@
 				5F60E83727C676D700C02B5E /* GroupChannelOutgoingMessageCell.swift in Sources */,
 				5FD8CED127B4DED5006F539B /* UIImage+Extension.swift in Sources */,
 				5FDE175827B9ED640009CB39 /* OpenChannelListUseCase.swift in Sources */,
+				5F60E84727C682FD00C02B5E /* GroupChannelOutgoingCell.swift in Sources */,
 				5F6F62AA27B90FB600FD6121 /* BaseAppearance.swift in Sources */,
 				5FD2502627C66DB700D04ACC /* GroupChannelOutgoingImageCell.swift in Sources */,
 				5F6F62A627B6A4F300FD6121 /* GroupChannelInviteMemberUseCase.swift in Sources */,
 				5F60E83927C676E500C02B5E /* GroupChannelIncomingMessageCell.swift in Sources */,
 				5FD2501827C4B9C400D04ACC /* TimestampStorage.swift in Sources */,
 				5FDE176427BA48060009CB39 /* ProfileEditView.swift in Sources */,
+				5F60E84527C680A500C02B5E /* GroupChannelSendingStatusCell.swift in Sources */,
 				5FD2502C27C671D600D04ACC /* GroupChannelImageCell.swift in Sources */,
 				5FD2501427C4729300D04ACC /* ImagePickerRouter.swift in Sources */,
 				5FD8CEDB27B50792006F539B /* GroupChannelMessageListUseCase.swift in Sources */,

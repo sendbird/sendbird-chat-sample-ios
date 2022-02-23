@@ -29,6 +29,19 @@ public class GroupChannelUserMessageUseCase {
         }
     }
     
+    public func resendMessage(_ message: SBDUserMessage, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
+        channel.resendUserMessage(with: message) { message, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let message = message else { return }
+            
+            completion(.success(message))
+        }
+    }
+    
     public func updateMessage(_ message: SBDUserMessage, to newMessage: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) {
         guard let params = SBDUserMessageParams(message: newMessage) else { return }
 

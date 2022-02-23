@@ -11,9 +11,9 @@ import Kingfisher
 
 public class GroupChannelIncomingMessageCell: UITableViewCell, GroupChannelMessageCell {
     
-    @IBOutlet private weak var profileImageView: UIImageView!
-    @IBOutlet private weak var nicknameTextLabel: UILabel!
-    @IBOutlet private weak var messageLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var nicknameTextLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
     
     public override func prepareForReuse() {
         super.prepareForReuse()
@@ -24,7 +24,7 @@ public class GroupChannelIncomingMessageCell: UITableViewCell, GroupChannelMessa
         messageLabel.text = nil
     }
 
-    public func configure(with message: SBDBaseMessage) {
+    public func configure(with message: SBDUserMessage) {
         if let sender = message.sender {
             nicknameTextLabel.text = "\(sender.nickname ?? "(Unknown)")"
             profileImageView.setProfileImageView(for: sender)

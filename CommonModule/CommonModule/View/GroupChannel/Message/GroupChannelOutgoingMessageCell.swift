@@ -8,50 +8,32 @@
 import UIKit
 import SendBirdSDK
 
-public class GroupChannelOutgoingMessageCell: UITableViewCell, GroupChannelMessageCell {
-    
-    @IBOutlet private weak var sendingIndicator: UIActivityIndicatorView!
-    @IBOutlet private weak var resendButton: UIButton!
-    @IBOutlet private weak var messageLabel: UILabel!
+public class GroupChannelOutgoingMessageCell: UITableViewCell, GroupChannelMessageCell, GroupChannelSendingStatusCell, GroupChannelOutgoingCell {
+
+    public weak var delegate: GroupChannelOutgoingCellDelegate?
+    private weak var message: SBDUserMessage?
+
+    @IBOutlet weak var sendingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var resendButton: UIButton!
+    @IBOutlet weak var messageLabel: UILabel!
     
     public override func prepareForReuse() {
         super.prepareForReuse()
         
+        message = nil
+        delegate = nil
         resendButton.isHidden = true
         sendingIndicator.stopAnimating()
     }
 
-    public func configure(with message: SBDBaseMessage) {
-        resendButton.isHidden = shouldHideResendButton(for: message)
-
-        if shouldStartSendingIndicator(for: message) {
-            sendingIndicator.startAnimating()
-        } else {
-            sendingIndicator.stopAnimating()
-        }
-        
+    public func configure(with message: SBDUserMessage) {
+        self.message = message
+        updateSendingStatusUI(for: message)
         messageLabel.text = message.message
     }
     
-    private func shouldStartSendingIndicator(for message: SBDBaseMessage) -> Bool {
-        switch message.sendingStatus {
-        case .pending:
-            return true
-        default:
-            return false
-        }
-    }
-    
-    private func shouldHideResendButton(for message: SBDBaseMessage) -> Bool {
-        switch message.sendingStatus {
-        case .failed, .canceled:
-            return false
-        default:
-            return true
-        }
-    }
-    
     @IBAction private func didTouchResendButton(_ sender: UIButton) {
-        
+        guard let message = message else { return }
+        delegate?.groupChannelOutgoingCell(self, didTouchResendButton: sender, forUserMessage: message)
     }
 }

@@ -68,7 +68,7 @@ public class UserSelectionViewController: UIViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(SelectableUserTableViewCell.nib(), forCellReuseIdentifier: "SelectableUserTableViewCell")
+        tableView.registerNib(SelectableUserTableViewCell.self)
     }
     
     private func updateOkButton() {
@@ -101,7 +101,7 @@ extension UserSelectionViewController: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectableUserTableViewCell") as! SelectableUserTableViewCell
+        let cell: SelectableUserTableViewCell = tableView.dequeueReusableCell(for: indexPath)
         let user = useCase.users[indexPath.row]
         
         cell.configure(with: user, isSelected: useCase.isSelectedUser(user))
