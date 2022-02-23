@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="178" id="wkL-PW-0KW" customClass="GroupChannelIncomingMessageCell" customModule="CommonModule" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="178"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wkL-PW-0KW" id="zuJ-NT-O9m">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="178"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="{sender}" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YaA-30-cx0">
+                        <rect key="frame" x="62" y="20" width="55" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wKj-hL-1vq">
+                        <rect key="frame" x="20" y="20" width="32" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="32" id="P8X-8E-41y"/>
+                            <constraint firstAttribute="height" constant="32" id="sOS-Xj-bg2"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="16"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYV-sv-Cix">
+                        <rect key="frame" x="62" y="47" width="332" height="111"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="NYV-sv-Cix" secondAttribute="bottom" constant="20" id="4es-De-jBg"/>
+                    <constraint firstItem="NYV-sv-Cix" firstAttribute="leading" secondItem="YaA-30-cx0" secondAttribute="leading" id="A3o-ZL-sXK"/>
+                    <constraint firstItem="YaA-30-cx0" firstAttribute="top" secondItem="wKj-hL-1vq" secondAttribute="top" id="FnW-ZV-isf"/>
+                    <constraint firstAttribute="trailing" secondItem="NYV-sv-Cix" secondAttribute="trailing" constant="20" id="UVl-9p-UYZ"/>
+                    <constraint firstItem="wKj-hL-1vq" firstAttribute="top" secondItem="zuJ-NT-O9m" secondAttribute="top" constant="20" id="ZM9-0B-Rgo"/>
+                    <constraint firstItem="NYV-sv-Cix" firstAttribute="top" secondItem="YaA-30-cx0" secondAttribute="bottom" constant="10" id="jWL-vJ-nEl"/>
+                    <constraint firstItem="YaA-30-cx0" firstAttribute="leading" secondItem="wKj-hL-1vq" secondAttribute="trailing" constant="10" id="u4l-0h-YDu"/>
+                    <constraint firstItem="wKj-hL-1vq" firstAttribute="leading" secondItem="zuJ-NT-O9m" secondAttribute="leading" constant="20" id="xyp-3e-Hls"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="messageLabel" destination="NYV-sv-Cix" id="u3A-Fj-CEy"/>
+                <outlet property="nicknameTextLabel" destination="YaA-30-cx0" id="d3g-HS-C6t"/>
+                <outlet property="profileImageView" destination="wKj-hL-1vq" id="RNy-Zp-6LR"/>
+            </connections>
+            <point key="canvasLocation" x="144.92753623188406" y="87.723214285714278"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
