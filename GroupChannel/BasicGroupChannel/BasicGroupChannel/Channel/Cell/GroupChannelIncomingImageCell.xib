@@ -4,49 +4,84 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="223" id="HkB-dH-8dC" customClass="GroupChannelIncomingImageCell" customModule="BasicGroupChannel" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="223"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="240" id="HkB-dH-8dC" customClass="GroupChannelIncomingImageCell" customModule="BasicGroupChannel" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="240"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HkB-dH-8dC" id="99l-Ik-0o3">
-                <rect key="frame" x="0.0" y="0.0" width="414" height="223"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HkB-dH-8dC" id="99l-Ik-0o3">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="240"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJH-VJ-hQ4">
-                        <rect key="frame" x="20" y="20" width="374" height="23"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{sender}" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJH-VJ-hQ4">
+                        <rect key="frame" x="62" y="26" width="332" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_general_file" translatesAutoresizingMaskIntoConstraints="NO" id="pOl-KQ-VLI">
-                        <rect key="frame" x="20" y="53" width="150" height="150"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pOl-KQ-VLI">
+                        <rect key="frame" x="20" y="62" width="240" height="160"/>
+                        <color key="backgroundColor" name="AccentColor"/>
                         <constraints>
-                            <constraint firstAttribute="width" priority="999" constant="150" id="bYd-Kh-TTG"/>
-                            <constraint firstAttribute="height" constant="150" id="xfu-o3-OGp"/>
+                            <constraint firstAttribute="width" priority="999" constant="240" id="bYd-Kh-TTG"/>
+                            <constraint firstAttribute="height" constant="160" id="xfu-o3-OGp"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_image_file_message_placeholder_outgoing" translatesAutoresizingMaskIntoConstraints="NO" id="vTf-ez-kPH">
+                        <rect key="frame" x="95" y="97" width="90" height="90"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="90" id="HvJ-y9-ca1"/>
+                            <constraint firstAttribute="width" constant="90" id="mjD-TE-0uj"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oqD-h9-sli">
+                        <rect key="frame" x="20" y="20" width="32" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="32" id="ojt-ul-V3N"/>
+                            <constraint firstAttribute="width" constant="32" id="pF2-Sq-wyg"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="16"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="pOl-KQ-VLI" firstAttribute="leading" secondItem="99l-Ik-0o3" secondAttribute="leading" constant="20" symbolic="YES" id="30G-pY-Zjc"/>
-                    <constraint firstItem="pOl-KQ-VLI" firstAttribute="top" secondItem="vJH-VJ-hQ4" secondAttribute="bottom" constant="10" id="3p9-pm-5V1"/>
-                    <constraint firstItem="vJH-VJ-hQ4" firstAttribute="leading" secondItem="99l-Ik-0o3" secondAttribute="leading" constant="20" id="789-ls-qy4"/>
-                    <constraint firstItem="vJH-VJ-hQ4" firstAttribute="top" secondItem="99l-Ik-0o3" secondAttribute="top" constant="20" id="L58-a4-7iB"/>
+                    <constraint firstItem="oqD-h9-sli" firstAttribute="leading" secondItem="99l-Ik-0o3" secondAttribute="leading" constant="20" symbolic="YES" id="4qk-Yj-BQE"/>
+                    <constraint firstItem="pOl-KQ-VLI" firstAttribute="top" secondItem="oqD-h9-sli" secondAttribute="bottom" constant="10" id="E0T-sP-PjB"/>
+                    <constraint firstItem="vTf-ez-kPH" firstAttribute="centerY" secondItem="pOl-KQ-VLI" secondAttribute="centerY" id="QP7-g0-ZSQ"/>
+                    <constraint firstItem="vTf-ez-kPH" firstAttribute="centerX" secondItem="pOl-KQ-VLI" secondAttribute="centerX" id="aav-wF-nsg"/>
+                    <constraint firstItem="vJH-VJ-hQ4" firstAttribute="centerY" secondItem="oqD-h9-sli" secondAttribute="centerY" id="cfB-6H-0hv"/>
                     <constraint firstAttribute="bottom" secondItem="pOl-KQ-VLI" secondAttribute="bottom" constant="20" id="eVV-cV-P81"/>
+                    <constraint firstItem="vJH-VJ-hQ4" firstAttribute="leading" secondItem="oqD-h9-sli" secondAttribute="trailing" constant="10" id="mUP-PG-LjA"/>
+                    <constraint firstItem="oqD-h9-sli" firstAttribute="top" secondItem="99l-Ik-0o3" secondAttribute="top" constant="20" symbolic="YES" id="wn7-fY-KaP"/>
                     <constraint firstAttribute="trailing" secondItem="vJH-VJ-hQ4" secondAttribute="trailing" constant="20" id="zKM-FY-hz6"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="messageImageView" destination="pOl-KQ-VLI" id="Agl-wm-mNQ"/>
-                <outlet property="messageTextLabel" destination="vJH-VJ-hQ4" id="9Ob-nm-6xi"/>
+                <outlet property="nicknameTextLabel" destination="vJH-VJ-hQ4" id="gyu-xb-GSt"/>
+                <outlet property="placeholderImageView" destination="vTf-ez-kPH" id="26X-hm-wmJ"/>
+                <outlet property="profileImageView" destination="oqD-h9-sli" id="5zJ-20-Xhf"/>
             </connections>
-            <point key="canvasLocation" x="-168.11594202898553" y="-283.59375"/>
+            <point key="canvasLocation" x="-168.11594202898553" y="-277.90178571428572"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="img_icon_general_file" width="30" height="30"/>
+        <image name="img_icon_image_file_message_placeholder_outgoing" width="74" height="74"/>
+        <namedColor name="AccentColor">
+            <color red="0.52499997615814209" green="0.37299999594688416" blue="0.84700000286102295" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
