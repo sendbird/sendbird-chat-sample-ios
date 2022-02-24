@@ -19,21 +19,31 @@ open class GroupChannelMessageListUseCase: NSObject {
     
     public private(set) var messages: [SBDBaseMessage] = [] {
         didSet {
-            if let lastTimestamp = messages.map(\.createdAt).max() {
+            let lastTimestamp: Int64?
+            
+            if isReversed {
+                lastTimestamp = messages.first?.createdAt
+            } else {
+                lastTimestamp = messages.last?.createdAt
+            }
+            
+            if let lastTimestamp = lastTimestamp {
                 timestampStorage.update(timestamp: lastTimestamp, for: channel)
             }
             
             delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: messages)
         }
     }
+    
+    public private(set) var isLoading: Bool = false
 
     private let channel: SBDGroupChannel
 
     private let isReversed: Bool
     
-    private lazy var messageCollection: SBDMessageCollection = createMessageCollection()
+    private let timestampStorage: TimestampStorage
     
-    private var timestampStorage: TimestampStorage
+    private lazy var messageCollection: SBDMessageCollection = createMessageCollection()
     
     public init(channel: SBDGroupChannel, isReversed: Bool, timestampStorage: TimestampStorage) {
         self.channel = channel
@@ -65,11 +75,13 @@ open class GroupChannelMessageListUseCase: NSObject {
         guard let messages = messages else { return }
         self.messages = messages
     }
-    
-    open func loadPreviousMessages() {
-        guard messageCollection.hasPrevious else { return }
         
+    open func loadPreviousMessages() {
+        guard isLoading == false, messageCollection.hasPrevious else { return }
+        
+        isLoading = true
         messageCollection.loadPrevious { [weak self] messages, error in
+            defer { self?.isLoading = false }
             guard let self = self else { return }
             
             if let error = error {
@@ -84,9 +96,11 @@ open class GroupChannelMessageListUseCase: NSObject {
     }
     
     open func loadNextMessages() {
-        guard messageCollection.hasNext else { return }
+        guard isLoading == false, messageCollection.hasNext else { return }
         
+        isLoading = true
         messageCollection.loadNext { [weak self] messages, error in
+            defer { self?.isLoading = false }
             guard let self = self else { return }
             
             if let error = error {
@@ -97,7 +111,6 @@ open class GroupChannelMessageListUseCase: NSObject {
             guard let messages = messages else { return }
             
             self.appendNextMessages(messages)
-            self.delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: self.messages)
         }
     }
     
@@ -105,8 +118,6 @@ open class GroupChannelMessageListUseCase: NSObject {
         // You can use a SBDMessageListParams instance for the SBDMessageCollection.
         let params = SBDMessageListParams()
         params.reverse = isReversed
-        params.previousResultSize = 3
-        params.nextResultSize = 3
         
         let collection = SBDMessageCollection(
             channel: channel,
@@ -201,8 +212,6 @@ extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
         default:
             print("[GroupChannelMessageListUseCase] default deletedMessages: \(messages)")
         }
-        
-        delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: self.messages)
     }
 
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, updatedChannel channel: SBDGroupChannel) {
@@ -223,6 +232,7 @@ extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
         messageCollection = createMessageCollection()
 
         // An additional implementation is required for initialization.
+        loadInitialMessages()
     }
 
 }

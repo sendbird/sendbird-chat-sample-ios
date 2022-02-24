@@ -30,6 +30,6 @@ public class GroupChannelIncomingMessageCell: UITableViewCell, GroupChannelMessa
             profileImageView.setProfileImageView(for: sender)
         }
         
-        messageLabel.text = message.message
+        messageLabel.text = "\(message.message)\n\(message.createdAt)"
     }
 }

@@ -11,6 +11,10 @@ import SendBirdSDK
 
 class GroupChannelViewController: UIViewController {
     
+    private enum Constant {
+        static let loadMoreThreshold: CGFloat = 100
+    }
+    
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var messageInputView: MessageInputView!
     @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
@@ -174,22 +178,16 @@ extension GroupChannelViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if willScrollReachTop(with: indexPath) {
-            messageListUseCase.loadPreviousMessages()
-        } else if willScrollReachBottom(with: indexPath) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y - Constant.loadMoreThreshold <= 0 {
             messageListUseCase.loadNextMessages()
+        }
+         
+        if scrollView.contentOffset.y + Constant.loadMoreThreshold >= (scrollView.contentSize.height - scrollView.frame.size.height) {
+            messageListUseCase.loadPreviousMessages()
         }
     }
     
-    private func willScrollReachTop(with indexPath: IndexPath) -> Bool {
-        indexPath.row == messageListUseCase.messages.count - 1
-    }
-    
-    private func willScrollReachBottom(with indexPath: IndexPath) -> Bool {
-        indexPath.row == 0
-    }
-
 }
 
 // MARK: - GroupChannelMessageListUseCaseDelegate

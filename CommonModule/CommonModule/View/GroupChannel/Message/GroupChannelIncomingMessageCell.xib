@@ -35,8 +35,8 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYV-sv-Cix">
-                        <rect key="frame" x="62" y="47" width="332" height="111"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYV-sv-Cix">
+                        <rect key="frame" x="62" y="37" width="332" height="121"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -48,7 +48,7 @@
                     <constraint firstItem="YaA-30-cx0" firstAttribute="top" secondItem="wKj-hL-1vq" secondAttribute="top" id="FnW-ZV-isf"/>
                     <constraint firstAttribute="trailing" secondItem="NYV-sv-Cix" secondAttribute="trailing" constant="20" id="UVl-9p-UYZ"/>
                     <constraint firstItem="wKj-hL-1vq" firstAttribute="top" secondItem="zuJ-NT-O9m" secondAttribute="top" constant="20" id="ZM9-0B-Rgo"/>
-                    <constraint firstItem="NYV-sv-Cix" firstAttribute="top" secondItem="YaA-30-cx0" secondAttribute="bottom" constant="10" id="jWL-vJ-nEl"/>
+                    <constraint firstItem="NYV-sv-Cix" firstAttribute="top" secondItem="YaA-30-cx0" secondAttribute="bottom" id="jWL-vJ-nEl"/>
                     <constraint firstItem="YaA-30-cx0" firstAttribute="leading" secondItem="wKj-hL-1vq" secondAttribute="trailing" constant="10" id="u4l-0h-YDu"/>
                     <constraint firstItem="wKj-hL-1vq" firstAttribute="leading" secondItem="zuJ-NT-O9m" secondAttribute="leading" constant="20" id="xyp-3e-Hls"/>
                 </constraints>
