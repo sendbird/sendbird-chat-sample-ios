@@ -12,9 +12,9 @@ import SendBirdSDK
 final class OpenChannelListViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView!
-    
+        
     private lazy var createChannelBarButton = UIBarButtonItem(
-        image: UIImage(named: "img_btn_create_open_channel"),
+        title: "Create",
         style: .plain,
         target: self,
         action: #selector(didTouchCreatChannelButton)
