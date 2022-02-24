@@ -56,7 +56,7 @@
 		5FDE175D27B9F7A70009CB39 /* OpenChannelFileMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE175C27B9F42D0009CB39 /* OpenChannelFileMessageUseCase.swift */; };
 		5FDE175F27B9F7A70009CB39 /* OpenChannelUserMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE175B27B9F42D0009CB39 /* OpenChannelUserMessageUseCase.swift */; };
 		5FDE176027B9F7A70009CB39 /* OpenChannelMessageListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE175927B9F42D0009CB39 /* OpenChannelMessageListUseCase.swift */; };
-		5FDE176227B9FFE40009CB39 /* OpenChannelOperatorListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE176127B9FFE40009CB39 /* OpenChannelOperatorListUseCase.swift */; };
+		5FDE176227B9FFE40009CB39 /* OpenChannelSettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE176127B9FFE40009CB39 /* OpenChannelSettingUseCase.swift */; };
 		5FDE176427BA48060009CB39 /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE176327BA48060009CB39 /* ProfileEditView.swift */; };
 		5FDE176627BA48280009CB39 /* ProfileEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE176527BA48280009CB39 /* ProfileEditView.xib */; };
 		5FDE177227BA4C940009CB39 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE177127BA4C940009CB39 /* ProfileEditViewController.swift */; };
@@ -127,7 +127,7 @@
 		5FDE175927B9F42D0009CB39 /* OpenChannelMessageListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelMessageListUseCase.swift; sourceTree = "<group>"; };
 		5FDE175B27B9F42D0009CB39 /* OpenChannelUserMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelUserMessageUseCase.swift; sourceTree = "<group>"; };
 		5FDE175C27B9F42D0009CB39 /* OpenChannelFileMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelFileMessageUseCase.swift; sourceTree = "<group>"; };
-		5FDE176127B9FFE40009CB39 /* OpenChannelOperatorListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelOperatorListUseCase.swift; sourceTree = "<group>"; };
+		5FDE176127B9FFE40009CB39 /* OpenChannelSettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelSettingUseCase.swift; sourceTree = "<group>"; };
 		5FDE176327BA48060009CB39 /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
 		5FDE176527BA48280009CB39 /* ProfileEditView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileEditView.xib; sourceTree = "<group>"; };
 		5FDE177127BA4C940009CB39 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
@@ -250,7 +250,7 @@
 				5FDE175927B9F42D0009CB39 /* OpenChannelMessageListUseCase.swift */,
 				5FDE175B27B9F42D0009CB39 /* OpenChannelUserMessageUseCase.swift */,
 				5FDE175C27B9F42D0009CB39 /* OpenChannelFileMessageUseCase.swift */,
-				5FDE176127B9FFE40009CB39 /* OpenChannelOperatorListUseCase.swift */,
+				5FDE176127B9FFE40009CB39 /* OpenChannelSettingUseCase.swift */,
 			);
 			path = OpenChannel;
 			sourceTree = "<group>";
@@ -527,7 +527,7 @@
 				5FD8CED627B4E762006F539B /* CreateGroupChannelUseCase.swift in Sources */,
 				5FD2501627C4AFFB00D04ACC /* KeyboardObserver.swift in Sources */,
 				5FDE175327B9EC770009CB39 /* UserSelectionViewController.swift in Sources */,
-				5FDE176227B9FFE40009CB39 /* OpenChannelOperatorListUseCase.swift in Sources */,
+				5FDE176227B9FFE40009CB39 /* OpenChannelSettingUseCase.swift in Sources */,
 				5FD2502E27C6726700D04ACC /* UITableView+Extension.swift in Sources */,
 				5FD8CEB927B375F9006F539B /* NibLoadable.swift in Sources */,
 				5F00CA6227B262AC00206750 /* LoginViewController.swift in Sources */,

@@ -34,7 +34,7 @@ class OpenChannelSettingViewController: UIViewController {
     
     private let channel: SBDOpenChannel
     
-    private lazy var operatorListUseCase = OpenChannelOperatorListUseCase(channel: channel)
+    private lazy var channelSettingUseCase = OpenChannelSettingUseCase(channel: channel)
     
     init(channel: SBDOpenChannel) {
         self.channel = channel
@@ -68,7 +68,7 @@ extension OpenChannelSettingViewController: UITableViewDataSource {
         case .channelInfo:
             return ChannelRow.allCases.count
         case .operators:
-            return operatorListUseCase.operators.count
+            return channelSettingUseCase.operators.count
         case .none:
             return 0
         }
@@ -108,7 +108,7 @@ extension OpenChannelSettingViewController: UITableViewDataSource {
                 break
             }
         case .operators:
-            switch OperatorRow(rawValue: indexPath.row, members: operatorListUseCase.operators) {
+            switch OperatorRow(rawValue: indexPath.row, members: channelSettingUseCase.operators) {
             case .memberInfo(let member):
                 cell.textLabel?.text = member.nickname ?? ""
             }
@@ -133,9 +133,35 @@ extension OpenChannelSettingViewController: UITableViewDelegate {
             case .name:
                 break
             case .changeName:
-                break
+                let alert = UIAlertController(title: "Change channel name", message: "Enter new name", preferredStyle: .alert)
+
+                alert.addTextField { [weak self] textField in
+                    textField.text = self?.channel.name
+                }
+
+                alert.addAction(UIAlertAction(title: "Update", style: .default) { [weak alert, weak self] _ in
+                    guard let channelName = alert?.textFields?.first?.text else { return }
+                    
+                    self?.channelSettingUseCase.updateChannelName(channelName) { result in
+                        switch result {
+                        case .success:
+                            self?.navigationController?.popToRootViewController(animated: true)
+                        case .failure(let error):
+                            self?.presentAlert(error: error)
+                        }
+                    }
+                })
+                
+                present(alert, animated: true)
             case .leave:
-                break
+                channelSettingUseCase.exitChannel { [weak self] result in
+                    switch result {
+                    case .success:
+                        self?.navigationController?.popToRootViewController(animated: true)
+                    case .failure(let error):
+                        self?.presentAlert(error: error)
+                    }
+                }
             default:
                 break
             }

@@ -91,8 +91,8 @@ class OpenChannelViewController: UIViewController {
         tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(OpenChannelCell.self, forCellReuseIdentifier: "OpenChannelCell")
-        tableView.register(UINib(nibName: "OpenChannelFileCell", bundle: Bundle(for: OpenChannelFileCell.self)), forCellReuseIdentifier: "OpenChannelFileCell")
+        tableView.register(OpenChannelCell.self)
+        tableView.registerNib(OpenChannelFileCell.self)
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -126,18 +126,14 @@ extension OpenChannelViewController: UITableViewDataSource {
         let message = messageListUseCase.messages[indexPath.row]
         
         if let fileMessage = message as? SBDFileMessage {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OpenChannelFileCell", for: indexPath) as! OpenChannelFileCell
-            
+            let cell: OpenChannelFileCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: fileMessage)
             cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-            
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OpenChannelCell", for: indexPath) as! OpenChannelCell
-            
+            let cell: OpenChannelCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: message)
             cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-            
             return cell
         }
     }
@@ -162,14 +158,6 @@ extension OpenChannelViewController: UITableViewDelegate {
         }
     }
     
-    private func willScrollReachTop(with indexPath: IndexPath) -> Bool {
-        indexPath.row == messageListUseCase.messages.count - 1
-    }
-    
-    private func willScrollReachBottom(with indexPath: IndexPath) -> Bool {
-        indexPath.row == 0
-    }
-
 }
 
 // MARK: - GroupChannelUseCaseDelegate
