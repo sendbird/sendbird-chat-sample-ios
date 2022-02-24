@@ -24,6 +24,7 @@ public final class GroupChannelIncomingImageCell: UITableViewCell, GroupChannelI
         profileImageView.image = nil
         messageImageView.kf.cancelDownloadTask()
         messageImageView.image = nil
+        placeholderImageView.isHidden = false
     }
     
     public func configure(with message: SBDFileMessage) {
@@ -32,7 +33,9 @@ public final class GroupChannelIncomingImageCell: UITableViewCell, GroupChannelI
             profileImageView.setProfileImageView(for: sender)
         }
         
-        guard let imageURL = imageURL(for: message) else { return }
+        guard let imageURL = imageURL(for: message) else {
+            return
+        }
         
         messageImageView.kf.setImage(with: imageURL) { [weak self] result in
             switch result {
