@@ -15,6 +15,11 @@ public protocol OpenChannelMessageListUseCaseDelegate: AnyObject {
 
 open class OpenChannelMessageListUseCase: NSObject {
     
+    private enum Constant {
+        static let previousResultSize: Int = 30
+        static let nextResultSize: Int = 30
+    }
+    
     public weak var delegate: OpenChannelMessageListUseCaseDelegate?
     
     public private(set) var messages: [SBDBaseMessage] = []
@@ -23,14 +28,21 @@ open class OpenChannelMessageListUseCase: NSObject {
 
     private let isReversed: Bool
     
-    private var hasPreviousMessage: Bool = true
+    private var hasPreviousMessages: Bool = true
     
-    private var messageListQuery: SBDPreviousMessageListQuery?
+    private var hasNextMessages: Bool = false
     
+    private var isLoading: Bool = false
+        
     public init(channel: SBDOpenChannel, isReversed: Bool) {
         self.channel = channel
         self.isReversed = isReversed
         super.init()
+        SBDMain.add(self as SBDConnectionDelegate, identifier: description)
+    }
+    
+    deinit {
+        SBDMain.removeConnectionDelegate(forIdentifier: description)
     }
     
     public func addEventObserver() {
@@ -42,10 +54,17 @@ open class OpenChannelMessageListUseCase: NSObject {
     }
         
     open func loadInitialMessages() {
-        guard let messageListQuery = createMessageQuery() else { return }
-        self.messageListQuery = messageListQuery
+        let params = SBDMessageListParams()
+        params.isInclusive = true
+        params.reverse = isReversed
+        params.previousResultSize = Constant.previousResultSize
+        params.nextResultSize = Constant.nextResultSize
+
+        isLoading = true
         
-        messageListQuery.loadPreviousMessages(withLimit: 30, reverse: isReversed) { [weak self] messages, error in
+        channel.getMessagesByTimestamp(.max, params: params) { [weak self] messages, error in
+            defer { self?.isLoading = false }
+            
             guard let self = self else { return }
             
             if let error = error {
@@ -55,16 +74,26 @@ open class OpenChannelMessageListUseCase: NSObject {
             
             guard let messages = messages else { return }
             
-            self.hasPreviousMessage = messages.isEmpty == false
+            self.hasPreviousMessages = messages.isEmpty == false
             self.messages = messages
             self.delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
         }
     }
     
     open func loadPreviousMessages() {
-        guard hasPreviousMessage, let messageListQuery = messageListQuery, messageListQuery.isLoading() == false else { return }
+        guard hasPreviousMessages, isLoading == false, let timestamp = isReversed ? messages.last?.createdAt : messages.first?.createdAt else { return }
         
-        messageListQuery.loadPreviousMessages(withLimit: 30, reverse: isReversed) { [weak self] messages, error in
+        let params = SBDMessageListParams()
+        params.isInclusive = false
+        params.reverse = isReversed
+        params.previousResultSize = Constant.previousResultSize
+        params.nextResultSize = 0
+
+        isLoading = true
+
+        channel.getMessagesByTimestamp(timestamp, params: params) { [weak self] messages, error in
+            defer { self?.isLoading = false }
+            
             guard let self = self else { return }
             
             if let error = error {
@@ -74,7 +103,8 @@ open class OpenChannelMessageListUseCase: NSObject {
             
             guard let messages = messages else { return }
             
-            self.hasPreviousMessage = messages.isEmpty == false
+            self.hasPreviousMessages = messages.count >= Constant.previousResultSize
+            
             if self.isReversed {
                 self.messages.append(contentsOf: messages)
             } else {
@@ -84,11 +114,41 @@ open class OpenChannelMessageListUseCase: NSObject {
         }
     }
     
-    open func createMessageQuery() -> SBDPreviousMessageListQuery? {
-        // There should be only one single instance per channel.
-        let listQuery = channel.createPreviousMessageListQuery()
+    open func loadNextMessages() {
+        guard hasNextMessages,
+              isLoading == false,
+              let timestamp = isReversed ? messages.first?.createdAt : messages.last?.createdAt else { return }
         
-        return listQuery
+        let params = SBDMessageListParams()
+        params.isInclusive = false
+        params.reverse = isReversed
+        params.previousResultSize = 0
+        params.nextResultSize = Constant.nextResultSize
+
+        isLoading = true
+        
+        channel.getMessagesByTimestamp(timestamp, params: params) { [weak self] messages, error in
+            defer { self?.isLoading = false }
+            
+            guard let self = self else { return }
+            
+            if let error = error {
+                self.delegate?.openChannelMessageListUseCase(self, didReceiveError: error)
+                return
+            }
+            
+            guard let messages = messages else { return }
+            
+            self.hasNextMessages = messages.count >= Constant.nextResultSize
+            
+            if self.isReversed {
+                self.messages.insert(contentsOf: messages, at: 0)
+            } else {
+                self.messages.append(contentsOf: messages)
+            }
+            
+            self.delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
+        }
     }
     
     open func didSendMessage(_ message: SBDBaseMessage) {
@@ -114,7 +174,7 @@ open class OpenChannelMessageListUseCase: NSObject {
 extension OpenChannelMessageListUseCase: SBDChannelDelegate {
     
     public func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
-        guard sender.channelUrl == channel.channelUrl else { return }
+        guard sender.channelUrl == channel.channelUrl, hasNextMessages == false else { return }
         
         appendNewMessage(message)
     }
@@ -137,6 +197,34 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         }
         
         delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
+    }
+    
+}
+
+// MARK: - SBDConnectionDelegate
+
+extension OpenChannelMessageListUseCase: SBDConnectionDelegate {
+    
+    public func didSucceedReconnection() {
+        hasNextMessages = true
+        
+        guard let timestamp = isReversed ? messages.first?.createdAt : messages.last?.createdAt else {
+            return
+        }
+        
+        let params = SBDMessageChangeLogsParams()
+        
+        channel.getMessageChangeLogs(sinceTimestamp: timestamp, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
+            guard let self = self, error == nil else { return }
+            
+            self.messages = self.messages.map { oldMessage in
+                (updatedMessages ?? []).first { $0.messageId == oldMessage.messageId } ?? oldMessage
+            }
+            
+            self.messages = self.messages.filter {
+                (deletedMessageIds ?? []).map(\.int64Value).contains($0.messageId) == false
+            }
+        }
     }
     
 }
