@@ -35,7 +35,9 @@ public final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelI
         self.message = message
         updateSendingStatusUI(for: message)
         
-        guard let imageURL = imageURL(for: message) else { return }
+        guard let imageURL = imageURL(for: message) else {
+            return
+        }
         
         messageImageView.kf.setImage(with: imageURL) { [weak self] result in
             switch result {
