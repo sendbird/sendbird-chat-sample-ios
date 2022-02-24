@@ -183,7 +183,7 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         guard sender.channelUrl == channel.channelUrl else { return }
 
         self.messages = self.messages.map { oldMessage in
-            messages.first { $0.messageId == oldMessage.messageId } ?? oldMessage
+            oldMessage.messageId == message.messageId ? message : oldMessage
         }
         
         delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
