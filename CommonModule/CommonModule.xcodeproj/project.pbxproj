@@ -270,6 +270,7 @@
 		5FD2503027C6767B00D04ACC /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				5F60E84427C680A500C02B5E /* GroupChannelSendingStatusCell.swift */,
 				5F60E83A27C6770F00C02B5E /* GroupChannelMessageCell.swift */,
 				5F60E83627C676D700C02B5E /* GroupChannelOutgoingMessageCell.swift */,
 				5F60E83C27C6779400C02B5E /* GroupChannelOutgoingMessageCell.xib */,
@@ -340,7 +341,6 @@
 				5F60E84227C6808900C02B5E /* User */,
 				5FD2503027C6767B00D04ACC /* Message */,
 				5FD2502F27C6767300D04ACC /* Image */,
-				5F60E84427C680A500C02B5E /* GroupChannelSendingStatusCell.swift */,
 				5F60E84627C682FC00C02B5E /* GroupChannelOutgoingCell.swift */,
 			);
 			path = GroupChannel;

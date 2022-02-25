@@ -133,35 +133,9 @@ extension OpenChannelSettingViewController: UITableViewDelegate {
             case .name:
                 break
             case .changeName:
-                let alert = UIAlertController(title: "Change channel name", message: "Enter new name", preferredStyle: .alert)
-
-                alert.addTextField { [weak self] textField in
-                    textField.text = self?.channel.name
-                }
-
-                alert.addAction(UIAlertAction(title: "Update", style: .default) { [weak alert, weak self] _ in
-                    guard let channelName = alert?.textFields?.first?.text else { return }
-                    
-                    self?.channelSettingUseCase.updateChannelName(channelName) { result in
-                        switch result {
-                        case .success:
-                            self?.navigationController?.popToRootViewController(animated: true)
-                        case .failure(let error):
-                            self?.presentAlert(error: error)
-                        }
-                    }
-                })
-                
-                present(alert, animated: true)
+                presentChangeChannelNameAlert()
             case .leave:
-                channelSettingUseCase.exitChannel { [weak self] result in
-                    switch result {
-                    case .success:
-                        self?.navigationController?.popToRootViewController(animated: true)
-                    case .failure(let error):
-                        self?.presentAlert(error: error)
-                    }
-                }
+                presentLeaveChannelAlert()
             default:
                 break
             }
@@ -171,5 +145,49 @@ extension OpenChannelSettingViewController: UITableViewDelegate {
             break
         }
     }
+    
+    private func presentChangeChannelNameAlert() {
+        let alert = UIAlertController(title: "Change Channel Name", message: "Enter new name", preferredStyle: .alert)
+
+        alert.addTextField { [weak self] textField in
+            textField.text = self?.channel.name
+        }
         
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        alert.addAction(UIAlertAction(title: "Update", style: .default) { [weak alert, weak self] _ in
+            guard let channelName = alert?.textFields?.first?.text else { return }
+            
+            self?.channelSettingUseCase.updateChannelName(channelName) { result in
+                switch result {
+                case .success:
+                    self?.navigationController?.popToRootViewController(animated: true)
+                case .failure(let error):
+                    self?.presentAlert(error: error)
+                }
+            }
+        })
+        
+        present(alert, animated: true)
+    }
+    
+    private func presentLeaveChannelAlert() {
+        let alert = UIAlertController(title: "Leave Channel", message: "Are you sure you want to leave the channel?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        alert.addAction(UIAlertAction(title: "Leave", style: .destructive) { [weak self] _ in
+            self?.channelSettingUseCase.exitChannel { result in
+                switch result {
+                case .success:
+                    self?.navigationController?.popToRootViewController(animated: true)
+                case .failure(let error):
+                    self?.presentAlert(error: error)
+                }
+            }
+        })
+        
+        present(alert, animated: true)
+    }
+    
 }
