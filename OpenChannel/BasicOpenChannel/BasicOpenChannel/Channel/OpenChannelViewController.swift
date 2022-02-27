@@ -91,9 +91,9 @@ class OpenChannelViewController: UIViewController {
         tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(OpenChannelCell.self)
-        tableView.registerNib(OpenChannelFileCell.self)
-        
+        tableView.register(BasicMessageCell.self)
+        tableView.register(BasicFileCell.self)
+
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
         
@@ -126,12 +126,12 @@ extension OpenChannelViewController: UITableViewDataSource {
         let message = messageListUseCase.messages[indexPath.row]
         
         if let fileMessage = message as? SBDFileMessage {
-            let cell: OpenChannelFileCell = tableView.dequeueReusableCell(for: indexPath)
+            let cell: BasicFileCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: fileMessage)
             cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             return cell
         } else {
-            let cell: OpenChannelCell = tableView.dequeueReusableCell(for: indexPath)
+            let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: message)
             cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             return cell

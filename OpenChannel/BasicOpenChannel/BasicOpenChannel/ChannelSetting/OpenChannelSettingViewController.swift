@@ -147,18 +147,8 @@ extension OpenChannelSettingViewController: UITableViewDelegate {
     }
     
     private func presentChangeChannelNameAlert() {
-        let alert = UIAlertController(title: "Change Channel Name", message: "Enter new name", preferredStyle: .alert)
-
-        alert.addTextField { [weak self] textField in
-            textField.text = self?.channel.name
-        }
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-
-        alert.addAction(UIAlertAction(title: "Update", style: .default) { [weak alert, weak self] _ in
-            guard let channelName = alert?.textFields?.first?.text else { return }
-            
-            self?.channelSettingUseCase.updateChannelName(channelName) { result in
+        presentTextFieldAlert(title: "Change Channel Name", message: "Enter new name", defaultTextFieldMessage: channel.name) { [weak self] editedMessage in
+            self?.channelSettingUseCase.updateChannelName(editedMessage) { result in
                 switch result {
                 case .success:
                     self?.navigationController?.popToRootViewController(animated: true)
@@ -166,9 +156,7 @@ extension OpenChannelSettingViewController: UITableViewDelegate {
                     self?.presentAlert(error: error)
                 }
             }
-        })
-        
-        present(alert, animated: true)
+        }
     }
     
     private func presentLeaveChannelAlert() {

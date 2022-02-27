@@ -43,16 +43,8 @@ extension OpenChannelViewController {
     }
     
     private func presentUpdateUserMessageAlert(for message: SBDUserMessage) {
-        let alert = UIAlertController(title: "Update message", message: "Enter new text", preferredStyle: .alert)
-
-        alert.addTextField { textField in
-            textField.text = message.message
-        }
-
-        alert.addAction(UIAlertAction(title: "Update", style: .default) { [weak alert, weak self] _ in
-            guard let textField = alert?.textFields?.first else { return }
-            
-            self?.userMessageUseCase.updateMessage(message, to: textField.text ?? "", completion: { result in
+        presentTextFieldAlert(title: "Update message", message: "Enter new text", defaultTextFieldMessage: message.message) { [weak self] editedMessage in
+            self?.userMessageUseCase.updateMessage(message, to: editedMessage, completion: { result in
                 switch result {
                 case .success:
                     break
@@ -60,9 +52,7 @@ extension OpenChannelViewController {
                     self?.presentAlert(error: error)
                 }
             })
-        })
-        
-        self.present(alert, animated: true)
+        }
     }
     
     private func deleteMessage(_ message: SBDBaseMessage) {
