@@ -98,10 +98,6 @@ class GroupChannelViewController: UIViewController {
         tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.registerNib(GroupChannelOutgoingMessageCell.self)
-        tableView.registerNib(GroupChannelIncomingMessageCell.self)
-        tableView.registerNib(GroupChannelOutgoingImageCell.self)
-        tableView.registerNib(GroupChannelIncomingImageCell.self)
         tableView.register(GroupChannelMessageCell.self)
         tableView.register(GroupChannelFileCell.self)
         
@@ -138,19 +134,13 @@ extension GroupChannelViewController: UITableViewDataSource {
         
         if let fileMessage = message as? SBDFileMessage {
             let cell: GroupChannelFileCell = tableView.dequeueReusableCell(for: indexPath)
-            
             cell.configure(with: fileMessage)
-            (cell as? GroupChannelOutgoingCell)?.delegate = self
             cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-            
             return cell
         } else {
             let cell: GroupChannelMessageCell = tableView.dequeueReusableCell(for: indexPath)
-            
             cell.configure(with: message)
-            (cell as? GroupChannelOutgoingCell)?.delegate = self
             cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-            
             return cell
         }
     }
@@ -189,32 +179,6 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
         tableView.reloadData()
     }
     
-}
-
-// MARK: - GroupChannelOutgoingCellDelegate
-
-extension GroupChannelViewController: GroupChannelOutgoingCellDelegate {
-    func groupChannelOutgoingCell(_ cell: GroupChannelOutgoingCell, didTouchResendButton resendButton: UIButton, forUserMessage message: SBDUserMessage) {
-        userMessageUseCase.resendMessage(message) { [weak self] result in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                self?.presentAlert(error: error)
-            }
-        }
-    }
-    
-    func groupChannelOutgoingCell(_ cell: GroupChannelOutgoingCell, didTouchResendButton resendButton: UIButton, forFileMessage message: SBDFileMessage) {
-        fileMessageUseCase.resendMessage(message) { [weak self] result in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                self?.presentAlert(error: error)
-            }
-        }
-    }
 }
 
 // MARK: - MessageInputViewDelegate
