@@ -19,7 +19,7 @@ public class GroupChannelMessageCell: UITableViewCell {
     
     private lazy var profileImageView: UIImageView = {
         let profileImageView: UIImageView = UIImageView()
-        profileImageView.contentMode = .scaleToFill
+        profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 16
         profileImageView.clipsToBounds = true
         profileImageView.backgroundColor = .secondarySystemBackground
@@ -32,13 +32,6 @@ public class GroupChannelMessageCell: UITableViewCell {
         messageLabel.font = .systemFont(ofSize: 17)
         messageLabel.numberOfLines = 0
         return messageLabel
-    }()
-    
-    private lazy var sendingIndicator: UIActivityIndicatorView = {
-        let sendingIndicator = UIActivityIndicatorView(style: .medium)
-        sendingIndicator.hidesWhenStopped = true
-        sendingIndicator.startAnimating()
-        return sendingIndicator
     }()
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -55,12 +48,10 @@ public class GroupChannelMessageCell: UITableViewCell {
         contentView.addSubview(profileImageView)
         contentView.addSubview(profileLabel)
         contentView.addSubview(messageLabel)
-        contentView.addSubview(sendingIndicator)
 
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        sendingIndicator.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -78,13 +69,8 @@ public class GroupChannelMessageCell: UITableViewCell {
         NSLayoutConstraint.activate([
             messageLabel.topAnchor.constraint(equalTo: profileLabel.bottomAnchor),
             messageLabel.leadingAnchor.constraint(equalTo: profileLabel.leadingAnchor),
+            messageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             messageLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
-        ])
-        
-        NSLayoutConstraint.activate([
-            sendingIndicator.leadingAnchor.constraint(equalTo: messageLabel.trailingAnchor),
-            sendingIndicator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            sendingIndicator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
@@ -95,7 +81,6 @@ public class GroupChannelMessageCell: UITableViewCell {
         profileImageView.kf.cancelDownloadTask()
         profileImageView.image = nil
         messageLabel.text = nil
-        sendingIndicator.stopAnimating()
     }
 
     public func configure(with message: SBDBaseMessage) {
@@ -106,14 +91,7 @@ public class GroupChannelMessageCell: UITableViewCell {
             profileLabel.text = "Admin"
         }
         
-        messageLabel.text = "\(message.message)"
-        
-        switch message.sendingStatus {
-        case .pending:
-            sendingIndicator.startAnimating()
-        default:
-            sendingIndicator.stopAnimating()
-        }
+        messageLabel.text = "\(message.message)\(MessageSendingStatus(message).description)"
     }
     
 }

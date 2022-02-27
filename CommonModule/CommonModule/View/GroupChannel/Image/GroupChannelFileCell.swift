@@ -20,7 +20,7 @@ public class GroupChannelFileCell: UITableViewCell {
     
     private lazy var profileImageView: UIImageView = {
         let profileImageView: UIImageView = UIImageView()
-        profileImageView.contentMode = .scaleToFill
+        profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 16
         profileImageView.clipsToBounds = true
         profileImageView.backgroundColor = .secondarySystemBackground
@@ -38,7 +38,7 @@ public class GroupChannelFileCell: UITableViewCell {
     private lazy var previewImageView: UIImageView = {
         let previewImageView = UIImageView()
         previewImageView.backgroundColor = .secondarySystemBackground
-        previewImageView.contentMode = .scaleToFill
+        previewImageView.contentMode = .scaleAspectFill
         previewImageView.layer.cornerRadius = 10
         previewImageView.clipsToBounds = true
         return previewImageView
@@ -48,13 +48,6 @@ public class GroupChannelFileCell: UITableViewCell {
         let previewPlaceholderImageView = UIImageView()
         previewPlaceholderImageView.image = .named("img_icon_general_file")
         return previewPlaceholderImageView
-    }()
-    
-    private lazy var sendingIndicator: UIActivityIndicatorView = {
-        let sendingIndicator = UIActivityIndicatorView(style: .medium)
-        sendingIndicator.hidesWhenStopped = true
-        sendingIndicator.startAnimating()
-        return sendingIndicator
     }()
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -73,14 +66,12 @@ public class GroupChannelFileCell: UITableViewCell {
         contentView.addSubview(messageLabel)
         contentView.addSubview(previewImageView)
         contentView.addSubview(previewPlaceholderImageView)
-        contentView.addSubview(sendingIndicator)
 
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         previewImageView.translatesAutoresizingMaskIntoConstraints = false
         previewPlaceholderImageView.translatesAutoresizingMaskIntoConstraints = false
-        sendingIndicator.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -115,11 +106,6 @@ public class GroupChannelFileCell: UITableViewCell {
             previewPlaceholderImageView.widthAnchor.constraint(equalToConstant: 50),
             previewPlaceholderImageView.heightAnchor.constraint(equalToConstant: 50),
         ])
-
-        NSLayoutConstraint.activate([
-            sendingIndicator.leadingAnchor.constraint(equalTo: previewImageView.trailingAnchor),
-            sendingIndicator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
-        ])
     }
     
     public override func prepareForReuse() {
@@ -129,25 +115,15 @@ public class GroupChannelFileCell: UITableViewCell {
         profileImageView.kf.cancelDownloadTask()
         profileImageView.image = nil
         messageLabel.text = nil
-        sendingIndicator.stopAnimating()
     }
 
     public func configure(with message: SBDFileMessage) {
         if let sender = message.sender {
             profileLabel.text = "\(sender.nickname ?? "(Unknown)")"
             profileImageView.setProfileImageView(for: sender)
-        } else if message is SBDAdminMessage {
-            profileLabel.text = "Admin"
         }
         
-        messageLabel.text = "\(message.message)"
-        
-        switch message.sendingStatus {
-        case .pending:
-            sendingIndicator.startAnimating()
-        default:
-            sendingIndicator.stopAnimating()
-        }
+        messageLabel.text = "\(message.message)\(MessageSendingStatus(message).description)"
         
         previewPlaceholderImageView.isHidden = false
         
