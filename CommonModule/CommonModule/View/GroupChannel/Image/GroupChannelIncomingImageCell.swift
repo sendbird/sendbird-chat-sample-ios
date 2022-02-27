@@ -9,7 +9,7 @@ import UIKit
 import SendBirdSDK
 import Kingfisher
 
-public final class GroupChannelIncomingImageCell: UITableViewCell, GroupChannelImageCell {
+public final class GroupChannelIncomingImageCell: UITableViewCell {
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nicknameTextLabel: UILabel!

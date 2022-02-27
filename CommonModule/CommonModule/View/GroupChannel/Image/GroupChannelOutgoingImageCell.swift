@@ -9,7 +9,7 @@ import UIKit
 import SendBirdSDK
 import Kingfisher
 
-public final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelImageCell, GroupChannelSendingStatusCell, GroupChannelOutgoingCell {
+public final class GroupChannelOutgoingImageCell: UITableViewCell, GroupChannelSendingStatusCell, GroupChannelOutgoingCell {
     
     public weak var delegate: GroupChannelOutgoingCellDelegate?
     private weak var message: SBDFileMessage?

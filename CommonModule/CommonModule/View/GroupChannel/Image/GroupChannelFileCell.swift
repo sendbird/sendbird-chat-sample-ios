@@ -1,5 +1,5 @@
 //
-//  GroupChannelMessageCell.swift
+//  GroupChannelFileCell.swift
 //  CommonModule
 //
 //  Created by Ernest Hong on 2022/02/23.
@@ -8,12 +8,13 @@
 import UIKit
 import SendBirdSDK
 
-public class GroupChannelMessageCell: UITableViewCell {
+public class GroupChannelFileCell: UITableViewCell {
     
     private lazy var profileLabel: UILabel = {
         let profileLabel: UILabel = UILabel()
         profileLabel.textColor = .secondaryLabel
         profileLabel.font = .systemFont(ofSize: 14)
+        profileLabel.numberOfLines = 0
         return profileLabel
     }()
     
@@ -32,6 +33,21 @@ public class GroupChannelMessageCell: UITableViewCell {
         messageLabel.font = .systemFont(ofSize: 17)
         messageLabel.numberOfLines = 0
         return messageLabel
+    }()
+    
+    private lazy var previewImageView: UIImageView = {
+        let previewImageView = UIImageView()
+        previewImageView.backgroundColor = .secondarySystemBackground
+        previewImageView.contentMode = .scaleToFill
+        previewImageView.layer.cornerRadius = 10
+        previewImageView.clipsToBounds = true
+        return previewImageView
+    }()
+    
+    private lazy var previewPlaceholderImageView: UIImageView = {
+        let previewPlaceholderImageView = UIImageView()
+        previewPlaceholderImageView.image = .named("img_icon_general_file")
+        return previewPlaceholderImageView
     }()
     
     private lazy var sendingIndicator: UIActivityIndicatorView = {
@@ -55,11 +71,15 @@ public class GroupChannelMessageCell: UITableViewCell {
         contentView.addSubview(profileImageView)
         contentView.addSubview(profileLabel)
         contentView.addSubview(messageLabel)
+        contentView.addSubview(previewImageView)
+        contentView.addSubview(previewPlaceholderImageView)
         contentView.addSubview(sendingIndicator)
 
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        previewImageView.translatesAutoresizingMaskIntoConstraints = false
+        previewPlaceholderImageView.translatesAutoresizingMaskIntoConstraints = false
         sendingIndicator.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
@@ -78,12 +98,26 @@ public class GroupChannelMessageCell: UITableViewCell {
         NSLayoutConstraint.activate([
             messageLabel.topAnchor.constraint(equalTo: profileLabel.bottomAnchor),
             messageLabel.leadingAnchor.constraint(equalTo: profileLabel.leadingAnchor),
-            messageLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            messageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
-            sendingIndicator.leadingAnchor.constraint(equalTo: messageLabel.trailingAnchor),
-            sendingIndicator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            previewImageView.topAnchor.constraint(equalTo: messageLabel.bottomAnchor),
+            previewImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            previewImageView.leadingAnchor.constraint(equalTo: messageLabel.leadingAnchor),
+            previewImageView.widthAnchor.constraint(equalToConstant: 240),
+            previewImageView.heightAnchor.constraint(equalToConstant: 160),
+        ])
+                
+        NSLayoutConstraint.activate([
+            previewPlaceholderImageView.centerXAnchor.constraint(equalTo: previewImageView.centerXAnchor),
+            previewPlaceholderImageView.centerYAnchor.constraint(equalTo: previewImageView.centerYAnchor),
+            previewPlaceholderImageView.widthAnchor.constraint(equalToConstant: 50),
+            previewPlaceholderImageView.heightAnchor.constraint(equalToConstant: 50),
+        ])
+
+        NSLayoutConstraint.activate([
+            sendingIndicator.leadingAnchor.constraint(equalTo: previewImageView.trailingAnchor),
             sendingIndicator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
@@ -98,7 +132,7 @@ public class GroupChannelMessageCell: UITableViewCell {
         sendingIndicator.stopAnimating()
     }
 
-    public func configure(with message: SBDBaseMessage) {
+    public func configure(with message: SBDFileMessage) {
         if let sender = message.sender {
             profileLabel.text = "\(sender.nickname ?? "(Unknown)")"
             profileImageView.setProfileImageView(for: sender)
@@ -114,6 +148,31 @@ public class GroupChannelMessageCell: UITableViewCell {
         default:
             sendingIndicator.stopAnimating()
         }
+        
+        previewPlaceholderImageView.isHidden = false
+        
+        guard let imageURL = imageURL(for: message) else {
+            return
+        }
+        
+        previewImageView.kf.setImage(with: imageURL) { [weak self] result in
+            switch result {
+            case .success:
+                self?.previewPlaceholderImageView.isHidden = true
+            case .failure:
+                self?.previewPlaceholderImageView.isHidden = false
+            }
+        }
+    }
+    
+    private func imageURL(for message: SBDFileMessage) -> URL? {
+        if let thumbnailURLString = message.thumbnails?.first?.url {
+            return URL(string: thumbnailURLString)
+        } else if message.type.hasPrefix("image") {
+            return URL(string: message.url)
+        }
+        
+        return nil
     }
     
 }
