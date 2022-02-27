@@ -15,6 +15,13 @@ public class ProfileEditViewController: UIViewController {
     
     private var selectedImageData: Data?
     
+    private lazy var cancelButtonItem = UIBarButtonItem(
+        title: "Cancel",
+        style: .plain,
+        target: self,
+        action: #selector(didTouchCancelButton)
+    )
+    
     private lazy var doneButtonItem = UIBarButtonItem(
         title: "Done",
         style: .done,
@@ -39,16 +46,27 @@ public class ProfileEditViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavigation()
+    }
+    
+    private func setupNavigation() {
         title = "Profile Image & Name"
+        navigationItem.leftBarButtonItem = cancelButtonItem
         navigationItem.rightBarButtonItem = doneButtonItem
-        
+    }
+    
+    private func setupProfileEditView() {
+        profileEditView.placeholder = "Please write your nickname"
         profileEditView.delegate = self
         
         guard let currentUser = UserConnectionUseCase.shared.currentUser else { return }
         
         profileEditView.setUsers([currentUser])
         profileEditView.text = currentUser.nickname
-        profileEditView.placeholder = "Please write your nickname"
+    }
+    
+    @objc private func didTouchCancelButton() {
+        dismiss(animated: true)
     }
     
     @objc private func didTouchUpdateButton() {
