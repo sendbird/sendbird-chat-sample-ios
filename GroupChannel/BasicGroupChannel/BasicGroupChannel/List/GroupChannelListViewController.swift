@@ -126,6 +126,12 @@ extension GroupChannelListViewController: UITableViewDelegate {
 
         return UISwipeActionsConfiguration(actions: [leaveAction])
     }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
+            useCase.loadNextPage()
+        }
+    }
 
 }
 
