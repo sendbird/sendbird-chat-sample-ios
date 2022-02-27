@@ -23,6 +23,14 @@ extension GroupChannelViewController {
     private func presentEditUserMessageAlert(for message: SBDUserMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
         
+        if message.sendingStatus == .failed {
+            alert.addAction(
+                UIAlertAction(title: "Resend", style: .default) { [weak self] _ in
+                    self?.resend(message)
+                }
+            )
+        }
+        
         alert.addAction(
             UIAlertAction(title: "Update", style: .default) { [weak self] _ in
                 self?.presentUpdateUserMessageAlert(for: message)
@@ -48,6 +56,8 @@ extension GroupChannelViewController {
         alert.addTextField { textField in
             textField.text = message.message
         }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
         alert.addAction(UIAlertAction(title: "Update", style: .default) { [weak alert, weak self] _ in
             guard let textField = alert?.textFields?.first else { return }
@@ -79,6 +89,14 @@ extension GroupChannelViewController {
     private func presentEditFileMessageAlert(for message: SBDFileMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.name, preferredStyle: .actionSheet)
         
+        if message.sendingStatus == .failed {
+            alert.addAction(
+                UIAlertAction(title: "Resend", style: .default) { [weak self] _ in
+                    self?.resend(message)
+                }
+            )
+        }
+        
         alert.addAction(
             UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
                 self?.deleteMessage(message)
@@ -90,6 +108,28 @@ extension GroupChannelViewController {
         )
 
         present(alert, animated: true)
+    }
+    
+    private func resend(_ message: SBDUserMessage) {
+        userMessageUseCase.resendMessage(message) { [weak self] result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                self?.presentAlert(error: error)
+            }
+        }
+    }
+    
+    private func resend(_ message: SBDFileMessage) {
+        fileMessageUseCase.resendMessage(message) { [weak self] result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                self?.presentAlert(error: error)
+            }
+        }
     }
     
 }
