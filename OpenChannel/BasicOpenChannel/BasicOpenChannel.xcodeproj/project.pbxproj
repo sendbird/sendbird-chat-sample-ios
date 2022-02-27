@@ -13,12 +13,9 @@
 		5F00CA2227B2479B00206750 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00CA2027B2479B00206750 /* Main.storyboard */; };
 		5F00CA2427B2479B00206750 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F00CA2327B2479B00206750 /* Assets.xcassets */; };
 		5F00CA2727B2479B00206750 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00CA2527B2479B00206750 /* LaunchScreen.storyboard */; };
-		5F6F62C527B9E85900FD6121 /* OpenChannelFileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F62B627B9E78900FD6121 /* OpenChannelFileCell.xib */; };
 		5F6F62C627B9E85900FD6121 /* OpenChannelViewController+FileMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62B027B9E78900FD6121 /* OpenChannelViewController+FileMessage.swift */; };
 		5F6F62C727B9E85900FD6121 /* CreateOpenChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62BF27B9E7CD00FD6121 /* CreateOpenChannelViewController.swift */; };
 		5F6F62C827B9E85900FD6121 /* OpenChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62AD27B9E6F100FD6121 /* OpenChannelListViewController.swift */; };
-		5F6F62C927B9E85900FD6121 /* OpenChannelFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62B727B9E78900FD6121 /* OpenChannelFileCell.swift */; };
-		5F6F62CA27B9E85900FD6121 /* OpenChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62B527B9E78900FD6121 /* OpenChannelCell.swift */; };
 		5F6F62CB27B9E85900FD6121 /* OpenChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F62B127B9E78900FD6121 /* OpenChannelViewController.xib */; };
 		5F6F62CC27B9E85900FD6121 /* OpenChannelViewController+EditMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62B227B9E78900FD6121 /* OpenChannelViewController+EditMessage.swift */; };
 		5F6F62CD27B9E85900FD6121 /* CreateOpenChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F62BE27B9E7CC00FD6121 /* CreateOpenChannelViewController.xib */; };
@@ -62,9 +59,6 @@
 		5F6F62B127B9E78900FD6121 /* OpenChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenChannelViewController.xib; sourceTree = "<group>"; };
 		5F6F62B227B9E78900FD6121 /* OpenChannelViewController+EditMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OpenChannelViewController+EditMessage.swift"; sourceTree = "<group>"; };
 		5F6F62B327B9E78900FD6121 /* OpenChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelViewController.swift; sourceTree = "<group>"; };
-		5F6F62B527B9E78900FD6121 /* OpenChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelCell.swift; sourceTree = "<group>"; };
-		5F6F62B627B9E78900FD6121 /* OpenChannelFileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenChannelFileCell.xib; sourceTree = "<group>"; };
-		5F6F62B727B9E78900FD6121 /* OpenChannelFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelFileCell.swift; sourceTree = "<group>"; };
 		5F6F62BE27B9E7CC00FD6121 /* CreateOpenChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateOpenChannelViewController.xib; sourceTree = "<group>"; };
 		5F6F62BF27B9E7CD00FD6121 /* CreateOpenChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOpenChannelViewController.swift; sourceTree = "<group>"; };
 		5F6F62D527B9EB9200FD6121 /* OpenChannelSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenChannelSettingViewController.xib; sourceTree = "<group>"; };
@@ -143,23 +137,12 @@
 		5F6F62AF27B9E78900FD6121 /* Channel */ = {
 			isa = PBXGroup;
 			children = (
-				5F6F62B427B9E78900FD6121 /* Cell */,
 				5F6F62B127B9E78900FD6121 /* OpenChannelViewController.xib */,
 				5F6F62B327B9E78900FD6121 /* OpenChannelViewController.swift */,
 				5F6F62B227B9E78900FD6121 /* OpenChannelViewController+EditMessage.swift */,
 				5F6F62B027B9E78900FD6121 /* OpenChannelViewController+FileMessage.swift */,
 			);
 			path = Channel;
-			sourceTree = "<group>";
-		};
-		5F6F62B427B9E78900FD6121 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				5F6F62B527B9E78900FD6121 /* OpenChannelCell.swift */,
-				5F6F62B727B9E78900FD6121 /* OpenChannelFileCell.swift */,
-				5F6F62B627B9E78900FD6121 /* OpenChannelFileCell.xib */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		5F6F62BD27B9E7CC00FD6121 /* CreateChannel */ = {
@@ -256,7 +239,6 @@
 				5F6F62CD27B9E85900FD6121 /* CreateOpenChannelViewController.xib in Resources */,
 				5F00CA2227B2479B00206750 /* Main.storyboard in Resources */,
 				5F6F62CB27B9E85900FD6121 /* OpenChannelViewController.xib in Resources */,
-				5F6F62C527B9E85900FD6121 /* OpenChannelFileCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,13 +253,11 @@
 				5F6F62C627B9E85900FD6121 /* OpenChannelViewController+FileMessage.swift in Sources */,
 				5F6F62CC27B9E85900FD6121 /* OpenChannelViewController+EditMessage.swift in Sources */,
 				5F6F62D727B9EB9200FD6121 /* OpenChannelSettingViewController.swift in Sources */,
-				5F6F62C927B9E85900FD6121 /* OpenChannelFileCell.swift in Sources */,
 				5F6F62C827B9E85900FD6121 /* OpenChannelListViewController.swift in Sources */,
 				5F00CA1F27B2479B00206750 /* ViewController.swift in Sources */,
 				5F6F62CE27B9E85900FD6121 /* OpenChannelViewController.swift in Sources */,
 				5F00CA1B27B2479B00206750 /* AppDelegate.swift in Sources */,
 				5F00CA1D27B2479B00206750 /* SceneDelegate.swift in Sources */,
-				5F6F62CA27B9E85900FD6121 /* OpenChannelCell.swift in Sources */,
 				5FDE176E27BA4C1F0009CB39 /* SettingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
