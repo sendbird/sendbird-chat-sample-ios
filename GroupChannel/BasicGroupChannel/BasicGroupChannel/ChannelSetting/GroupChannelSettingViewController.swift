@@ -39,7 +39,7 @@ class GroupChannelSettingViewController: UIViewController {
     
     private let channel: SBDGroupChannel
     
-    private lazy var inviteMemberUseCase = GroupChannelInviteMemberUseCase(channel: channel)
+    private lazy var settingUseCase = GroupChannelSettingUseCase(channel: channel)
     
     init(channel: SBDGroupChannel) {
         self.channel = channel
@@ -113,7 +113,7 @@ extension GroupChannelSettingViewController: UITableViewDataSource {
                 break
             }
         case .members:
-            switch MemberRow(rawValue: indexPath.row, members: inviteMemberUseCase.members) {
+            switch MemberRow(rawValue: indexPath.row, members: settingUseCase.members) {
             case .memberInfo(let member):
                 cell.textLabel?.text = member.nickname ?? ""
             case .inviteMember:
@@ -141,14 +141,14 @@ extension GroupChannelSettingViewController: UITableViewDelegate {
             case .name:
                 break
             case .changeName:
-                break
+                presentChangeChannelNameAlert()
             case .leave:
-                break
+                presentLeaveChannelAlert()
             default:
                 break
             }
         case .members:
-            switch MemberRow(rawValue: indexPath.row, members: inviteMemberUseCase.members) {
+            switch MemberRow(rawValue: indexPath.row, members: settingUseCase.members) {
             case .memberInfo:
                 break
             case .inviteMember:
@@ -163,7 +163,7 @@ extension GroupChannelSettingViewController: UITableViewDelegate {
         guard let members = channel.members as? [SBDUser] else { return }
         
         let userSelection = UserSelectionViewController(excludeUsers: members) { [weak self] sender, users in
-            self?.inviteMemberUseCase.invite(users: users) { result in
+            self?.settingUseCase.invite(users: users) { result in
                 sender.dismiss(animated: true) {
                     switch result {
                     case .success:
@@ -180,4 +180,36 @@ extension GroupChannelSettingViewController: UITableViewDelegate {
         present(navigation, animated: true)
     }
     
+    private func presentChangeChannelNameAlert() {
+        presentTextFieldAlert(title: "Change channel name", message: nil, defaultTextFieldMessage: channel.name) { [weak self] editedName in
+            self?.settingUseCase.updateChannelName(editedName) { result in
+                switch result {
+                case .success:
+                    self?.navigationController?.popToRootViewController(animated: true)
+                case .failure(let error):
+                    self?.presentAlert(error: error)
+                }
+            }
+        }
+    }
+    
+    private func presentLeaveChannelAlert() {
+        let alert = UIAlertController(title: "Leave Channel", message: "Are you sure you want to leave the channel?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        alert.addAction(UIAlertAction(title: "Leave", style: .destructive) { [weak self] _ in
+            self?.settingUseCase.leaveChannel { result in
+                switch result {
+                case .success:
+                    self?.navigationController?.popToRootViewController(animated: true)
+                case .failure(let error):
+                    self?.presentAlert(error: error)
+                }
+            }
+        })
+        
+        present(alert, animated: true)
+    }
+
 }
