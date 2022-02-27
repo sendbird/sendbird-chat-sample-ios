@@ -1,5 +1,5 @@
 //
-//  GroupChannelFileCell.swift
+//  BasicFileCell.swift
 //  CommonModule
 //
 //  Created by Ernest Hong on 2022/02/23.
@@ -8,7 +8,7 @@
 import UIKit
 import SendBirdSDK
 
-public class GroupChannelFileCell: UITableViewCell {
+public class BasicFileCell: UITableViewCell {
     
     private lazy var profileLabel: UILabel = {
         let profileLabel: UILabel = UILabel()
@@ -47,6 +47,7 @@ public class GroupChannelFileCell: UITableViewCell {
     private lazy var previewPlaceholderImageView: UIImageView = {
         let previewPlaceholderImageView = UIImageView()
         previewPlaceholderImageView.image = .named("img_icon_general_file")
+        previewPlaceholderImageView.isHidden = true
         return previewPlaceholderImageView
     }()
     
@@ -114,7 +115,10 @@ public class GroupChannelFileCell: UITableViewCell {
         profileLabel.text = nil
         profileImageView.kf.cancelDownloadTask()
         profileImageView.image = nil
+        previewImageView.kf.cancelDownloadTask()
+        previewImageView.image = nil
         messageLabel.text = nil
+        previewPlaceholderImageView.isHidden = true
     }
 
     public func configure(with message: SBDFileMessage) {
@@ -125,9 +129,8 @@ public class GroupChannelFileCell: UITableViewCell {
         
         messageLabel.text = "\(message.message)\(MessageSendingStatus(message).description)"
         
-        previewPlaceholderImageView.isHidden = false
-        
         guard let imageURL = imageURL(for: message) else {
+            previewPlaceholderImageView.isHidden = false
             return
         }
         

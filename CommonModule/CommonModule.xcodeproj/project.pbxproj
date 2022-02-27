@@ -16,7 +16,7 @@
 		5F00CA6227B262AC00206750 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F00CA6127B262AC00206750 /* LoginViewController.swift */; };
 		5F00CA6527B2639B00206750 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F00CA6427B2639B00206750 /* UIViewController+Extension.swift */; };
 		5F00CA6727B265CB00206750 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F00CA6627B265CB00206750 /* Assets.xcassets */; };
-		5F60E83B27C6770F00C02B5E /* GroupChannelMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F60E83A27C6770F00C02B5E /* GroupChannelMessageCell.swift */; };
+		5F60E83B27C6770F00C02B5E /* BasicMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F60E83A27C6770F00C02B5E /* BasicMessageCell.swift */; };
 		5F6F62A627B6A4F300FD6121 /* GroupChannelInviteMemberUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A527B6A4F300FD6121 /* GroupChannelInviteMemberUseCase.swift */; };
 		5F6F62A827B90AA000FD6121 /* VersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A727B90AA000FD6121 /* VersionInfo.swift */; };
 		5F6F62AA27B90FB600FD6121 /* BaseAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */; };
@@ -25,7 +25,7 @@
 		5FD2501427C4729300D04ACC /* ImagePickerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */; };
 		5FD2501627C4AFFB00D04ACC /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2501527C4AFFB00D04ACC /* KeyboardObserver.swift */; };
 		5FD2501827C4B9C400D04ACC /* TimestampStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2501727C4B9C400D04ACC /* TimestampStorage.swift */; };
-		5FD2502C27C671D600D04ACC /* GroupChannelFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2502B27C671D600D04ACC /* GroupChannelFileCell.swift */; };
+		5FD2502C27C671D600D04ACC /* BasicFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2502B27C671D600D04ACC /* BasicFileCell.swift */; };
 		5FD2502E27C6726700D04ACC /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2502D27C6726700D04ACC /* UITableView+Extension.swift */; };
 		5FD8CE9E27B35A72006F539B /* GroupChannelListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CE9D27B35A72006F539B /* GroupChannelListUseCase.swift */; };
 		5FD8CEA827B36332006F539B /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CEA727B36332006F539B /* ProfileImageView.swift */; };
@@ -79,7 +79,7 @@
 		5F00CA6127B262AC00206750 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		5F00CA6427B2639B00206750 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		5F00CA6627B265CB00206750 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5F60E83A27C6770F00C02B5E /* GroupChannelMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelMessageCell.swift; sourceTree = "<group>"; };
+		5F60E83A27C6770F00C02B5E /* BasicMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicMessageCell.swift; sourceTree = "<group>"; };
 		5F6F62A527B6A4F300FD6121 /* GroupChannelInviteMemberUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelInviteMemberUseCase.swift; sourceTree = "<group>"; };
 		5F6F62A727B90AA000FD6121 /* VersionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionInfo.swift; sourceTree = "<group>"; };
 		5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAppearance.swift; sourceTree = "<group>"; };
@@ -88,7 +88,7 @@
 		5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerRouter.swift; sourceTree = "<group>"; };
 		5FD2501527C4AFFB00D04ACC /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		5FD2501727C4B9C400D04ACC /* TimestampStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampStorage.swift; sourceTree = "<group>"; };
-		5FD2502B27C671D600D04ACC /* GroupChannelFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelFileCell.swift; sourceTree = "<group>"; };
+		5FD2502B27C671D600D04ACC /* BasicFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicFileCell.swift; sourceTree = "<group>"; };
 		5FD2502D27C6726700D04ACC /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		5FD8CE9D27B35A72006F539B /* GroupChannelListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelListUseCase.swift; sourceTree = "<group>"; };
 		5FD8CEA727B36332006F539B /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
@@ -240,8 +240,8 @@
 		5FD2503027C6767B00D04ACC /* Message */ = {
 			isa = PBXGroup;
 			children = (
-				5F60E83A27C6770F00C02B5E /* GroupChannelMessageCell.swift */,
-				5FD2502B27C671D600D04ACC /* GroupChannelFileCell.swift */,
+				5F60E83A27C6770F00C02B5E /* BasicMessageCell.swift */,
+				5FD2502B27C671D600D04ACC /* BasicFileCell.swift */,
 				5FCC154B27CB71660014B317 /* MessageSendingStatus.swift */,
 			);
 			path = Message;
@@ -295,6 +295,7 @@
 			isa = PBXGroup;
 			children = (
 				5FDE175027B9EC630009CB39 /* UserSelection */,
+				5FD2503027C6767B00D04ACC /* Message */,
 				5FD8CEC127B4A3C0006F539B /* GroupChannel */,
 				5FD8CEB327B373B5006F539B /* MessageInput */,
 				5F00CA5927B260D300206750 /* User */,
@@ -306,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				5F60E84227C6808900C02B5E /* User */,
-				5FD2503027C6767B00D04ACC /* Message */,
 			);
 			path = GroupChannel;
 			sourceTree = "<group>";
@@ -477,7 +477,7 @@
 				5FDE176027B9F7A70009CB39 /* OpenChannelMessageListUseCase.swift in Sources */,
 				5FD8CECB27B4A643006F539B /* UserSelectionUseCase.swift in Sources */,
 				5FD8CEC927B4A42C006F539B /* SelectedUserCollectionViewCell.swift in Sources */,
-				5F60E83B27C6770F00C02B5E /* GroupChannelMessageCell.swift in Sources */,
+				5F60E83B27C6770F00C02B5E /* BasicMessageCell.swift in Sources */,
 				5FF9F9D427B559340080565A /* GroupChannelUserMessageUseCase.swift in Sources */,
 				5FDF2B5027B26C4D00C3A8A2 /* UserConnectionUseCase.swift in Sources */,
 				5FEEB64F27B65A3700677373 /* EnvironmentUseCase.swift in Sources */,
@@ -502,7 +502,7 @@
 				5F6F62A627B6A4F300FD6121 /* GroupChannelInviteMemberUseCase.swift in Sources */,
 				5FD2501827C4B9C400D04ACC /* TimestampStorage.swift in Sources */,
 				5FDE176427BA48060009CB39 /* ProfileEditView.swift in Sources */,
-				5FD2502C27C671D600D04ACC /* GroupChannelFileCell.swift in Sources */,
+				5FD2502C27C671D600D04ACC /* BasicFileCell.swift in Sources */,
 				5FD2501427C4729300D04ACC /* ImagePickerRouter.swift in Sources */,
 				5FD8CEDB27B50792006F539B /* GroupChannelMessageListUseCase.swift in Sources */,
 				5FD8CEC627B4A429006F539B /* SelectableUserTableViewCell.swift in Sources */,

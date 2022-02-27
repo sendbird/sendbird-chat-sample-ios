@@ -1,5 +1,5 @@
 //
-//  GroupChannelMessageCell.swift
+//  BasicMessageCell.swift
 //  CommonModule
 //
 //  Created by Ernest Hong on 2022/02/23.
@@ -8,7 +8,7 @@
 import UIKit
 import SendBirdSDK
 
-public class GroupChannelMessageCell: UITableViewCell {
+public class BasicMessageCell: UITableViewCell {
     
     private lazy var profileLabel: UILabel = {
         let profileLabel: UILabel = UILabel()

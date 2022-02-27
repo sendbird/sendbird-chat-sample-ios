@@ -14,7 +14,7 @@ final class GroupChannelListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     
     private lazy var createChannelBarButton = UIBarButtonItem(
-        image: UIImage(named: "img_btn_create_group_channel"),
+        title: "Create",
         style: .plain,
         target: self,
         action: #selector(didTouchCreatChannelButton)

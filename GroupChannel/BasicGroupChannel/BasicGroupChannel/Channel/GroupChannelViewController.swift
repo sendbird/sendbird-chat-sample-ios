@@ -98,8 +98,8 @@ class GroupChannelViewController: UIViewController {
         tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(GroupChannelMessageCell.self)
-        tableView.register(GroupChannelFileCell.self)
+        tableView.register(BasicMessageCell.self)
+        tableView.register(BasicFileCell.self)
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -133,12 +133,12 @@ extension GroupChannelViewController: UITableViewDataSource {
         let message = messageListUseCase.messages[indexPath.row]
         
         if let fileMessage = message as? SBDFileMessage {
-            let cell: GroupChannelFileCell = tableView.dequeueReusableCell(for: indexPath)
+            let cell: BasicFileCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: fileMessage)
             cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             return cell
         } else {
-            let cell: GroupChannelMessageCell = tableView.dequeueReusableCell(for: indexPath)
+            let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: message)
             cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             return cell

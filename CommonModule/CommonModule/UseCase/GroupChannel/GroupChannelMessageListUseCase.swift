@@ -166,11 +166,13 @@ open class GroupChannelMessageListUseCase: NSObject {
     }
     
     private func upsertMessages(_ newMessages: [SBDBaseMessage]) {
-        messages = messages.filter { oldMessage in
-            newMessages.contains { $0.messageId != oldMessage.messageId && $0.requestId != oldMessage.requestId }
+        replaceMessages(newMessages)
+        
+        let uniqueMessages = newMessages.filter {
+            messages.map(\.messageId).contains($0.messageId) == false
         }
         
-        appendNextMessages(newMessages)
+        appendNextMessages(uniqueMessages)
     }
         
     private func replaceMessages(_ newMessages: [SBDBaseMessage]) {
