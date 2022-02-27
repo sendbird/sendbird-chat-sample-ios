@@ -102,6 +102,7 @@ class GroupChannelViewController: UIViewController {
         tableView.registerNib(GroupChannelIncomingMessageCell.self)
         tableView.registerNib(GroupChannelOutgoingImageCell.self)
         tableView.registerNib(GroupChannelIncomingImageCell.self)
+        tableView.register(GroupChannelMessageCell.self)
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -150,13 +151,7 @@ extension GroupChannelViewController: UITableViewDataSource {
             
             return cell
         } else if let userMessage = message as? SBDUserMessage {
-            let cell: GroupChannelMessageCell
-            
-            if isOutgoingMessage {
-                cell = tableView.dequeueReusableCell(for: indexPath) as GroupChannelOutgoingMessageCell
-            } else {
-                cell = tableView.dequeueReusableCell(for: indexPath) as GroupChannelIncomingMessageCell
-            }
+            let cell: GroupChannelMessageCell = tableView.dequeueReusableCell(for: indexPath)
             
             cell.configure(with: userMessage)
             (cell as? GroupChannelOutgoingCell)?.delegate = self

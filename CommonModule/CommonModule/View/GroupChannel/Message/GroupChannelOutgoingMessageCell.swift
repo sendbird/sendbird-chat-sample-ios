@@ -8,7 +8,7 @@
 import UIKit
 import SendBirdSDK
 
-public class GroupChannelOutgoingMessageCell: UITableViewCell, GroupChannelMessageCell, GroupChannelSendingStatusCell, GroupChannelOutgoingCell {
+public class GroupChannelOutgoingMessageCell: UITableViewCell, GroupChannelSendingStatusCell, GroupChannelOutgoingCell {
 
     public weak var delegate: GroupChannelOutgoingCellDelegate?
     private weak var message: SBDUserMessage?
