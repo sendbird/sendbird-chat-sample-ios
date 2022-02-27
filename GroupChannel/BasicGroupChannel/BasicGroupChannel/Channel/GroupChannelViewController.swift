@@ -95,7 +95,7 @@ class GroupChannelViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
+        tableView.flipVertically()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(BasicMessageCell.self)
@@ -135,12 +135,12 @@ extension GroupChannelViewController: UITableViewDataSource {
         if let fileMessage = message as? SBDFileMessage {
             let cell: BasicFileCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: fileMessage)
-            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            cell.flipVertically()
             return cell
         } else {
             let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: message)
-            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            cell.flipVertically()
             return cell
         }
     }

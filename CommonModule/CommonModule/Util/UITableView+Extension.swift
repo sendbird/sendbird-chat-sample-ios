@@ -7,30 +7,6 @@
 
 import UIKit
 
-public protocol ReusableView: AnyObject {
-    static var defaultReuseIdentifier: String { get }
-}
-
-extension ReusableView where Self: UIView {
-    public static var defaultReuseIdentifier: String {
-        return String(describing: self)
-    }
-}
-
-extension UITableViewCell: ReusableView { }
-
-protocol NibLoadableView: AnyObject {
-    static var nibName: String { get }
-}
-
-extension NibLoadableView where Self: UIView {
-    static var nibName: String {
-        return NSStringFromClass(self).components(separatedBy: ".").last!
-    }
-}
-
-extension UITableViewCell: NibLoadableView { }
-
 extension UITableView {
     public func register<T: UITableViewCell>(_: T.Type) {
         register(T.self, forCellReuseIdentifier: T.defaultReuseIdentifier)
@@ -51,3 +27,31 @@ extension UITableView {
         return cell
     }
 }
+
+// MARK: - ReusableView
+
+public protocol ReusableView: AnyObject {
+    static var defaultReuseIdentifier: String { get }
+}
+
+extension ReusableView where Self: UIView {
+    public static var defaultReuseIdentifier: String {
+        return String(describing: self)
+    }
+}
+
+extension UITableViewCell: ReusableView { }
+
+// MARK: - NibLoadableView
+
+protocol NibLoadableView: AnyObject {
+    static var nibName: String { get }
+}
+
+extension NibLoadableView where Self: UIView {
+    static var nibName: String {
+        return NSStringFromClass(self).components(separatedBy: ".").last!
+    }
+}
+
+extension UITableViewCell: NibLoadableView { }
