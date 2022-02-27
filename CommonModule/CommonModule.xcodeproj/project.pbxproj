@@ -214,6 +214,7 @@
 				5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */,
 				5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */,
 				5FD2501527C4AFFB00D04ACC /* KeyboardObserver.swift */,
+				5FD2501727C4B9C400D04ACC /* TimestampStorage.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -284,7 +285,6 @@
 			isa = PBXGroup;
 			children = (
 				5FEEB64E27B65A3700677373 /* EnvironmentUseCase.swift */,
-				5FD2501727C4B9C400D04ACC /* TimestampStorage.swift */,
 				5FDE175627B9ED360009CB39 /* User */,
 				5FD8CE9C27B35A62006F539B /* GroupChannelList */,
 				5FD8CED927B50778006F539B /* GroupChannel */,
