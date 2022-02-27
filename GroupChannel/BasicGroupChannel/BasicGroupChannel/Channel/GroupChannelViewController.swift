@@ -103,6 +103,7 @@ class GroupChannelViewController: UIViewController {
         tableView.registerNib(GroupChannelOutgoingImageCell.self)
         tableView.registerNib(GroupChannelIncomingImageCell.self)
         tableView.register(GroupChannelMessageCell.self)
+        tableView.register(GroupChannelFileCell.self)
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -134,32 +135,23 @@ extension GroupChannelViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = messageListUseCase.messages[indexPath.row]
-        let isOutgoingMessage = messageListUseCase.isOutgoingMessage(message)
         
         if let fileMessage = message as? SBDFileMessage {
-            let cell: GroupChannelImageCell
-            
-            if isOutgoingMessage {
-                cell = tableView.dequeueReusableCell(for: indexPath) as GroupChannelOutgoingImageCell
-            } else {
-                cell = tableView.dequeueReusableCell(for: indexPath) as GroupChannelIncomingImageCell
-            }
+            let cell: GroupChannelFileCell = tableView.dequeueReusableCell(for: indexPath)
             
             cell.configure(with: fileMessage)
             (cell as? GroupChannelOutgoingCell)?.delegate = self
             cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             
             return cell
-        } else if let userMessage = message as? SBDUserMessage {
+        } else {
             let cell: GroupChannelMessageCell = tableView.dequeueReusableCell(for: indexPath)
             
-            cell.configure(with: userMessage)
+            cell.configure(with: message)
             (cell as? GroupChannelOutgoingCell)?.delegate = self
             cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             
             return cell
-        } else {
-            return UITableViewCell()
         }
     }
     

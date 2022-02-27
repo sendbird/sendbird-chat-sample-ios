@@ -34,7 +34,7 @@
 		5FD2502727C671BE00D04ACC /* GroupChannelOutgoingImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FD2502127C66DB700D04ACC /* GroupChannelOutgoingImageCell.xib */; };
 		5FD2502927C671C200D04ACC /* GroupChannelIncomingImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2502227C66DB700D04ACC /* GroupChannelIncomingImageCell.swift */; };
 		5FD2502A27C671C200D04ACC /* GroupChannelIncomingImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FD2502427C66DB700D04ACC /* GroupChannelIncomingImageCell.xib */; };
-		5FD2502C27C671D600D04ACC /* GroupChannelImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2502B27C671D600D04ACC /* GroupChannelImageCell.swift */; };
+		5FD2502C27C671D600D04ACC /* GroupChannelFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2502B27C671D600D04ACC /* GroupChannelFileCell.swift */; };
 		5FD2502E27C6726700D04ACC /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2502D27C6726700D04ACC /* UITableView+Extension.swift */; };
 		5FD8CE9E27B35A72006F539B /* GroupChannelListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CE9D27B35A72006F539B /* GroupChannelListUseCase.swift */; };
 		5FD8CEA827B36332006F539B /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CEA727B36332006F539B /* ProfileImageView.swift */; };
@@ -106,7 +106,7 @@
 		5FD2502227C66DB700D04ACC /* GroupChannelIncomingImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelIncomingImageCell.swift; sourceTree = "<group>"; };
 		5FD2502327C66DB700D04ACC /* GroupChannelOutgoingImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelOutgoingImageCell.swift; sourceTree = "<group>"; };
 		5FD2502427C66DB700D04ACC /* GroupChannelIncomingImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupChannelIncomingImageCell.xib; sourceTree = "<group>"; };
-		5FD2502B27C671D600D04ACC /* GroupChannelImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelImageCell.swift; sourceTree = "<group>"; };
+		5FD2502B27C671D600D04ACC /* GroupChannelFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelFileCell.swift; sourceTree = "<group>"; };
 		5FD2502D27C6726700D04ACC /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		5FD8CE9D27B35A72006F539B /* GroupChannelListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelListUseCase.swift; sourceTree = "<group>"; };
 		5FD8CEA727B36332006F539B /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
@@ -258,7 +258,7 @@
 		5FD2502F27C6767300D04ACC /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				5FD2502B27C671D600D04ACC /* GroupChannelImageCell.swift */,
+				5FD2502B27C671D600D04ACC /* GroupChannelFileCell.swift */,
 				5FD2502327C66DB700D04ACC /* GroupChannelOutgoingImageCell.swift */,
 				5FD2502127C66DB700D04ACC /* GroupChannelOutgoingImageCell.xib */,
 				5FD2502227C66DB700D04ACC /* GroupChannelIncomingImageCell.swift */,
@@ -546,7 +546,7 @@
 				5FD2501827C4B9C400D04ACC /* TimestampStorage.swift in Sources */,
 				5FDE176427BA48060009CB39 /* ProfileEditView.swift in Sources */,
 				5F60E84527C680A500C02B5E /* GroupChannelSendingStatusCell.swift in Sources */,
-				5FD2502C27C671D600D04ACC /* GroupChannelImageCell.swift in Sources */,
+				5FD2502C27C671D600D04ACC /* GroupChannelFileCell.swift in Sources */,
 				5FD2501427C4729300D04ACC /* ImagePickerRouter.swift in Sources */,
 				5FD8CEDB27B50792006F539B /* GroupChannelMessageListUseCase.swift in Sources */,
 				5FD8CEC627B4A429006F539B /* SelectableUserTableViewCell.swift in Sources */,
