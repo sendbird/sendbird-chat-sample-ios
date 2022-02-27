@@ -22,7 +22,11 @@ open class OpenChannelMessageListUseCase: NSObject {
     
     public weak var delegate: OpenChannelMessageListUseCaseDelegate?
     
-    public private(set) var messages: [SBDBaseMessage] = []
+    public private(set) var messages: [SBDBaseMessage] = [] {
+        didSet {
+            delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
+        }
+    }
 
     private let channel: SBDOpenChannel
 
@@ -76,7 +80,6 @@ open class OpenChannelMessageListUseCase: NSObject {
             
             self.hasPreviousMessages = messages.isEmpty == false
             self.messages = messages
-            self.delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
         }
     }
     
@@ -110,7 +113,6 @@ open class OpenChannelMessageListUseCase: NSObject {
             } else {
                 self.messages.insert(contentsOf: messages, at: 0)
             }
-            self.delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
         }
     }
     
@@ -146,8 +148,6 @@ open class OpenChannelMessageListUseCase: NSObject {
             } else {
                 self.messages.append(contentsOf: messages)
             }
-            
-            self.delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
         }
     }
     
@@ -163,8 +163,6 @@ open class OpenChannelMessageListUseCase: NSObject {
         } else {
             self.messages.append(message)
         }
-        
-        delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
     }
     
 }
@@ -185,8 +183,6 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         self.messages = self.messages.map { oldMessage in
             oldMessage.messageId == message.messageId ? message : oldMessage
         }
-        
-        delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
     }
     
     public func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64) {
@@ -195,8 +191,6 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         self.messages = self.messages.filter { oldMessage in
             oldMessage.messageId != messageId
         }
-        
-        delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
     }
     
 }
