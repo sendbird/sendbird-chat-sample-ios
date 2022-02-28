@@ -160,16 +160,29 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
     public func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
         guard sender.channelUrl == channel.channelUrl else { return }
 
-        self.messages = self.messages.map { oldMessage in
-            oldMessage.messageId == message.messageId ? message : oldMessage
-        }
+        replaceMessages([message])
     }
     
     public func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64) {
         guard sender.channelUrl == channel.channelUrl else { return }
         
-        self.messages = self.messages.filter { oldMessage in
-            oldMessage.messageId != messageId
+        deleteMessages(byMessageIds: [messageId])
+    }
+    
+    private func replaceMessages(_ newMessages: [SBDBaseMessage]) {
+        newMessages.forEach { newMessage in
+            if let index = messages.firstIndex(where: {
+                $0.messageId == newMessage.messageId
+                || $0.requestId == newMessage.requestId
+            }) {
+                messages[index] = newMessage
+            }
+        }
+    }
+    
+    private func deleteMessages(byMessageIds messageIds: [Int64]) {
+        self.messages = self.messages.filter {
+            messageIds.contains($0.messageId) == false
         }
     }
     
@@ -186,18 +199,40 @@ extension OpenChannelMessageListUseCase: SBDConnectionDelegate {
             return
         }
         
+        fetchChangeLogs(sinceTimestamp: timestamp)
+    }
+    
+    private func fetchChangeLogs(sinceTimestamp timestamp: Int64) {
         let params = SBDMessageChangeLogsParams()
         
         channel.getMessageChangeLogs(sinceTimestamp: timestamp, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
-            guard let self = self, error == nil else { return }
+            guard error == nil else { return }
             
-            self.messages = self.messages.map { oldMessage in
-                (updatedMessages ?? []).first { $0.messageId == oldMessage.messageId } ?? oldMessage
-            }
+            self?.handleChangeLogs(updatedMessages: updatedMessages, deletedMessageIds: deletedMessageIds, hasMore: hasMore, token: token)
+        }
+    }
+    
+    private func fetchChangeLogs(sinceToken token: String) {
+        let params = SBDMessageChangeLogsParams()
+        
+        channel.getMessageChangeLogs(sinceToken: token, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
+            guard error == nil else { return }
             
-            self.messages = self.messages.filter {
-                (deletedMessageIds ?? []).map(\.int64Value).contains($0.messageId) == false
-            }
+            self?.handleChangeLogs(updatedMessages: updatedMessages, deletedMessageIds: deletedMessageIds, hasMore: hasMore, token: token)
+        }
+    }
+    
+    private func handleChangeLogs(updatedMessages: [SBDBaseMessage]?, deletedMessageIds: [NSNumber]?, hasMore: Bool, token: String?) {
+        if let updatedMessages = updatedMessages {
+            replaceMessages(updatedMessages)
+        }
+        
+        if let deletedMessageIds = deletedMessageIds?.map(\.int64Value) {
+            deleteMessages(byMessageIds: deletedMessageIds)
+        }
+        
+        if hasMore, let token = token {
+            fetchChangeLogs(sinceToken: token)
         }
     }
     
