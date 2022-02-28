@@ -58,11 +58,14 @@ class CreateOpenChannelViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        title = "Create Group Channel"
+        title = "Create Open Channel"
         navigationItem.largeTitleDisplayMode = .never
-
-        let createButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(didTouchCreateGroupChannel(_ :)))
-        navigationItem.rightBarButtonItem = createButtonItem
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTouchCancelButton(_ :)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(didTouchCreateGroupChannel(_ :)))
+    }
+    
+    @objc private func didTouchCancelButton(_ sender: AnyObject) {
+        dismiss(animated: true)
     }
     
     @objc private func didTouchCreateGroupChannel(_ sender: AnyObject) {
