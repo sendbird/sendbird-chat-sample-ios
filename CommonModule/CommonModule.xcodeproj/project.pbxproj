@@ -22,7 +22,6 @@
 		5F6F62AA27B90FB600FD6121 /* BaseAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */; };
 		5F6F62D327B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62D227B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift */; };
 		5FCC154C27CB71660014B317 /* MessageSendingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCC154B27CB71660014B317 /* MessageSendingStatus.swift */; };
-		5FCC154E27CBA8AF0014B317 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCC154D27CBA8AF0014B317 /* UIView+Extension.swift */; };
 		5FD2501427C4729300D04ACC /* ImagePickerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */; };
 		5FD2501627C4AFFB00D04ACC /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2501527C4AFFB00D04ACC /* KeyboardObserver.swift */; };
 		5FD2501827C4B9C400D04ACC /* TimestampStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2501727C4B9C400D04ACC /* TimestampStorage.swift */; };
@@ -86,7 +85,6 @@
 		5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAppearance.swift; sourceTree = "<group>"; };
 		5F6F62D227B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOpenChannelUseCase.swift; sourceTree = "<group>"; };
 		5FCC154B27CB71660014B317 /* MessageSendingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSendingStatus.swift; sourceTree = "<group>"; };
-		5FCC154D27CBA8AF0014B317 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerRouter.swift; sourceTree = "<group>"; };
 		5FD2501527C4AFFB00D04ACC /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		5FD2501727C4B9C400D04ACC /* TimestampStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampStorage.swift; sourceTree = "<group>"; };
@@ -205,7 +203,6 @@
 		5F00CA6327B2638E00206750 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				5FCC154D27CBA8AF0014B317 /* UIView+Extension.swift */,
 				5F00CA6427B2639B00206750 /* UIViewController+Extension.swift */,
 				5FD2502D27C6726700D04ACC /* UITableView+Extension.swift */,
 				5FDF2B5127B2A45E00C3A8A2 /* UserDefault.swift */,
@@ -489,7 +486,6 @@
 				5F00CA6527B2639B00206750 /* UIViewController+Extension.swift in Sources */,
 				5FDF2B5227B2A45E00C3A8A2 /* UserDefault.swift in Sources */,
 				5FD8CED627B4E762006F539B /* CreateGroupChannelUseCase.swift in Sources */,
-				5FCC154E27CBA8AF0014B317 /* UIView+Extension.swift in Sources */,
 				5FD2501627C4AFFB00D04ACC /* KeyboardObserver.swift in Sources */,
 				5FDE175327B9EC770009CB39 /* UserSelectionViewController.swift in Sources */,
 				5FDE176227B9FFE40009CB39 /* OpenChannelSettingUseCase.swift in Sources */,

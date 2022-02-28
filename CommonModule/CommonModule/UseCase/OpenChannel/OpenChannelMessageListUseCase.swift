@@ -30,17 +30,14 @@ open class OpenChannelMessageListUseCase: NSObject {
 
     private let channel: SBDOpenChannel
 
-    private let isReversed: Bool
-    
     private var hasPreviousMessages: Bool = true
     
     private var hasNextMessages: Bool = false
     
     private var isLoading: Bool = false
         
-    public init(channel: SBDOpenChannel, isReversed: Bool) {
+    public init(channel: SBDOpenChannel) {
         self.channel = channel
-        self.isReversed = isReversed
         super.init()
         SBDMain.add(self as SBDConnectionDelegate, identifier: description)
     }
@@ -60,7 +57,6 @@ open class OpenChannelMessageListUseCase: NSObject {
     open func loadInitialMessages() {
         let params = SBDMessageListParams()
         params.isInclusive = true
-        params.reverse = isReversed
         params.previousResultSize = Constant.previousResultSize
         params.nextResultSize = Constant.nextResultSize
 
@@ -84,11 +80,10 @@ open class OpenChannelMessageListUseCase: NSObject {
     }
     
     open func loadPreviousMessages() {
-        guard hasPreviousMessages, isLoading == false, let timestamp = isReversed ? messages.last?.createdAt : messages.first?.createdAt else { return }
+        guard hasPreviousMessages, isLoading == false, let timestamp = messages.first?.createdAt else { return }
         
         let params = SBDMessageListParams()
         params.isInclusive = false
-        params.reverse = isReversed
         params.previousResultSize = Constant.previousResultSize
         params.nextResultSize = 0
 
@@ -107,23 +102,17 @@ open class OpenChannelMessageListUseCase: NSObject {
             guard let messages = messages else { return }
             
             self.hasPreviousMessages = messages.count >= Constant.previousResultSize
-            
-            if self.isReversed {
-                self.messages.append(contentsOf: messages)
-            } else {
-                self.messages.insert(contentsOf: messages, at: 0)
-            }
+            self.messages.insert(contentsOf: messages, at: 0)
         }
     }
     
     open func loadNextMessages() {
         guard hasNextMessages,
               isLoading == false,
-              let timestamp = isReversed ? messages.first?.createdAt : messages.last?.createdAt else { return }
+              let timestamp = messages.last?.createdAt else { return }
         
         let params = SBDMessageListParams()
         params.isInclusive = false
-        params.reverse = isReversed
         params.previousResultSize = 0
         params.nextResultSize = Constant.nextResultSize
 
@@ -142,12 +131,7 @@ open class OpenChannelMessageListUseCase: NSObject {
             guard let messages = messages else { return }
             
             self.hasNextMessages = messages.count >= Constant.nextResultSize
-            
-            if self.isReversed {
-                self.messages.insert(contentsOf: messages, at: 0)
-            } else {
-                self.messages.append(contentsOf: messages)
-            }
+            self.messages.append(contentsOf: messages)
         }
     }
     
@@ -158,11 +142,7 @@ open class OpenChannelMessageListUseCase: NSObject {
     private func appendNewMessage(_ message: SBDBaseMessage) {
         guard messages.contains(where: { $0.messageId == message.messageId }) == false else { return }
         
-        if self.isReversed {
-            self.messages.insert(message, at: 0)
-        } else {
-            self.messages.append(message)
-        }
+        self.messages.append(message)
     }
     
 }
@@ -202,7 +182,7 @@ extension OpenChannelMessageListUseCase: SBDConnectionDelegate {
     public func didSucceedReconnection() {
         hasNextMessages = true
         
-        guard let timestamp = isReversed ? messages.first?.createdAt : messages.last?.createdAt else {
+        guard let timestamp = messages.last?.createdAt else {
             return
         }
         

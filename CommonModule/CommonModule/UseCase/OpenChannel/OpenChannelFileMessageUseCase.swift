@@ -28,15 +28,17 @@ public class OpenChannelFileMessageUseCase {
         self.channel = channel
     }
 
-    public func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
-        guard let fileMessageParams = SBDFileMessageParams(file: mediaFile.data) else { return }
+    public func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) -> SBDFileMessage? {
+        guard let fileMessageParams = SBDFileMessageParams(file: mediaFile.data) else {
+            return nil
+        }
         
         fileMessageParams.fileName = mediaFile.name
         fileMessageParams.fileSize = UInt(mediaFile.data.count)
         fileMessageParams.mimeType = mediaFile.mimeType
         fileMessageParams.thumbnailSizes = [SBDThumbnailSize.make(withMaxWidth: 320.0, maxHeight: 320.0)]
 
-        channel.sendFileMessage(with: fileMessageParams) { message, error in
+        return channel.sendFileMessage(with: fileMessageParams) { message, error in
             if let error = error {
                 completion(.failure(error))
                 return
