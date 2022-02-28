@@ -147,12 +147,14 @@ open class GroupChannelMessageListUseCase: NSObject {
     }
             
     private func replaceMessages(_ newMessages: [SBDBaseMessage]) {
-        messages = messages.map { oldMessage in
-            newMessages.first { $0.messageId == oldMessage.messageId || $0.requestId == oldMessage.requestId } ?? oldMessage
+        newMessages.forEach { newMessage in
+            if let index = messages.firstIndex(where: {
+                $0.messageId == newMessage.messageId
+                || $0.requestId == newMessage.requestId
+            }) {
+                messages[index] = newMessage
+            }
         }
-        
-        // 전체 순회 하지 않고 더 나은 방법 생각해보기
-        // Hint: dict - messageId, requestId
     }
     
 }
