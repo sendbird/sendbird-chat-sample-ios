@@ -18,12 +18,12 @@ class GroupChannelViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var messageInputView: MessageInputView!
     @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
+
+    var focusMessage: SBDBaseMessage?
     
     private let channel: SBDGroupChannel
     
     private let timestampStorage: TimestampStorage
-    
-    private var sendedMessage: SBDBaseMessage?
     
     public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
         let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, timestampStorage: timestampStorage)
@@ -177,17 +177,17 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage]) {
         tableView.reloadData()
-        scrollToSendedMessage()
+        scrollToFocusMessage()
     }
     
-    private func scrollToSendedMessage() {
-        guard let sendedMessage = sendedMessage,
-              sendedMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
-        self.sendedMessage = nil
+    private func scrollToFocusMessage() {
+        guard let focusMessage = focusMessage,
+              focusMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
+        self.focusMessage = nil
         
-        let sendedMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
+        let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
         
-        tableView.scrollToRow(at: sendedMessageIndexPath, at: .bottom, animated: false)
+        tableView.scrollToRow(at: focusMessageIndexPath, at: .bottom, animated: false)
     }
     
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: SBDGroupChannel) {
@@ -207,11 +207,10 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
 extension GroupChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
-        sendedMessage = nil
-        userMessageUseCase.sendMessage(message) { [weak self] result in
+        focusMessage = userMessageUseCase.sendMessage(message) { [weak self] result in
             switch result {
             case .success(let sendedMessage):
-                self?.sendedMessage = sendedMessage
+                self?.focusMessage = sendedMessage
             case .failure(let error):
                 self?.presentAlert(error: error)
             }

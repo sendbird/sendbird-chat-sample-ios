@@ -16,8 +16,8 @@ public class GroupChannelUserMessageUseCase {
         self.channel = channel
     }
     
-    public func sendMessage(_ message: String, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
-        channel.sendUserMessage(message) { message, error in
+    public func sendMessage(_ message: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) -> SBDUserMessage? {
+        return channel.sendUserMessage(message) { message, error in
             if let error = error {
                 completion(.failure(error))
                 return
