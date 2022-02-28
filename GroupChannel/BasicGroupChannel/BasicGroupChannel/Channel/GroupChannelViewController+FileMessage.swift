@@ -16,10 +16,10 @@ extension GroupChannelViewController: ImagePickerRouterDelegate {
     }
     
     func imagePickerRouter(_ imagePickerRouter: ImagePickerRouter, didFinishPickingMediaFile mediaFile: ImagePickerMediaFile) {
-        fileMessageUseCase.sendFile(.init(data: mediaFile.data, name: mediaFile.name, mimeType: mediaFile.mimeType)) { [weak self] result in
+        focusMessage = fileMessageUseCase.sendFile(.init(data: mediaFile.data, name: mediaFile.name, mimeType: mediaFile.mimeType)) { [weak self] result in
             switch result {
-            case .success:
-                break
+            case .success(let sendedMessage):
+                self?.focusMessage = sendedMessage
             case .failure(let error):
                 self?.presentAlert(error: error)
             }
