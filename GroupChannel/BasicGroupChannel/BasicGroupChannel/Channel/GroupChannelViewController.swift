@@ -23,8 +23,10 @@ class GroupChannelViewController: UIViewController {
     
     private let timestampStorage: TimestampStorage
     
+    private var sendedMessage: SBDBaseMessage?
+    
     public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
-        let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, isReversed: true, timestampStorage: timestampStorage)
+        let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, timestampStorage: timestampStorage)
         messageListUseCase.delegate = self
         return messageListUseCase
     }()
@@ -95,7 +97,6 @@ class GroupChannelViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.flipVertically()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(BasicMessageCell.self)
@@ -135,12 +136,10 @@ extension GroupChannelViewController: UITableViewDataSource {
         if let fileMessage = message as? SBDFileMessage {
             let cell: BasicFileCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: fileMessage)
-            cell.flipVertically()
             return cell
         } else {
             let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: message)
-            cell.flipVertically()
             return cell
         }
     }
@@ -157,11 +156,11 @@ extension GroupChannelViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y - Constant.loadMoreThreshold <= 0 {
-            messageListUseCase.loadNextMessages()
+            messageListUseCase.loadPreviousMessages()
         }
          
         if scrollView.contentOffset.y + Constant.loadMoreThreshold >= (scrollView.contentSize.height - scrollView.frame.size.height) {
-            messageListUseCase.loadPreviousMessages()
+            messageListUseCase.loadNextMessages()
         }
     }
     
@@ -177,6 +176,17 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage]) {
         tableView.reloadData()
+        scrollToSendedMessage()
+    }
+    
+    private func scrollToSendedMessage() {
+        guard let sendedMessage = sendedMessage,
+              sendedMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
+        self.sendedMessage = nil
+        
+        let sendedMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
+        
+        tableView.scrollToRow(at: sendedMessageIndexPath, at: .bottom, animated: false)
     }
     
 }
@@ -186,10 +196,11 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
 extension GroupChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
+        sendedMessage = nil
         userMessageUseCase.sendMessage(message) { [weak self] result in
             switch result {
-            case .success:
-                break
+            case .success(let sendedMessage):
+                self?.sendedMessage = sendedMessage
             case .failure(let error):
                 self?.presentAlert(error: error)
             }
