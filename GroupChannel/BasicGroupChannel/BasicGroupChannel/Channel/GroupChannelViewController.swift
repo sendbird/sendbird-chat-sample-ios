@@ -170,6 +170,7 @@ extension GroupChannelViewController: UITableViewDelegate {
 
 extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     
+
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBDError) {
         presentAlert(error: error)
     }
@@ -187,6 +188,16 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
         let sendedMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
         
         tableView.scrollToRow(at: sendedMessageIndexPath, at: .bottom, animated: false)
+    }
+    
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: SBDGroupChannel) {
+        title = channel.name
+    }
+    
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: SBDGroupChannel) {
+        presentAlert(title: "This channel has been deleted", message: nil) { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
     }
     
 }

@@ -11,6 +11,8 @@ import SendBirdSDK
 public protocol GroupChannelMessageListUseCaseDelegate: AnyObject {
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBDError)
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage])
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: SBDGroupChannel)
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: SBDGroupChannel)
 }
 
 open class GroupChannelMessageListUseCase: NSObject {
@@ -29,7 +31,7 @@ open class GroupChannelMessageListUseCase: NSObject {
     
     public private(set) var isLoading: Bool = false
 
-    private let channel: SBDGroupChannel
+    private var channel: SBDGroupChannel
 
     private let timestampStorage: TimestampStorage
     
@@ -183,12 +185,14 @@ extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
 
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, updatedChannel channel: SBDGroupChannel) {
         // Change the chat view with the updated channel information.
-        
+        self.channel = channel
+        delegate?.groupChannelMessageListUseCase(self, didUpdateChannel: channel)
     }
 
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, deletedChannel channelUrl: String) {
         // This is called when a channel was deleted. So the current chat view should be cleared.
-        
+        guard channel.channelUrl == channelUrl else { return }
+        delegate?.groupChannelMessageListUseCase(self, didDeleteChannel: channel)
     }
 
     public func didDetectHugeGap(_ collection: SBDMessageCollection) {

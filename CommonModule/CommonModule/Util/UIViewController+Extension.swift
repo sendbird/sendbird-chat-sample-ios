@@ -16,9 +16,9 @@ extension UIViewController {
         return instantiateFromNib()
     }
     
-    public func presentAlert(title: String, message: String?) {
+    public func presentAlert(title: String, message: String?, closeHandler: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: { _ in closeHandler?() }))
         present(alert, animated: true)
     }
     
