@@ -11,6 +11,8 @@ import SendBirdSDK
 public protocol OpenChannelMessageListUseCaseDelegate: AnyObject {
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didReceiveError error: SBDError)
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage])
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateChannel channel: SBDOpenChannel)
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didDeleteChannel channel: SBDOpenChannel)
 }
 
 open class OpenChannelMessageListUseCase: NSObject {
@@ -28,7 +30,7 @@ open class OpenChannelMessageListUseCase: NSObject {
         }
     }
 
-    private let channel: SBDOpenChannel
+    private var channel: SBDOpenChannel
 
     private var hasPreviousMessages: Bool = true
     
@@ -150,6 +152,21 @@ open class OpenChannelMessageListUseCase: NSObject {
 // MARK: - SBDChannelDelegate
 
 extension OpenChannelMessageListUseCase: SBDChannelDelegate {
+    
+    public func channelWasChanged(_ sender: SBDBaseChannel) {
+        guard sender.channelUrl == channel.channelUrl,
+              let channel = sender as? SBDOpenChannel else { return }
+        
+        self.channel = channel
+        
+        delegate?.openChannelMessageListUseCase(self, didUpdateChannel: channel)
+    }
+    
+    public func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
+        guard channelUrl == channel.channelUrl else { return }
+        
+        delegate?.openChannelMessageListUseCase(self, didDeleteChannel: channel)
+    }
     
     public func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
         guard sender.channelUrl == channel.channelUrl, hasNextMessages == false else { return }

@@ -163,6 +163,16 @@ extension OpenChannelViewController: UITableViewDelegate {
 
 extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
     
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateChannel channel: SBDOpenChannel) {
+        title = channel.name
+    }
+    
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didDeleteChannel channel: SBDOpenChannel) {
+        presentAlert(title: "This channel has been deleted", message: nil) { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didReceiveError error: SBDError) {
         presentAlert(error: error)
     }
