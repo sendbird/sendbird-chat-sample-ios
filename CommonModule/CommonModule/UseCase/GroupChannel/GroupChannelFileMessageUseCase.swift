@@ -8,7 +8,7 @@
 import Foundation
 import SendBirdSDK
 
-public class GroupChannelFileMessageUseCase {
+open class GroupChannelFileMessageUseCase {
     
     public struct MediaFile {
         let data: Data
@@ -30,7 +30,7 @@ public class GroupChannelFileMessageUseCase {
         self.channel = channel
     }
 
-    public func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<SBDFileMessage, SBDError>) -> Void) -> SBDFileMessage? {
+    open func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<SBDFileMessage, SBDError>) -> Void) -> SBDFileMessage? {
         guard let fileMessageParams = SBDFileMessageParams(file: mediaFile.data) else {
             return nil
         }
@@ -56,7 +56,7 @@ public class GroupChannelFileMessageUseCase {
         return fileMessage
     }
     
-    public func resendMessage(_ message: SBDFileMessage, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
+    open func resendMessage(_ message: SBDFileMessage, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
         channel.resendFileMessage(with: message, binaryData: cachedDatasForResending[message.requestId]) { message, error in
             if let error = error {
                 completion(.failure(error))

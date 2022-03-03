@@ -8,7 +8,7 @@
 import Foundation
 import SendBirdSDK
 
-public class OpenChannelUserMessageUseCase {
+open class OpenChannelUserMessageUseCase {
     
     private let channel: SBDOpenChannel
     
@@ -16,7 +16,7 @@ public class OpenChannelUserMessageUseCase {
         self.channel = channel
     }
     
-    public func sendMessage(_ message: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) -> SBDUserMessage? {
+    open func sendMessage(_ message: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) -> SBDUserMessage? {
         return channel.sendUserMessage(message) { message, error in
             if let error = error {
                 completion(.failure(error))
@@ -29,7 +29,7 @@ public class OpenChannelUserMessageUseCase {
         }
     }
     
-    public func updateMessage(_ message: SBDUserMessage, to newMessage: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) {
+    open func updateMessage(_ message: SBDUserMessage, to newMessage: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) {
         guard let params = SBDUserMessageParams(message: newMessage) else { return }
 
         channel.updateUserMessage(withMessageId: message.messageId, userMessageParams: params) { message, error in
@@ -44,7 +44,7 @@ public class OpenChannelUserMessageUseCase {
         }
     }
     
-    public func deleteMessage(_ message: SBDBaseMessage, completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func deleteMessage(_ message: SBDBaseMessage, completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.delete(message) { error in
             if let error = error {
                 completion(.failure(error))

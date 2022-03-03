@@ -8,7 +8,7 @@
 import Foundation
 import SendBirdSDK
 
-public class GroupChannelUserMessageUseCase {
+open class GroupChannelUserMessageUseCase {
     
     private let channel: SBDGroupChannel
     
@@ -16,7 +16,7 @@ public class GroupChannelUserMessageUseCase {
         self.channel = channel
     }
     
-    public func sendMessage(_ message: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) -> SBDUserMessage? {
+    open func sendMessage(_ message: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) -> SBDUserMessage? {
         return channel.sendUserMessage(message) { message, error in
             if let error = error {
                 completion(.failure(error))
@@ -29,7 +29,7 @@ public class GroupChannelUserMessageUseCase {
         }
     }
     
-    public func resendMessage(_ message: SBDUserMessage, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
+    open func resendMessage(_ message: SBDUserMessage, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
         channel.resendUserMessage(with: message) { message, error in
             if let error = error {
                 completion(.failure(error))
@@ -42,7 +42,7 @@ public class GroupChannelUserMessageUseCase {
         }
     }
     
-    public func updateMessage(_ message: SBDUserMessage, to newMessage: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) {
+    open func updateMessage(_ message: SBDUserMessage, to newMessage: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) {
         guard let params = SBDUserMessageParams(message: newMessage) else { return }
 
         channel.updateUserMessage(withMessageId: message.messageId, userMessageParams: params) { message, error in
@@ -57,7 +57,7 @@ public class GroupChannelUserMessageUseCase {
         }
     }
     
-    public func deleteMessage(_ message: SBDBaseMessage, completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func deleteMessage(_ message: SBDBaseMessage, completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.delete(message) { error in
             if let error = error {
                 completion(.failure(error))

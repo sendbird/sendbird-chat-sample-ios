@@ -8,7 +8,7 @@
 import Foundation
 import SendBirdSDK
 
-public class OpenChannelSettingUseCase {
+open class OpenChannelSettingUseCase {
     
     public var operators: [SBDUser] {
         (channel.operators as? [SBDUser]) ?? []
@@ -20,7 +20,7 @@ public class OpenChannelSettingUseCase {
         self.channel = channel
     }
     
-    public func updateChannelName(_ channelName: String, completion: @escaping (Result<SBDOpenChannel, Error>) -> Void) {
+    open func updateChannelName(_ channelName: String, completion: @escaping (Result<SBDOpenChannel, Error>) -> Void) {
         let params = SBDOpenChannelParams()
         params.name = channelName
         channel.update(with: params) { channel, error in
@@ -35,7 +35,7 @@ public class OpenChannelSettingUseCase {
         }
     }
     
-    public func exitChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func exitChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.exitChannel { error in
             if let error = error {
                 completion(.failure(error))

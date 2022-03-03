@@ -96,7 +96,7 @@ open class OpenChannelListUseCase: NSObject {
 
 extension OpenChannelListUseCase: SBDChannelDelegate {
     
-    public func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
+    open func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
         guard channelType == .open else { return }
         
         self.channels = self.channels.filter {
@@ -106,7 +106,7 @@ extension OpenChannelListUseCase: SBDChannelDelegate {
         self.delegate?.openChannelListUseCase(self, didUpdateChannels: self.channels)
     }
     
-    public func channelWasChanged(_ sender: SBDBaseChannel) {
+    open func channelWasChanged(_ sender: SBDBaseChannel) {
         guard let changedOpenChannel = sender as? SBDOpenChannel else { return }
         
         self.channels = self.channels.map { channel in

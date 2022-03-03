@@ -8,7 +8,7 @@
 import Foundation
 import SendBirdSDK
 
-public class GroupChannelSettingUseCase {
+open class GroupChannelSettingUseCase {
     
     public var members: [SBDUser] {
         (channel.members as? [SBDUser]) ?? []
@@ -20,7 +20,7 @@ public class GroupChannelSettingUseCase {
         self.channel = channel
     }
     
-    public func invite(users: [SBDUser], completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func invite(users: [SBDUser], completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.invite(users) { error in
             if let error = error {
                 completion(.failure(error))
@@ -31,7 +31,7 @@ public class GroupChannelSettingUseCase {
         }
     }
     
-    public func updateChannelName(_ channelName: String, completion: @escaping (Result<SBDGroupChannel, Error>) -> Void) {
+    open func updateChannelName(_ channelName: String, completion: @escaping (Result<SBDGroupChannel, Error>) -> Void) {
         let params = SBDGroupChannelParams()
         params.name = channelName
         channel.update(with: params) { channel, error in
@@ -46,7 +46,7 @@ public class GroupChannelSettingUseCase {
         }
     }
     
-    public func leaveChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func leaveChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.leave { error in
             if let error = error {
                 completion(.failure(error))

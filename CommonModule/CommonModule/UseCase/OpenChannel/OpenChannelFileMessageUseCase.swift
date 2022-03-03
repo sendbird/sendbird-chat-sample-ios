@@ -8,7 +8,7 @@
 import Foundation
 import SendBirdSDK
 
-public class OpenChannelFileMessageUseCase {
+open class OpenChannelFileMessageUseCase {
     
     public struct MediaFile {
         let data: Data
@@ -28,7 +28,7 @@ public class OpenChannelFileMessageUseCase {
         self.channel = channel
     }
 
-    public func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) -> SBDFileMessage? {
+    open func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) -> SBDFileMessage? {
         guard let fileMessageParams = SBDFileMessageParams(file: mediaFile.data) else {
             return nil
         }
