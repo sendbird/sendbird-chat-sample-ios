@@ -30,8 +30,10 @@ public class GroupChannelFileMessageUseCase {
         self.channel = channel
     }
 
-    public func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
-        guard let fileMessageParams = SBDFileMessageParams(file: mediaFile.data) else { return }
+    public func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<SBDFileMessage, SBDError>) -> Void) -> SBDFileMessage? {
+        guard let fileMessageParams = SBDFileMessageParams(file: mediaFile.data) else {
+            return nil
+        }
         
         fileMessageParams.fileName = mediaFile.name
         fileMessageParams.fileSize = UInt(mediaFile.data.count)
@@ -50,6 +52,8 @@ public class GroupChannelFileMessageUseCase {
         }
         
         cachedDatasForResending[fileMessage.requestId] = mediaFile.data
+        
+        return fileMessage
     }
     
     public func resendMessage(_ message: SBDFileMessage, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {

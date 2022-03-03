@@ -19,10 +19,12 @@ class OpenChannelViewController: UIViewController {
     @IBOutlet private weak var messageInputView: MessageInputView!
     @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
     
+    var focusMessage: SBDBaseMessage?
+    
     private let channel: SBDOpenChannel
     
     public private(set) lazy var messageListUseCase: OpenChannelMessageListUseCase = {
-        let messageListUseCase = OpenChannelMessageListUseCase(channel: channel, isReversed: true)
+        let messageListUseCase = OpenChannelMessageListUseCase(channel: channel)
         messageListUseCase.delegate = self
         return messageListUseCase
     }()
@@ -88,7 +90,6 @@ class OpenChannelViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.flipVertically()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(BasicMessageCell.self)
@@ -128,12 +129,10 @@ extension OpenChannelViewController: UITableViewDataSource {
         if let fileMessage = message as? SBDFileMessage {
             let cell: BasicFileCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: fileMessage)
-            cell.flipVertically()
             return cell
         } else {
             let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: message)
-            cell.flipVertically()
             return cell
         }
     }
@@ -150,11 +149,11 @@ extension OpenChannelViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y - Constant.loadMoreThreshold <= 0 {
-            messageListUseCase.loadNextMessages()
+            messageListUseCase.loadPreviousMessages()
         }
          
         if scrollView.contentOffset.y + Constant.loadMoreThreshold >= (scrollView.contentSize.height - scrollView.frame.size.height) {
-            messageListUseCase.loadPreviousMessages()
+            messageListUseCase.loadNextMessages()
         }
     }
     
@@ -164,14 +163,36 @@ extension OpenChannelViewController: UITableViewDelegate {
 
 extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
     
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateChannel channel: SBDOpenChannel) {
+        title = channel.name
+    }
+    
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didDeleteChannel channel: SBDOpenChannel) {
+        presentAlert(title: "This channel has been deleted", message: nil) { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didReceiveError error: SBDError) {
         presentAlert(error: error)
     }
     
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage]) {
         tableView.reloadData()
+        scrollToFocusMessage()
     }
     
+    private func scrollToFocusMessage() {
+        defer { self.focusMessage = nil }
+        
+        guard let focusMessage = focusMessage,
+              focusMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
+        
+        let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
+        
+        tableView.scrollToRow(at: focusMessageIndexPath, at: .bottom, animated: false)
+    }
+
 }
 
 // MARK: - MessageInputViewDelegate
@@ -179,11 +200,13 @@ extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
 extension OpenChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
-        userMessageUseCase.sendMessage(message) { [weak self] result in
+        focusMessage = userMessageUseCase.sendMessage(message) { [weak self] result in
             switch result {
             case .success(let message):
+                self?.focusMessage = message
                 self?.messageListUseCase.didSendMessage(message)
             case .failure(let error):
+                self?.focusMessage = nil
                 self?.presentAlert(error: error)
             }
         }

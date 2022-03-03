@@ -16,11 +16,13 @@ extension OpenChannelViewController: ImagePickerRouterDelegate {
     }
     
     func imagePickerRouter(_ imagePickerRouter: ImagePickerRouter, didFinishPickingMediaFile mediaFile: ImagePickerMediaFile) {
-        fileMessageUseCase.sendFile(.init(data: mediaFile.data, name: mediaFile.name, mimeType: mediaFile.mimeType)) { [weak self] result in
+        focusMessage = fileMessageUseCase.sendFile(.init(data: mediaFile.data, name: mediaFile.name, mimeType: mediaFile.mimeType)) { [weak self] result in
             switch result {
             case .success(let message):
+                self?.focusMessage = message
                 self?.messageListUseCase.didSendMessage(message)
             case .failure(let error):
+                self?.focusMessage = nil
                 self?.presentAlert(error: error)
             }
         }

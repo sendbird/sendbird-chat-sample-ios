@@ -18,13 +18,15 @@ class GroupChannelViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var messageInputView: MessageInputView!
     @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
+
+    var focusMessage: SBDBaseMessage?
     
     private let channel: SBDGroupChannel
     
     private let timestampStorage: TimestampStorage
     
     public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
-        let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, isReversed: true, timestampStorage: timestampStorage)
+        let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, timestampStorage: timestampStorage)
         messageListUseCase.delegate = self
         return messageListUseCase
     }()
@@ -95,7 +97,6 @@ class GroupChannelViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.flipVertically()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(BasicMessageCell.self)
@@ -135,12 +136,10 @@ extension GroupChannelViewController: UITableViewDataSource {
         if let fileMessage = message as? SBDFileMessage {
             let cell: BasicFileCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: fileMessage)
-            cell.flipVertically()
             return cell
         } else {
             let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: message)
-            cell.flipVertically()
             return cell
         }
     }
@@ -157,11 +156,11 @@ extension GroupChannelViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y - Constant.loadMoreThreshold <= 0 {
-            messageListUseCase.loadNextMessages()
+            messageListUseCase.loadPreviousMessages()
         }
          
         if scrollView.contentOffset.y + Constant.loadMoreThreshold >= (scrollView.contentSize.height - scrollView.frame.size.height) {
-            messageListUseCase.loadPreviousMessages()
+            messageListUseCase.loadNextMessages()
         }
     }
     
@@ -171,12 +170,34 @@ extension GroupChannelViewController: UITableViewDelegate {
 
 extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     
+
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBDError) {
         presentAlert(error: error)
     }
     
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage]) {
         tableView.reloadData()
+        scrollToFocusMessage()
+    }
+    
+    private func scrollToFocusMessage() {
+        guard let focusMessage = focusMessage,
+              focusMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
+        self.focusMessage = nil
+        
+        let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
+        
+        tableView.scrollToRow(at: focusMessageIndexPath, at: .bottom, animated: false)
+    }
+    
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: SBDGroupChannel) {
+        title = channel.name
+    }
+    
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: SBDGroupChannel) {
+        presentAlert(title: "This channel has been deleted", message: nil) { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
     }
     
 }
@@ -186,10 +207,10 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
 extension GroupChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
-        userMessageUseCase.sendMessage(message) { [weak self] result in
+        focusMessage = userMessageUseCase.sendMessage(message) { [weak self] result in
             switch result {
-            case .success:
-                break
+            case .success(let sendedMessage):
+                self?.focusMessage = sendedMessage
             case .failure(let error):
                 self?.presentAlert(error: error)
             }

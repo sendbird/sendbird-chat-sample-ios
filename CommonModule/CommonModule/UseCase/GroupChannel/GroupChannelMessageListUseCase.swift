@@ -11,6 +11,8 @@ import SendBirdSDK
 public protocol GroupChannelMessageListUseCaseDelegate: AnyObject {
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBDError)
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage])
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: SBDGroupChannel)
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: SBDGroupChannel)
 }
 
 open class GroupChannelMessageListUseCase: NSObject {
@@ -19,15 +21,7 @@ open class GroupChannelMessageListUseCase: NSObject {
     
     public private(set) var messages: [SBDBaseMessage] = [] {
         didSet {
-            let lastTimestamp: Int64?
-            
-            if isReversed {
-                lastTimestamp = messages.first?.createdAt
-            } else {
-                lastTimestamp = messages.last?.createdAt
-            }
-            
-            if let lastTimestamp = lastTimestamp {
+            if let lastTimestamp = messages.last?.createdAt {
                 timestampStorage.update(timestamp: lastTimestamp, for: channel)
             }
             
@@ -37,17 +31,14 @@ open class GroupChannelMessageListUseCase: NSObject {
     
     public private(set) var isLoading: Bool = false
 
-    private let channel: SBDGroupChannel
+    private var channel: SBDGroupChannel
 
-    private let isReversed: Bool
-    
     private let timestampStorage: TimestampStorage
     
     private lazy var messageCollection: SBDMessageCollection = createMessageCollection()
     
-    public init(channel: SBDGroupChannel, isReversed: Bool, timestampStorage: TimestampStorage) {
+    public init(channel: SBDGroupChannel, timestampStorage: TimestampStorage) {
         self.channel = channel
-        self.isReversed = isReversed
         self.timestampStorage = timestampStorage
         super.init()
     }
@@ -117,8 +108,6 @@ open class GroupChannelMessageListUseCase: NSObject {
     open func createMessageCollection() -> SBDMessageCollection {
         // You can use a SBDMessageListParams instance for the SBDMessageCollection.
         let params = SBDMessageListParams()
-        params.reverse = isReversed
-        
         let collection = SBDMessageCollection(
             channel: channel,
             startingPoint: timestampStorage.lastTimestamp(for: channel) ?? .max,
@@ -141,43 +130,30 @@ open class GroupChannelMessageListUseCase: NSObject {
     }
     
     private func appendPreviousMessages(_ newMessages: [SBDBaseMessage]) {
-        if isReversed {
-            messages.append(contentsOf: newMessages)
-        } else {
-            messages.insert(contentsOf: newMessages, at: 0)
-        }
+        messages.insert(contentsOf: newMessages, at: 0)
     }
     
     private func appendNextMessages(_ newMessages: [SBDBaseMessage]) {
         guard validateNextMessages(newMessages) else { return }
         
-        if isReversed {
-            messages.insert(contentsOf: newMessages, at: 0)
-        } else {
-            messages.append(contentsOf: newMessages)
-        }
+        messages.append(contentsOf: newMessages)
     }
     
     private func validateNextMessages(_ newMessages: [SBDBaseMessage]) -> Bool {
-        guard let oldCreatedAt = isReversed ? messages.first?.createdAt : messages.last?.createdAt else { return true }
-        guard let newCreatedAt = isReversed ? newMessages.last?.createdAt : newMessages.first?.createdAt else { return false }
+        guard let oldCreatedAt = messages.last?.createdAt else { return true }
+        guard let newCreatedAt = newMessages.first?.createdAt else { return false }
         
         return oldCreatedAt <= newCreatedAt
     }
-    
-    private func upsertMessages(_ newMessages: [SBDBaseMessage]) {
-        replaceMessages(newMessages)
-        
-        let uniqueMessages = newMessages.filter {
-            messages.map(\.messageId).contains($0.messageId) == false
-        }
-        
-        appendNextMessages(uniqueMessages)
-    }
-        
+            
     private func replaceMessages(_ newMessages: [SBDBaseMessage]) {
-        messages = messages.map { oldMessage in
-            newMessages.first { $0.messageId == oldMessage.messageId || $0.requestId == oldMessage.requestId } ?? oldMessage
+        newMessages.forEach { newMessage in
+            if let index = messages.firstIndex(where: {
+                $0.messageId == newMessage.messageId
+                || $0.requestId == newMessage.requestId
+            }) {
+                messages[index] = newMessage
+            }
         }
     }
     
@@ -192,19 +168,12 @@ extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
     }
 
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, updatedMessages messages: [SBDBaseMessage]) {
-        switch context.messageSendingStatus {
-        case .succeeded:
-            upsertMessages(messages)
-        default:
-            replaceMessages(messages)
-        }
+        replaceMessages(messages)
     }
 
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, deletedMessages messages: [SBDBaseMessage]) {
         switch context.messageSendingStatus {
         case .succeeded:
-            // Remove the sent message from your data source.
-            print("[GroupChannelMessageListUseCase] succeeded deletedMessages: \(messages)")
             self.messages = self.messages.filter { oldMessage in
                 messages.map { $0.messageId }.contains(oldMessage.messageId) == false
             }
@@ -218,10 +187,14 @@ extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
 
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, updatedChannel channel: SBDGroupChannel) {
         // Change the chat view with the updated channel information.
+        self.channel = channel
+        delegate?.groupChannelMessageListUseCase(self, didUpdateChannel: channel)
     }
 
     public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, deletedChannel channelUrl: String) {
         // This is called when a channel was deleted. So the current chat view should be cleared.
+        guard channel.channelUrl == channelUrl else { return }
+        delegate?.groupChannelMessageListUseCase(self, didDeleteChannel: channel)
     }
 
     public func didDetectHugeGap(_ collection: SBDMessageCollection) {
