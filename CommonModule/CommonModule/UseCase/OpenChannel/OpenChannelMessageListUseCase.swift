@@ -48,11 +48,11 @@ open class OpenChannelMessageListUseCase: NSObject {
         SBDMain.removeConnectionDelegate(forIdentifier: description)
     }
     
-    public func addEventObserver() {
+    open func addEventObserver() {
         SBDMain.add(self as SBDChannelDelegate, identifier: description)
     }
     
-    public func removeEventObserver() {
+    open func removeEventObserver() {
         SBDMain.removeChannelDelegate(forIdentifier: description)
     }
         
@@ -153,7 +153,7 @@ open class OpenChannelMessageListUseCase: NSObject {
 
 extension OpenChannelMessageListUseCase: SBDChannelDelegate {
     
-    public func channelWasChanged(_ sender: SBDBaseChannel) {
+    open func channelWasChanged(_ sender: SBDBaseChannel) {
         guard sender.channelUrl == channel.channelUrl,
               let channel = sender as? SBDOpenChannel else { return }
         
@@ -162,25 +162,25 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         delegate?.openChannelMessageListUseCase(self, didUpdateChannel: channel)
     }
     
-    public func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
+    open func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
         guard channelUrl == channel.channelUrl else { return }
         
         delegate?.openChannelMessageListUseCase(self, didDeleteChannel: channel)
     }
     
-    public func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
+    open func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
         guard sender.channelUrl == channel.channelUrl, hasNextMessages == false else { return }
         
         appendNewMessage(message)
     }
     
-    public func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
+    open func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
         guard sender.channelUrl == channel.channelUrl else { return }
 
         replaceMessages([message])
     }
     
-    public func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64) {
+    open func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64) {
         guard sender.channelUrl == channel.channelUrl else { return }
         
         deleteMessages(byMessageIds: [messageId])
@@ -209,7 +209,7 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
 
 extension OpenChannelMessageListUseCase: SBDConnectionDelegate {
     
-    public func didSucceedReconnection() {
+    open func didSucceedReconnection() {
         hasNextMessages = true
         
         guard let timestamp = messages.last?.createdAt else {

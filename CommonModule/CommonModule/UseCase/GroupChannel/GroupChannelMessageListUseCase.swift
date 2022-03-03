@@ -19,7 +19,7 @@ open class GroupChannelMessageListUseCase: NSObject {
     
     public weak var delegate: GroupChannelMessageListUseCaseDelegate?
     
-    public private(set) var messages: [SBDBaseMessage] = [] {
+    open var messages: [SBDBaseMessage] = [] {
         didSet {
             if let lastTimestamp = messages.last?.createdAt {
                 timestampStorage.update(timestamp: lastTimestamp, for: channel)
@@ -29,9 +29,9 @@ open class GroupChannelMessageListUseCase: NSObject {
         }
     }
     
-    public private(set) var isLoading: Bool = false
+    open var isLoading: Bool = false
 
-    private var channel: SBDGroupChannel
+    public private(set) var channel: SBDGroupChannel
 
     private let timestampStorage: TimestampStorage
     
@@ -125,10 +125,6 @@ open class GroupChannelMessageListUseCase: NSObject {
         }
     }
     
-    public func isOutgoingMessage(_ message: SBDBaseMessage) -> Bool {
-        message.sender?.userId == SBDMain.getCurrentUser()?.userId
-    }
-    
     private func appendPreviousMessages(_ newMessages: [SBDBaseMessage]) {
         messages.insert(contentsOf: newMessages, at: 0)
     }
@@ -163,15 +159,15 @@ open class GroupChannelMessageListUseCase: NSObject {
 
 extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
     
-    public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, addedMessages messages: [SBDBaseMessage]) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, addedMessages messages: [SBDBaseMessage]) {
         appendNextMessages(messages)
     }
 
-    public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, updatedMessages messages: [SBDBaseMessage]) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, updatedMessages messages: [SBDBaseMessage]) {
         replaceMessages(messages)
     }
 
-    public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, deletedMessages messages: [SBDBaseMessage]) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, deletedMessages messages: [SBDBaseMessage]) {
         switch context.messageSendingStatus {
         case .succeeded:
             self.messages = self.messages.filter { oldMessage in
@@ -185,19 +181,19 @@ extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
         }
     }
 
-    public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, updatedChannel channel: SBDGroupChannel) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, updatedChannel channel: SBDGroupChannel) {
         // Change the chat view with the updated channel information.
         self.channel = channel
         delegate?.groupChannelMessageListUseCase(self, didUpdateChannel: channel)
     }
 
-    public func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, deletedChannel channelUrl: String) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, deletedChannel channelUrl: String) {
         // This is called when a channel was deleted. So the current chat view should be cleared.
         guard channel.channelUrl == channelUrl else { return }
         delegate?.groupChannelMessageListUseCase(self, didDeleteChannel: channel)
     }
 
-    public func didDetectHugeGap(_ collection: SBDMessageCollection) {
+    open func didDetectHugeGap(_ collection: SBDMessageCollection) {
         // The Chat SDK detects more than 300 messages missing.
 
         // Dispose of the current collection.
