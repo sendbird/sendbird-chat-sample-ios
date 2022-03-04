@@ -10,7 +10,7 @@ import SendBirdSDK
 
 extension GroupChannelViewController {
     
-    func presentEditMessageAlert(for message: SBDBaseMessage) {
+    func handleLongPress(for message: SBDBaseMessage) {
         guard message.sender?.userId == SBDMain.getCurrentUser()?.userId else { return }
         
         if let userMessage = message as? SBDUserMessage {

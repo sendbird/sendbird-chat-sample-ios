@@ -52,7 +52,7 @@ final class GroupChannelListViewController: UIViewController {
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "GroupChannelListCell")
+        tableView.register(GroupChannelListCell.self)
     }
     
     @objc private func didTouchCreatChannelButton() {
@@ -76,18 +76,10 @@ extension GroupChannelListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelListCell", for: indexPath)
+        let cell: GroupChannelListCell = tableView.dequeueReusableCell(for: indexPath)
         let channel = useCase.channels[indexPath.row]
         
-        if #available(iOS 14.0, *) {
-            var content = cell.defaultContentConfiguration()
-            content.text = channel.name
-            cell.contentConfiguration = content
-        } else {
-            cell.textLabel?.text = channel.name
-        }
-        
-        cell.accessoryType = .disclosureIndicator
+        cell.configure(with: channel)
         
         return cell
     }
