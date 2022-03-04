@@ -1,5 +1,5 @@
 //
-//  UserSelectionUseCase.swift
+//  GroupChannelUserSelectionUseCase.swift
 //  CommonModule
 //
 //  Created by Ernest Hong on 2022/02/10.
@@ -8,28 +8,28 @@
 import Foundation
 import SendBirdSDK
 
-public protocol UserSelectionUseCaseDelegate: AnyObject {
-    func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didReceiveError error: SBDError)
-    func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didUpdateUsers users: [SBDUser])
-    func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didUpdateSelectedUsers selectedUsers: [SBDUser])
+public protocol GroupChannelUserSelectionUseCaseDelegate: AnyObject {
+    func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didReceiveError error: SBDError)
+    func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateUsers users: [SBDUser])
+    func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateSelectedUsers selectedUsers: [SBDUser])
 }
 
 // MARK: - UserSelectionUseCase
 
-open class UserSelectionUseCase {
+open class GroupChannelUserSelectionUseCase {
     
-    public weak var delegate: UserSelectionUseCaseDelegate?
+    public weak var delegate: GroupChannelUserSelectionUseCaseDelegate?
     
     public private(set) var users: [SBDUser] = []
     
     public private(set) var selectedUsers: Set<SBDUser> = []
     
-    private let excludeUsers: [SBDUser]
+    private let channel: SBDGroupChannel?
     
     private var userListQuery: SBDApplicationUserListQuery?
     
-    public init(excludeUsers: [SBDUser]) {
-        self.excludeUsers = excludeUsers
+    public init(channel: SBDGroupChannel?) {
+        self.channel = channel
     }
         
     open func reloadUsers() {
@@ -95,8 +95,16 @@ open class UserSelectionUseCase {
 
         return users.filter {
             $0.userId != currentUser?.userId
-            && excludeUsers.map { $0.userId }.contains($0.userId) == false
+            && hasMember(ofUserId: $0.userId) == false
         }
+    }
+    
+    private func hasMember(ofUserId userId: String) -> Bool {
+        guard let channel = channel else {
+            return false
+        }
+
+        return channel.hasMember(userId)
     }
     
 }

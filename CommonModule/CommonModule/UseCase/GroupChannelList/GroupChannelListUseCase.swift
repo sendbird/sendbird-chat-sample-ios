@@ -89,12 +89,12 @@ open class GroupChannelListUseCase: NSObject {
 
 extension GroupChannelListUseCase: SBDGroupChannelCollectionDelegate {
     
-    public func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, addedChannels channels: [SBDGroupChannel]) {
+    open func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, addedChannels channels: [SBDGroupChannel]) {
         self.channels.insert(contentsOf: channels, at: 0)
         self.delegate?.groupChannelListUseCase(self, didUpdateChannels: self.channels)
     }
     
-    public func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, updatedChannels channels: [SBDGroupChannel]) {
+    open func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, updatedChannels channels: [SBDGroupChannel]) {
         let updatedChannels = channels
         
         self.channels = self.channels.map { channel in
@@ -104,7 +104,7 @@ extension GroupChannelListUseCase: SBDGroupChannelCollectionDelegate {
         self.delegate?.groupChannelListUseCase(self, didUpdateChannels: self.channels)
     }
     
-    public func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, deletedChannelUrls: [String]) {
+    open func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, deletedChannelUrls: [String]) {
         self.channels = self.channels.filter {
             deletedChannelUrls.contains($0.channelUrl) == false
         }

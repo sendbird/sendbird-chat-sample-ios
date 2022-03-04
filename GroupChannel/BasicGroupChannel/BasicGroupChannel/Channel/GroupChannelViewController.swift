@@ -21,7 +21,7 @@ class GroupChannelViewController: UIViewController {
 
     var focusMessage: SBDBaseMessage?
     
-    private let channel: SBDGroupChannel
+    let channel: SBDGroupChannel
     
     private let timestampStorage: TimestampStorage
     
@@ -34,6 +34,8 @@ class GroupChannelViewController: UIViewController {
     public private(set) lazy var userMessageUseCase = GroupChannelUserMessageUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
+    
+    public private(set) lazy var settingUseCase = GroupChannelSettingUseCase(channel: channel)
     
     public private(set) lazy var imagePickerRouter: ImagePickerRouter = {
         let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoLibrary, .photoCamera, .videoCamera])
@@ -89,13 +91,7 @@ class GroupChannelViewController: UIViewController {
         title = channel.name
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Setting", style: .plain, target: self, action: #selector(didTouchSettingButton))
     }
-    
-    @objc private func didTouchSettingButton() {
-        let settingController = GroupChannelSettingViewController(channel: channel)
         
-        navigationController?.pushViewController(settingController, animated: true)
-    }
-    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self

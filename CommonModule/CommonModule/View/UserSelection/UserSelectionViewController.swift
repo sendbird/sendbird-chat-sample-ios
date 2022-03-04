@@ -14,12 +14,12 @@ public class UserSelectionViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView!
     
-    private let excludeUsers: [SBDUser]
+    private let channel: SBDGroupChannel?
     
     private let didSelectUsers: DidSelectUserHandler
     
-    private lazy var useCase: UserSelectionUseCase = {
-        let useCase = UserSelectionUseCase(excludeUsers: excludeUsers)
+    private lazy var useCase: GroupChannelUserSelectionUseCase = {
+        let useCase = GroupChannelUserSelectionUseCase(channel: channel)
         useCase.delegate = self
         return useCase
     }()
@@ -38,8 +38,8 @@ public class UserSelectionViewController: UIViewController {
         action: #selector(onTouchCancelButton(_:))
     )
     
-    public init(excludeUsers: [SBDUser] = [], didSelectUsers: @escaping DidSelectUserHandler) {
-        self.excludeUsers = excludeUsers
+    public init(channel: SBDGroupChannel? = nil, didSelectUsers: @escaping DidSelectUserHandler) {
+        self.channel = channel
         self.didSelectUsers = didSelectUsers
         super.init(nibName: "UserSelectionViewController", bundle: Bundle(for: Self.self))
     }
@@ -133,17 +133,17 @@ extension UserSelectionViewController: UITableViewDelegate {
 
 // MARK: - UserSelectionUseCaseDelegate
 
-extension UserSelectionViewController: UserSelectionUseCaseDelegate {
+extension UserSelectionViewController: GroupChannelUserSelectionUseCaseDelegate {
 
-    public func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didReceiveError error: SBDError) {
+    public func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didReceiveError error: SBDError) {
         presentAlert(error: error)
     }
     
-    public func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didUpdateUsers users: [SBDUser]) {
+    public func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateUsers users: [SBDUser]) {
         tableView.reloadData()
     }
     
-    public func userSelectionUseCase(_ userSelectionUseCase: UserSelectionUseCase, didUpdateSelectedUsers users: [SBDUser]) {
+    public func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateSelectedUsers users: [SBDUser]) {
         updateOkButton()
     }
 
