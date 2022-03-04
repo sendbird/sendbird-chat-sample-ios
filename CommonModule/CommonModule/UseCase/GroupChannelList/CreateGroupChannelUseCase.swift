@@ -21,7 +21,11 @@ open class CreateGroupChannelUseCase {
         params.coverImage = imageData
         params.add(users)
         params.name = channelName
-
+        
+        if let operatorUserId = SBDMain.getCurrentUser()?.userId {
+            params.operatorUserIds = [operatorUserId]
+        }
+        
         SBDGroupChannel.createChannel(with: params) { channel, error in
             if let error = error {
                 completion(.failure(error))

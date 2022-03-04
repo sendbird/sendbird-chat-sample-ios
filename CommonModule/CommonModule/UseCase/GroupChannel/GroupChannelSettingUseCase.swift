@@ -56,5 +56,16 @@ open class GroupChannelSettingUseCase {
             completion(.success(()))
         }
     }
+    
+    open func deleteChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
+        channel.delete { error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            completion(.success(()))
+        }
+    }
 
 }

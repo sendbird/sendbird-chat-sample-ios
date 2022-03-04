@@ -160,9 +160,7 @@ extension GroupChannelSettingViewController: UITableViewDelegate {
     }
     
     private func presentInviteMember() {
-        guard let members = channel.members as? [SBDUser] else { return }
-        
-        let userSelection = UserSelectionViewController(excludeUsers: members) { [weak self] sender, users in
+        let userSelection = UserSelectionViewController(channel: channel) { [weak self] sender, users in
             self?.settingUseCase.invite(users: users) { result in
                 sender.dismiss(animated: true) {
                     switch result {
