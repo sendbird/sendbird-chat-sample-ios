@@ -117,7 +117,7 @@ class GroupChannelViewController: UIViewController {
 
         let message = messageListUseCase.messages[indexPath.row]
         
-        presentEditMessageAlert(for: message)
+        handleLongPress(for: message)
     }
 
 }
