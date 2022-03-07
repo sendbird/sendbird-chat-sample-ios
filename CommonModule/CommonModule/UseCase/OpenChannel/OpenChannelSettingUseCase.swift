@@ -10,8 +10,17 @@ import SendBirdSDK
 
 open class OpenChannelSettingUseCase {
     
+    // FIX ME: Query로 불러오는 Use Case 따로 분리하기
     public var operators: [SBDUser] {
         (channel.operators as? [SBDUser]) ?? []
+    }
+    
+    public var isCurrentOperator: Bool {
+        guard let currentUser = SBDMain.getCurrentUser() else {
+            return false
+        }
+        
+        return channel.isOperator(with: currentUser)
     }
     
     private let channel: SBDOpenChannel
@@ -37,6 +46,17 @@ open class OpenChannelSettingUseCase {
     
     open func exitChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.exitChannel { error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            completion(.success(()))
+        }
+    }
+    
+    open func deleteChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
+        channel.delete { error in
             if let error = error {
                 completion(.failure(error))
                 return
