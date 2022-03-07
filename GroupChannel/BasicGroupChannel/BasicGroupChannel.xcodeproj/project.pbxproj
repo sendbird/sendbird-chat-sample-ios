@@ -25,8 +25,6 @@
 		5FDE176F27BA4C680009CB39 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE176827BA4C0D0009CB39 /* SettingViewController.xib */; };
 		5FDF2B6627B358D000C3A8A2 /* GroupChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDF2B6527B358D000C3A8A2 /* GroupChannelListViewController.swift */; };
 		5FDF2B6927B3598400C3A8A2 /* GroupChannelListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FDF2B6827B3598400C3A8A2 /* GroupChannelListViewController.xib */; };
-		5FEEB65227B65D7E00677373 /* GroupChannelSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEB65127B65D7E00677373 /* GroupChannelSettingViewController.swift */; };
-		5FEEB65427B65DA600677373 /* GroupChannelSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FEEB65327B65DA600677373 /* GroupChannelSettingViewController.xib */; };
 		5FF9F9DD27B603EA0080565A /* GroupChannelViewController+EditMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9F9DC27B603EA0080565A /* GroupChannelViewController+EditMessage.swift */; };
 		5FF9F9E527B62CCF0080565A /* GroupChannelViewController+FileMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9F9E427B62CCF0080565A /* GroupChannelViewController+FileMessage.swift */; };
 /* End PBXBuildFile section */
@@ -66,8 +64,6 @@
 		5FDE176927BA4C0D0009CB39 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		5FDF2B6527B358D000C3A8A2 /* GroupChannelListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelListViewController.swift; sourceTree = "<group>"; };
 		5FDF2B6827B3598400C3A8A2 /* GroupChannelListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupChannelListViewController.xib; sourceTree = "<group>"; };
-		5FEEB65127B65D7E00677373 /* GroupChannelSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelSettingViewController.swift; sourceTree = "<group>"; };
-		5FEEB65327B65DA600677373 /* GroupChannelSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupChannelSettingViewController.xib; sourceTree = "<group>"; };
 		5FF9F9DC27B603EA0080565A /* GroupChannelViewController+EditMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GroupChannelViewController+EditMessage.swift"; sourceTree = "<group>"; };
 		5FF9F9E427B62CCF0080565A /* GroupChannelViewController+FileMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GroupChannelViewController+FileMessage.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,7 +103,6 @@
 				5FD8CED227B4E70C006F539B /* CreateChannel */,
 				5FDF2B6727B358E400C3A8A2 /* ChannelList */,
 				5FD8CEAE27B371AE006F539B /* Channel */,
-				5FEEB65027B65D3500677373 /* ChannelSetting */,
 				5FAAA1B027D1DCAA00974012 /* MemberList */,
 				5FDE176727BA4C0D0009CB39 /* Setting */,
 				5F00C9DE27B2475900206750 /* AppDelegate.swift */,
@@ -177,15 +172,6 @@
 			path = ChannelList;
 			sourceTree = "<group>";
 		};
-		5FEEB65027B65D3500677373 /* ChannelSetting */ = {
-			isa = PBXGroup;
-			children = (
-				5FEEB65127B65D7E00677373 /* GroupChannelSettingViewController.swift */,
-				5FEEB65327B65DA600677373 /* GroupChannelSettingViewController.xib */,
-			);
-			path = ChannelSetting;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -251,7 +237,6 @@
 				5F00C9E827B2475900206750 /* Assets.xcassets in Resources */,
 				5FD8CEB227B371D9006F539B /* GroupChannelViewController.xib in Resources */,
 				5F00C9E627B2475900206750 /* Main.storyboard in Resources */,
-				5FEEB65427B65DA600677373 /* GroupChannelSettingViewController.xib in Resources */,
 				5FD8CED827B4F2A1006F539B /* CreateGroupChannelViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -267,7 +252,6 @@
 				5FD8CEB027B371BE006F539B /* GroupChannelViewController.swift in Sources */,
 				5FF9F9DD27B603EA0080565A /* GroupChannelViewController+EditMessage.swift in Sources */,
 				5FF9F9E527B62CCF0080565A /* GroupChannelViewController+FileMessage.swift in Sources */,
-				5FEEB65227B65D7E00677373 /* GroupChannelSettingViewController.swift in Sources */,
 				5F00C9E327B2475900206750 /* ViewController.swift in Sources */,
 				5FD8CED427B4E732006F539B /* CreateGroupChannelViewController.swift in Sources */,
 				5F00C9DF27B2475900206750 /* AppDelegate.swift in Sources */,

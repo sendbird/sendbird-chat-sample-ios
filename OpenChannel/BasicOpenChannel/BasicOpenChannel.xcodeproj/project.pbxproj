@@ -23,10 +23,12 @@
 		5F6F62CF27B9E85900FD6121 /* OpenChannelListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F62AC27B9E6F100FD6121 /* OpenChannelListViewController.xib */; };
 		5F6F62D727B9EB9200FD6121 /* OpenChannelSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62D627B9EB9200FD6121 /* OpenChannelSettingViewController.swift */; };
 		5F6F62D827B9EB9A00FD6121 /* OpenChannelSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F62D527B9EB9200FD6121 /* OpenChannelSettingViewController.xib */; };
+		5FAAA1B927D1FB0200974012 /* OpenChannelViewController+Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAA1B827D1FB0200974012 /* OpenChannelViewController+Setting.swift */; };
 		5FD2501027BE159D00D04ACC /* CommonModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500F27BE159D00D04ACC /* CommonModule.framework */; };
 		5FD2501127BE159D00D04ACC /* CommonModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500F27BE159D00D04ACC /* CommonModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5FDE176E27BA4C1F0009CB39 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE176D27BA4C1F0009CB39 /* SettingViewController.swift */; };
 		5FDE177027BA4C6D0009CB39 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE176C27BA4C1F0009CB39 /* SettingViewController.xib */; };
+		5FE05C3827D597880093CDA2 /* OpenChannelParticipantListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE05C3727D597880093CDA2 /* OpenChannelParticipantListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -63,9 +65,11 @@
 		5F6F62BF27B9E7CD00FD6121 /* CreateOpenChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOpenChannelViewController.swift; sourceTree = "<group>"; };
 		5F6F62D527B9EB9200FD6121 /* OpenChannelSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenChannelSettingViewController.xib; sourceTree = "<group>"; };
 		5F6F62D627B9EB9200FD6121 /* OpenChannelSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelSettingViewController.swift; sourceTree = "<group>"; };
+		5FAAA1B827D1FB0200974012 /* OpenChannelViewController+Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OpenChannelViewController+Setting.swift"; sourceTree = "<group>"; };
 		5FD2500F27BE159D00D04ACC /* CommonModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CommonModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FDE176C27BA4C1F0009CB39 /* SettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
 		5FDE176D27BA4C1F0009CB39 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		5FE05C3727D597880093CDA2 /* OpenChannelParticipantListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelParticipantListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +104,8 @@
 		5F00CA1927B2479B00206750 /* BasicOpenChannel */ = {
 			isa = PBXGroup;
 			children = (
-				5F6F62AB27B9E6F100FD6121 /* List */,
+				5FAAA1BA27D1FD9D00974012 /* Participat */,
+				5F6F62AB27B9E6F100FD6121 /* ChannelList */,
 				5F6F62AF27B9E78900FD6121 /* Channel */,
 				5F6F62D427B9EB9200FD6121 /* ChannelSetting */,
 				5F6F62BD27B9E7CC00FD6121 /* CreateChannel */,
@@ -125,13 +130,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5F6F62AB27B9E6F100FD6121 /* List */ = {
+		5F6F62AB27B9E6F100FD6121 /* ChannelList */ = {
 			isa = PBXGroup;
 			children = (
 				5F6F62AD27B9E6F100FD6121 /* OpenChannelListViewController.swift */,
 				5F6F62AC27B9E6F100FD6121 /* OpenChannelListViewController.xib */,
 			);
-			path = List;
+			path = ChannelList;
 			sourceTree = "<group>";
 		};
 		5F6F62AF27B9E78900FD6121 /* Channel */ = {
@@ -141,6 +146,7 @@
 				5F6F62B327B9E78900FD6121 /* OpenChannelViewController.swift */,
 				5F6F62B227B9E78900FD6121 /* OpenChannelViewController+EditMessage.swift */,
 				5F6F62B027B9E78900FD6121 /* OpenChannelViewController+FileMessage.swift */,
+				5FAAA1B827D1FB0200974012 /* OpenChannelViewController+Setting.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -161,6 +167,14 @@
 				5F6F62D527B9EB9200FD6121 /* OpenChannelSettingViewController.xib */,
 			);
 			path = ChannelSetting;
+			sourceTree = "<group>";
+		};
+		5FAAA1BA27D1FD9D00974012 /* Participat */ = {
+			isa = PBXGroup;
+			children = (
+				5FE05C3727D597880093CDA2 /* OpenChannelParticipantListViewController.swift */,
+			);
+			path = Participat;
 			sourceTree = "<group>";
 		};
 		5FDE176B27BA4C1F0009CB39 /* Setting */ = {
@@ -251,9 +265,11 @@
 			files = (
 				5F6F62C727B9E85900FD6121 /* CreateOpenChannelViewController.swift in Sources */,
 				5F6F62C627B9E85900FD6121 /* OpenChannelViewController+FileMessage.swift in Sources */,
+				5FAAA1B927D1FB0200974012 /* OpenChannelViewController+Setting.swift in Sources */,
 				5F6F62CC27B9E85900FD6121 /* OpenChannelViewController+EditMessage.swift in Sources */,
 				5F6F62D727B9EB9200FD6121 /* OpenChannelSettingViewController.swift in Sources */,
 				5F6F62C827B9E85900FD6121 /* OpenChannelListViewController.swift in Sources */,
+				5FE05C3827D597880093CDA2 /* OpenChannelParticipantListViewController.swift in Sources */,
 				5F00CA1F27B2479B00206750 /* ViewController.swift in Sources */,
 				5F6F62CE27B9E85900FD6121 /* OpenChannelViewController.swift in Sources */,
 				5F00CA1B27B2479B00206750 /* AppDelegate.swift in Sources */,

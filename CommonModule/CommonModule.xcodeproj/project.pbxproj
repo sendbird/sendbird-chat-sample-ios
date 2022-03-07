@@ -57,6 +57,7 @@
 		5FDE177427BA4CAD0009CB39 /* ProfileEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE177327BA4CAD0009CB39 /* ProfileEditViewController.xib */; };
 		5FDF2B5027B26C4D00C3A8A2 /* UserConnectionUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDF2B4F27B26C4D00C3A8A2 /* UserConnectionUseCase.swift */; };
 		5FDF2B5227B2A45E00C3A8A2 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDF2B5127B2A45E00C3A8A2 /* UserDefault.swift */; };
+		5FE05C3A27D5990A0093CDA2 /* OpenChannelParticipantListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE05C3927D5990A0093CDA2 /* OpenChannelParticipantListUseCase.swift */; };
 		5FEEB64F27B65A3700677373 /* EnvironmentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEB64E27B65A3700677373 /* EnvironmentUseCase.swift */; };
 		5FF9F9D427B559340080565A /* GroupChannelUserMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9F9D327B559340080565A /* GroupChannelUserMessageUseCase.swift */; };
 		5FF9F9E727B62ED50080565A /* GroupChannelFileMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9F9E627B62ED50080565A /* GroupChannelFileMessageUseCase.swift */; };
@@ -122,6 +123,7 @@
 		5FDE177327BA4CAD0009CB39 /* ProfileEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileEditViewController.xib; sourceTree = "<group>"; };
 		5FDF2B4F27B26C4D00C3A8A2 /* UserConnectionUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConnectionUseCase.swift; sourceTree = "<group>"; };
 		5FDF2B5127B2A45E00C3A8A2 /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
+		5FE05C3927D5990A0093CDA2 /* OpenChannelParticipantListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelParticipantListUseCase.swift; sourceTree = "<group>"; };
 		5FEEB64E27B65A3700677373 /* EnvironmentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentUseCase.swift; sourceTree = "<group>"; };
 		5FF9F9D327B559340080565A /* GroupChannelUserMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelUserMessageUseCase.swift; sourceTree = "<group>"; };
 		5FF9F9E627B62ED50080565A /* GroupChannelFileMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelFileMessageUseCase.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				5FDE175B27B9F42D0009CB39 /* OpenChannelUserMessageUseCase.swift */,
 				5FDE175C27B9F42D0009CB39 /* OpenChannelFileMessageUseCase.swift */,
 				5FDE176127B9FFE40009CB39 /* OpenChannelSettingUseCase.swift */,
+				5FE05C3927D5990A0093CDA2 /* OpenChannelParticipantListUseCase.swift */,
 			);
 			path = OpenChannel;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				5FD8CEB927B375F9006F539B /* NibLoadable.swift in Sources */,
 				5F00CA6227B262AC00206750 /* LoginViewController.swift in Sources */,
 				5FD8CE9E27B35A72006F539B /* GroupChannelListUseCase.swift in Sources */,
+				5FE05C3A27D5990A0093CDA2 /* OpenChannelParticipantListUseCase.swift in Sources */,
 				5FD8CEA827B36332006F539B /* ProfileImageView.swift in Sources */,
 				5FDE177227BA4C940009CB39 /* ProfileEditViewController.swift in Sources */,
 				5F00C9BD27B2474200206750 /* BaseModule.docc in Sources */,

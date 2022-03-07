@@ -21,7 +21,7 @@ class OpenChannelViewController: UIViewController {
     
     var focusMessage: SBDBaseMessage?
     
-    private let channel: SBDOpenChannel
+    let channel: SBDOpenChannel
     
     public private(set) lazy var messageListUseCase: OpenChannelMessageListUseCase = {
         let messageListUseCase = OpenChannelMessageListUseCase(channel: channel)
@@ -32,6 +32,8 @@ class OpenChannelViewController: UIViewController {
     public private(set) lazy var userMessageUseCase = OpenChannelUserMessageUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
+    
+    public private(set) lazy var settingUseCase = OpenChannelSettingUseCase(channel: channel)
     
     public private(set) lazy var imagePickerRouter: ImagePickerRouter = {
         let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoCamera, .photoLibrary])
@@ -81,12 +83,6 @@ class OpenChannelViewController: UIViewController {
     private func setupNavigation() {
         title = channel.name
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Setting", style: .plain, target: self, action: #selector(didTouchSettingButton))
-    }
-    
-    @objc private func didTouchSettingButton() {
-        let settingController = OpenChannelSettingViewController(channel: channel)
-        
-        navigationController?.pushViewController(settingController, animated: true)
     }
     
     private func setupTableView() {
