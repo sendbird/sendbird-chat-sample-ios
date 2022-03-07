@@ -19,7 +19,7 @@ class OpenChannelViewController: UIViewController {
     @IBOutlet private weak var messageInputView: MessageInputView!
     @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
     
-    var focusMessage: SBDBaseMessage?
+    var targetMessageForScrolling: SBDBaseMessage?
     
     let channel: SBDOpenChannel
     
@@ -179,9 +179,9 @@ extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
     }
     
     private func scrollToFocusMessage() {
-        defer { self.focusMessage = nil }
+        defer { self.targetMessageForScrolling = nil }
         
-        guard let focusMessage = focusMessage,
+        guard let focusMessage = targetMessageForScrolling,
               focusMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
         
         let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
@@ -196,16 +196,24 @@ extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
 extension OpenChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
-        focusMessage = userMessageUseCase.sendMessage(message) { [weak self] result in
+        var sendingMessage: SBDBaseMessage?
+        
+        sendingMessage = userMessageUseCase.sendMessage(message) { [weak self] result in
             switch result {
             case .success(let message):
-                self?.focusMessage = message
-                self?.messageListUseCase.didSendMessage(message)
+                self?.targetMessageForScrolling = message
+                self?.messageListUseCase.didSuccessSendMessage(message)
             case .failure(let error):
-                self?.focusMessage = nil
+                self?.targetMessageForScrolling = nil
+                self?.messageListUseCase.didFailSendMessage(sendingMessage)
                 self?.presentAlert(error: error)
             }
         }
+        
+        guard let sendingMessage = sendingMessage else { return }
+        
+        targetMessageForScrolling = sendingMessage
+        messageListUseCase.didStartSendMessage(sendingMessage)
     }
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchSendFileMessageButton sender: UIButton) {

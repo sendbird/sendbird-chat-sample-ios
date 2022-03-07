@@ -137,16 +137,20 @@ open class OpenChannelMessageListUseCase: NSObject {
         }
     }
     
-    open func didSendMessage(_ message: SBDBaseMessage) {
+    open func didStartSendMessage(_ message: SBDBaseMessage?) {
+        guard let message = message else { return }
         appendNewMessage(message)
     }
     
-    private func appendNewMessage(_ message: SBDBaseMessage) {
-        guard messages.contains(where: { $0.messageId == message.messageId }) == false else { return }
-        
-        self.messages.append(message)
+    open func didSuccessSendMessage(_ message: SBDBaseMessage) {
+        replaceMessages([message])
     }
     
+    open func didFailSendMessage(_ message: SBDBaseMessage?) {
+        guard let message = message else { return }
+        replaceMessages([message])
+    }
+
 }
 
 // MARK: - SBDChannelDelegate
@@ -186,6 +190,12 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         deleteMessages(byMessageIds: [messageId])
     }
     
+    private func appendNewMessage(_ message: SBDBaseMessage) {
+        guard messages.contains(where: { $0.messageId == message.messageId }) == false else { return }
+        
+        self.messages.append(message)
+    }
+    
     private func replaceMessages(_ newMessages: [SBDBaseMessage]) {
         newMessages.forEach { newMessage in
             if let index = messages.firstIndex(where: {
@@ -200,6 +210,13 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
     private func deleteMessages(byMessageIds messageIds: [Int64]) {
         self.messages = self.messages.filter {
             messageIds.contains($0.messageId) == false
+        }
+    }
+        
+    private func deleteMessage(_ message: SBDBaseMessage) {
+        self.messages = self.messages.filter {
+            $0.requestId != message.requestId
+            && $0.messageId != message.messageId
         }
     }
     
