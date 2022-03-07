@@ -10,13 +10,13 @@ When the Feature Sample was added, the `GroupChannel` and `OpenChannel` workspac
 ![image](https://user-images.githubusercontent.com/11647461/156985707-e504f40d-11ce-402e-8038-b13f90ee5db6.png)
 
 
-### CommonModule
+### [CommonModule](https://github.com/sendbird/examples-chat-ios/tree/main/CommonModule/CommonModule)
 
-- UseCase: Objects that can be conceptually bundled and used in SendbirdSDK.
+- [UseCase](https://github.com/sendbird/examples-chat-ios/tree/main/CommonModule/CommonModule/UseCase): Objects that can be conceptually bundled and used in SendbirdSDK.
   - For example, when implementing the chat room message list, the functions to initialize the list, get the previous message, and get the next message are mostly used together.
   - So, even if it is not divided into screen units, things that can be grouped with a similar concept are grouped with UseCase.
   - If necessary, change the Access Control of BaseModule to open and use it.
-- View
+- [View](https://github.com/sendbird/examples-chat-ios/tree/main/CommonModule/CommonModule/View)
   - Small Views that can be easily modularized
   - It is recommended to collect all Views that are used for both Group Channel and Open Channel here.
 - `CommonModule` is used as an embedded framework in each Sample App.
@@ -24,21 +24,21 @@ When the Feature Sample was added, the `GroupChannel` and `OpenChannel` workspac
   - I have connected the SendbirdSDK to the CommonModule as SPM. So you can manage your version of SendbirdSDK in one place.
 
 
-### OpenChannel
+### [OpenChannel](https://github.com/sendbird/examples-chat-ios/tree/main/OpenChannel)
 
 `OpenChannel.xcworkspace`
 - CommonModule
 - BasicGroupChannel
 - GroupChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicGroupChannel project.
 
-### GroupChannel
+### [GroupChannel](https://github.com/sendbird/examples-chat-ios/tree/main/GroupChannel)
 
 `GroupChannel.xcworkspace`
 - CommonModule
 - BasicGroupChannel
 - GroupChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicGroupChannel project.
 
-## Feature Project 관리
+## Feature Project
 - Implement additional functions after cloning the Basic Sample project. It is recommended to refer to [How to clone the Basic Sample App](https://sendbird.atlassian.net/wiki/spaces/SDK/pages/1771243091/How+to+clone+the+Basic+Sample+App)
 - If you want to add a function to an existing UseCase, you can add the function through inheritance.
 - Please place the feature use case file that inherits the basic use case under FeatureSample.
