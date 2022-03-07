@@ -19,7 +19,7 @@ class GroupChannelViewController: UIViewController {
     @IBOutlet private weak var messageInputView: MessageInputView!
     @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
 
-    var focusMessage: SBDBaseMessage?
+    var targetMessageForScrolling: SBDBaseMessage?
     
     let channel: SBDGroupChannel
     
@@ -177,9 +177,9 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     }
     
     private func scrollToFocusMessage() {
-        guard let focusMessage = focusMessage,
+        guard let focusMessage = targetMessageForScrolling,
               focusMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
-        self.focusMessage = nil
+        self.targetMessageForScrolling = nil
         
         let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
         
@@ -203,10 +203,10 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
 extension GroupChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
-        focusMessage = userMessageUseCase.sendMessage(message) { [weak self] result in
+        targetMessageForScrolling = userMessageUseCase.sendMessage(message) { [weak self] result in
             switch result {
             case .success(let sendedMessage):
-                self?.focusMessage = sendedMessage
+                self?.targetMessageForScrolling = sendedMessage
             case .failure(let error):
                 self?.presentAlert(error: error)
             }

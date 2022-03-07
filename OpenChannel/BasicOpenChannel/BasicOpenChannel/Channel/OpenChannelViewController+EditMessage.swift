@@ -23,6 +23,14 @@ extension OpenChannelViewController {
     private func presentEditUserMessageAlert(for message: SBDUserMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
         
+        if message.sendingStatus == .failed {
+            alert.addAction(
+                UIAlertAction(title: "Resend", style: .default) { [weak self] _ in
+                    self?.resend(message)
+                }
+            )
+        }
+        
         alert.addAction(
             UIAlertAction(title: "Update", style: .default) { [weak self] _ in
                 self?.presentUpdateUserMessageAlert(for: message)
@@ -80,6 +88,28 @@ extension OpenChannelViewController {
         )
 
         present(alert, animated: true)
+    }
+    
+    private func resend(_ message: SBDUserMessage) {
+        userMessageUseCase.resendMessage(message) { [weak self] result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                self?.presentAlert(error: error)
+            }
+        }
+    }
+    
+    private func resend(_ message: SBDFileMessage) {
+        fileMessageUseCase.resendMessage(message) { [weak self] result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                self?.presentAlert(error: error)
+            }
+        }
     }
     
 }
