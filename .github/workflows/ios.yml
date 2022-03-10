@@ -1,4 +1,4 @@
-name: iOS starter workflow
+name: chat-ios build test
 
 on:
   push:
