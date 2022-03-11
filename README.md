@@ -1,4 +1,4 @@
-# examples-chat-ios
+# SendBird Chat SDK Sample for iOS
 This repository provides feature-level Chat samples with Swift
 
 Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0%EB%8A%A5-%EB%8B%A8%EC%9C%84%EB%A1%9C-%ED%99%95%EC%9E%A5-%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%83%98%ED%94%8C-%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0-a5fd35ac5ca0)
