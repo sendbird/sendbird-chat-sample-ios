@@ -13,6 +13,7 @@
 		5F00C9E627B2475900206750 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00C9E427B2475900206750 /* Main.storyboard */; };
 		5F00C9E827B2475900206750 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F00C9E727B2475900206750 /* Assets.xcassets */; };
 		5F00C9EB27B2475900206750 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F00C9E927B2475900206750 /* LaunchScreen.storyboard */; };
+		5F7C5B2227DF81EF0034FA9D /* SendBirdSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5F7C5B2127DF81EF0034FA9D /* SendBirdSDK */; };
 		5FAAA1AF27D1C66700974012 /* GroupChannelViewController+Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAA1AE27D1C66700974012 /* GroupChannelViewController+Setting.swift */; };
 		5FAAA1B227D1DCBB00974012 /* GroupChannelMemberListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAA1B127D1DCBB00974012 /* GroupChannelMemberListViewController.swift */; };
 		5FD2500827BE138B00D04ACC /* CommonModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500727BE138B00D04ACC /* CommonModule.framework */; };
@@ -73,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F7C5B2227DF81EF0034FA9D /* SendBirdSDK in Frameworks */,
 				5FD2500827BE138B00D04ACC /* CommonModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,6 +191,9 @@
 			dependencies = (
 			);
 			name = BasicGroupChannel;
+			packageProductDependencies = (
+				5F7C5B2127DF81EF0034FA9D /* SendBirdSDK */,
+			);
 			productName = BasicGruopChannel;
 			productReference = 5F00C9DB27B2475900206750 /* BasicGroupChannel.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +222,9 @@
 				Base,
 			);
 			mainGroup = 5F00C9D227B2475900206750;
+			packageReferences = (
+				5F7C5B2027DF81EF0034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */,
+			);
 			productRefGroup = 5F00C9DC27B2475900206750 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -407,6 +415,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RM4A5PXTUX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BasicGroupChannel/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -435,6 +444,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RM4A5PXTUX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BasicGroupChannel/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -478,6 +488,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5F7C5B2027DF81EF0034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sendbird/sendbird-chat-ios-spm";
+			requirement = {
+				kind = exactVersion;
+				version = 3.1.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5F7C5B2127DF81EF0034FA9D /* SendBirdSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F7C5B2027DF81EF0034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */;
+			productName = SendBirdSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5F00C9D327B2475900206750 /* Project object */;
 }

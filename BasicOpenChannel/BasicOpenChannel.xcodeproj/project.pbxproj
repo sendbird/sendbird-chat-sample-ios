@@ -23,6 +23,7 @@
 		5F6F62CF27B9E85900FD6121 /* OpenChannelListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F62AC27B9E6F100FD6121 /* OpenChannelListViewController.xib */; };
 		5F6F62D727B9EB9200FD6121 /* OpenChannelSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62D627B9EB9200FD6121 /* OpenChannelSettingViewController.swift */; };
 		5F6F62D827B9EB9A00FD6121 /* OpenChannelSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6F62D527B9EB9200FD6121 /* OpenChannelSettingViewController.xib */; };
+		5F7C5B2527DF82010034FA9D /* SendBirdSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5F7C5B2427DF82010034FA9D /* SendBirdSDK */; };
 		5FAAA1B927D1FB0200974012 /* OpenChannelViewController+Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAA1B827D1FB0200974012 /* OpenChannelViewController+Setting.swift */; };
 		5FD2501027BE159D00D04ACC /* CommonModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500F27BE159D00D04ACC /* CommonModule.framework */; };
 		5FD2501127BE159D00D04ACC /* CommonModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD2500F27BE159D00D04ACC /* CommonModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -77,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F7C5B2527DF82010034FA9D /* SendBirdSDK in Frameworks */,
 				5FD2501027BE159D00D04ACC /* CommonModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,6 +205,9 @@
 			dependencies = (
 			);
 			name = BasicOpenChannel;
+			packageProductDependencies = (
+				5F7C5B2427DF82010034FA9D /* SendBirdSDK */,
+			);
 			productName = BasicOpenChannel;
 			productReference = 5F00CA1727B2479B00206750 /* BasicOpenChannel.app */;
 			productType = "com.apple.product-type.application";
@@ -231,6 +236,9 @@
 				Base,
 			);
 			mainGroup = 5F00CA0E27B2479B00206750;
+			packageReferences = (
+				5F7C5B2327DF82010034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */,
+			);
 			productRefGroup = 5F00CA1827B2479B00206750 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -492,6 +500,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5F7C5B2327DF82010034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sendbird/sendbird-chat-ios-spm";
+			requirement = {
+				kind = exactVersion;
+				version = 3.1.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5F7C5B2427DF82010034FA9D /* SendBirdSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F7C5B2327DF82010034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */;
+			productName = SendBirdSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5F00CA0F27B2479B00206750 /* Project object */;
 }
