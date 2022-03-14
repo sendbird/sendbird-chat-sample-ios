@@ -11,22 +11,12 @@ import SendBirdSDK
 public final class LoginViewController: UIViewController {
 
     @IBOutlet private weak var connectButton: UIButton!
-    @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var userIdTextField: UITextField!
-    @IBOutlet private weak var nicknameTextField: UITextField!
-    @IBOutlet private weak var versionInfoLabel: UILabel!
-    @IBOutlet private weak var scrollViewBottomConstraint: NSLayoutConstraint!
     
     public typealias DidConnectUserHandler = (SBDUser) -> Void
     
     private let didConnectUser: DidConnectUserHandler
     
-    private lazy var keyboardObserver: KeyboardObserver = {
-        let keyboardObserver = KeyboardObserver()
-        keyboardObserver.delegate = self
-        return keyboardObserver
-    }()
-        
     public init(didConnectUser: @escaping DidConnectUserHandler) {
         self.didConnectUser = didConnectUser
         super.init(nibName: "LoginViewController", bundle: Bundle(for: Self.self))
@@ -40,46 +30,24 @@ public final class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         loadCachedUser()
-        loadVersion()
     }
-    
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
-        keyboardObserver.add()
-    }
-    
-    public override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        keyboardObserver.remove()
-    }
-    
     private func loadCachedUser() {
         if let userId = UserConnectionUseCase.shared.userId {
             userIdTextField.text = userId
-        }
-        
-        if let nickname = UserConnectionUseCase.shared.userNickname {
-            nicknameTextField.text = nickname
         }
         
         if UserConnectionUseCase.shared.isAutoLogin {
             connectUser()
         }
     }
-    
-    private func loadVersion() {
-        versionInfoLabel.text = VersionInfo().description
-    }
-    
+        
     private func connectUser() {
         view.endEditing(true)
         
         guard
             let userId = userIdTextField.text,
-            let nickname = nicknameTextField.text,
-            validateText(userId: userId, nickname: nickname)
+            validateText(userId: userId)
         else {
             presentAlert(title: "Error", message: "User ID and Nickname are required.")
             return
@@ -87,33 +55,44 @@ public final class LoginViewController: UIViewController {
         
         updateUIForConnecting()
         
-        UserConnectionUseCase.shared.login(userId: userId, nickname: nickname) { [weak self] result in
+        UserConnectionUseCase.shared.login(userId: userId) { [weak self] result in
+            self?.updateUIForDefault()
+            
             switch result {
             case .success(let user):
-                self?.didConnectUser(user)
+                if user.nickname?.isEmpty ?? true {
+                    self?.presentEditViewController(user: user)
+                } else {
+                    self?.didConnectUser(user)
+                }
             case .failure(let error):
                 self?.presentAlert(error: error)
             }
-            
-            self?.updateUIForDefault()
         }
     }
     
-    private func validateText(userId: String, nickname: String) -> Bool {
+    private func presentEditViewController(user: SBDUser) {
+        let profileEditViewController = ProfileEditViewController(completion: { [weak self] in
+            self?.didConnectUser(user)
+        })
+        let navigation = UINavigationController(rootViewController: profileEditViewController)
+        navigation.modalPresentationStyle = .fullScreen
+        
+        present(navigation, animated: true)
+    }
+    
+    private func validateText(userId: String) -> Bool {
         userId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
-        && nickname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
     }
     
     private func updateUIForDefault() {
         userIdTextField.isEnabled = true
-        nicknameTextField.isEnabled = true
         connectButton.isEnabled = true
         connectButton.setTitle("Connect", for: .normal)
     }
 
     private func updateUIForConnecting() {
         userIdTextField.isEnabled = false
-        nicknameTextField.isEnabled = false
         connectButton.isEnabled = false
         connectButton.setTitle("Connecting...", for: .normal)
     }
@@ -131,35 +110,11 @@ extension LoginViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == userIdTextField {
-            nicknameTextField.becomeFirstResponder()
-        } else {
             connectUser()
             textField.resignFirstResponder()
         }
         
         return true
-    }
-    
-}
-
-// MARK: - Keyboard
-
-extension LoginViewController: KeyboardObserverDelegate {
-    
-    public func keyboardObserver(_ keyboardObserver: KeyboardObserver, willShowKeyboardWith keyboardInfo: KeyboardInfo) {
-        scrollViewBottomConstraint.constant = keyboardInfo.height
-        
-        keyboardInfo.animate { [weak self] in
-            self?.view.layoutIfNeeded()
-        }
-    }
-    
-    public func keyboardObserver(_ keyboardObserver: KeyboardObserver, willHideKeyboardWith keyboardInfo: KeyboardInfo) {
-        scrollViewBottomConstraint.constant = keyboardInfo.height
-        
-        keyboardInfo.animate { [weak self] in
-            self?.view.layoutIfNeeded()
-        }
     }
     
 }

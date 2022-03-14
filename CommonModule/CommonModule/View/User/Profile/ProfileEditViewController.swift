@@ -11,7 +11,11 @@ import MobileCoreServices
 
 public class ProfileEditViewController: UIViewController {
     
+    public typealias CompletionHandler = () -> Void
+    
     @IBOutlet private weak var profileEditView: ProfileEditView!
+    
+    private let completion: CompletionHandler?
     
     private var selectedImageData: Data?
     
@@ -35,7 +39,8 @@ public class ProfileEditViewController: UIViewController {
         return imagePickerRouter
     }()
     
-    public init() {
+    public init(completion: CompletionHandler? = nil) {
+        self.completion = completion
         super.init(nibName: "ProfileEditViewController", bundle: Bundle(for: Self.self))
     }
     
@@ -47,6 +52,7 @@ public class ProfileEditViewController: UIViewController {
         super.viewDidLoad()
         
         setupNavigation()
+        setupProfileEditView()
     }
     
     private func setupNavigation() {
@@ -66,14 +72,18 @@ public class ProfileEditViewController: UIViewController {
     }
     
     @objc private func didTouchCancelButton() {
-        dismiss(animated: true)
+        dismiss(animated: true) { [weak self] in
+            self?.completion?()
+        }
     }
     
     @objc private func didTouchUpdateButton() {
         UserConnectionUseCase.shared.updateUserInfo(nickname: profileEditView.text, profileImage: selectedImageData) { [weak self] result in
             switch result {
             case .success:
-                self?.dismiss(animated: true)
+                self?.dismiss(animated: true, completion: {
+                    self?.completion?()
+                })
             case .failure(let error):
                 self?.presentAlert(error: error)
             }
