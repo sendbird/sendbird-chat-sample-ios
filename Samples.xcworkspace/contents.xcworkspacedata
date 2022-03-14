@@ -5,6 +5,9 @@
       location = "group:CommonModule/CommonModule.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:OpenChannel/BasicOpenChannel/BasicOpenChannel.xcodeproj">
+      location = "group:BasicGroupChannel/BasicGroupChannel.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:BasicGroupChannel/../BasicOpenChannel/BasicOpenChannel.xcodeproj">
    </FileRef>
 </Workspace>

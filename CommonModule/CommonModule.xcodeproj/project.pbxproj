@@ -11,7 +11,6 @@
 		5F00C9C327B2474200206750 /* CommonModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F00C9B827B2474200206750 /* CommonModule.framework */; };
 		5F00C9C827B2474200206750 /* CommonModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F00C9C727B2474200206750 /* CommonModuleTests.swift */; };
 		5F00C9C927B2474200206750 /* BaseModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F00C9BB27B2474200206750 /* BaseModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5F00CA4C27B24B0400206750 /* SendBirdSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5F00CA4B27B24B0400206750 /* SendBirdSDK */; };
 		5F00CA6027B2629400206750 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00CA5F27B2629400206750 /* LoginViewController.xib */; };
 		5F00CA6227B262AC00206750 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F00CA6127B262AC00206750 /* LoginViewController.swift */; };
 		5F00CA6527B2639B00206750 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F00CA6427B2639B00206750 /* UIViewController+Extension.swift */; };
@@ -21,6 +20,7 @@
 		5F6F62A827B90AA000FD6121 /* VersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A727B90AA000FD6121 /* VersionInfo.swift */; };
 		5F6F62AA27B90FB600FD6121 /* BaseAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */; };
 		5F6F62D327B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62D227B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift */; };
+		5F7C5B1F27DF81890034FA9D /* SendBirdSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5F7C5B1E27DF81890034FA9D /* SendBirdSDK */; };
 		5FAAA1AD27D1C35900974012 /* GroupChannelListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAA1AC27D1C35900974012 /* GroupChannelListCell.swift */; };
 		5FAAA1B427D1DDA000974012 /* GroupChannelMemberListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAA1B327D1DDA000974012 /* GroupChannelMemberListUseCase.swift */; };
 		5FAAA1B727D1E15E00974012 /* BasicChannelMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAA1B627D1E15E00974012 /* BasicChannelMemberCell.swift */; };
@@ -134,8 +134,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F7C5B1F27DF81890034FA9D /* SendBirdSDK in Frameworks */,
 				5FD8CEAB27B36519006F539B /* Kingfisher in Frameworks */,
-				5F00CA4C27B24B0400206750 /* SendBirdSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,8 +390,8 @@
 			);
 			name = CommonModule;
 			packageProductDependencies = (
-				5F00CA4B27B24B0400206750 /* SendBirdSDK */,
 				5FD8CEAA27B36519006F539B /* Kingfisher */,
+				5F7C5B1E27DF81890034FA9D /* SendBirdSDK */,
 			);
 			productName = BaseModule;
 			productReference = 5F00C9B827B2474200206750 /* CommonModule.framework */;
@@ -443,8 +443,8 @@
 			);
 			mainGroup = 5F00C9AE27B2474200206750;
 			packageReferences = (
-				5F00CA4A27B24B0400206750 /* XCRemoteSwiftPackageReference "SendBird-iOS-framework" */,
 				5FD8CEA927B36519006F539B /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				5F7C5B1D27DF81890034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */,
 			);
 			productRefGroup = 5F00C9B927B2474200206750 /* Products */;
 			projectDirPath = "";
@@ -790,12 +790,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5F00CA4A27B24B0400206750 /* XCRemoteSwiftPackageReference "SendBird-iOS-framework" */ = {
+		5F7C5B1D27DF81890034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sendbird/SendBird-iOS-framework";
+			repositoryURL = "https://github.com/sendbird/sendbird-chat-ios-spm";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = exactVersion;
+				version = 3.1.7;
 			};
 		};
 		5FD8CEA927B36519006F539B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
@@ -809,9 +809,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5F00CA4B27B24B0400206750 /* SendBirdSDK */ = {
+		5F7C5B1E27DF81890034FA9D /* SendBirdSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5F00CA4A27B24B0400206750 /* XCRemoteSwiftPackageReference "SendBird-iOS-framework" */;
+			package = 5F7C5B1D27DF81890034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */;
 			productName = SendBirdSDK;
 		};
 		5FD8CEAA27B36519006F539B /* Kingfisher */ = {
