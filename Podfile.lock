@@ -1,0 +1,20 @@
+PODS:
+  - Kingfisher (7.0.0)
+  - SendBirdSDK (3.1.7)
+
+DEPENDENCIES:
+  - Kingfisher (~> 7.0.0)
+  - SendBirdSDK (= 3.1.7)
+
+SPEC REPOS:
+  trunk:
+    - Kingfisher
+    - SendBirdSDK
+
+SPEC CHECKSUMS:
+  Kingfisher: 5efc54fec3980f92354898532e562cc17f31efb4
+  SendBirdSDK: c02ab09eadfea4333e84482d7f0cd3a26000aaed
+
+PODFILE CHECKSUM: 738b2a74372be20521796bc729dc5f5f447c6c7c
+
+COCOAPODS: 1.11.2

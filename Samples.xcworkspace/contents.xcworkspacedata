@@ -2,12 +2,15 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:CommonModule/CommonModule.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:BasicGroupChannel/BasicGroupChannel.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:BasicGroupChannel/../BasicOpenChannel/BasicOpenChannel.xcodeproj">
+      location = "group:BasicOpenChannel/BasicOpenChannel.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:CommonModule/CommonModule.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
