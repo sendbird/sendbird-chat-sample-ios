@@ -12,11 +12,11 @@
       },
       {
         "package": "SendBirdSDK",
-        "repositoryURL": "https://github.com/sendbird/SendBird-iOS-framework",
+        "repositoryURL": "https://github.com/sendbird/sendbird-chat-ios-spm",
         "state": {
-          "branch": "master",
-          "revision": "3700c8ac7517247306d7543cd69534192506d7bb",
-          "version": null
+          "branch": null,
+          "revision": "30a6f7888d95106aea0b502437c169d54e99e644",
+          "version": "3.1.7"
         }
       }
     ]

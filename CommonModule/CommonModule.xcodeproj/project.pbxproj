@@ -20,7 +20,7 @@
 		5F6F62A827B90AA000FD6121 /* VersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A727B90AA000FD6121 /* VersionInfo.swift */; };
 		5F6F62AA27B90FB600FD6121 /* BaseAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */; };
 		5F6F62D327B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F62D227B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift */; };
-		5F7C5B1F27DF81890034FA9D /* SendBirdSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5F7C5B1E27DF81890034FA9D /* SendBirdSDK */; };
+		5F7C5B2727DF861D0034FA9D /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C5B2627DF861D0034FA9D /* Date+Extension.swift */; };
 		5FAAA1AD27D1C35900974012 /* GroupChannelListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAA1AC27D1C35900974012 /* GroupChannelListCell.swift */; };
 		5FAAA1B427D1DDA000974012 /* GroupChannelMemberListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAA1B327D1DDA000974012 /* GroupChannelMemberListUseCase.swift */; };
 		5FAAA1B727D1E15E00974012 /* BasicChannelMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAAA1B627D1E15E00974012 /* BasicChannelMemberCell.swift */; };
@@ -32,7 +32,6 @@
 		5FD2502E27C6726700D04ACC /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2502D27C6726700D04ACC /* UITableView+Extension.swift */; };
 		5FD8CE9E27B35A72006F539B /* GroupChannelListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CE9D27B35A72006F539B /* GroupChannelListUseCase.swift */; };
 		5FD8CEA827B36332006F539B /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CEA727B36332006F539B /* ProfileImageView.swift */; };
-		5FD8CEAB27B36519006F539B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5FD8CEAA27B36519006F539B /* Kingfisher */; };
 		5FD8CEB527B37406006F539B /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CEB427B37406006F539B /* MessageInputView.swift */; };
 		5FD8CEB727B3740D006F539B /* MessageInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FD8CEB627B3740D006F539B /* MessageInputView.xib */; };
 		5FD8CEB927B375F9006F539B /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD8CEB827B375F9006F539B /* NibLoadable.swift */; };
@@ -61,6 +60,7 @@
 		5FEEB64F27B65A3700677373 /* EnvironmentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEEB64E27B65A3700677373 /* EnvironmentUseCase.swift */; };
 		5FF9F9D427B559340080565A /* GroupChannelUserMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9F9D327B559340080565A /* GroupChannelUserMessageUseCase.swift */; };
 		5FF9F9E727B62ED50080565A /* GroupChannelFileMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF9F9E627B62ED50080565A /* GroupChannelFileMessageUseCase.swift */; };
+		CF3C6919D0755E2F3ECCFAC7 /* libPods-CommonModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A0BBC68FF6B250959BF8171 /* libPods-CommonModule.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +74,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		25C5DD0FC29DE1922F3338D6 /* Pods-CommonModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonModule.debug.xcconfig"; path = "Target Support Files/Pods-CommonModule/Pods-CommonModule.debug.xcconfig"; sourceTree = "<group>"; };
+		428F106682D93C8730151DBA /* Pods-CommonModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonModule.release.xcconfig"; path = "Target Support Files/Pods-CommonModule/Pods-CommonModule.release.xcconfig"; sourceTree = "<group>"; };
 		5F00C9B827B2474200206750 /* CommonModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F00C9BB27B2474200206750 /* BaseModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseModule.h; sourceTree = "<group>"; };
 		5F00C9BC27B2474200206750 /* BaseModule.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = BaseModule.docc; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 		5F6F62A727B90AA000FD6121 /* VersionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionInfo.swift; sourceTree = "<group>"; };
 		5F6F62A927B90FB600FD6121 /* BaseAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAppearance.swift; sourceTree = "<group>"; };
 		5F6F62D227B9EA7C00FD6121 /* CreateOpenChannelUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOpenChannelUseCase.swift; sourceTree = "<group>"; };
+		5F7C5B2627DF861D0034FA9D /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		5FAAA1AC27D1C35900974012 /* GroupChannelListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelListCell.swift; sourceTree = "<group>"; };
 		5FAAA1B327D1DDA000974012 /* GroupChannelMemberListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelMemberListUseCase.swift; sourceTree = "<group>"; };
 		5FAAA1B627D1E15E00974012 /* BasicChannelMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicChannelMemberCell.swift; sourceTree = "<group>"; };
@@ -127,6 +130,7 @@
 		5FEEB64E27B65A3700677373 /* EnvironmentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentUseCase.swift; sourceTree = "<group>"; };
 		5FF9F9D327B559340080565A /* GroupChannelUserMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelUserMessageUseCase.swift; sourceTree = "<group>"; };
 		5FF9F9E627B62ED50080565A /* GroupChannelFileMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelFileMessageUseCase.swift; sourceTree = "<group>"; };
+		7A0BBC68FF6B250959BF8171 /* libPods-CommonModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CommonModule.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,8 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F7C5B1F27DF81890034FA9D /* SendBirdSDK in Frameworks */,
-				5FD8CEAB27B36519006F539B /* Kingfisher in Frameworks */,
+				CF3C6919D0755E2F3ECCFAC7 /* libPods-CommonModule.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,12 +153,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		41A98F543E191E4961C43E01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7A0BBC68FF6B250959BF8171 /* libPods-CommonModule.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5F00C9AE27B2474200206750 = {
 			isa = PBXGroup;
 			children = (
 				5F00C9BA27B2474200206750 /* CommonModule */,
 				5F00C9C627B2474200206750 /* CommonModuleTests */,
 				5F00C9B927B2474200206750 /* Products */,
+				AE7D4BB1549F4A82F4E363EE /* Pods */,
+				41A98F543E191E4961C43E01 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -220,6 +233,7 @@
 				5FD2501327C4729300D04ACC /* ImagePickerRouter.swift */,
 				5FD2501527C4AFFB00D04ACC /* KeyboardObserver.swift */,
 				5FD2501727C4B9C400D04ACC /* TimestampStorage.swift */,
+				5F7C5B2627DF861D0034FA9D /* Date+Extension.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -361,6 +375,16 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		AE7D4BB1549F4A82F4E363EE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				25C5DD0FC29DE1922F3338D6 /* Pods-CommonModule.debug.xcconfig */,
+				428F106682D93C8730151DBA /* Pods-CommonModule.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -379,6 +403,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5F00C9CC27B2474200206750 /* Build configuration list for PBXNativeTarget "CommonModule" */;
 			buildPhases = (
+				B792AC35A3BBCF0BA09039AE /* [CP] Check Pods Manifest.lock */,
 				5F00C9B327B2474200206750 /* Headers */,
 				5F00C9B427B2474200206750 /* Sources */,
 				5F00C9B527B2474200206750 /* Frameworks */,
@@ -389,10 +414,6 @@
 			dependencies = (
 			);
 			name = CommonModule;
-			packageProductDependencies = (
-				5FD8CEAA27B36519006F539B /* Kingfisher */,
-				5F7C5B1E27DF81890034FA9D /* SendBirdSDK */,
-			);
 			productName = BaseModule;
 			productReference = 5F00C9B827B2474200206750 /* CommonModule.framework */;
 			productType = "com.apple.product-type.framework";
@@ -442,10 +463,6 @@
 				Base,
 			);
 			mainGroup = 5F00C9AE27B2474200206750;
-			packageReferences = (
-				5FD8CEA927B36519006F539B /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				5F7C5B1D27DF81890034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */,
-			);
 			productRefGroup = 5F00C9B927B2474200206750 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -481,6 +498,31 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B792AC35A3BBCF0BA09039AE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CommonModule-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5F00C9B427B2474200206750 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -497,6 +539,7 @@
 				5FDE175D27B9F7A70009CB39 /* OpenChannelFileMessageUseCase.swift in Sources */,
 				5FCC154C27CB71660014B317 /* MessageSendingStatus.swift in Sources */,
 				5F00CA6527B2639B00206750 /* UIViewController+Extension.swift in Sources */,
+				5F7C5B2727DF861D0034FA9D /* Date+Extension.swift in Sources */,
 				5FDF2B5227B2A45E00C3A8A2 /* UserDefault.swift in Sources */,
 				5FD8CED627B4E762006F539B /* CreateGroupChannelUseCase.swift in Sources */,
 				5FD2501627C4AFFB00D04ACC /* KeyboardObserver.swift in Sources */,
@@ -673,6 +716,7 @@
 		};
 		5F00C9CD27B2474200206750 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25C5DD0FC29DE1922F3338D6 /* Pods-CommonModule.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -700,6 +744,7 @@
 		};
 		5F00C9CE27B2474200206750 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 428F106682D93C8730151DBA /* Pods-CommonModule.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -788,38 +833,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		5F7C5B1D27DF81890034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sendbird/sendbird-chat-ios-spm";
-			requirement = {
-				kind = exactVersion;
-				version = 3.1.7;
-			};
-		};
-		5FD8CEA927B36519006F539B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		5F7C5B1E27DF81890034FA9D /* SendBirdSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5F7C5B1D27DF81890034FA9D /* XCRemoteSwiftPackageReference "sendbird-chat-ios-spm" */;
-			productName = SendBirdSDK;
-		};
-		5FD8CEAA27B36519006F539B /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5FD8CEA927B36519006F539B /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5F00C9AF27B2474200206750 /* Project object */;
 }

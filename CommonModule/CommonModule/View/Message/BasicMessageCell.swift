@@ -91,7 +91,7 @@ public class BasicMessageCell: UITableViewCell {
             profileLabel.text = "Admin"
         }
         
-        messageLabel.text = "\(message.message)\(MessageSendingStatus(message).description)"
+        messageLabel.text = "\(message.message)\(MessageSendingStatus(message).description) (\(Date.sbu_from(message.createdAt).sbu_toString(format: .hhmma)))"
     }
     
 }
