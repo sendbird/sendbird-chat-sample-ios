@@ -45,7 +45,7 @@ class OpenChannelParticipantListViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        title = "Member List"
+        title = "Participant List"
     }
     
     private func setupTableView() {
@@ -85,6 +85,11 @@ extension OpenChannelParticipantListViewController: UITableViewDelegate {
             useCase.loadNextPage()
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
 }
 
 // MARK: - GroupChannelMemberListUseCaseDelegate

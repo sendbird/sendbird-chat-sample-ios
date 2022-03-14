@@ -15,7 +15,7 @@ extension OpenChannelViewController {
         let actionSheet = UIAlertController(title: "Choose action for channel", message: nil, preferredStyle: .actionSheet)
 
         actionSheet.addAction(
-            UIAlertAction(title: "Member List", style: .default) { [weak self] _ in
+            UIAlertAction(title: "Participant List", style: .default) { [weak self] _ in
                 self?.pushMemberList()
             }
         )
