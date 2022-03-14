@@ -26,7 +26,7 @@
                         <constraint firstAttribute="height" constant="1" id="NRU-je-OBH"/>
                     </constraints>
                 </view>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4oI-Ak-QBK" userLabel="Profile Image View" customClass="ProfileImageView" customModule="CommonModule" customModuleProvider="target">
+                <view clipsSubviews="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="4oI-Ak-QBK" userLabel="Profile Image View" customClass="ProfileImageView" customModule="CommonModule" customModuleProvider="target">
                     <rect key="frame" x="16" y="10" width="100" height="100"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -46,7 +46,7 @@
                         <constraint firstAttribute="width" constant="28" id="coB-ky-Q8a"/>
                     </constraints>
                 </imageView>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Channel Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="ZTP-fP-nS8" userLabel="Channel Name Text Field">
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="ZTP-fP-nS8" userLabel="Channel Name Text Field">
                     <rect key="frame" x="133" y="48.5" width="265" height="23"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                     <textInputTraits key="textInputTraits"/>
