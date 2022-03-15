@@ -20,17 +20,21 @@ tuist generate
 
 ```
 .
-├── Samples.xcodeproj
-├── Samples.xcworkspace
+├── Project.swift
+├── README.md
 ├── Targets
-   ├── CommonModule
-   ├── BasicGroupChannel
-   ├── BasicOpenChannel
-   ├── GroupChannelFeatureA
-   ├── OpenChannelFeatureA
-   ├── ...
-   ├── GroupChannelFeatureN
-   └── OpenChannelFeatureN
+│   ├── CommonModule
+│   ├── BasicGroupChannel
+│   ├── BasicOpenChannel
+│   ├── GroupChannelFeatureA
+│   ├── OpenChannelFeatureA
+│   ├── ...
+│   ├── GroupChannelFeatureN
+│   └── OpenChannelFeatureN
+└── Tuist
+    ├── Config.swift
+    ├── Dependencies.swift
+    └── ProjectDescriptionHelpers
 ```
 
 ![image](https://user-images.githubusercontent.com/11647461/156985707-e504f40d-11ce-402e-8038-b13f90ee5db6.png)
