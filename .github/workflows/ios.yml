@@ -19,11 +19,11 @@ jobs:
         with:
           command: 'build'
           arguments: 'BasicGroupChannel'
-    - name: Tuist Build
-        uses: tuist/tuist-action@0.13.0
-        with:
-          command: 'build'
-          arguments: 'BasicOpenChannel'
+      - name: Tuist Build
+          uses: tuist/tuist-action@0.13.0
+          with:
+            command: 'build'
+            arguments: 'BasicOpenChannel'
 
 #      - name: Build BasicGroupChannel
 #        run: |
