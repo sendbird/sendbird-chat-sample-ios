@@ -17,12 +17,18 @@ jobs:
       - name: Tuist Build
         uses: tuist/tuist-action@0.13.0
         with:
-          command: 'generate'
-          arguments: ''
-      - name: Build BasicGroupChannel
-        run: |
-          xcodebuild build -workspace Samples.xcworkspace -scheme BasicGroupChannel -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=latest'
-      - name: Build BasicOpenChannel
-        run: |
-          xcodebuild build -workspace Samples.xcworkspace -scheme BasicOpenChannel -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=latest'
+          command: 'build'
+          arguments: 'BasicGroupChannel'
+    - name: Tuist Build
+        uses: tuist/tuist-action@0.13.0
+        with:
+          command: 'build'
+          arguments: 'BasicOpenChannel'
+
+#      - name: Build BasicGroupChannel
+#        run: |
+#          xcodebuild build -workspace Samples.xcworkspace -scheme BasicGroupChannel -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=latest'
+#      - name: Build BasicOpenChannel
+#        run: |
+#          xcodebuild build -workspace Samples.xcworkspace -scheme BasicOpenChannel -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=latest'
 
