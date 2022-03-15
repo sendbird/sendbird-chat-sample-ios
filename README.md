@@ -11,7 +11,7 @@ curl -Ls https://install.tuist.io | bash
 ```
 
 ### Generate Xcode project & workspace
-```
+```bash
 tuist fetch
 tuist generate
 ```
