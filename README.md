@@ -50,18 +50,18 @@ Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0
 
 ### BasicSample
 - BasicGroupChannel
-- BasicGroupChannel
+- BasicOpenChannel
 
 ### FeatureSample
 - GroupChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicGroupChannel folder.
-- GroupChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicGroupChannel folder.
+- OpenChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicOpenChannel folder.
 - Implement additional functions after cloning the Basic Sample project. 
 - If you want to add a function to an existing UseCase, you can add the function through inheritance.
 - Please place the feature use case file that inherits the basic use case under FeatureSample.
 - Views used only in features can also be implemented under the feature project.
 
 ## 📲 How to add new feature sample with tuist
-1. Copy `/Targets/BasicGroupChannel`
+1. Copy `/Targets/BasicGroupChannel` or `/Targets/BasicOpenChannel`
 2. Paste under `/Targets` folder.
 3. Rename `BasicGroupChannel` to `{FeatureSampleName}`
 4. Add `{FeatureSampleName}` to `names` parameter in `Project.swift`
