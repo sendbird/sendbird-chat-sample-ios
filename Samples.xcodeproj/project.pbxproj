@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -97,7 +97,6 @@
 		DA813291282FA0470C8E12CB /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437A8B36B7BC8169F1EF9CA0 /* Kingfisher.framework */; platformFilter = ios; };
 		DD062786087B6580B0E235EF /* OpenChannelViewController+Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504797B9C626908082DBC631 /* OpenChannelViewController+Setting.swift */; };
 		E29DD9DD5FFB4284ED56ACAE /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FE322C487472511C3C1E42 /* ProfileEditView.swift */; };
-		E57DB7352DC91436C73EEC0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2F309D180A235F59AD4153 /* SceneDelegate.swift */; };
 		E8342721EB59142595A36733 /* SendBirdSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E985E81DD6507B74EC9549C /* SendBirdSDK.xcframework */; };
 		EB7CEFCAF00FFFEDD02FB042 /* EnvironmentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD03BC254F97D5D8AE4151ED /* EnvironmentUseCase.swift */; };
 		ED47D04258843153D6739981 /* MessageInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 417855708C19E674C8899910 /* MessageInputView.xib */; };
@@ -213,7 +212,6 @@
 		7605530A8FBC2E81E08D9DE9 /* OpenChannelMessageListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelMessageListUseCase.swift; sourceTree = "<group>"; };
 		7641222D09E4BE652FA0189C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B2699B16289B8386ED4E128 /* GroupChannelListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelListCell.swift; sourceTree = "<group>"; };
-		7C2F309D180A235F59AD4153 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		7C9FF7DB880D822F5E9A7553 /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
 		7DC9AEE10A425E371B05FB06 /* ImagePickerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerRouter.swift; sourceTree = "<group>"; };
 		7E66DF2F9FD9ED7D34878A18 /* OpenChannelListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenChannelListViewController.xib; sourceTree = "<group>"; };
@@ -872,7 +870,6 @@
 				6001F2CB22F74FB21C698B00 /* Participant */,
 				AD3B0DD4F4C47C8E48C095C6 /* Setting */,
 				58CD4032A65A533517A632E1 /* AppDelegate.swift */,
-				7C2F309D180A235F59AD4153 /* SceneDelegate.swift */,
 				F1C500EFEAB5C5B69D16B945 /* ViewController.swift */,
 			);
 			path = Sources;
@@ -995,8 +992,6 @@
 			isa = PBXProject;
 			attributes = {
 				ORGANIZATIONNAME = Sendbird;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = AD47AD7EABF2C99EF03FFEEC /* Build configuration list for PBXProject "Samples" */;
 			compatibilityVersion = "Xcode 13.0";
@@ -1081,7 +1076,6 @@
 				8B1802DCDB1503A5647D9BED /* OpenChannelSettingViewController.swift in Sources */,
 				823B5CD8E1572FB1FC545F3B /* CreateOpenChannelViewController.swift in Sources */,
 				AC58A6EBA5A4F989801E32A5 /* OpenChannelParticipantListViewController.swift in Sources */,
-				E57DB7352DC91436C73EEC0C /* SceneDelegate.swift in Sources */,
 				4B22F024D5CDCEB8F19F0B1B /* SettingViewController.swift in Sources */,
 				B509ECA0F522F68FB4D274D2 /* ViewController.swift in Sources */,
 			);
