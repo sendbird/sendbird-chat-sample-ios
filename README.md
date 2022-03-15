@@ -21,7 +21,6 @@ tuist generate
 ```
 .
 ├── Project.swift
-├── README.md
 ├── Targets
 │   ├── CommonModule
 │   ├── BasicGroupChannel
