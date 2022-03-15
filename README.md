@@ -1,9 +1,9 @@
-# SendBird Chat SDK Sample for iOS
+# Sendbird Chat SDK Sample for iOS
 This repository provides feature-level Chat samples with Swift
 
-## Get started
+## 🚀 Get started
 
-This repository use [tuist](https://github.com/tuist/tuist) for managing multiple projects.
+You must use [tuist](https://github.com/tuist/tuist) to build these sample apps.
 
 ### Install tuist
 ```bash
@@ -11,26 +11,31 @@ curl -Ls https://install.tuist.io | bash
 ```
 
 ### Generate Xcode project & workspace
-```
+```bash
 tuist fetch
 tuist generate
 ```
+
+For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 
 ## 🏗 Project structure
 
 ```
 .
-├── Samples.xcodeproj
-├── Samples.xcworkspace
+├── Project.swift
 ├── Targets
-   ├── CommonModule
-   ├── BasicGroupChannel
-   ├── BasicOpenChannel
-   ├── GroupChannelFeatureA
-   ├── OpenChannelFeatureA
-   ├── ...
-   ├── GroupChannelFeatureN
-   └── OpenChannelFeatureN
+│   ├── CommonModule
+│   ├── BasicGroupChannel
+│   ├── BasicOpenChannel
+│   ├── GroupChannelFeatureA
+│   ├── OpenChannelFeatureA
+│   ├── ...
+│   ├── GroupChannelFeatureN
+│   └── OpenChannelFeatureN
+└── Tuist
+    ├── Config.swift
+    ├── Dependencies.swift
+    └── ProjectDescriptionHelpers
 ```
 
 ![image](https://user-images.githubusercontent.com/11647461/156985707-e504f40d-11ce-402e-8038-b13f90ee5db6.png)
@@ -50,21 +55,21 @@ Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0
 
 ### BasicSample
 - BasicGroupChannel
-- BasicGroupChannel
+- BasicOpenChannel
 
 ### FeatureSample
 - GroupChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicGroupChannel folder.
-- GroupChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicGroupChannel folder.
+- OpenChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicOpenChannel folder.
 - Implement additional functions after cloning the Basic Sample project. 
 - If you want to add a function to an existing UseCase, you can add the function through inheritance.
 - Please place the feature use case file that inherits the basic use case under FeatureSample.
 - Views used only in features can also be implemented under the feature project.
 
 ## 📲 How to add new feature sample with tuist
-1. Copy `/Targets/BasicGroupChannel`
-2. Paste under `/Targets` folder.
+1. Copy [Targets/BasicGroupChannel](Targets/BasicGroupChannel) or [Targets/BasicOpenChannel](Targets/BasicOpenChannel)
+2. Paste under [Targets](Targets) folder.
 3. Rename `BasicGroupChannel` to `{FeatureSampleName}`
-4. Add `{FeatureSampleName}` to `names` parameter in `Project.swift`
+4. Add `{FeatureSampleName}` to `names` parameter in [Project.swift](Project.swift)
   ```swift
   let project = Project.app(
     names: ["BasicGroupChannel", "BasicOpenChannel", "{FeatureSampleName}"],
