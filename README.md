@@ -16,6 +16,8 @@ tuist fetch
 tuist generate
 ```
 
+For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
+
 ## 🏗 Project structure
 
 ```
