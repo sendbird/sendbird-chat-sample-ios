@@ -1,7 +1,7 @@
 # SendBird Chat SDK Sample for iOS
 This repository provides feature-level Chat samples with Swift
 
-## Get started
+## 🚀 Get started
 
 You must use [tuist](https://github.com/tuist/tuist) to build these sample apps.
 
