@@ -3,7 +3,7 @@ This repository provides feature-level Chat samples with Swift
 
 ## Get started
 
-This repository use [tuist](https://github.com/tuist/tuist) for managing multiple projects.
+You must use [tuist](https://github.com/tuist/tuist) to execute these sample apps.
 
 ### Install tuist
 ```bash
