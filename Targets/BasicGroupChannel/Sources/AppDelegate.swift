@@ -15,31 +15,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        window = UIWindow(frame: UIScreen.main.bounds)
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .red
-        window?.rootViewController = viewController
-        window?.makeKeyAndVisible()
-
         EnvironmentUseCase.initializeSendbirdSDK()
         BaseAppearance.apply()
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.backgroundColor = .systemBackground
+        window?.rootViewController = createLoginViewController()
+        window?.makeKeyAndVisible()
+        
         return true
     }
     
-    // MARK: UISceneSession Lifecycle
-
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    private func createLoginViewController() -> LoginViewController {
+        return LoginViewController(didConnectUser: { [weak self] _ in
+            self?.presentMainViewController()
+        })
     }
-
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    
+    private func presentMainViewController() {
+        let tabBarController = UITabBarController()
+        tabBarController.setViewControllers([
+            UINavigationController(rootViewController: GroupChannelListViewController()),
+            UINavigationController(rootViewController: SettingViewController())
+        ], animated: false)
+        tabBarController.modalPresentationStyle = .fullScreen
+        window?.rootViewController?.present(tabBarController, animated: true)
     }
-
 
 }
 
