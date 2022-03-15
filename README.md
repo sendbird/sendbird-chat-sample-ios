@@ -12,6 +12,7 @@ curl -Ls https://install.tuist.io | bash
 
 ### Generate Xcode project & workspace
 ```
+tuist fetch
 tuist generate
 ```
 
@@ -46,8 +47,6 @@ Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0
   - Small Views that can be easily modularized
   - It is recommended to collect all Views that are used for both Group Channel and Open Channel here.
 - `CommonModule` is used as an embedded framework in each Sample App.
-  - If you embed the framework and use it, you can quickly understand the changes in BaseModule in the Sample App.
-  - I have connected the SendbirdSDK to the CommonModule as SPM. So you can manage your version of SendbirdSDK in one place.
 
 ### BasicSample
 - BasicGroupChannel
