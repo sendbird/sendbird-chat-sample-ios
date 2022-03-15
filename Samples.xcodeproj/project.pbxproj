@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -995,6 +995,8 @@
 			isa = PBXProject;
 			attributes = {
 				ORGANIZATIONNAME = Sendbird;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = AD47AD7EABF2C99EF03FFEEC /* Build configuration list for PBXProject "Samples" */;
 			compatibilityVersion = "Xcode 13.0";
@@ -1177,6 +1179,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RM4A5PXTUX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Derived/InfoPlists/BasicOpenChannel.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1257,6 +1261,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RM4A5PXTUX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Derived/InfoPlists/BasicGroupChannel.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1311,6 +1317,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RM4A5PXTUX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Derived/InfoPlists/BasicGroupChannel.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1333,6 +1341,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RM4A5PXTUX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Derived/InfoPlists/BasicOpenChannel.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

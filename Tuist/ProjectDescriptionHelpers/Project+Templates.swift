@@ -20,26 +20,29 @@ extension Project {
             contentsOf: makeFrameworkTargets(name: "CommonModule", platform: platform)
         )
                 
-        return Project(name: "Samples",
-                       organizationName: "Sendbird",
-                       targets: targets)
+        return Project(
+            name: "Samples",
+            organizationName: "Sendbird",
+            targets: targets
+        )
     }
 
     // MARK: - Private
 
     /// Helper function to create a framework target and an associated unit test target
     private static func makeFrameworkTargets(name: String, platform: Platform) -> [Target] {
-        let sources = Target(name: name,
-                platform: platform,
-                product: .framework,
-                bundleId: "com.sendbird.chat.\(name)",
-                infoPlist: .default,
-                sources: ["Targets/\(name)/Sources/**"],
-                resources: ["Targets/\(name)/Resources/**"],
-                dependencies: [
-                    .external(name: "Kingfisher"),
-                    .external(name: "SendBirdSDK"),
-                ]
+        let sources = Target(
+            name: name,
+            platform: platform,
+            product: .framework,
+            bundleId: "com.sendbird.chat.\(name)",
+            infoPlist: .default,
+            sources: ["Targets/\(name)/Sources/**"],
+            resources: ["Targets/\(name)/Resources/**"],
+            dependencies: [
+                .external(name: "Kingfisher"),
+                .external(name: "SendBirdSDK"),
+            ]
         )
         
 //        let tests = Target(name: "\(name)Tests",
@@ -72,7 +75,13 @@ extension Project {
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Targets/\(name)/Sources/**"],
             resources: ["Targets/\(name)/Resources/**"],
-            dependencies: dependencies
+            dependencies: dependencies,
+            settings: .settings(
+                base: SettingsDictionary().automaticCodeSigning(devTeam: "RM4A5PXTUX"),
+                debug: SettingsDictionary().automaticCodeSigning(devTeam: "RM4A5PXTUX"),
+                release: SettingsDictionary().automaticCodeSigning(devTeam: "RM4A5PXTUX"),
+                defaultSettings: .recommended
+            )
         )
         
         return mainTarget
