@@ -18,9 +18,6 @@ public class UserConnectionUseCase {
     @UserDefault(key: "sendbird_user_id", defaultValue: nil)
     public private(set) var userId: String?
     
-    @UserDefault(key: "sendbird_user_nickname", defaultValue: nil)
-    public private(set) var userNickname: String?
-    
     public var currentUser: SBDUser? {
         SBDMain.getCurrentUser()
     }
@@ -28,7 +25,6 @@ public class UserConnectionUseCase {
     private init() { }
     
     public func login(userId: String,
-                      nickname: String,
                       completion: @escaping (Result<SBDUser, SBDError>) -> Void) {
         SBDMain.connect(withUserId: userId) { [weak self] user, error in
             if let error = error {
@@ -39,7 +35,8 @@ public class UserConnectionUseCase {
             guard let user = user else { return }
             
             self?.registerPushTokenIfNeeded()
-            self?.updateNicknameIfNeeded(nickname: nickname, user: user, completion: completion)
+            self?.storeUserInfo(user)
+            completion(.success(user))
         }
     }
     
@@ -79,24 +76,9 @@ public class UserConnectionUseCase {
             }
         }
     }
-    
-    private func updateNicknameIfNeeded(nickname: String,
-                                        user: SBDUser,
-                                        completion: @escaping (Result<SBDUser, SBDError>) -> Void) {
-        if nickname == user.nickname {
-            storeUserInfo(user)
-            completion(.success(user))
-        } else {
-            updateUserInfo(nickname: nickname, profileImage: nil) { [weak self] result in
-                self?.storeUserInfo(user)
-                completion(result.map { _ in user })
-            }
-        }
-    }
-    
+        
     private func storeUserInfo(_ user: SBDUser) {
         userId = user.userId
-        userNickname = user.nickname
         isAutoLogin = true
     }
             
