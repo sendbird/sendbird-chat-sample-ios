@@ -61,10 +61,10 @@ Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0
 - Views used only in features can also be implemented under the feature project.
 
 ## 📲 How to add new feature sample with tuist
-1. Copy `/Targets/BasicGroupChannel` or `/Targets/BasicOpenChannel`
-2. Paste under `/Targets` folder.
+1. Copy [Targets/BasicGroupChannel](Targets/BasicGroupChannel) or [Targets/BasicOpenChannel](Targets/BasicOpenChannel)
+2. Paste under [Targets](Targets) folder.
 3. Rename `BasicGroupChannel` to `{FeatureSampleName}`
-4. Add `{FeatureSampleName}` to `names` parameter in `Project.swift`
+4. Add `{FeatureSampleName}` to `names` parameter in [Project.swift](Project.swift)
   ```swift
   let project = Project.app(
     names: ["BasicGroupChannel", "BasicOpenChannel", "{FeatureSampleName}"],
