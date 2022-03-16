@@ -122,7 +122,7 @@ extension OpenChannelViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = messageListUseCase.messages[indexPath.row]
         
-        if let fileMessage = message as? SBDFileMessage {
+        if let fileMessage = message as? FileMessage {
             let cell: BasicFileCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: fileMessage)
             return cell

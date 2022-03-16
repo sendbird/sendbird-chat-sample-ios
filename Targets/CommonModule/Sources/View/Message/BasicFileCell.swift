@@ -121,7 +121,7 @@ public class BasicFileCell: UITableViewCell {
         previewPlaceholderImageView.isHidden = true
     }
 
-    public func configure(with message: SBDFileMessage) {
+    public func configure(with message: FileMessage) {
         if let sender = message.sender {
             profileLabel.text = "\(sender.nickname ?? "(Unknown)")"
             profileImageView.setProfileImageView(for: sender)
@@ -144,7 +144,7 @@ public class BasicFileCell: UITableViewCell {
         }
     }
     
-    private func imageURL(for message: SBDFileMessage) -> URL? {
+    private func imageURL(for message: FileMessage) -> URL? {
         if let thumbnailURLString = message.thumbnails?.first?.url {
             return URL(string: thumbnailURLString)
         } else if message.type.hasPrefix("image") {
