@@ -23,14 +23,14 @@ open class OpenChannelSettingUseCase {
         return channel.isOperator(with: currentUser)
     }
     
-    private let channel: SBDOpenChannel
+    private let channel: OpenChannel
     
-    public init(channel: SBDOpenChannel) {
+    public init(channel: OpenChannel) {
         self.channel = channel
     }
     
-    open func updateChannelName(_ channelName: String, completion: @escaping (Result<SBDOpenChannel, Error>) -> Void) {
-        let params = SBDOpenChannelParams()
+    open func updateChannelName(_ channelName: String, completion: @escaping (Result<OpenChannel, Error>) -> Void) {
+        let params = OpenChannelParams()
         params.name = channelName
         channel.update(with: params) { channel, error in
             if let error = error {

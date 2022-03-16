@@ -19,11 +19,11 @@ open class OpenChannelParticipantListUseCase {
     
     public private(set) var participants: [User] = []
     
-    private let channel: SBDOpenChannel
+    private let channel: OpenChannel
     
     private lazy var participantListQuery = channel.createParticipantListQuery()
     
-    public init(channel: SBDOpenChannel) {
+    public init(channel: OpenChannel) {
         self.channel = channel
         
         channel.createParticipantListQuery()

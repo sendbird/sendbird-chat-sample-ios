@@ -21,7 +21,7 @@ class OpenChannelViewController: UIViewController {
     
     var targetMessageForScrolling: BaseMessage?
     
-    let channel: SBDOpenChannel
+    let channel: OpenChannel
     
     public private(set) lazy var messageListUseCase: OpenChannelMessageListUseCase = {
         let messageListUseCase = OpenChannelMessageListUseCase(channel: channel)
@@ -47,7 +47,7 @@ class OpenChannelViewController: UIViewController {
         return keyboardObserver
     }()
     
-    init(channel: SBDOpenChannel) {
+    init(channel: OpenChannel) {
         self.channel = channel
         super.init(nibName: "OpenChannelViewController", bundle: Bundle(for: Self.self))
     }
@@ -159,11 +159,11 @@ extension OpenChannelViewController: UITableViewDelegate {
 
 extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
     
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateChannel channel: SBDOpenChannel) {
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateChannel channel: OpenChannel) {
         title = channel.name
     }
     
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didDeleteChannel channel: SBDOpenChannel) {
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didDeleteChannel channel: OpenChannel) {
         presentAlert(title: "This channel has been deleted", message: nil) { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
