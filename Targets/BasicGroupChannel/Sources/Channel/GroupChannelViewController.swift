@@ -19,7 +19,7 @@ class GroupChannelViewController: UIViewController {
     @IBOutlet private weak var messageInputView: MessageInputView!
     @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
 
-    var targetMessageForScrolling: SBDBaseMessage?
+    var targetMessageForScrolling: BaseMessage?
     
     let channel: SBDGroupChannel
     
@@ -171,7 +171,7 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
         presentAlert(error: error)
     }
     
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage]) {
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage]) {
         tableView.reloadData()
         scrollToFocusMessage()
     }

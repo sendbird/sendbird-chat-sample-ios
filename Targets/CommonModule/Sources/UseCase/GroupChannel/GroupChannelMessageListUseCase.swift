@@ -10,7 +10,7 @@ import SendbirdChat
 
 public protocol GroupChannelMessageListUseCaseDelegate: AnyObject {
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBDError)
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage])
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage])
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: SBDGroupChannel)
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: SBDGroupChannel)
 }
@@ -19,7 +19,7 @@ open class GroupChannelMessageListUseCase: NSObject {
     
     public weak var delegate: GroupChannelMessageListUseCaseDelegate?
     
-    open var messages: [SBDBaseMessage] = [] {
+    open var messages: [BaseMessage] = [] {
         didSet {
             if let lastTimestamp = messages.last?.createdAt {
                 timestampStorage.update(timestamp: lastTimestamp, for: channel)
@@ -57,7 +57,7 @@ open class GroupChannelMessageListUseCase: NSObject {
         })
     }
     
-    private func handleInitialMessages(messages: [SBDBaseMessage]?, error: SBDError?) {
+    private func handleInitialMessages(messages: [BaseMessage]?, error: SBDError?) {
         if let error = error {
             delegate?.groupChannelMessageListUseCase(self, didReceiveError: error)
             return
@@ -125,24 +125,24 @@ open class GroupChannelMessageListUseCase: NSObject {
         }
     }
     
-    private func appendPreviousMessages(_ newMessages: [SBDBaseMessage]) {
+    private func appendPreviousMessages(_ newMessages: [BaseMessage]) {
         messages.insert(contentsOf: newMessages, at: 0)
     }
     
-    private func appendNextMessages(_ newMessages: [SBDBaseMessage]) {
+    private func appendNextMessages(_ newMessages: [BaseMessage]) {
         guard validateNextMessages(newMessages) else { return }
         
         messages.append(contentsOf: newMessages)
     }
     
-    private func validateNextMessages(_ newMessages: [SBDBaseMessage]) -> Bool {
+    private func validateNextMessages(_ newMessages: [BaseMessage]) -> Bool {
         guard let oldCreatedAt = messages.last?.createdAt else { return true }
         guard let newCreatedAt = newMessages.first?.createdAt else { return false }
         
         return oldCreatedAt <= newCreatedAt
     }
             
-    private func replaceMessages(_ newMessages: [SBDBaseMessage]) {
+    private func replaceMessages(_ newMessages: [BaseMessage]) {
         newMessages.forEach { newMessage in
             if let index = messages.firstIndex(where: {
                 $0.messageId == newMessage.messageId
@@ -159,15 +159,15 @@ open class GroupChannelMessageListUseCase: NSObject {
 
 extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
     
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, addedMessages messages: [SBDBaseMessage]) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, addedMessages messages: [BaseMessage]) {
         appendNextMessages(messages)
     }
 
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, updatedMessages messages: [SBDBaseMessage]) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, updatedMessages messages: [BaseMessage]) {
         replaceMessages(messages)
     }
 
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, deletedMessages messages: [SBDBaseMessage]) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, deletedMessages messages: [BaseMessage]) {
         switch context.messageSendingStatus {
         case .succeeded:
             self.messages = self.messages.filter { oldMessage in

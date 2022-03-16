@@ -10,7 +10,7 @@ import SendbirdChat
 
 public protocol OpenChannelMessageListUseCaseDelegate: AnyObject {
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didReceiveError error: SBDError)
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage])
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage])
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateChannel channel: SBDOpenChannel)
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didDeleteChannel channel: SBDOpenChannel)
 }
@@ -24,7 +24,7 @@ open class OpenChannelMessageListUseCase: NSObject {
     
     public weak var delegate: OpenChannelMessageListUseCaseDelegate?
     
-    public private(set) var messages: [SBDBaseMessage] = [] {
+    public private(set) var messages: [BaseMessage] = [] {
         didSet {
             delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
         }
@@ -137,16 +137,16 @@ open class OpenChannelMessageListUseCase: NSObject {
         }
     }
     
-    open func didStartSendMessage(_ message: SBDBaseMessage?) {
+    open func didStartSendMessage(_ message: BaseMessage?) {
         guard let message = message else { return }
         appendNewMessage(message)
     }
     
-    open func didSuccessSendMessage(_ message: SBDBaseMessage) {
+    open func didSuccessSendMessage(_ message: BaseMessage) {
         replaceMessages([message])
     }
     
-    open func didFailSendMessage(_ message: SBDBaseMessage?) {
+    open func didFailSendMessage(_ message: BaseMessage?) {
         guard let message = message else { return }
         replaceMessages([message])
     }
@@ -172,13 +172,13 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         delegate?.openChannelMessageListUseCase(self, didDeleteChannel: channel)
     }
     
-    open func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
+    open func channel(_ sender: SBDBaseChannel, didReceive message: BaseMessage) {
         guard sender.channelUrl == channel.channelUrl, hasNextMessages == false else { return }
         
         appendNewMessage(message)
     }
     
-    open func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
+    open func channel(_ sender: SBDBaseChannel, didUpdate message: BaseMessage) {
         guard sender.channelUrl == channel.channelUrl else { return }
 
         replaceMessages([message])
@@ -190,13 +190,13 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         deleteMessages(byMessageIds: [messageId])
     }
     
-    private func appendNewMessage(_ message: SBDBaseMessage) {
+    private func appendNewMessage(_ message: BaseMessage) {
         guard messages.contains(where: { $0.messageId == message.messageId }) == false else { return }
         
         self.messages.append(message)
     }
     
-    private func replaceMessages(_ newMessages: [SBDBaseMessage]) {
+    private func replaceMessages(_ newMessages: [BaseMessage]) {
         newMessages.forEach { newMessage in
             if let index = messages.firstIndex(where: {
                 $0.messageId == newMessage.messageId
@@ -213,7 +213,7 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         }
     }
         
-    private func deleteMessage(_ message: SBDBaseMessage) {
+    private func deleteMessage(_ message: BaseMessage) {
         self.messages = self.messages.filter {
             $0.requestId != message.requestId
             && $0.messageId != message.messageId
@@ -256,7 +256,7 @@ extension OpenChannelMessageListUseCase: SBDConnectionDelegate {
         }
     }
     
-    private func handleChangeLogs(updatedMessages: [SBDBaseMessage]?, deletedMessageIds: [NSNumber]?, hasMore: Bool, token: String?) {
+    private func handleChangeLogs(updatedMessages: [BaseMessage]?, deletedMessageIds: [NSNumber]?, hasMore: Bool, token: String?) {
         if let updatedMessages = updatedMessages {
             replaceMessages(updatedMessages)
         }

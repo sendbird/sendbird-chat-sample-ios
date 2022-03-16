@@ -10,7 +10,7 @@ import SendbirdChat
 
 extension OpenChannelViewController {
     
-    func presentEditMessageAlert(for message: SBDBaseMessage) {
+    func presentEditMessageAlert(for message: BaseMessage) {
         guard message.sender?.userId == SBDMain.getCurrentUser()?.userId else { return }
         
         if let userMessage = message as? SBDUserMessage {
@@ -63,7 +63,7 @@ extension OpenChannelViewController {
         }
     }
     
-    private func deleteMessage(_ message: SBDBaseMessage) {
+    private func deleteMessage(_ message: BaseMessage) {
         userMessageUseCase.deleteMessage(message) { [weak self] result in
             switch result {
             case .success:

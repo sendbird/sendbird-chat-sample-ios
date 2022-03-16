@@ -19,7 +19,7 @@ class OpenChannelViewController: UIViewController {
     @IBOutlet private weak var messageInputView: MessageInputView!
     @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
     
-    var targetMessageForScrolling: SBDBaseMessage?
+    var targetMessageForScrolling: BaseMessage?
     
     let channel: SBDOpenChannel
     
@@ -173,7 +173,7 @@ extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
         presentAlert(error: error)
     }
     
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateMessages messages: [SBDBaseMessage]) {
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage]) {
         tableView.reloadData()
         scrollToFocusMessage()
     }
@@ -196,7 +196,7 @@ extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
 extension OpenChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
-        var sendingMessage: SBDBaseMessage?
+        var sendingMessage: BaseMessage?
         
         sendingMessage = userMessageUseCase.sendMessage(message) { [weak self] result in
             switch result {
