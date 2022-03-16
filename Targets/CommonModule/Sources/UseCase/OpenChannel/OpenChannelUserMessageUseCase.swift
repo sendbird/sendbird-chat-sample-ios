@@ -16,7 +16,7 @@ open class OpenChannelUserMessageUseCase {
         self.channel = channel
     }
     
-    open func sendMessage(_ message: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) -> SBDUserMessage? {
+    open func sendMessage(_ message: String, completion: @escaping (Result<UserMessage, SBDError>) -> Void) -> UserMessage? {
         return channel.sendUserMessage(message) { message, error in
             if let error = error {
                 completion(.failure(error))
@@ -29,7 +29,7 @@ open class OpenChannelUserMessageUseCase {
         }
     }
     
-    open func resendMessage(_ message: SBDUserMessage, completion: @escaping (Result<BaseMessage, SBDError>) -> Void) {
+    open func resendMessage(_ message: UserMessage, completion: @escaping (Result<BaseMessage, SBDError>) -> Void) {
         channel.resendUserMessage(with: message) { message, error in
             if let error = error {
                 completion(.failure(error))
@@ -42,8 +42,8 @@ open class OpenChannelUserMessageUseCase {
         }
     }
     
-    open func updateMessage(_ message: SBDUserMessage, to newMessage: String, completion: @escaping (Result<SBDUserMessage, SBDError>) -> Void) {
-        guard let params = SBDUserMessageParams(message: newMessage) else { return }
+    open func updateMessage(_ message: UserMessage, to newMessage: String, completion: @escaping (Result<UserMessage, SBDError>) -> Void) {
+        guard let params = UserMessageParams(message: newMessage) else { return }
 
         channel.updateUserMessage(withMessageId: message.messageId, userMessageParams: params) { message, error in
             if let error = error {

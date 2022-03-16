@@ -62,12 +62,12 @@ public class BasicChannelMemberCell: UITableViewCell {
         profileImageView.image = nil
     }
 
-    public func configure(with user: SBDUser) {
+    public func configure(with user: User) {
         profileLabel.text = "\(user.nickname ?? "(Unknown)") \(connectionStatus(with: user))"
         profileImageView.setProfileImageView(for: user)
     }
     
-    private func connectionStatus(with user: SBDUser) -> String {
+    private func connectionStatus(with user: User) -> String {
         switch user.connectionStatus {
         case .online:
             return "(online)"

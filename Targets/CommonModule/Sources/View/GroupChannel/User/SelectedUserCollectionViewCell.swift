@@ -22,7 +22,7 @@ public class SelectedUserCollectionViewCell: UICollectionViewCell {
         return String(describing: self)
     }
     
-    public func configure(_ user: SBDUser) {
+    public func configure(_ user: User) {
         if let profileUrlString = user.profileUrl,
             let profileUrl = URL(string: profileUrlString) {
             profileImageView.kf.setImage(with: profileUrl, placeholder: UIImage(named: "img_default_profile_image_1"))

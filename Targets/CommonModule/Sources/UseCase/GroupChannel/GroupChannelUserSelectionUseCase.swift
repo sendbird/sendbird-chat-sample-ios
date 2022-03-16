@@ -10,8 +10,8 @@ import SendbirdChat
 
 public protocol GroupChannelUserSelectionUseCaseDelegate: AnyObject {
     func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didReceiveError error: SBDError)
-    func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateUsers users: [SBDUser])
-    func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateSelectedUsers selectedUsers: [SBDUser])
+    func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateUsers users: [User])
+    func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateSelectedUsers selectedUsers: [User])
 }
 
 // MARK: - UserSelectionUseCase
@@ -20,9 +20,9 @@ open class GroupChannelUserSelectionUseCase {
     
     public weak var delegate: GroupChannelUserSelectionUseCaseDelegate?
     
-    public private(set) var users: [SBDUser] = []
+    public private(set) var users: [User] = []
     
-    public private(set) var selectedUsers: Set<SBDUser> = []
+    public private(set) var selectedUsers: Set<User> = []
     
     private let channel: SBDGroupChannel?
     
@@ -76,7 +76,7 @@ open class GroupChannelUserSelectionUseCase {
         return query
     }
     
-    public func toggleSelectUser(_ user: SBDUser) {
+    public func toggleSelectUser(_ user: User) {
         if isSelectedUser(user) {
             selectedUsers.remove(user)
         } else {
@@ -86,11 +86,11 @@ open class GroupChannelUserSelectionUseCase {
         delegate?.userSelectionUseCase(self, didUpdateSelectedUsers: Array(selectedUsers))
     }
     
-    public func isSelectedUser(_ user: SBDUser) -> Bool {
+    public func isSelectedUser(_ user: User) -> Bool {
         selectedUsers.contains(user)
     }
     
-    private func filterUsers(_ users: [SBDUser]) -> [SBDUser] {
+    private func filterUsers(_ users: [User]) -> [User] {
         let currentUser = SBDMain.getCurrentUser()
 
         return users.filter {

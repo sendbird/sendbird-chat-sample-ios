@@ -50,7 +50,7 @@ public class ProfileEditView: UIView, NibLoadable {
         profileImageView.addGestureRecognizer(tapProfileImageGesture)
     }
     
-    public func setUsers(_ newUsers: [SBDUser]) {
+    public func setUsers(_ newUsers: [User]) {
         profileImageView.setUsers(newUsers)
     }
     
