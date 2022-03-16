@@ -169,7 +169,7 @@ extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
         }
     }
     
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didReceiveError error: SBDError) {
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didReceiveError error: SBError) {
         presentAlert(error: error)
     }
     

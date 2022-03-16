@@ -20,7 +20,7 @@ open class GroupChannelSettingUseCase {
         self.channel = channel
     }
     
-    open func invite(users: [User], completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func invite(users: [User], completion: @escaping (Result<Void, SBError>) -> Void) {
         channel.invite(users) { error in
             if let error = error {
                 completion(.failure(error))
@@ -46,7 +46,7 @@ open class GroupChannelSettingUseCase {
         }
     }
     
-    open func leaveChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func leaveChannel(completion: @escaping (Result<Void, SBError>) -> Void) {
         channel.leave { error in
             if let error = error {
                 completion(.failure(error))
@@ -57,7 +57,7 @@ open class GroupChannelSettingUseCase {
         }
     }
     
-    open func deleteChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func deleteChannel(completion: @escaping (Result<Void, SBError>) -> Void) {
         channel.delete { error in
             if let error = error {
                 completion(.failure(error))

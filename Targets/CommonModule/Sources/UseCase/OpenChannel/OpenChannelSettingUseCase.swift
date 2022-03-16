@@ -44,7 +44,7 @@ open class OpenChannelSettingUseCase {
         }
     }
     
-    open func exitChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func exitChannel(completion: @escaping (Result<Void, SBError>) -> Void) {
         channel.exitChannel { error in
             if let error = error {
                 completion(.failure(error))
@@ -55,7 +55,7 @@ open class OpenChannelSettingUseCase {
         }
     }
     
-    open func deleteChannel(completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func deleteChannel(completion: @escaping (Result<Void, SBError>) -> Void) {
         channel.delete { error in
             if let error = error {
                 completion(.failure(error))

@@ -9,7 +9,7 @@ import Foundation
 import SendbirdChat
 
 public protocol OpenChannelParticipantListUseCaseDelegate: AnyObject {
-    func openChannelParticipantListUseCase(_ useCase: OpenChannelParticipantListUseCase, didReceiveError error: SBDError)
+    func openChannelParticipantListUseCase(_ useCase: OpenChannelParticipantListUseCase, didReceiveError error: SBError)
     func openChannelParticipantListUseCase(_ useCase: OpenChannelParticipantListUseCase, didUpdateParticipants participants: [User])
 }
 

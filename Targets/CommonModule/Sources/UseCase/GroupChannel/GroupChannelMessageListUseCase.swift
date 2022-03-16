@@ -9,7 +9,7 @@ import Foundation
 import SendbirdChat
 
 public protocol GroupChannelMessageListUseCaseDelegate: AnyObject {
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBDError)
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBError)
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage])
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: SBDGroupChannel)
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: SBDGroupChannel)
@@ -57,7 +57,7 @@ open class GroupChannelMessageListUseCase: NSObject {
         })
     }
     
-    private func handleInitialMessages(messages: [BaseMessage]?, error: SBDError?) {
+    private func handleInitialMessages(messages: [BaseMessage]?, error: SBError?) {
         if let error = error {
             delegate?.groupChannelMessageListUseCase(self, didReceiveError: error)
             return

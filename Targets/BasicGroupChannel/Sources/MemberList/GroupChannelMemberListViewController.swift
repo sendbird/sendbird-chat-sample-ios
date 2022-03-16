@@ -90,7 +90,7 @@ extension GroupMemberListViewController: UITableViewDelegate {
 // MARK: - GroupChannelMemberListUseCaseDelegate
 
 extension GroupMemberListViewController: GroupChannelMemberListUseCaseDelegate {
-    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didReceiveError error: SBDError) {
+    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didReceiveError error: SBError) {
         presentAlert(error: error)
     }
     

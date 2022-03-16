@@ -9,7 +9,7 @@ import Foundation
 import SendbirdChat
 
 public protocol GroupChannelMemberListUseCaseDelegate: AnyObject {
-    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didReceiveError error: SBDError)
+    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didReceiveError error: SBError)
     func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didUpdateMembers members: [SBDMember])
 }
 

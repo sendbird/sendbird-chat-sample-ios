@@ -10,7 +10,7 @@ import SendbirdChat
 
 public protocol GroupChannelListUseCaseDelegate: AnyObject {
     func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didUpdateChannels channels: [SBDGroupChannel])
-    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didReceiveError error: SBDError)
+    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didReceiveError error: SBError)
 }
 
 // MARK: - GroupChannelListUseCase
@@ -73,7 +73,7 @@ open class GroupChannelListUseCase: NSObject {
         return collection
     }
     
-    open func leaveChannel(_ channel: SBDGroupChannel, completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func leaveChannel(_ channel: SBDGroupChannel, completion: @escaping (Result<Void, SBError>) -> Void) {
         channel.leave { error in
             if let error = error {
                 completion(.failure(error))

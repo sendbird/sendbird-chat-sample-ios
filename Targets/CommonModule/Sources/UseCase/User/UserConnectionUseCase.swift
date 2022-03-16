@@ -25,7 +25,7 @@ public class UserConnectionUseCase {
     private init() { }
     
     public func login(userId: String,
-                      completion: @escaping (Result<User, SBDError>) -> Void) {
+                      completion: @escaping (Result<User, SBError>) -> Void) {
         SBDMain.connect(withUserId: userId) { [weak self] user, error in
             if let error = error {
                 completion(.failure(error))
@@ -47,7 +47,7 @@ public class UserConnectionUseCase {
         }
     }
     
-    public func updateUserInfo(nickname: String?, profileImage: Data?, completion: @escaping (Result<Void, SBDError>) -> Void){
+    public func updateUserInfo(nickname: String?, profileImage: Data?, completion: @escaping (Result<Void, SBError>) -> Void){
         SBDMain.updateCurrentUserInfo(withNickname: nickname, profileImage: profileImage) { error in
             if let error = error {
                 completion(.failure(error))

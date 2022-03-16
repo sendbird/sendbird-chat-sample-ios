@@ -135,7 +135,7 @@ extension UserSelectionViewController: UITableViewDelegate {
 
 extension UserSelectionViewController: GroupChannelUserSelectionUseCaseDelegate {
 
-    public func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didReceiveError error: SBDError) {
+    public func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didReceiveError error: SBError) {
         presentAlert(error: error)
     }
     
