@@ -41,23 +41,23 @@ open class OpenChannelMessageListUseCase: NSObject {
     public init(channel: OpenChannel) {
         self.channel = channel
         super.init()
-        SBDMain.add(self as SBDConnectionDelegate, identifier: description)
+        SendbirdChat.add(self as ConnectionDelegate, identifier: description)
     }
     
     deinit {
-        SBDMain.removeConnectionDelegate(forIdentifier: description)
+        SendbirdChat.removeConnectionDelegate(forIdentifier: description)
     }
     
     open func addEventObserver() {
-        SBDMain.add(self as SBDChannelDelegate, identifier: description)
+        SendbirdChat.add(self as BaseChannelDelegate, identifier: description)
     }
     
     open func removeEventObserver() {
-        SBDMain.removeChannelDelegate(forIdentifier: description)
+        SendbirdChat.removeChannelDelegate(forIdentifier: description)
     }
         
     open func loadInitialMessages() {
-        let params = SBDMessageListParams()
+        let params = MessageListParams()
         params.isInclusive = true
         params.previousResultSize = Constant.previousResultSize
         params.nextResultSize = Constant.nextResultSize
@@ -84,7 +84,7 @@ open class OpenChannelMessageListUseCase: NSObject {
     open func loadPreviousMessages() {
         guard hasPreviousMessages, isLoading == false, let timestamp = messages.first?.createdAt else { return }
         
-        let params = SBDMessageListParams()
+        let params = MessageListParams()
         params.isInclusive = false
         params.previousResultSize = Constant.previousResultSize
         params.nextResultSize = 0
@@ -113,7 +113,7 @@ open class OpenChannelMessageListUseCase: NSObject {
               isLoading == false,
               let timestamp = messages.last?.createdAt else { return }
         
-        let params = SBDMessageListParams()
+        let params = MessageListParams()
         params.isInclusive = false
         params.previousResultSize = 0
         params.nextResultSize = Constant.nextResultSize
@@ -153,12 +153,12 @@ open class OpenChannelMessageListUseCase: NSObject {
 
 }
 
-// MARK: - SBDChannelDelegate
+// MARK: - BaseChannelDelegate
 
-extension OpenChannelMessageListUseCase: SBDChannelDelegate {
+extension OpenChannelMessageListUseCase: BaseChannelDelegate {
     
     open func channelWasChanged(_ sender: BaseChannel) {
-        guard sender.channelUrl == channel.channelUrl,
+        guard sender.channelURL == channel.channelURL,
               let channel = sender as? OpenChannel else { return }
         
         self.channel = channel
@@ -166,26 +166,26 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         delegate?.openChannelMessageListUseCase(self, didUpdateChannel: channel)
     }
     
-    open func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
-        guard channelUrl == channel.channelUrl else { return }
+    public func channelWasDeleted(_ channelURL: String, channelType: ChannelType) {
+        guard channelURL == channel.channelURL else { return }
         
         delegate?.openChannelMessageListUseCase(self, didDeleteChannel: channel)
     }
     
     open func channel(_ sender: BaseChannel, didReceive message: BaseMessage) {
-        guard sender.channelUrl == channel.channelUrl, hasNextMessages == false else { return }
+        guard sender.channelURL == channel.channelURL, hasNextMessages == false else { return }
         
         appendNewMessage(message)
     }
     
     open func channel(_ sender: BaseChannel, didUpdate message: BaseMessage) {
-        guard sender.channelUrl == channel.channelUrl else { return }
+        guard sender.channelURL == channel.channelURL else { return }
 
         replaceMessages([message])
     }
     
     open func channel(_ sender: BaseChannel, messageWasDeleted messageId: Int64) {
-        guard sender.channelUrl == channel.channelUrl else { return }
+        guard sender.channelURL == channel.channelURL else { return }
         
         deleteMessages(byMessageIds: [messageId])
     }
@@ -222,9 +222,9 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
     
 }
 
-// MARK: - SBDConnectionDelegate
+// MARK: - ConnectionDelegate
 
-extension OpenChannelMessageListUseCase: SBDConnectionDelegate {
+extension OpenChannelMessageListUseCase: ConnectionDelegate {
     
     open func didSucceedReconnection() {
         hasNextMessages = true
@@ -237,7 +237,7 @@ extension OpenChannelMessageListUseCase: SBDConnectionDelegate {
     }
     
     private func fetchChangeLogs(sinceTimestamp timestamp: Int64) {
-        let params = SBDMessageChangeLogsParams()
+        let params = MessageChangeLogsParams()
         
         channel.getMessageChangeLogs(sinceTimestamp: timestamp, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
             guard error == nil else { return }
@@ -247,7 +247,7 @@ extension OpenChannelMessageListUseCase: SBDConnectionDelegate {
     }
     
     private func fetchChangeLogs(sinceToken token: String) {
-        let params = SBDMessageChangeLogsParams()
+        let params = MessageChangeLogsParams()
         
         channel.getMessageChangeLogs(sinceToken: token, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
             guard error == nil else { return }
@@ -256,12 +256,12 @@ extension OpenChannelMessageListUseCase: SBDConnectionDelegate {
         }
     }
     
-    private func handleChangeLogs(updatedMessages: [BaseMessage]?, deletedMessageIds: [NSNumber]?, hasMore: Bool, token: String?) {
+    private func handleChangeLogs(updatedMessages: [BaseMessage]?, deletedMessageIds: [Int64]?, hasMore: Bool, token: String?) {
         if let updatedMessages = updatedMessages {
             replaceMessages(updatedMessages)
         }
         
-        if let deletedMessageIds = deletedMessageIds?.map(\.int64Value) {
+        if let deletedMessageIds = deletedMessageIds {
             deleteMessages(byMessageIds: deletedMessageIds)
         }
         

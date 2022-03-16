@@ -19,14 +19,14 @@ public class UserConnectionUseCase {
     public private(set) var userId: String?
     
     public var currentUser: User? {
-        SBDMain.getCurrentUser()
+        SendbirdChat.getCurrentUser()
     }
         
     private init() { }
     
     public func login(userId: String,
                       completion: @escaping (Result<User, SBError>) -> Void) {
-        SBDMain.connect(withUserId: userId) { [weak self] user, error in
+        SendbirdChat.connect(userId: userId) { [weak self] user, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -41,29 +41,34 @@ public class UserConnectionUseCase {
     }
     
     public func logout(completion: @escaping () -> Void) {
-        SBDMain.disconnect { [weak self] in
+        SendbirdChat.disconnect { [weak self] in
             self?.isAutoLogin = false
             completion()
         }
     }
     
-    public func updateUserInfo(nickname: String?, profileImage: Data?, completion: @escaping (Result<Void, SBError>) -> Void){
-        SBDMain.updateCurrentUserInfo(withNickname: nickname, profileImage: profileImage) { error in
+    public func updateUserInfo(nickname: String?, profileImage: Data?, completion: @escaping (Result<Void, SBError>) -> Void) {
+        let params = UserUpdateParams()
+        
+        params.nickname = nickname
+        params.profileImageData = profileImage
+        
+        SendbirdChat.updateCurrentUserInfo(params: params, completionHandler:  { error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
             
             completion(.success(()))
-        }
+        })
     }
     
     private func registerPushTokenIfNeeded() {
-        guard let pushToken = SBDMain.getPendingPushToken() else {
+        guard let pushToken = SendbirdChat.getPendingPushToken() else {
             return
         }
         
-        SBDMain.registerDevicePushToken(pushToken, unique: true) { status, error in
+        SendbirdChat.registerDevicePushToken(pushToken, unique: true) { status, error in
             if let error = error {
                 print("APNS registration failed. \(error)")
                 return

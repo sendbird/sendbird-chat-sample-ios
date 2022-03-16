@@ -31,33 +31,40 @@ open class OpenChannelFileMessageUseCase {
     }
 
     open func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<BaseMessage, SBError>) -> Void) -> FileMessage? {
-        guard let fileMessageParams = FileMessageParams(file: mediaFile.data) else {
-            return nil
-        }
+        let fileMessageParams = FileMessageCreateParams(file: mediaFile.data)
         
         fileMessageParams.fileName = mediaFile.name
         fileMessageParams.fileSize = UInt(mediaFile.data.count)
         fileMessageParams.mimeType = mediaFile.mimeType
-        fileMessageParams.thumbnailSizes = [SBDThumbnailSize.make(withMaxWidth: 320.0, maxHeight: 320.0)]
+        fileMessageParams.thumbnailSizes = [.make(maxWidth: 320.0, maxHeight: 320.0)]
 
-        let fileMessage = channel.sendFileMessage(with: fileMessageParams) { [weak self] message, error in
+        let fileMessage = channel.sendFileMessage(params: fileMessageParams) { [weak self] message, error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
             
             guard let message = message else { return }
-            self?.cachedDatasForResending.removeValue(forKey: message.requestId)
+            
+            if let requestId = message.requestId {
+                self?.cachedDatasForResending.removeValue(forKey: requestId)
+            }
+            
             completion(.success(message))
         }
         
-        cachedDatasForResending[fileMessage.requestId] = mediaFile.data
-
+        if let requestId = fileMessage?.requestId {
+            cachedDatasForResending[requestId] = mediaFile.data
+        }
+            
         return fileMessage
     }
     
     open func resendMessage(_ message: FileMessage, completion: @escaping (Result<BaseMessage, SBError>) -> Void) {
-        channel.resendFileMessage(with: message, binaryData: cachedDatasForResending[message.requestId]) { message, error in
+        guard let requestId = message.requestId,
+              let binaryData = cachedDatasForResending[requestId] else { return }
+        
+        channel.resendFileMessage(message, binaryData: binaryData) { message, error in
             if let error = error {
                 completion(.failure(error))
                 return

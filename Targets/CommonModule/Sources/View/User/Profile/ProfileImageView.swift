@@ -163,7 +163,7 @@ extension UIImageView {
     }
     
     private func transformUserProfileImage(user: User) -> String {
-        if let profileUrl = user.profileUrl {
+        if let profileUrl = user.profileURL {
             if profileUrl.hasPrefix("https://sendbird.com/main/img/profiles") {
                 return ""
             }

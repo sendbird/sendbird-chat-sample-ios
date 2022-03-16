@@ -94,7 +94,7 @@ extension GroupMemberListViewController: GroupChannelMemberListUseCaseDelegate {
         presentAlert(error: error)
     }
     
-    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didUpdateMembers members: [SBDMember]) {
+    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didUpdateMembers members: [Member]) {
         tableView.reloadData()
     }
 }

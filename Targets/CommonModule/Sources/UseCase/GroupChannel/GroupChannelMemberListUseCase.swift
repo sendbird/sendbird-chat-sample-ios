@@ -10,14 +10,14 @@ import SendbirdChat
 
 public protocol GroupChannelMemberListUseCaseDelegate: AnyObject {
     func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didReceiveError error: SBError)
-    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didUpdateMembers members: [SBDMember])
+    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didUpdateMembers members: [Member])
 }
 
 open class GroupChannelMemberListUseCase {
     
     public weak var delegate: GroupChannelMemberListUseCaseDelegate?
     
-    public private(set) var members: [SBDMember] = []
+    public private(set) var members: [Member] = []
     
     private let channel: GroupChannel
     

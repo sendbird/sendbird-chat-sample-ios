@@ -30,7 +30,7 @@ open class GroupChannelUserMessageUseCase {
     }
     
     open func resendMessage(_ message: UserMessage, completion: @escaping (Result<BaseMessage, SBError>) -> Void) {
-        channel.resendUserMessage(with: message) { message, error in
+        channel.resendUserMessage(message) { message, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -43,9 +43,9 @@ open class GroupChannelUserMessageUseCase {
     }
     
     open func updateMessage(_ message: UserMessage, to newMessage: String, completion: @escaping (Result<UserMessage, SBError>) -> Void) {
-        guard let params = UserMessageParams(message: newMessage) else { return }
-
-        channel.updateUserMessage(withMessageId: message.messageId, userMessageParams: params) { message, error in
+        let params = UserMessageUpdateParams(message: newMessage)
+        
+        channel.updateUserMessage(messageId: message.messageId, params: params) { message, error in
             if let error = error {
                 completion(.failure(error))
                 return
