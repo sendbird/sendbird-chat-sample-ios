@@ -106,7 +106,7 @@ extension OpenChannelListUseCase: SBDChannelDelegate {
         self.delegate?.openChannelListUseCase(self, didUpdateChannels: self.channels)
     }
     
-    open func channelWasChanged(_ sender: SBDBaseChannel) {
+    open func channelWasChanged(_ sender: BaseChannel) {
         guard let changedOpenChannel = sender as? OpenChannel else { return }
         
         self.channels = self.channels.map { channel in

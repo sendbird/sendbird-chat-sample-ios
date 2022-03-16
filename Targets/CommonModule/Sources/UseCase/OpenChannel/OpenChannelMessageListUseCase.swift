@@ -157,7 +157,7 @@ open class OpenChannelMessageListUseCase: NSObject {
 
 extension OpenChannelMessageListUseCase: SBDChannelDelegate {
     
-    open func channelWasChanged(_ sender: SBDBaseChannel) {
+    open func channelWasChanged(_ sender: BaseChannel) {
         guard sender.channelUrl == channel.channelUrl,
               let channel = sender as? OpenChannel else { return }
         
@@ -172,19 +172,19 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
         delegate?.openChannelMessageListUseCase(self, didDeleteChannel: channel)
     }
     
-    open func channel(_ sender: SBDBaseChannel, didReceive message: BaseMessage) {
+    open func channel(_ sender: BaseChannel, didReceive message: BaseMessage) {
         guard sender.channelUrl == channel.channelUrl, hasNextMessages == false else { return }
         
         appendNewMessage(message)
     }
     
-    open func channel(_ sender: SBDBaseChannel, didUpdate message: BaseMessage) {
+    open func channel(_ sender: BaseChannel, didUpdate message: BaseMessage) {
         guard sender.channelUrl == channel.channelUrl else { return }
 
         replaceMessages([message])
     }
     
-    open func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64) {
+    open func channel(_ sender: BaseChannel, messageWasDeleted messageId: Int64) {
         guard sender.channelUrl == channel.channelUrl else { return }
         
         deleteMessages(byMessageIds: [messageId])

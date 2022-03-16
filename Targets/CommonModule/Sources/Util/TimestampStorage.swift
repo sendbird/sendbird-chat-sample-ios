@@ -16,11 +16,11 @@ public class TimestampStorage {
     
     public init() { }
     
-    public func update(timestamp: Timestamp, for channel: SBDBaseChannel) {
+    public func update(timestamp: Timestamp, for channel: BaseChannel) {
         update(timestamp: timestamp, forChannelUrl: channel.channelUrl)
     }
     
-    public func lastTimestamp(for channel: SBDBaseChannel) -> Timestamp? {
+    public func lastTimestamp(for channel: BaseChannel) -> Timestamp? {
         lastTimestamp(forChannelUrl: channel.channelUrl)
     }
     
