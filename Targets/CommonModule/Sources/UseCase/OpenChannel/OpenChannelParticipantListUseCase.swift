@@ -31,7 +31,7 @@ open class OpenChannelParticipantListUseCase {
     
     open func loadNextPage() {
         guard let participantListQuery = participantListQuery,
-              participantListQuery.isLoading() == false,
+              participantListQuery.isLoading == false,
               participantListQuery.hasNext else { return }
         
         participantListQuery.loadNextPage { [weak self] participants, error in

@@ -17,16 +17,17 @@ open class CreateGroupChannelUseCase {
     }
     
     open func createGroupChannel(channelName: String?, imageData: Data?, completion: @escaping (Result<GroupChannel, SBError>) -> Void) {
-        let params = GroupChannelParams()
+        let params = GroupChannelCreateParams()
+        
         params.coverImage = imageData
-        params.add(users)
+        params.addUsers(users)
         params.name = channelName
         
-        if let operatorUserId = SBDMain.getCurrentUser()?.userId {
+        if let operatorUserId = SendbirdChat.getCurrentUser()?.userId {
             params.operatorUserIds = [operatorUserId]
         }
         
-        GroupChannel.createChannel(with: params) { channel, error in
+        GroupChannel.createChannel(params: params) { channel, error in
             if let error = error {
                 completion(.failure(error))
                 return

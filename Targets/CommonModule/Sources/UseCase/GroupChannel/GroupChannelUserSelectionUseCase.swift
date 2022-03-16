@@ -26,7 +26,7 @@ open class GroupChannelUserSelectionUseCase {
     
     private let channel: GroupChannel?
     
-    private var userListQuery: SBDApplicationUserListQuery?
+    private var userListQuery: ApplicationUserListQuery?
     
     public init(channel: GroupChannel?) {
         self.channel = channel
@@ -70,9 +70,9 @@ open class GroupChannelUserSelectionUseCase {
         }
     }
     
-    open func createApplicationUserListQuery() -> SBDApplicationUserListQuery? {
-        let query = SBDMain.createApplicationUserListQuery()
-        query?.limit = 20
+    open func createApplicationUserListQuery() -> ApplicationUserListQuery {
+        let query = SendbirdChat.createApplicationUserListQuery()
+        query.limit = 20
         return query
     }
     
@@ -91,7 +91,7 @@ open class GroupChannelUserSelectionUseCase {
     }
     
     private func filterUsers(_ users: [User]) -> [User] {
-        let currentUser = SBDMain.getCurrentUser()
+        let currentUser = SendbirdChat.getCurrentUser()
 
         return users.filter {
             $0.userId != currentUser?.userId

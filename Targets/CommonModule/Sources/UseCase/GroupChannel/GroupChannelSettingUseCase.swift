@@ -21,7 +21,7 @@ open class GroupChannelSettingUseCase {
     }
     
     open func invite(users: [User], completion: @escaping (Result<Void, SBError>) -> Void) {
-        channel.invite(users) { error in
+        channel.inviteUsers(users) { error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -32,9 +32,9 @@ open class GroupChannelSettingUseCase {
     }
     
     open func updateChannelName(_ channelName: String, completion: @escaping (Result<GroupChannel, Error>) -> Void) {
-        let params = GroupChannelParams()
+        let params = GroupChannelUpdateParams()
         params.name = channelName
-        channel.update(with: params) { channel, error in
+        channel.update(params: params) { channel, error in
             if let error = error {
                 completion(.failure(error))
                 return

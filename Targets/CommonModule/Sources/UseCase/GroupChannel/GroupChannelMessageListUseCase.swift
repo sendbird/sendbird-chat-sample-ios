@@ -35,7 +35,7 @@ open class GroupChannelMessageListUseCase: NSObject {
 
     private let timestampStorage: TimestampStorage
     
-    private lazy var messageCollection: SBDMessageCollection = createMessageCollection()
+    private var messageCollection: MessageCollection?
     
     public init(channel: GroupChannel, timestampStorage: TimestampStorage) {
         self.channel = channel
@@ -44,7 +44,9 @@ open class GroupChannelMessageListUseCase: NSObject {
     }
     
     open func loadInitialMessages() {
-        messageCollection.start(with: .cacheAndReplaceByApi, cacheResultHandler: { [weak self] messages, error in
+        messageCollection = createMessageCollection()
+
+        messageCollection?.startCollection(initPolicy: .cacheAndReplaceByApi, cacheResultHandler: { [weak self] messages, error in
             // Messages will be retrieved from the local cache.
             // They might be too outdated compared to the startingPoint.
             self?.handleInitialMessages(messages: messages, error: error)
@@ -68,7 +70,9 @@ open class GroupChannelMessageListUseCase: NSObject {
     }
         
     open func loadPreviousMessages() {
-        guard isLoading == false, messageCollection.hasPrevious else { return }
+        guard isLoading == false,
+              let messageCollection = messageCollection,
+              messageCollection.hasPrevious else { return }
         
         isLoading = true
         messageCollection.loadPrevious { [weak self] messages, error in
@@ -87,7 +91,9 @@ open class GroupChannelMessageListUseCase: NSObject {
     }
     
     open func loadNextMessages() {
-        guard isLoading == false, messageCollection.hasNext else { return }
+        guard isLoading == false,
+              let messageCollection = messageCollection,
+              messageCollection.hasNext else { return }
         
         isLoading = true
         messageCollection.loadNext { [weak self] messages, error in
@@ -105,15 +111,20 @@ open class GroupChannelMessageListUseCase: NSObject {
         }
     }
     
-    open func createMessageCollection() -> SBDMessageCollection {
+    open func createMessageCollection() -> MessageCollection? {
         // You can use a SBDMessageListParams instance for the SBDMessageCollection.
-        let params = SBDMessageListParams()
-        let collection = SBDMessageCollection(
+        let params = MessageListParams()
+        params.previousResultSize = 20
+        params.nextResultSize = 20
+        
+        let collection = SendbirdChat.createMessageCollection(
             channel: channel,
             startingPoint: timestampStorage.lastTimestamp(for: channel) ?? .max,
             params: params
         )
-        collection.delegate = self
+        
+        collection?.delegate = self
+        
         return collection
     }
     
@@ -126,22 +137,17 @@ open class GroupChannelMessageListUseCase: NSObject {
     }
     
     private func appendPreviousMessages(_ newMessages: [BaseMessage]) {
+        guard newMessages.isEmpty == false else { return }
+        
         messages.insert(contentsOf: newMessages, at: 0)
     }
     
     private func appendNextMessages(_ newMessages: [BaseMessage]) {
-        guard validateNextMessages(newMessages) else { return }
+        guard newMessages.isEmpty == false else { return }
         
         messages.append(contentsOf: newMessages)
     }
-    
-    private func validateNextMessages(_ newMessages: [BaseMessage]) -> Bool {
-        guard let oldCreatedAt = messages.last?.createdAt else { return true }
-        guard let newCreatedAt = newMessages.first?.createdAt else { return false }
-        
-        return oldCreatedAt <= newCreatedAt
-    }
-            
+                
     private func replaceMessages(_ newMessages: [BaseMessage]) {
         newMessages.forEach { newMessage in
             if let index = messages.firstIndex(where: {
@@ -155,54 +161,47 @@ open class GroupChannelMessageListUseCase: NSObject {
     
 }
 
-// MARK: - SBDMessageCollectionDelegate
+// MARK: - MessageCollectionDelegate
 
-extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
+extension GroupChannelMessageListUseCase: MessageCollectionDelegate {
     
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: GroupChannel, addedMessages messages: [BaseMessage]) {
-        appendNextMessages(messages)
+    open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: GroupChannel, addedMessages: [BaseMessage]) {
+        appendNextMessages(addedMessages)
     }
-
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: GroupChannel, updatedMessages messages: [BaseMessage]) {
-        replaceMessages(messages)
+    
+    open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: GroupChannel, updatedMessages: [BaseMessage]) {
+        replaceMessages(updatedMessages)
     }
-
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: GroupChannel, deletedMessages messages: [BaseMessage]) {
-        switch context.messageSendingStatus {
+    
+    open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: BaseChannel, deletedMessages: [BaseMessage]) {
+        switch context.sendingStatus {
         case .succeeded:
             self.messages = self.messages.filter { oldMessage in
-                messages.map { $0.messageId }.contains(oldMessage.messageId) == false
+                deletedMessages.map { $0.messageId }.contains(oldMessage.messageId) == false
             }
         case .failed:
             // Remove the failed message from your data source.
-            print("[GroupChannelMessageListUseCase] failed deletedMessages: \(messages)")
+            print("[GroupChannelMessageListUseCase] failed deletedMessages: \(deletedMessages)")
         default:
-            print("[GroupChannelMessageListUseCase] default deletedMessages: \(messages)")
+            print("[GroupChannelMessageListUseCase] default deletedMessages: \(deletedMessages)")
         }
     }
 
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, updatedChannel channel: GroupChannel) {
+    open func messageCollection(_ collection: MessageCollection, context: MessageContext, updatedChannel channel: GroupChannel) {
         // Change the chat view with the updated channel information.
         self.channel = channel
         delegate?.groupChannelMessageListUseCase(self, didUpdateChannel: channel)
     }
 
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, deletedChannel channelUrl: String) {
+    open func messageCollection(_ collection: MessageCollection, context: MessageContext, deletedChannel channelURL: String) {
         // This is called when a channel was deleted. So the current chat view should be cleared.
-        guard channel.channelUrl == channelUrl else { return }
+        guard channel.channelURL == channelURL else { return }
         delegate?.groupChannelMessageListUseCase(self, didDeleteChannel: channel)
     }
 
-    open func didDetectHugeGap(_ collection: SBDMessageCollection) {
+    open func didDetectHugeGapInMessageCollection(_ collection: MessageCollection) {
         // The Chat SDK detects more than 300 messages missing.
-
-        // Dispose of the current collection.
-        messageCollection.dispose()
-
-        // Create a new message collection object.
-        messageCollection = createMessageCollection()
-
-        // An additional implementation is required for initialization.
+        messageCollection?.dispose()
         loadInitialMessages()
     }
 

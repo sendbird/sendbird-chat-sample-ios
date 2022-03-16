@@ -16,11 +16,11 @@ open class OpenChannelSettingUseCase {
     }
     
     public var isCurrentOperator: Bool {
-        guard let currentUser = SBDMain.getCurrentUser() else {
+        guard let currentUser = SendbirdChat.getCurrentUser() else {
             return false
         }
         
-        return channel.isOperator(with: currentUser)
+        return channel.isOperator(user: currentUser)
     }
     
     private let channel: OpenChannel
@@ -30,9 +30,9 @@ open class OpenChannelSettingUseCase {
     }
     
     open func updateChannelName(_ channelName: String, completion: @escaping (Result<OpenChannel, Error>) -> Void) {
-        let params = OpenChannelParams()
+        let params = OpenChannelUpdateParams()
         params.name = channelName
-        channel.update(with: params) { channel, error in
+        channel.update(params: params) { channel, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -45,7 +45,7 @@ open class OpenChannelSettingUseCase {
     }
     
     open func exitChannel(completion: @escaping (Result<Void, SBError>) -> Void) {
-        channel.exitChannel { error in
+        channel.exit { error in
             if let error = error {
                 completion(.failure(error))
                 return

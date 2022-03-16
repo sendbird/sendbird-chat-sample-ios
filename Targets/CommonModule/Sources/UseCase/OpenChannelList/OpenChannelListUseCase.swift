@@ -26,11 +26,11 @@ open class OpenChannelListUseCase: NSObject {
     public override init() {
         super.init()
         
-        SBDMain.add(self as SBDChannelDelegate, identifier: self.description)
+        SendbirdChat.add(self as BaseChannelDelegate, identifier: self.description)
     }
     
     open func reloadChannels() {
-        guard channelListQuery.isLoading() == false else { return }
+        guard channelListQuery.isLoading == false else { return }
         
         channelListQuery = createOpenChannelListQuery()
         channelListQuery.loadNextPage { [weak self] channels, error in
@@ -48,7 +48,7 @@ open class OpenChannelListUseCase: NSObject {
     }
     
     open func loadNextPage() {
-        guard channelListQuery.isLoading() == false, channelListQuery.hasNext else { return }
+        guard channelListQuery.isLoading == false, channelListQuery.hasNext else { return }
         
         channelListQuery.loadNextPage { [weak self] channels, error in
             guard let self = self else { return }
@@ -65,7 +65,7 @@ open class OpenChannelListUseCase: NSObject {
     }
         
     open func createOpenChannelListQuery() -> OpenChannelListQuery {
-        let channelListQuery = OpenChannel.createOpenChannelListQuery() ?? OpenChannelListQuery()
+        let channelListQuery = OpenChannel.createOpenChannelListQuery()
         channelListQuery.limit = 20
         return channelListQuery
     }
@@ -81,7 +81,7 @@ open class OpenChannelListUseCase: NSObject {
     }
     
     open func exitChannel(_ channel: OpenChannel, completion: @escaping (Result<Void, SBError>) -> Void) {
-        channel.exitChannel { error in
+        channel.exit { error in
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -92,15 +92,15 @@ open class OpenChannelListUseCase: NSObject {
 
 }
 
-// MARK: - SBDChannelDelegate
+// MARK: - BaseChannelDelegate
 
-extension OpenChannelListUseCase: SBDChannelDelegate {
+extension OpenChannelListUseCase: BaseChannelDelegate {
     
-    open func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
+    open func channelWasDeleted(_ channelURL: String, channelType: ChannelType) {
         guard channelType == .open else { return }
         
         self.channels = self.channels.filter {
-            $0.channelUrl != channelUrl
+            $0.channelURL != channelURL
         }
         
         self.delegate?.openChannelListUseCase(self, didUpdateChannels: self.channels)
@@ -110,7 +110,7 @@ extension OpenChannelListUseCase: SBDChannelDelegate {
         guard let changedOpenChannel = sender as? OpenChannel else { return }
         
         self.channels = self.channels.map { channel in
-            channel.channelUrl == changedOpenChannel.channelUrl ? changedOpenChannel : channel
+            channel.channelURL == changedOpenChannel.channelURL ? changedOpenChannel : channel
         }
         
         self.delegate?.openChannelListUseCase(self, didUpdateChannels: self.channels)
