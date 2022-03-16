@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SendBirdSDK
+import SendbirdChat
 
 open class OpenChannelSettingUseCase {
     

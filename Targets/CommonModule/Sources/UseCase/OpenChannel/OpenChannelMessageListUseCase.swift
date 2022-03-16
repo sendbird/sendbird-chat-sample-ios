@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SendBirdSDK
+import SendbirdChat
 
 public protocol OpenChannelMessageListUseCaseDelegate: AnyObject {
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didReceiveError error: SBDError)

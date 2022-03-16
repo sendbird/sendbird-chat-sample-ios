@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SendBirdSDK
+import SendbirdChat
 import Kingfisher
 
 public class SelectedUserCollectionViewCell: UICollectionViewCell {

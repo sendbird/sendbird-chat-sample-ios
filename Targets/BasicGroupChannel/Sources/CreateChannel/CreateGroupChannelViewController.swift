@@ -7,7 +7,7 @@
 
 import UIKit
 import CommonModule
-import SendBirdSDK
+import SendbirdChat
 import MobileCoreServices
 
 class CreateGroupChannelViewController: UIViewController {

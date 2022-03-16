@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SendBirdSDK
+import SendbirdChat
 
 public class BasicFileCell: UITableViewCell {
     
