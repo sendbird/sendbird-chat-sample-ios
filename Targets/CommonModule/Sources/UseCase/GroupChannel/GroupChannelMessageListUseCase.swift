@@ -114,12 +114,17 @@ open class GroupChannelMessageListUseCase: NSObject {
     open func createMessageCollection() -> MessageCollection? {
         // You can use a SBDMessageListParams instance for the SBDMessageCollection.
         let params = MessageListParams()
+        params.previousResultSize = 20
+        params.nextResultSize = 20
+        
         let collection = SendbirdChat.createMessageCollection(
             channel: channel,
             startingPoint: timestampStorage.lastTimestamp(for: channel) ?? .max,
             params: params
         )
+        
         collection?.delegate = self
+        
         return collection
     }
     
@@ -132,22 +137,17 @@ open class GroupChannelMessageListUseCase: NSObject {
     }
     
     private func appendPreviousMessages(_ newMessages: [BaseMessage]) {
+        guard newMessages.isEmpty == false else { return }
+        
         messages.insert(contentsOf: newMessages, at: 0)
     }
     
     private func appendNextMessages(_ newMessages: [BaseMessage]) {
-        guard validateNextMessages(newMessages) else { return }
+        guard newMessages.isEmpty == false else { return }
         
         messages.append(contentsOf: newMessages)
     }
-    
-    private func validateNextMessages(_ newMessages: [BaseMessage]) -> Bool {
-        guard let oldCreatedAt = messages.last?.createdAt else { return true }
-        guard let newCreatedAt = newMessages.first?.createdAt else { return false }
-        
-        return oldCreatedAt <= newCreatedAt
-    }
-            
+                
     private func replaceMessages(_ newMessages: [BaseMessage]) {
         newMessages.forEach { newMessage in
             if let index = messages.firstIndex(where: {
@@ -165,25 +165,25 @@ open class GroupChannelMessageListUseCase: NSObject {
 
 extension GroupChannelMessageListUseCase: MessageCollectionDelegate {
     
-    open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: GroupChannel, addedMessages messages: [BaseMessage]) {
-        appendNextMessages(messages)
-    }
-
-    open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: GroupChannel, updatedMessages messages: [BaseMessage]) {
-        replaceMessages(messages)
+    open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: GroupChannel, addedMessages: [BaseMessage]) {
+        appendNextMessages(addedMessages)
     }
     
-    public func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: BaseChannel, deletedMessages: [BaseMessage]) {
+    open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: GroupChannel, updatedMessages: [BaseMessage]) {
+        replaceMessages(updatedMessages)
+    }
+    
+    open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: BaseChannel, deletedMessages: [BaseMessage]) {
         switch context.sendingStatus {
         case .succeeded:
             self.messages = self.messages.filter { oldMessage in
-                messages.map { $0.messageId }.contains(oldMessage.messageId) == false
+                deletedMessages.map { $0.messageId }.contains(oldMessage.messageId) == false
             }
         case .failed:
             // Remove the failed message from your data source.
-            print("[GroupChannelMessageListUseCase] failed deletedMessages: \(messages)")
+            print("[GroupChannelMessageListUseCase] failed deletedMessages: \(deletedMessages)")
         default:
-            print("[GroupChannelMessageListUseCase] default deletedMessages: \(messages)")
+            print("[GroupChannelMessageListUseCase] default deletedMessages: \(deletedMessages)")
         }
     }
 

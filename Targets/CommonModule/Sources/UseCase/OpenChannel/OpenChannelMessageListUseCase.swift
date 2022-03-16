@@ -18,8 +18,8 @@ public protocol OpenChannelMessageListUseCaseDelegate: AnyObject {
 open class OpenChannelMessageListUseCase: NSObject {
     
     private enum Constant {
-        static let previousResultSize: Int = 30
-        static let nextResultSize: Int = 30
+        static let previousResultSize: Int = 20
+        static let nextResultSize: Int = 20
     }
     
     public weak var delegate: OpenChannelMessageListUseCaseDelegate?
