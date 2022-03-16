@@ -56,7 +56,7 @@ open class GroupChannelFileMessageUseCase {
         return fileMessage
     }
     
-    open func resendMessage(_ message: FileMessage, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
+    open func resendMessage(_ message: FileMessage, completion: @escaping (Result<BaseMessage, SBDError>) -> Void) {
         channel.resendFileMessage(with: message, binaryData: cachedDatasForResending[message.requestId]) { message, error in
             if let error = error {
                 completion(.failure(error))

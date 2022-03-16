@@ -83,7 +83,7 @@ public class BasicMessageCell: UITableViewCell {
         messageLabel.text = nil
     }
 
-    public func configure(with message: SBDBaseMessage) {
+    public func configure(with message: BaseMessage) {
         if let sender = message.sender {
             profileLabel.text = "\(sender.nickname ?? "(Unknown)")"
             profileImageView.setProfileImageView(for: sender)

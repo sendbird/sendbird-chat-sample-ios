@@ -30,7 +30,7 @@ open class OpenChannelFileMessageUseCase {
         self.channel = channel
     }
 
-    open func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) -> FileMessage? {
+    open func sendFile(_ mediaFile: MediaFile, completion: @escaping (Result<BaseMessage, SBDError>) -> Void) -> FileMessage? {
         guard let fileMessageParams = FileMessageParams(file: mediaFile.data) else {
             return nil
         }
@@ -56,7 +56,7 @@ open class OpenChannelFileMessageUseCase {
         return fileMessage
     }
     
-    open func resendMessage(_ message: FileMessage, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
+    open func resendMessage(_ message: FileMessage, completion: @escaping (Result<BaseMessage, SBDError>) -> Void) {
         channel.resendFileMessage(with: message, binaryData: cachedDatasForResending[message.requestId]) { message, error in
             if let error = error {
                 completion(.failure(error))

@@ -12,7 +12,7 @@ struct MessageSendingStatus {
     
     let description: String
     
-    init(_ rawValue: SBDBaseMessage) {
+    init(_ rawValue: BaseMessage) {
         switch rawValue.sendingStatus {
         case .pending:
             description = "(pending)"

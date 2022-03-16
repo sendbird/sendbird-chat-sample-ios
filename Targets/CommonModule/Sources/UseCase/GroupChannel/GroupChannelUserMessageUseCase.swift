@@ -29,7 +29,7 @@ open class GroupChannelUserMessageUseCase {
         }
     }
     
-    open func resendMessage(_ message: SBDUserMessage, completion: @escaping (Result<SBDBaseMessage, SBDError>) -> Void) {
+    open func resendMessage(_ message: SBDUserMessage, completion: @escaping (Result<BaseMessage, SBDError>) -> Void) {
         channel.resendUserMessage(with: message) { message, error in
             if let error = error {
                 completion(.failure(error))
@@ -57,7 +57,7 @@ open class GroupChannelUserMessageUseCase {
         }
     }
     
-    open func deleteMessage(_ message: SBDBaseMessage, completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func deleteMessage(_ message: BaseMessage, completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.delete(message) { error in
             if let error = error {
                 completion(.failure(error))

@@ -16,7 +16,7 @@ extension OpenChannelViewController: ImagePickerRouterDelegate {
     }
     
     func imagePickerRouter(_ imagePickerRouter: ImagePickerRouter, didFinishPickingMediaFile mediaFile: ImagePickerMediaFile) {
-        var sendingMessage: SBDBaseMessage?
+        var sendingMessage: BaseMessage?
         
         sendingMessage = fileMessageUseCase.sendFile(.init(data: mediaFile.data, name: mediaFile.name, mimeType: mediaFile.mimeType)) { [weak self] result in
             switch result {
