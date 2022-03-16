@@ -15,7 +15,7 @@ extension GroupChannelViewController {
         
         if let userMessage = message as? SBDUserMessage {
             presentEditUserMessageAlert(for: userMessage)
-        } else if let fileMessage = message as? SBDFileMessage {
+        } else if let fileMessage = message as? FileMessage {
             presentEditFileMessageAlert(for: fileMessage)
         }
     }
@@ -74,7 +74,7 @@ extension GroupChannelViewController {
         }
     }
     
-    private func presentEditFileMessageAlert(for message: SBDFileMessage) {
+    private func presentEditFileMessageAlert(for message: FileMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.name, preferredStyle: .actionSheet)
         
         if message.sendingStatus == .failed {
@@ -109,7 +109,7 @@ extension GroupChannelViewController {
         }
     }
     
-    private func resend(_ message: SBDFileMessage) {
+    private func resend(_ message: FileMessage) {
         fileMessageUseCase.resendMessage(message) { [weak self] result in
             switch result {
             case .success:
