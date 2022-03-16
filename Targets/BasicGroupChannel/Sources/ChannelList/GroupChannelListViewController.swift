@@ -131,7 +131,7 @@ extension GroupChannelListViewController: UITableViewDelegate {
 
 extension GroupChannelListViewController: GroupChannelListUseCaseDelegate {
     
-    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didReceiveError error: SBDError) {
+    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didReceiveError error: SBError) {
         DispatchQueue.main.async { [weak self] in
             self?.presentAlert(error: error)
         }

@@ -16,7 +16,7 @@ open class GroupChannelUserMessageUseCase {
         self.channel = channel
     }
     
-    open func sendMessage(_ message: String, completion: @escaping (Result<UserMessage, SBDError>) -> Void) -> UserMessage? {
+    open func sendMessage(_ message: String, completion: @escaping (Result<UserMessage, SBError>) -> Void) -> UserMessage? {
         return channel.sendUserMessage(message) { message, error in
             if let error = error {
                 completion(.failure(error))
@@ -29,7 +29,7 @@ open class GroupChannelUserMessageUseCase {
         }
     }
     
-    open func resendMessage(_ message: UserMessage, completion: @escaping (Result<BaseMessage, SBDError>) -> Void) {
+    open func resendMessage(_ message: UserMessage, completion: @escaping (Result<BaseMessage, SBError>) -> Void) {
         channel.resendUserMessage(with: message) { message, error in
             if let error = error {
                 completion(.failure(error))
@@ -42,7 +42,7 @@ open class GroupChannelUserMessageUseCase {
         }
     }
     
-    open func updateMessage(_ message: UserMessage, to newMessage: String, completion: @escaping (Result<UserMessage, SBDError>) -> Void) {
+    open func updateMessage(_ message: UserMessage, to newMessage: String, completion: @escaping (Result<UserMessage, SBError>) -> Void) {
         guard let params = UserMessageParams(message: newMessage) else { return }
 
         channel.updateUserMessage(withMessageId: message.messageId, userMessageParams: params) { message, error in
@@ -57,7 +57,7 @@ open class GroupChannelUserMessageUseCase {
         }
     }
     
-    open func deleteMessage(_ message: BaseMessage, completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func deleteMessage(_ message: BaseMessage, completion: @escaping (Result<Void, SBError>) -> Void) {
         channel.delete(message) { error in
             if let error = error {
                 completion(.failure(error))

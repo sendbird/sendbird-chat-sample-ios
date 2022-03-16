@@ -95,7 +95,7 @@ extension OpenChannelParticipantListViewController: UITableViewDelegate {
 // MARK: - GroupChannelMemberListUseCaseDelegate
 
 extension OpenChannelParticipantListViewController: OpenChannelParticipantListUseCaseDelegate {
-    func openChannelParticipantListUseCase(_ useCase: OpenChannelParticipantListUseCase, didReceiveError error: SBDError) {
+    func openChannelParticipantListUseCase(_ useCase: OpenChannelParticipantListUseCase, didReceiveError error: SBError) {
         presentAlert(error: error)
     }
     

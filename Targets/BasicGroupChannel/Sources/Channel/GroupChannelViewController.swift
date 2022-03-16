@@ -167,7 +167,7 @@ extension GroupChannelViewController: UITableViewDelegate {
 extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     
 
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBDError) {
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBError) {
         presentAlert(error: error)
     }
     

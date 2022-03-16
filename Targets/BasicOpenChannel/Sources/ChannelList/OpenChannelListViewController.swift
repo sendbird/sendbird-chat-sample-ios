@@ -145,7 +145,7 @@ extension OpenChannelListViewController: UITableViewDelegate {
 
 extension OpenChannelListViewController: OpenChannelListUseCaseDelegate {
     
-    func openChannelListUseCase(_ openChannelListUseCase: OpenChannelListUseCase, didReceiveError error: SBDError) {
+    func openChannelListUseCase(_ openChannelListUseCase: OpenChannelListUseCase, didReceiveError error: SBError) {
         DispatchQueue.main.async { [weak self] in
             self?.presentAlert(error: error)
         }

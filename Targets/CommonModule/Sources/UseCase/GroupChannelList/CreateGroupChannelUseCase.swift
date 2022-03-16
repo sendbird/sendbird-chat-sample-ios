@@ -16,7 +16,7 @@ open class CreateGroupChannelUseCase {
         self.users = users
     }
     
-    open func createGroupChannel(channelName: String?, imageData: Data?, completion: @escaping (Result<SBDGroupChannel, SBDError>) -> Void) {
+    open func createGroupChannel(channelName: String?, imageData: Data?, completion: @escaping (Result<SBDGroupChannel, SBError>) -> Void) {
         let params = SBDGroupChannelParams()
         params.coverImage = imageData
         params.add(users)
