@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SendBirdSDK
+import SendbirdChat
 
 public class SelectableUserTableViewCell: UITableViewCell {
     @IBOutlet private weak var checkImageView: UIImageView!

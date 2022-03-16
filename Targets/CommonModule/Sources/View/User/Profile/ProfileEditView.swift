@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SendBirdSDK
+import SendbirdChat
 
 public protocol ProfileEditViewDelegate: AnyObject {
     func profileEditViewDidTouchProfileImage(_ profileEditView: ProfileEditView)
