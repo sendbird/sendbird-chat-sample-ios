@@ -21,7 +21,7 @@ class GroupChannelViewController: UIViewController {
 
     var targetMessageForScrolling: BaseMessage?
     
-    let channel: SBDGroupChannel
+    let channel: GroupChannel
     
     private let timestampStorage: TimestampStorage
     
@@ -49,7 +49,7 @@ class GroupChannelViewController: UIViewController {
         return keyboardObserver
     }()
     
-    init(channel: SBDGroupChannel, timestampStorage: TimestampStorage) {
+    init(channel: GroupChannel, timestampStorage: TimestampStorage) {
         self.channel = channel
         self.timestampStorage = timestampStorage
         super.init(nibName: "GroupChannelViewController", bundle: Bundle(for: Self.self))
@@ -186,11 +186,11 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
         tableView.scrollToRow(at: focusMessageIndexPath, at: .bottom, animated: false)
     }
     
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: SBDGroupChannel) {
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: GroupChannel) {
         title = channel.name
     }
     
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: SBDGroupChannel) {
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: GroupChannel) {
         presentAlert(title: "This channel has been deleted", message: nil) { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }

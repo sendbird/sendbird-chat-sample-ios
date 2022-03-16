@@ -10,9 +10,9 @@ import SendbirdChat
 
 open class GroupChannelUserMessageUseCase {
     
-    private let channel: SBDGroupChannel
+    private let channel: GroupChannel
     
-    public init(channel: SBDGroupChannel) {
+    public init(channel: GroupChannel) {
         self.channel = channel
     }
     

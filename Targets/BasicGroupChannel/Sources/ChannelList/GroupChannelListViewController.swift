@@ -137,7 +137,7 @@ extension GroupChannelListViewController: GroupChannelListUseCaseDelegate {
         }
     }
     
-    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didUpdateChannels: [SBDGroupChannel]) {
+    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didUpdateChannels: [GroupChannel]) {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }

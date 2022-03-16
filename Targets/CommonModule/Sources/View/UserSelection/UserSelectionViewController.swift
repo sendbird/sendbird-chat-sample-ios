@@ -14,7 +14,7 @@ public class UserSelectionViewController: UIViewController {
     
     @IBOutlet private weak var tableView: UITableView!
     
-    private let channel: SBDGroupChannel?
+    private let channel: GroupChannel?
     
     private let didSelectUsers: DidSelectUserHandler
     
@@ -38,7 +38,7 @@ public class UserSelectionViewController: UIViewController {
         action: #selector(onTouchCancelButton(_:))
     )
     
-    public init(channel: SBDGroupChannel? = nil, didSelectUsers: @escaping DidSelectUserHandler) {
+    public init(channel: GroupChannel? = nil, didSelectUsers: @escaping DidSelectUserHandler) {
         self.channel = channel
         self.didSelectUsers = didSelectUsers
         super.init(nibName: "UserSelectionViewController", bundle: Bundle(for: Self.self))

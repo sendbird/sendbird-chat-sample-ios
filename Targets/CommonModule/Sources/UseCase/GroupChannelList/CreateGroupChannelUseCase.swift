@@ -16,8 +16,8 @@ open class CreateGroupChannelUseCase {
         self.users = users
     }
     
-    open func createGroupChannel(channelName: String?, imageData: Data?, completion: @escaping (Result<SBDGroupChannel, SBError>) -> Void) {
-        let params = SBDGroupChannelParams()
+    open func createGroupChannel(channelName: String?, imageData: Data?, completion: @escaping (Result<GroupChannel, SBError>) -> Void) {
+        let params = GroupChannelParams()
         params.coverImage = imageData
         params.add(users)
         params.name = channelName
@@ -26,7 +26,7 @@ open class CreateGroupChannelUseCase {
             params.operatorUserIds = [operatorUserId]
         }
         
-        SBDGroupChannel.createChannel(with: params) { channel, error in
+        GroupChannel.createChannel(with: params) { channel, error in
             if let error = error {
                 completion(.failure(error))
                 return

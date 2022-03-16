@@ -20,7 +20,7 @@ public class GroupChannelListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
         
-    public func configure(with channel: SBDGroupChannel) {
+    public func configure(with channel: GroupChannel) {
         if #available(iOS 14.0, *) {
             var content = defaultContentConfiguration()
             content.text = channel.name

@@ -12,7 +12,7 @@ import MobileCoreServices
 
 class CreateGroupChannelViewController: UIViewController {
     
-    typealias DidCreateChannelHandler = (SBDGroupChannel) -> Void
+    typealias DidCreateChannelHandler = (GroupChannel) -> Void
     
     @IBOutlet private weak var channelNameTextField: UITextField!
     @IBOutlet private weak var profileImageView: ProfileImageView!

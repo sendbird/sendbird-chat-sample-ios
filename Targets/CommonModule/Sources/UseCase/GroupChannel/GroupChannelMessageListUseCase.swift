@@ -11,8 +11,8 @@ import SendbirdChat
 public protocol GroupChannelMessageListUseCaseDelegate: AnyObject {
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBError)
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage])
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: SBDGroupChannel)
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: SBDGroupChannel)
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: GroupChannel)
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: GroupChannel)
 }
 
 open class GroupChannelMessageListUseCase: NSObject {
@@ -31,13 +31,13 @@ open class GroupChannelMessageListUseCase: NSObject {
     
     open var isLoading: Bool = false
 
-    public private(set) var channel: SBDGroupChannel
+    public private(set) var channel: GroupChannel
 
     private let timestampStorage: TimestampStorage
     
     private lazy var messageCollection: SBDMessageCollection = createMessageCollection()
     
-    public init(channel: SBDGroupChannel, timestampStorage: TimestampStorage) {
+    public init(channel: GroupChannel, timestampStorage: TimestampStorage) {
         self.channel = channel
         self.timestampStorage = timestampStorage
         super.init()
@@ -159,15 +159,15 @@ open class GroupChannelMessageListUseCase: NSObject {
 
 extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
     
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, addedMessages messages: [BaseMessage]) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: GroupChannel, addedMessages messages: [BaseMessage]) {
         appendNextMessages(messages)
     }
 
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, updatedMessages messages: [BaseMessage]) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: GroupChannel, updatedMessages messages: [BaseMessage]) {
         replaceMessages(messages)
     }
 
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: SBDGroupChannel, deletedMessages messages: [BaseMessage]) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, channel: GroupChannel, deletedMessages messages: [BaseMessage]) {
         switch context.messageSendingStatus {
         case .succeeded:
             self.messages = self.messages.filter { oldMessage in
@@ -181,7 +181,7 @@ extension GroupChannelMessageListUseCase: SBDMessageCollectionDelegate {
         }
     }
 
-    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, updatedChannel channel: SBDGroupChannel) {
+    open func messageCollection(_ collection: SBDMessageCollection, context: SBDMessageContext, updatedChannel channel: GroupChannel) {
         // Change the chat view with the updated channel information.
         self.channel = channel
         delegate?.groupChannelMessageListUseCase(self, didUpdateChannel: channel)
