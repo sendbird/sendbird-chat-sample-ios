@@ -34,7 +34,7 @@ public class SelectableUserTableViewCell: UITableViewCell {
         
     }
     
-    public func configure(with user: SBDUser, isSelected: Bool) {
+    public func configure(with user: User, isSelected: Bool) {
         nicknameLabel.text = user.nickname
         profileImageView.setProfileImageView(for: user)
         selectedUser = isSelected

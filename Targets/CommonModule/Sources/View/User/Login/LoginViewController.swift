@@ -13,7 +13,7 @@ public final class LoginViewController: UIViewController {
     @IBOutlet private weak var connectButton: UIButton!
     @IBOutlet private weak var userIdTextField: UITextField!
     
-    public typealias DidConnectUserHandler = (SBDUser) -> Void
+    public typealias DidConnectUserHandler = (User) -> Void
     
     private let didConnectUser: DidConnectUserHandler
     
@@ -71,7 +71,7 @@ public final class LoginViewController: UIViewController {
         }
     }
     
-    private func presentEditViewController(user: SBDUser) {
+    private func presentEditViewController(user: User) {
         let profileEditViewController = ProfileEditViewController(completion: { [weak self] in
             self?.didConnectUser(user)
         })

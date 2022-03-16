@@ -87,7 +87,7 @@ public class BasicMessageCell: UITableViewCell {
         if let sender = message.sender {
             profileLabel.text = "\(sender.nickname ?? "(Unknown)")"
             profileImageView.setProfileImageView(for: sender)
-        } else if message is SBDAdminMessage {
+        } else if message is AdminMessage {
             profileLabel.text = "Admin"
         }
         

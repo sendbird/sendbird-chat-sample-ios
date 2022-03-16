@@ -18,14 +18,14 @@ public class UserConnectionUseCase {
     @UserDefault(key: "sendbird_user_id", defaultValue: nil)
     public private(set) var userId: String?
     
-    public var currentUser: SBDUser? {
+    public var currentUser: User? {
         SBDMain.getCurrentUser()
     }
         
     private init() { }
     
     public func login(userId: String,
-                      completion: @escaping (Result<SBDUser, SBDError>) -> Void) {
+                      completion: @escaping (Result<User, SBDError>) -> Void) {
         SBDMain.connect(withUserId: userId) { [weak self] user, error in
             if let error = error {
                 completion(.failure(error))
@@ -77,7 +77,7 @@ public class UserConnectionUseCase {
         }
     }
         
-    private func storeUserInfo(_ user: SBDUser) {
+    private func storeUserInfo(_ user: User) {
         userId = user.userId
         isAutoLogin = true
     }

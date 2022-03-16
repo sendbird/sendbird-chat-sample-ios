@@ -17,7 +17,7 @@ class CreateGroupChannelViewController: UIViewController {
     @IBOutlet private weak var channelNameTextField: UITextField!
     @IBOutlet private weak var profileImageView: ProfileImageView!
     
-    private let users: [SBDUser]
+    private let users: [User]
     private let didCreateChannel: DidCreateChannelHandler?
     private var channelImageData: Data?
     
@@ -29,7 +29,7 @@ class CreateGroupChannelViewController: UIViewController {
         return imagePickerRouter
     }()
 
-    init(users: [SBDUser], didCreateChannel: DidCreateChannelHandler? = nil) {
+    init(users: [User], didCreateChannel: DidCreateChannelHandler? = nil) {
         self.users = users
         self.didCreateChannel = didCreateChannel
         super.init(nibName: "CreateGroupChannelViewController", bundle: Bundle(for: Self.self))

@@ -10,7 +10,7 @@ import SendbirdChat
 
 public class UserSelectionViewController: UIViewController {
     
-    public typealias DidSelectUserHandler = (UserSelectionViewController, [SBDUser]) -> Void
+    public typealias DidSelectUserHandler = (UserSelectionViewController, [User]) -> Void
     
     @IBOutlet private weak var tableView: UITableView!
     
@@ -139,11 +139,11 @@ extension UserSelectionViewController: GroupChannelUserSelectionUseCaseDelegate 
         presentAlert(error: error)
     }
     
-    public func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateUsers users: [SBDUser]) {
+    public func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateUsers users: [User]) {
         tableView.reloadData()
     }
     
-    public func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateSelectedUsers users: [SBDUser]) {
+    public func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didUpdateSelectedUsers users: [User]) {
         updateOkButton()
     }
 

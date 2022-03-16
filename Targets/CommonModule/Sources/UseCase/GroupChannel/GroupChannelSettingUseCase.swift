@@ -10,8 +10,8 @@ import SendbirdChat
 
 open class GroupChannelSettingUseCase {
     
-    public var members: [SBDUser] {
-        (channel.members as? [SBDUser]) ?? []
+    public var members: [User] {
+        (channel.members as? [User]) ?? []
     }
     
     private let channel: SBDGroupChannel
@@ -20,7 +20,7 @@ open class GroupChannelSettingUseCase {
         self.channel = channel
     }
     
-    open func invite(users: [SBDUser], completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func invite(users: [User], completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.invite(users) { error in
             if let error = error {
                 completion(.failure(error))

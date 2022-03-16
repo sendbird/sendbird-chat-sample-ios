@@ -10,14 +10,14 @@ import SendbirdChat
 
 public protocol OpenChannelParticipantListUseCaseDelegate: AnyObject {
     func openChannelParticipantListUseCase(_ useCase: OpenChannelParticipantListUseCase, didReceiveError error: SBDError)
-    func openChannelParticipantListUseCase(_ useCase: OpenChannelParticipantListUseCase, didUpdateParticipants participants: [SBDUser])
+    func openChannelParticipantListUseCase(_ useCase: OpenChannelParticipantListUseCase, didUpdateParticipants participants: [User])
 }
 
 open class OpenChannelParticipantListUseCase {
     
     public weak var delegate: OpenChannelParticipantListUseCaseDelegate?
     
-    public private(set) var participants: [SBDUser] = []
+    public private(set) var participants: [User] = []
     
     private let channel: SBDOpenChannel
     

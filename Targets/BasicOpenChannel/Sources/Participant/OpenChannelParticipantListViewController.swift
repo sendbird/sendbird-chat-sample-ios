@@ -99,7 +99,7 @@ extension OpenChannelParticipantListViewController: OpenChannelParticipantListUs
         presentAlert(error: error)
     }
     
-    func openChannelParticipantListUseCase(_ useCase: OpenChannelParticipantListUseCase, didUpdateParticipants participants: [SBDUser]) {
+    func openChannelParticipantListUseCase(_ useCase: OpenChannelParticipantListUseCase, didUpdateParticipants participants: [User]) {
         tableView.reloadData()
     }
 }

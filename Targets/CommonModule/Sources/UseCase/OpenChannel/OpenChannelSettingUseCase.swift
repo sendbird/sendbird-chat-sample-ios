@@ -11,8 +11,8 @@ import SendbirdChat
 open class OpenChannelSettingUseCase {
     
     // FIX ME: Query로 불러오는 Use Case 따로 분리하기
-    public var operators: [SBDUser] {
-        (channel.operators as? [SBDUser]) ?? []
+    public var operators: [User] {
+        (channel.operators as? [User]) ?? []
     }
     
     public var isCurrentOperator: Bool {

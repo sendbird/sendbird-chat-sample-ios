@@ -11,7 +11,7 @@ import Kingfisher
 
 public class ProfileImageView: UIView {
     
-    public var users: [SBDUser] = [] {
+    public var users: [User] = [] {
         didSet {
             let maxLength = min(4, users.count)
             users = Array(users.prefix(maxLength))
@@ -100,7 +100,7 @@ public class ProfileImageView: UIView {
         }
     }
     
-    public init(users: [SBDUser], frame: CGRect){
+    public init(users: [User], frame: CGRect){
         super.init(frame: frame)
         self.setUsers(users)
     }
@@ -113,7 +113,7 @@ public class ProfileImageView: UIView {
         super.init(coder: aDecoder)
     }
     
-    public func setUsers(_ newUsers: [SBDUser]) {
+    public func setUsers(_ newUsers: [User]) {
         self.users = newUsers
     }
     
@@ -149,12 +149,12 @@ public class ProfileImageView: UIView {
 
 extension UIImageView {
     
-    public convenience init(with user: SBDUser) {
+    public convenience init(with user: User) {
         self.init()
         setProfileImageView(for: user)
     }
     
-    public func setProfileImageView(for user: SBDUser) {
+    public func setProfileImageView(for user: User) {
         if let url = URL(string: transformUserProfileImage(user: user)){
             kf.setImage(with: url, placeholder: defaultUserProfileImage(user: user))
         } else {
@@ -162,7 +162,7 @@ extension UIImageView {
         }
     }
     
-    private func transformUserProfileImage(user: SBDUser) -> String {
+    private func transformUserProfileImage(user: User) -> String {
         if let profileUrl = user.profileUrl {
             if profileUrl.hasPrefix("https://sendbird.com/main/img/profiles") {
                 return ""
@@ -175,7 +175,7 @@ extension UIImageView {
         return ""
     }
     
-    private func defaultUserProfileImage(user: SBDUser) -> UIImage? {
+    private func defaultUserProfileImage(user: User) -> UIImage? {
         if let nickname = user.nickname, let image = UIImage.named("img_default_profile_image_\(nickname.count % 4)") {
             return image
         }
