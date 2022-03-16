@@ -12,7 +12,7 @@ import MobileCoreServices
 
 class CreateOpenChannelViewController: UIViewController {
     
-    typealias DidCreateChannelHandler = (SBDOpenChannel) -> Void
+    typealias DidCreateChannelHandler = (OpenChannel) -> Void
     
     @IBOutlet private weak var channelNameTextField: UITextField!
     @IBOutlet private weak var profileImageView: ProfileImageView!

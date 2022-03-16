@@ -9,7 +9,7 @@ import Foundation
 import SendbirdChat
 
 public protocol OpenChannelListUseCaseDelegate: AnyObject {
-    func openChannelListUseCase(_ openChannelListUseCase: OpenChannelListUseCase, didUpdateChannels channels: [SBDOpenChannel])
+    func openChannelListUseCase(_ openChannelListUseCase: OpenChannelListUseCase, didUpdateChannels channels: [OpenChannel])
     func openChannelListUseCase(_ openChannelListUseCase: OpenChannelListUseCase, didReceiveError error: SBDError)
 }
 
@@ -19,9 +19,9 @@ open class OpenChannelListUseCase: NSObject {
     
     public weak var delegate: OpenChannelListUseCaseDelegate?
     
-    public var channels: [SBDOpenChannel] = []
+    public var channels: [OpenChannel] = []
     
-    private lazy var channelListQuery: SBDOpenChannelListQuery = createOpenChannelListQuery()
+    private lazy var channelListQuery: OpenChannelListQuery = createOpenChannelListQuery()
     
     public override init() {
         super.init()
@@ -64,13 +64,13 @@ open class OpenChannelListUseCase: NSObject {
         }
     }
         
-    open func createOpenChannelListQuery() -> SBDOpenChannelListQuery {
-        let channelListQuery = SBDOpenChannel.createOpenChannelListQuery() ?? SBDOpenChannelListQuery()
+    open func createOpenChannelListQuery() -> OpenChannelListQuery {
+        let channelListQuery = OpenChannel.createOpenChannelListQuery() ?? OpenChannelListQuery()
         channelListQuery.limit = 20
         return channelListQuery
     }
     
-    open func enterChannel(_ channel: SBDOpenChannel, completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func enterChannel(_ channel: OpenChannel, completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.enter { error in
             if let error = error {
                 completion(.failure(error))
@@ -80,7 +80,7 @@ open class OpenChannelListUseCase: NSObject {
         }
     }
     
-    open func exitChannel(_ channel: SBDOpenChannel, completion: @escaping (Result<Void, SBDError>) -> Void) {
+    open func exitChannel(_ channel: OpenChannel, completion: @escaping (Result<Void, SBDError>) -> Void) {
         channel.exitChannel { error in
             if let error = error {
                 completion(.failure(error))
@@ -107,7 +107,7 @@ extension OpenChannelListUseCase: SBDChannelDelegate {
     }
     
     open func channelWasChanged(_ sender: SBDBaseChannel) {
-        guard let changedOpenChannel = sender as? SBDOpenChannel else { return }
+        guard let changedOpenChannel = sender as? OpenChannel else { return }
         
         self.channels = self.channels.map { channel in
             channel.channelUrl == changedOpenChannel.channelUrl ? changedOpenChannel : channel

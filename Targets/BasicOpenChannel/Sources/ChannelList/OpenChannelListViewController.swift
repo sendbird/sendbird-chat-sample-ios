@@ -151,7 +151,7 @@ extension OpenChannelListViewController: OpenChannelListUseCaseDelegate {
         }
     }
     
-    func openChannelListUseCase(_ openChannelListUseCase: OpenChannelListUseCase, didUpdateChannels channels: [SBDOpenChannel]) {
+    func openChannelListUseCase(_ openChannelListUseCase: OpenChannelListUseCase, didUpdateChannels channels: [OpenChannel]) {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.refreshControl?.endRefreshing()
             self?.tableView.reloadData()

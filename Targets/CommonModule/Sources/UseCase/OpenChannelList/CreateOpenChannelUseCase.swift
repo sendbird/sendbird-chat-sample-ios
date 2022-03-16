@@ -12,13 +12,13 @@ open class CreateOpenChannelUseCase {
     
     public init() { }
     
-    open func createOpenChannel(channelName: String?, imageData: Data?, completion: @escaping (Result<SBDOpenChannel, SBDError>) -> Void) {
-        let params = SBDOpenChannelParams()
+    open func createOpenChannel(channelName: String?, imageData: Data?, completion: @escaping (Result<OpenChannel, SBDError>) -> Void) {
+        let params = OpenChannelParams()
         params.operatorUserIds = [SBDMain.getCurrentUser()?.userId].compactMap { $0 }
         params.coverImage = imageData
         params.name = channelName
 
-        SBDOpenChannel.createChannel(with: params) { channel, error in
+        OpenChannel.createChannel(with: params) { channel, error in
             if let error = error {
                 completion(.failure(error))
                 return

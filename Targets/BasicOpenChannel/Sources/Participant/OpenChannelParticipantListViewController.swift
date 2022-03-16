@@ -11,7 +11,7 @@ import SendbirdChat
 
 class OpenChannelParticipantListViewController: UIViewController {
     
-    private let channel: SBDOpenChannel
+    private let channel: OpenChannel
 
     private lazy var useCase: OpenChannelParticipantListUseCase = {
         let useCase = OpenChannelParticipantListUseCase(channel: channel)
@@ -27,7 +27,7 @@ class OpenChannelParticipantListViewController: UIViewController {
         return tableView
     }()
     
-    init(channel: SBDOpenChannel) {
+    init(channel: OpenChannel) {
         self.channel = channel
         super.init(nibName: nil, bundle: nil)
     }

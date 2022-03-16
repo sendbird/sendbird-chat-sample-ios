@@ -11,8 +11,8 @@ import SendbirdChat
 public protocol OpenChannelMessageListUseCaseDelegate: AnyObject {
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didReceiveError error: SBDError)
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage])
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateChannel channel: SBDOpenChannel)
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didDeleteChannel channel: SBDOpenChannel)
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateChannel channel: OpenChannel)
+    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didDeleteChannel channel: OpenChannel)
 }
 
 open class OpenChannelMessageListUseCase: NSObject {
@@ -30,7 +30,7 @@ open class OpenChannelMessageListUseCase: NSObject {
         }
     }
 
-    private var channel: SBDOpenChannel
+    private var channel: OpenChannel
 
     private var hasPreviousMessages: Bool = true
     
@@ -38,7 +38,7 @@ open class OpenChannelMessageListUseCase: NSObject {
     
     private var isLoading: Bool = false
         
-    public init(channel: SBDOpenChannel) {
+    public init(channel: OpenChannel) {
         self.channel = channel
         super.init()
         SBDMain.add(self as SBDConnectionDelegate, identifier: description)
@@ -159,7 +159,7 @@ extension OpenChannelMessageListUseCase: SBDChannelDelegate {
     
     open func channelWasChanged(_ sender: SBDBaseChannel) {
         guard sender.channelUrl == channel.channelUrl,
-              let channel = sender as? SBDOpenChannel else { return }
+              let channel = sender as? OpenChannel else { return }
         
         self.channel = channel
         
