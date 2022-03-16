@@ -11,7 +11,7 @@ import SendbirdChat
 
 class GroupMemberListViewController: UIViewController {
 
-    private let channel: SBDGroupChannel
+    private let channel: GroupChannel
 
     private lazy var useCase: GroupChannelMemberListUseCase = {
         let useCase = GroupChannelMemberListUseCase(channel: channel)
@@ -27,7 +27,7 @@ class GroupMemberListViewController: UIViewController {
         return tableView
     }()
     
-    init(channel: SBDGroupChannel) {
+    init(channel: GroupChannel) {
         self.channel = channel
         super.init(nibName: nil, bundle: nil)
     }

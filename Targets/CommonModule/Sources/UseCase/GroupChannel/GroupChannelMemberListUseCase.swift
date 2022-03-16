@@ -19,11 +19,11 @@ open class GroupChannelMemberListUseCase {
     
     public private(set) var members: [SBDMember] = []
     
-    private let channel: SBDGroupChannel
+    private let channel: GroupChannel
     
     private lazy var memberListQuery = channel.createMemberListQuery()
     
-    public init(channel: SBDGroupChannel) {
+    public init(channel: GroupChannel) {
         self.channel = channel
     }
     

@@ -9,7 +9,7 @@ import Foundation
 import SendbirdChat
 
 public protocol GroupChannelListUseCaseDelegate: AnyObject {
-    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didUpdateChannels channels: [SBDGroupChannel])
+    func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didUpdateChannels channels: [GroupChannel])
     func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didReceiveError error: SBError)
 }
 
@@ -19,9 +19,9 @@ open class GroupChannelListUseCase: NSObject {
     
     public weak var delegate: GroupChannelListUseCaseDelegate?
     
-    public var channels: [SBDGroupChannel] = []
+    public var channels: [GroupChannel] = []
     
-    private lazy var channelListCollection: SBDGroupChannelCollection = createGroupChannelListCollection()
+    private lazy var channelListCollection: GroupChannelCollection = createGroupChannelListCollection()
     
     public override init() {
         super.init()
@@ -61,19 +61,19 @@ open class GroupChannelListUseCase: NSObject {
         }
     }
         
-    open func createGroupChannelListCollection() -> SBDGroupChannelCollection {
-        let channelListQuery = SBDGroupChannel.createMyGroupChannelListQuery() ?? SBDGroupChannelListQuery.init(dictionary: [:])
+    open func createGroupChannelListCollection() -> GroupChannelCollection {
+        let channelListQuery = GroupChannel.createMyGroupChannelListQuery() ?? GroupChannelListQuery.init(dictionary: [:])
         channelListQuery.order = .latestLastMessage
         channelListQuery.limit = 20
         channelListQuery.includeEmptyChannel = true
         
-        let collection = SBDGroupChannelCollection(query: channelListQuery)
+        let collection = GroupChannelCollection(query: channelListQuery)
         collection.delegate = self
 
         return collection
     }
     
-    open func leaveChannel(_ channel: SBDGroupChannel, completion: @escaping (Result<Void, SBError>) -> Void) {
+    open func leaveChannel(_ channel: GroupChannel, completion: @escaping (Result<Void, SBError>) -> Void) {
         channel.leave { error in
             if let error = error {
                 completion(.failure(error))
@@ -85,16 +85,16 @@ open class GroupChannelListUseCase: NSObject {
 
 }
 
-// MARK: - SBDGroupChannelCollectionDelegate
+// MARK: - GroupChannelCollectionDelegate
 
-extension GroupChannelListUseCase: SBDGroupChannelCollectionDelegate {
+extension GroupChannelListUseCase: GroupChannelCollectionDelegate {
     
-    open func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, addedChannels channels: [SBDGroupChannel]) {
+    open func channelCollection(_ collection: GroupChannelCollection, context: SBDChannelContext, addedChannels channels: [GroupChannel]) {
         self.channels.insert(contentsOf: channels, at: 0)
         self.delegate?.groupChannelListUseCase(self, didUpdateChannels: self.channels)
     }
     
-    open func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, updatedChannels channels: [SBDGroupChannel]) {
+    open func channelCollection(_ collection: GroupChannelCollection, context: SBDChannelContext, updatedChannels channels: [GroupChannel]) {
         let updatedChannels = channels
         
         self.channels = self.channels.map { channel in
@@ -104,7 +104,7 @@ extension GroupChannelListUseCase: SBDGroupChannelCollectionDelegate {
         self.delegate?.groupChannelListUseCase(self, didUpdateChannels: self.channels)
     }
     
-    open func channelCollection(_ collection: SBDGroupChannelCollection, context: SBDChannelContext, deletedChannelUrls: [String]) {
+    open func channelCollection(_ collection: GroupChannelCollection, context: SBDChannelContext, deletedChannelUrls: [String]) {
         self.channels = self.channels.filter {
             deletedChannelUrls.contains($0.channelUrl) == false
         }

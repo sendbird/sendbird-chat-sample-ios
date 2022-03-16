@@ -14,9 +14,9 @@ open class GroupChannelSettingUseCase {
         (channel.members as? [User]) ?? []
     }
     
-    private let channel: SBDGroupChannel
+    private let channel: GroupChannel
     
-    public init(channel: SBDGroupChannel) {
+    public init(channel: GroupChannel) {
         self.channel = channel
     }
     
@@ -31,8 +31,8 @@ open class GroupChannelSettingUseCase {
         }
     }
     
-    open func updateChannelName(_ channelName: String, completion: @escaping (Result<SBDGroupChannel, Error>) -> Void) {
-        let params = SBDGroupChannelParams()
+    open func updateChannelName(_ channelName: String, completion: @escaping (Result<GroupChannel, Error>) -> Void) {
+        let params = GroupChannelParams()
         params.name = channelName
         channel.update(with: params) { channel, error in
             if let error = error {

@@ -22,11 +22,11 @@ open class GroupChannelFileMessageUseCase {
         }
     }
     
-    private let channel: SBDGroupChannel
+    private let channel: GroupChannel
     
     private var cachedDatasForResending: [String: Data] = [:]
     
-    public init(channel: SBDGroupChannel) {
+    public init(channel: GroupChannel) {
         self.channel = channel
     }
 

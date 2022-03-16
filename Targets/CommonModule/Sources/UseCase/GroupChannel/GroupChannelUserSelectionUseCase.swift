@@ -24,11 +24,11 @@ open class GroupChannelUserSelectionUseCase {
     
     public private(set) var selectedUsers: Set<User> = []
     
-    private let channel: SBDGroupChannel?
+    private let channel: GroupChannel?
     
     private var userListQuery: SBDApplicationUserListQuery?
     
-    public init(channel: SBDGroupChannel?) {
+    public init(channel: GroupChannel?) {
         self.channel = channel
     }
         
