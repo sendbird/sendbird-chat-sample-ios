@@ -239,7 +239,7 @@ extension OpenChannelMessageListUseCase: ConnectionDelegate {
     private func fetchChangeLogs(sinceTimestamp timestamp: Int64) {
         let params = MessageChangeLogsParams()
         
-        channel.getMessageChangeLogs(sinceTimestamp: timestamp, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
+        channel.getMessageChangeLogs(timestamp: timestamp, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
             guard error == nil else { return }
             
             self?.handleChangeLogs(updatedMessages: updatedMessages, deletedMessageIds: deletedMessageIds, hasMore: hasMore, token: token)
@@ -249,7 +249,7 @@ extension OpenChannelMessageListUseCase: ConnectionDelegate {
     private func fetchChangeLogs(sinceToken token: String) {
         let params = MessageChangeLogsParams()
         
-        channel.getMessageChangeLogs(sinceToken: token, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
+        channel.getMessageChangeLogs(token: token, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
             guard error == nil else { return }
             
             self?.handleChangeLogs(updatedMessages: updatedMessages, deletedMessageIds: deletedMessageIds, hasMore: hasMore, token: token)

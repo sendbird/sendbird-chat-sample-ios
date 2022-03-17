@@ -21,11 +21,7 @@ open class GroupChannelMessageListUseCase: NSObject {
     
     open var messages: [BaseMessage] = [] {
         didSet {
-            if let lastTimestamp = messages.last?.createdAt {
-                timestampStorage.update(timestamp: lastTimestamp, for: channel)
-            }
-            
-            delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: messages)
+            notifyChangeMessages()
         }
     }
     
@@ -41,6 +37,10 @@ open class GroupChannelMessageListUseCase: NSObject {
         self.channel = channel
         self.timestampStorage = timestampStorage
         super.init()
+    }
+    
+    deinit {
+        messageCollection?.dispose()
     }
     
     open func loadInitialMessages() {
@@ -157,6 +157,14 @@ open class GroupChannelMessageListUseCase: NSObject {
                 messages[index] = newMessage
             }
         }
+    }
+    
+    private func notifyChangeMessages() {
+        if let lastTimestamp = messages.last?.createdAt {
+            timestampStorage.update(timestamp: lastTimestamp, for: channel)
+        }
+        
+        delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: messages)
     }
     
 }
