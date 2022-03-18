@@ -10,7 +10,7 @@ import SendbirdChat
 
 public class EnvironmentUseCase {
     
-    private static let applicationId: String = "A74A3E6C-ECE4-410C-AA5D-69D397B1EA73"
+    private static let applicationId: String = "9880C4C1-E6C8-46E8-A8F1-D5890D598C08"
     
     public static func initializeSendbirdSDK() {
         let initParams = InitParams(
