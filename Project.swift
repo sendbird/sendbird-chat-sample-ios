@@ -6,8 +6,7 @@ import ProjectDescriptionHelpers
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project.app(
     names: ["BasicGroupChannel", "BasicOpenChannel"],
-    platform: .iOS,
-    usePlaceholderSDK: true
+    platform: .iOS
 )
 
 /// Project helpers are functions that simplify the way you define your project.
@@ -18,8 +17,7 @@ extension Project {
     
     /// Helper function to create the Project for this ExampleApp
     public static func app(names: [String],
-                           platform: Platform,
-                           usePlaceholderSDK: Bool) -> Project {
+                           platform: Platform) -> Project {
         var targets = names.map {
             makeAppTarget(
                 name: $0,
@@ -29,9 +27,10 @@ extension Project {
         }
         
         targets.append(
-            contentsOf: makeFrameworkTargets(name: "CommonModule",
-                                             platform: platform,
-                                             usePlaceholderSDK: usePlaceholderSDK)
+            contentsOf: makeFrameworkTargets(
+                name: "CommonModule",
+                platform: platform
+            )
         )
                 
         return Project(
@@ -45,8 +44,7 @@ extension Project {
 
     /// Helper function to create a framework target and an associated unit test target
     private static func makeFrameworkTargets(name: String,
-                                             platform: Platform,
-                                             usePlaceholderSDK: Bool) -> [Target] {
+                                             platform: Platform) -> [Target] {
         let sources = Target(
             name: name,
             platform: platform,
@@ -58,8 +56,9 @@ extension Project {
             resources: ["Targets/\(name)/Resources/**"],
             dependencies: [
                 .external(name: "Kingfisher"),
-                usePlaceholderSDK ?
-                    .project(target: "SendbirdChat", path: "Tuist/PlaceholderSDK") : .external(name: "SendBirdSDK")
+//                .external(name: "SendBirdSDK"),
+//                .project(target: "SendbirdChat", path: "Internal/PlaceholderSDK"),
+                .xcframework(path: "Internal/v4-AlphaTest/SendbirdChat.xcframework")
             ]
         )
         
