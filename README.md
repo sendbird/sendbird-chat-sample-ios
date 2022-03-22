@@ -41,13 +41,13 @@ For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0%EB%8A%A5-%EB%8B%A8%EC%9C%84%EB%A1%9C-%ED%99%95%EC%9E%A5-%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%83%98%ED%94%8C-%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0-a5fd35ac5ca0)
 
 
-### [CommonModule](https://github.com/sendbird/examples-chat-ios/tree/main/CommonModule/CommonModule)
+### [CommonModule](Modules/CommonModule)
 
-- [UseCase](https://github.com/sendbird/examples-chat-ios/tree/main/CommonModule/CommonModule/UseCase): Objects that can be conceptually bundled and used in SendbirdSDK.
+- [UseCase](Modules/CommonModule/Sources/UseCase): Objects that can be conceptually bundled and used in SendbirdSDK.
   - For example, when implementing the chat room message list, the functions to initialize the list, get the previous message, and get the next message are mostly used together.
   - So, even if it is not divided into screen units, things that can be grouped with a similar concept are grouped with UseCase.
   - If necessary, change the Access Control of BaseModule to open and use it.
-- [View](https://github.com/sendbird/examples-chat-ios/tree/main/CommonModule/CommonModule/View)
+- [View](Modules/CommonModule/Sources/UseCase)
   - Small Views that can be easily modularized
   - It is recommended to collect all Views that are used for both Group Channel and Open Channel here.
 - `CommonModule` is used as an embedded framework in each Sample App.
@@ -56,7 +56,7 @@ Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0
 - BasicGroupChannel
 - BasicOpenChannel
 
-### FeatureSample
+### FeatureSamples
 - GroupChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicGroupChannel folder.
 - OpenChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicOpenChannel folder.
 - Implement additional functions after cloning the Basic Sample project. 
@@ -64,11 +64,11 @@ Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0
 - Please place the feature use case file that inherits the basic use case under FeatureSample.
 - Views used only in features can also be implemented under the feature project.
 
-## 📲 How to add new feature sample with tuist
+## 📲 How to add new `Feature Sample App` with tuist
 1. Copy [Apps/BasicGroupChannel](Apps/BasicGroupChannel) or [Apps/BasicOpenChannel](Apps/BasicOpenChannel)
 2. Paste under [Apps](Apps) folder.
-3. Rename `BasicGroupChannel` to `{FeatureSampleName}`
-4. Edit `name` parameter value as `{FeatureSampleName}` in `Apps/{FeatureSampleName}/Project.swift`
+3. Rename folder name `BasicGroupChannel` to `{FeatureSampleName}`
+4. Rename parameter `"BasicGroupChannel"` to `"{FeatureSampleName}"` in `Apps/{FeatureSampleName}/Project.swift`
 ```swift
 let project = Project.app(name: {FeatureSampleName})
 ```
