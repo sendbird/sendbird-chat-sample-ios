@@ -12,8 +12,8 @@ curl -Ls https://install.tuist.io | bash
 
 ### Generate Xcode project & workspace
 ```bash
-tuist fetch
-tuist generate
+tuist fetch # fetch external dependencies
+tuist generate # generate project & workspace 
 ```
 
 For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
@@ -22,9 +22,10 @@ For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 
 ```
 .
-├── Project.swift
-├── Targets
+├── Workspace.swift
+├── Modules
 │   ├── CommonModule
+├── Apps
 │   ├── BasicGroupChannel
 │   ├── BasicOpenChannel
 │   ├── GroupChannelFeatureA
@@ -33,9 +34,7 @@ For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 │   ├── GroupChannelFeatureN
 │   └── OpenChannelFeatureN
 └── Tuist
-    ├── Config.swift
-    ├── Dependencies.swift
-    └── ProjectDescriptionHelpers
+    └── Dependencies.swift
 ```
 
 ![image](https://user-images.githubusercontent.com/11647461/156985707-e504f40d-11ce-402e-8038-b13f90ee5db6.png)
@@ -66,20 +65,17 @@ Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0
 - Views used only in features can also be implemented under the feature project.
 
 ## 📲 How to add new feature sample with tuist
-1. Copy [Targets/BasicGroupChannel](Targets/BasicGroupChannel) or [Targets/BasicOpenChannel](Targets/BasicOpenChannel)
-2. Paste under [Targets](Targets) folder.
+1. Copy [Apps/BasicGroupChannel](Apps/BasicGroupChannel) or [Apps/BasicOpenChannel](Apps/BasicOpenChannel)
+2. Paste under [Apps](Apps) folder.
 3. Rename `BasicGroupChannel` to `{FeatureSampleName}`
-4. Add `{FeatureSampleName}` to `names` parameter in [Project.swift](Project.swift)
-  ```swift
-  let project = Project.app(
-    names: ["BasicGroupChannel", "BasicOpenChannel", "{FeatureSampleName}"],
-    platform: .iOS
-  )
-  ```
+4. Edit `name` parameter value as `{FeatureSampleName}` in `Apps/{FeatureSampleName}/Project.swift`
+```swift
+let project = Project.app(name: {FeatureSampleName})
+```
 5. Re-generate Xcode project & workspace
-  ```
-  tuist generate
-  ```
+```
+tuist generate
+```
 
 ## ⛓ Constraints
 
