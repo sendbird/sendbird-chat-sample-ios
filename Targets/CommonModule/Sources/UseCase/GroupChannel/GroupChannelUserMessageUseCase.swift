@@ -58,7 +58,7 @@ open class GroupChannelUserMessageUseCase {
     }
     
     open func deleteMessage(_ message: BaseMessage, completion: @escaping (Result<Void, SBError>) -> Void) {
-        channel.delete(message) { error in
+        channel.deleteMessage(message) { error in
             if let error = error {
                 completion(.failure(error))
                 return
