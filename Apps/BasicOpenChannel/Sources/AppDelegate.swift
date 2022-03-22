@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  BasicGruopChannel
+//  BasicOpenChannel
 //
 //  Created by Ernest Hong on 2022/02/08.
 //
@@ -11,11 +11,11 @@ import CommonModule
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        EnvironmentUseCase.initializeSendbirdSDK()
+        EnvironmentUseCase.initializeSendbirdSDK(applicationId: .sample)
         BaseAppearance.apply()
         
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-    
+
     private func createLoginViewController() -> LoginViewController {
         return LoginViewController(didConnectUser: { [weak self] _ in
             self?.presentMainViewController()
@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func presentMainViewController() {
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([
-            UINavigationController(rootViewController: GroupChannelListViewController()),
+            UINavigationController(rootViewController: OpenChannelListViewController()),
             UINavigationController(rootViewController: SettingViewController())
         ], animated: false)
         tabBarController.modalPresentationStyle = .fullScreen
