@@ -1,5 +1,4 @@
 import ProjectDescription
-import ProjectDescriptionHelpers
 
 // MARK: - Project
 
@@ -57,8 +56,9 @@ extension Project {
             dependencies: [
                 .external(name: "Kingfisher"),
 //                .external(name: "SendBirdSDK"),
-//                .project(target: "SendbirdChat", path: "Internal/PlaceholderSDK"),
-                .xcframework(path: "Internal/v4-AlphaTest/SendbirdChat.xcframework")
+                .project(target: "SendbirdChat", path: "Internal/PlaceholderSDK"),
+//                .xcframework(path: "Internal/v4-AlphaTest/SendbirdChat.xcframework"),
+//                    .framework(path: "Internal/v4-AlphaTest/SendbirdChat.framework")
             ]
         )
         
