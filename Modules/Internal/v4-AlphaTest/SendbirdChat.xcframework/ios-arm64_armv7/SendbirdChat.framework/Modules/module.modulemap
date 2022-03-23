@@ -1,0 +1,11 @@
+framework module SendbirdChat {
+  umbrella header "SendbirdChat.h"
+
+  export *
+  module * { export * }
+}
+
+module SendbirdChat.Swift {
+    header "SendbirdChat-Swift.h"
+    requires objc
+}
