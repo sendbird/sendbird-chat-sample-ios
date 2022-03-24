@@ -25,8 +25,6 @@ open class OpenChannelParticipantListUseCase {
     
     public init(channel: OpenChannel) {
         self.channel = channel
-        
-        channel.createParticipantListQuery()
     }
     
     open func loadNextPage() {

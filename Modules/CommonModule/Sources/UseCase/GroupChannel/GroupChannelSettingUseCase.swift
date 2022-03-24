@@ -9,11 +9,7 @@ import Foundation
 import SendbirdChat
 
 open class GroupChannelSettingUseCase {
-    
-    public var members: [User] {
-        (channel.members as? [User]) ?? []
-    }
-    
+        
     private let channel: GroupChannel
     
     public init(channel: GroupChannel) {

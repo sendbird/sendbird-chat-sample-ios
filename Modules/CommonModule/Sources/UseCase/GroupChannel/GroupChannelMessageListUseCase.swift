@@ -180,8 +180,8 @@ extension GroupChannelMessageListUseCase: MessageCollectionDelegate {
     open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: GroupChannel, updatedMessages: [BaseMessage]) {
         replaceMessages(updatedMessages)
     }
-    
-    open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: BaseChannel, deletedMessages: [BaseMessage]) {
+   
+    open func messageCollection(_ collection: MessageCollection, context: MessageContext, channel: GroupChannel, deletedMessages: [BaseMessage]) {
         switch context.sendingStatus {
         case .succeeded:
             self.messages = self.messages.filter { oldMessage in
@@ -207,7 +207,7 @@ extension GroupChannelMessageListUseCase: MessageCollectionDelegate {
         delegate?.groupChannelMessageListUseCase(self, didDeleteChannel: channel)
     }
 
-    open func didDetectHugeGapInMessageCollection(_ collection: MessageCollection) {
+    open func didDetectHugeGap(_ collection: MessageCollection) {
         // The Chat SDK detects more than 300 messages missing.
         messageCollection?.dispose()
         loadInitialMessages()
