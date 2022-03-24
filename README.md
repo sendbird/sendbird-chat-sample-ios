@@ -1,30 +1,21 @@
-# Sendbird Chat SDK Sample for iOS
-This repository provides feature-level Chat samples with Swift
+# [Sendbird Chat](https://sendbird.com/docs/chat) SDK Sample for iOS
+This repository provides feature-level Chat samples with Swift.
 
 ## 🚀 Get started
 
-You must use [tuist](https://github.com/tuist/tuist) to build these sample apps.
-
-### Install tuist
-```bash
-curl -Ls https://install.tuist.io | bash
-```
-
-### Generate Xcode project & workspace
-```bash
-tuist fetch # fetch external dependencies
-tuist generate # generate project & workspace 
-```
-
-For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
+1. Execute `Samples.xcworkspace`.
+2. Select the scheme of the feature you want to test.
+3. Run the scheme.
 
 ## 🏗 Project structure
 
 ```
 .
-├── Workspace.swift
+├── Samples.xcworkspace
 ├── Modules
-│   ├── CommonModule
+│   ├── CommonModule # Common Logic & View
+│   ├── External # External Libraries
+│   └── Internal # Sendbird SDK
 ├── Apps
 │   ├── BasicGroupChannel
 │   ├── BasicOpenChannel
@@ -34,7 +25,6 @@ For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 │   ├── GroupChannelFeatureN
 │   └── OpenChannelFeatureN
 └── Tuist
-    └── Dependencies.swift
 ```
 
 ![image](https://user-images.githubusercontent.com/11647461/156985707-e504f40d-11ce-402e-8038-b13f90ee5db6.png)
@@ -53,8 +43,8 @@ Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0
 - `CommonModule` is used as an embedded framework in each Sample App.
 
 ### BasicSample
-- BasicGroupChannel
-- BasicOpenChannel
+- [BasicGroupChannel](Apps/BasicGroupChannel)
+- [BasicOpenChannel](Apps/BasicOpenChannel)
 
 ### FeatureSamples
 - GroupChannelFeatureA, B, …, N: Implement additional functions after cloning the BasicGroupChannel folder.
@@ -63,6 +53,27 @@ Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0
 - If you want to add a function to an existing UseCase, you can add the function through inheritance.
 - Please place the feature use case file that inherits the basic use case under FeatureSample.
 - Views used only in features can also be implemented under the feature project.
+
+----
+
+# 🛠 For contributors
+Below is an additional explanation for contributors.
+
+## How to manage this project
+
+Since `*.xcworkspace` and `*.xcproject` are included in the git of this repository, the customer does not need to know about [Tuist](https://github.com/tuist/tuist). However, it is recommended to install tuist to contribute to this repository.
+
+### Install tuist
+```bash
+curl -Ls https://install.tuist.io | bash
+```
+
+### Generate Xcode project & workspace
+```bash
+tuist generate # generate project & workspace 
+```
+
+For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 
 ## 📲 How to add new `Feature Sample App` with tuist
 1. Copy [Apps/BasicGroupChannel](Apps/BasicGroupChannel) or [Apps/BasicOpenChannel](Apps/BasicOpenChannel)
@@ -80,3 +91,9 @@ tuist generate
 ## ⛓ Constraints
 
 - Minimum deployment target: 13.0
+
+----
+
+# 🦅 For Sendbird Devlopers
+
+- [SDK Debug Tip](Modules/Internal/SendbirdChat-Debug)
