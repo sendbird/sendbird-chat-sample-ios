@@ -16,7 +16,7 @@ import UIKit.UIDevice
 import UIKit
 import _Concurrency
 import zlib
-@objc(SBDBaseChannelDelegate) public protocol BaseChannelDelegate : ObjectiveC.NSObjectProtocol {
+@objc(SBDBaseChannelDelegate) public protocol BaseChannelDelegate {
   @objc(channel:didReceiveMessage:) optional func channel(_ channel: SendbirdChat.BaseChannel, didReceive message: SendbirdChat.BaseMessage)
   @objc(channel:didUpdateMessage:) optional func channel(_ channel: SendbirdChat.BaseChannel, didUpdate message: SendbirdChat.BaseMessage)
   @objc(channel:didReceiveMention:) optional func channel(_ channel: SendbirdChat.BaseChannel, didReceiveMention message: SendbirdChat.BaseMessage)
@@ -228,6 +228,31 @@ extension SendbirdChat.PushTriggerOption : Swift.RawRepresentable, Swift.Codable
   public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
 }
+extension SendbirdChat.MessageCollection {
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, didReceive message: SendbirdChat.BaseMessage)
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, didUpdate message: SendbirdChat.BaseMessage)
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, messageWasDeleted messageId: Swift.Int64)
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, updatedReaction reactionEvent: SendbirdChat.ReactionEvent)
+  @objc dynamic public func channel(_ channel: SendbirdChat.BaseChannel, didUpdateThreadInfo threadInfoUpdateEvent: SendbirdChat.ThreadInfoUpdateEvent)
+  @objc dynamic public func channelWasChanged(_ sender: SendbirdChat.BaseChannel)
+  @objc dynamic public func channel(_ sender: SendbirdChat.GroupChannel, didReceiveInvitation invitees: [SendbirdChat.User]?, inviter: SendbirdChat.User?)
+  @objc dynamic public func channelDidUpdateDeliveryStatus(_ channel: SendbirdChat.GroupChannel)
+  @objc dynamic public func channelDidUpdateReadStatus(_ channel: SendbirdChat.GroupChannel)
+  @objc dynamic public func channelDidChangeMemberCount(_ channels: [SendbirdChat.GroupChannel])
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, userWasMuted user: SendbirdChat.User)
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, userWasUnmuted user: SendbirdChat.User)
+  @objc dynamic public func channelWasFrozen(_ sender: SendbirdChat.BaseChannel)
+  @objc dynamic public func channelWasUnfrozen(_ sender: SendbirdChat.BaseChannel)
+  @objc dynamic public func channelWasHidden(_ sender: SendbirdChat.GroupChannel)
+  @objc dynamic public func channelDidUpdateOperators(_ sender: SendbirdChat.BaseChannel)
+  @objc dynamic public func channelDidUpdateTypingStatus(_ sender: SendbirdChat.GroupChannel)
+  @objc dynamic public func channel(_ sender: SendbirdChat.GroupChannel, userDidLeave user: SendbirdChat.User)
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, userWasBanned user: SendbirdChat.User)
+  @objc dynamic public func channel(_ sender: SendbirdChat.GroupChannel, didDeclineInvitation invitee: SendbirdChat.User, inviter: SendbirdChat.User?)
+  @objc dynamic public func channel(_ sender: SendbirdChat.GroupChannel, userDidJoin user: SendbirdChat.User)
+  @objc dynamic public func channelWasDeleted(_ channelURL: Swift.String, channelType: SendbirdChat.ChannelType)
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, didReceiveMention message: SendbirdChat.BaseMessage)
+}
 @objcMembers @objc(SBDInitParams) public class InitParams : ObjectiveC.NSObject {
   @objc public var applicationId: Swift.String
   @objc public var isLocalCachingEnabled: Swift.Bool
@@ -249,6 +274,9 @@ extension SendbirdChat.PushTriggerOption : Swift.RawRepresentable, Swift.Codable
   @objc override dynamic public init()
   public func encode(to encoder: Swift.Encoder) throws
   @objc deinit
+}
+extension SendbirdChat.MessageCollection : SendbirdChat.ConnectionDelegate {
+  @objc dynamic public func didSucceedReconnection()
 }
 public typealias SBObjectComparator = (_ obj1: Any?, _ obj2: Any?) -> Foundation.ComparisonResult
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDPreviousMessageListQuery) public class PreviousMessageListQuery : ObjectiveC.NSObject {
@@ -846,6 +874,9 @@ extension SendbirdChat.MessageMetaArray : SendbirdChat.Serializable {
   @objc(getChannelWithURL:completionHandler:) dynamic public class func getChannel(url: Swift.String, completionHandler: SendbirdChat.GroupChannelHandler?)
   @objc(deleteChannelWithCompletionHandler:) dynamic public func delete(completionHandler: SendbirdChat.SBErrorHandler?)
 }
+extension SendbirdChat.GroupChannelCollection : SendbirdChat.ConnectionDelegate {
+  @objc dynamic public func didSucceedReconnection()
+}
 @_hasMissingDesignatedInitializers @objcMembers @objc(SBDChannelContext) public class ChannelContext : ObjectiveC.NSObject {
   @objc public var source: SendbirdChat.CollectionEventSource {
     get
@@ -858,9 +889,7 @@ extension SendbirdChat.MessageMetaArray : SendbirdChat.Serializable {
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDBaseCollection) public class BaseCollection : ObjectiveC.NSObject {
   @objc deinit
 }
-extension SendbirdChat.BaseCollection : SendbirdChat.ConnectionDelegate {
-}
-@objc(SBDUserEventDelegate) public protocol UserEventDelegate : ObjectiveC.NSObjectProtocol {
+@objc(SBDUserEventDelegate) public protocol UserEventDelegate {
   @objc optional func didDiscoverFriends(_ friends: [SendbirdChat.User]?)
   @objc optional func didUpdateTotalUnreadMessageCount(_ totalCount: Swift.Int32, totalCountByCustomType: [Swift.String : Swift.Int]?)
 }
@@ -1406,7 +1435,7 @@ extension SendbirdChat.GroupChannel {
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDBaseMessageUpdateParams) public class BaseMessageUpdateParams : ObjectiveC.NSObject, Swift.Encodable {
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDBaseMessageUpdateParams) public class BaseMessageUpdateParams : ObjectiveC.NSObject, Swift.Encodable, Foundation.NSCopying {
   @objc public var data: Swift.String?
   @objc public var customType: Swift.String?
   @objc public var mentionType: SendbirdChat.MentionType {
@@ -1837,6 +1866,28 @@ extension SendbirdChat.PollDetails {
   public func encode(to encoder: Swift.Encoder) throws
   @objc public func setOperators(_ operators: [SendbirdChat.User])
   @objc deinit
+}
+extension SendbirdChat.GroupChannelCollection {
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, didReceive message: SendbirdChat.BaseMessage)
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, didReceiveMention message: SendbirdChat.BaseMessage)
+  @objc dynamic public func channelWasChanged(_ sender: SendbirdChat.BaseChannel)
+  @objc dynamic public func channel(_ sender: SendbirdChat.GroupChannel, didReceiveInvitation invitees: [SendbirdChat.User]?, inviter: SendbirdChat.User?)
+  @objc dynamic public func channel(_ sender: SendbirdChat.GroupChannel, didDeclineInvitation invitee: SendbirdChat.User, inviter: SendbirdChat.User?)
+  @objc dynamic public func channelDidUpdateDeliveryStatus(_ channel: SendbirdChat.GroupChannel)
+  @objc dynamic public func channelDidUpdateReadStatus(_ channel: SendbirdChat.GroupChannel)
+  @objc dynamic public func channelDidChangeMemberCount(_ channels: [SendbirdChat.GroupChannel])
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, userWasMuted user: SendbirdChat.User)
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, userWasUnmuted user: SendbirdChat.User)
+  @objc dynamic public func channelWasFrozen(_ sender: SendbirdChat.BaseChannel)
+  @objc dynamic public func channelWasUnfrozen(_ sender: SendbirdChat.BaseChannel)
+  @objc dynamic public func channelWasHidden(_ sender: SendbirdChat.GroupChannel)
+  @objc dynamic public func channelDidUpdateOperators(_ sender: SendbirdChat.BaseChannel)
+  @objc dynamic public func channelDidUpdateTypingStatus(_ sender: SendbirdChat.GroupChannel)
+  @objc dynamic public func channel(_ sender: SendbirdChat.GroupChannel, userDidLeave user: SendbirdChat.User)
+  @objc dynamic public func channel(_ sender: SendbirdChat.GroupChannel, userDidJoin user: SendbirdChat.User)
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, userWasBanned user: SendbirdChat.User)
+  @objc dynamic public func channel(_ sender: SendbirdChat.BaseChannel, userWasUnbanned user: SendbirdChat.User)
+  @objc dynamic public func channelWasDeleted(_ channelURL: Swift.String, channelType: SendbirdChat.ChannelType)
 }
 @objc extension SendbirdChat.GroupChannel {
   @objc dynamic public func inviteUser(_ user: SendbirdChat.User, completionHandler: SendbirdChat.SBErrorHandler?)
@@ -2856,7 +2907,7 @@ extension SendbirdChat.ChannelMetaCountersUpdateMode : Swift.RawRepresentable, S
   @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
   @objc deinit
 }
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDBaseMessageCreateParams) public class BaseMessageCreateParams : ObjectiveC.NSObject, Swift.Codable {
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDBaseMessageCreateParams) public class BaseMessageCreateParams : ObjectiveC.NSObject, Swift.Codable, Foundation.NSCopying {
   @objc public var data: Swift.String?
   @objc public var customType: Swift.String?
   @objc public var pushNotificationDeliveryOption: SendbirdChat.PushNotificationDeliveryOption
@@ -2903,12 +2954,9 @@ extension SendbirdChat.MessageCollectionInitPolicy : Swift.Equatable {}
 extension SendbirdChat.MessageCollectionInitPolicy : Swift.Hashable {}
 extension SendbirdChat.MessageCollectionInitPolicy : Swift.RawRepresentable {}
 extension SendbirdChat.GroupChannelListQuery : Foundation.NSCopying {}
-extension SendbirdChat.UserMessageUpdateParams : Foundation.NSCopying {}
 extension SendbirdChat.GroupChannelMemberListQuery : Foundation.NSCopying {}
 extension SendbirdChat.GroupChannelCollection : SendbirdChat.GroupChannelDelegate {}
-extension SendbirdChat.BaseCollection : SendbirdChat.GroupChannelDelegate {}
 extension SendbirdChat.BlockedUserListQuery : Foundation.NSCopying {}
-extension SendbirdChat.FileMessageCreateParams : Foundation.NSCopying {}
 extension SendbirdChat.OperatorListQuery : Foundation.NSCopying {}
 extension SendbirdChat.PollListQuery : Foundation.NSCopying {}
 extension SendbirdChat.WebSocketConnectionState : Swift.Equatable {}
@@ -2927,7 +2975,6 @@ extension SendbirdChat.CoreError : Swift.Equatable {}
 extension SendbirdChat.CoreError : Swift.Hashable {}
 extension SendbirdChat.CoreError : Swift.RawRepresentable {}
 extension SendbirdChat.BannedUserListQuery : Foundation.NSCopying {}
-extension SendbirdChat.BaseMessageUpdateParams : Foundation.NSCopying {}
 extension SendbirdChat.MessageTypeFilter : Swift.Equatable {}
 extension SendbirdChat.MessageTypeFilter : Swift.Hashable {}
 extension SendbirdChat.MessageTypeFilter : Swift.RawRepresentable {}
@@ -2950,7 +2997,6 @@ extension SendbirdChat.ChatError : Swift.Equatable {}
 extension SendbirdChat.ChatError : Swift.Hashable {}
 extension SendbirdChat.ChatError : Swift.RawRepresentable {}
 extension SendbirdChat.MutedUserListQuery : Foundation.NSCopying {}
-extension SendbirdChat.FileMessageUpdateParams : Foundation.NSCopying {}
 extension SendbirdChat.GroupChannelListOrder : Swift.Equatable {}
 extension SendbirdChat.GroupChannelListOrder : Swift.Hashable {}
 extension SendbirdChat.PublicGroupChannelListOrder : Swift.Equatable {}
@@ -2990,12 +3036,9 @@ extension SendbirdChat.MemberListOrder : Swift.Equatable {}
 extension SendbirdChat.MemberListOrder : Swift.Hashable {}
 extension SendbirdChat.RestrictionType : Swift.Equatable {}
 extension SendbirdChat.RestrictionType : Swift.Hashable {}
-extension SendbirdChat.ScheduledUserMessageCreateParams : Foundation.NSCopying {}
-extension SendbirdChat.UserMessageCreateParams : Foundation.NSCopying {}
 extension SendbirdChat.ChannelType : Swift.Equatable {}
 extension SendbirdChat.ChannelType : Swift.Hashable {}
 extension SendbirdChat.MessageSearchQuery : Foundation.NSCopying {}
 extension SendbirdChat.ChannelMetaCountersUpdateMode : Swift.Equatable {}
 extension SendbirdChat.ChannelMetaCountersUpdateMode : Swift.Hashable {}
 extension SendbirdChat.FriendListQuery : Foundation.NSCopying {}
-extension SendbirdChat.BaseMessageCreateParams : Foundation.NSCopying {}
