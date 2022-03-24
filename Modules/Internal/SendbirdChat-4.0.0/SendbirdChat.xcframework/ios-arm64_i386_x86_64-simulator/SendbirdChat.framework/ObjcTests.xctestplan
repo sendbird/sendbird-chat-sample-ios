@@ -1,0 +1,27 @@
+{
+  "configurations" : [
+    {
+      "id" : "5D1B2555-B532-4840-9304-382FF4F94E12",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : [
+        "SBDTest"
+      ],
+      "target" : {
+        "containerPath" : "container:SendbirdChat.xcodeproj",
+        "identifier" : "528C854526BC18A8002D360F",
+        "name" : "SendbirdChatObjcTests"
+      }
+    }
+  ],
+  "version" : 1
+}
