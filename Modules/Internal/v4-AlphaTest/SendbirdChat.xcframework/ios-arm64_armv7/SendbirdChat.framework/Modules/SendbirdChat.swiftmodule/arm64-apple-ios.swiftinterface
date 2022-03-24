@@ -16,7 +16,7 @@ import UIKit.UIDevice
 import UIKit
 import _Concurrency
 import zlib
-@objc(SBDBaseChannelDelegate) public protocol BaseChannelDelegate : ObjectiveC.NSObjectProtocol {
+@objc(SBDBaseChannelDelegate) public protocol BaseChannelDelegate {
   @objc(channel:didReceiveMessage:) optional func channel(_ channel: BaseChannel, didReceive message: BaseMessage)
   @objc(channel:didUpdateMessage:) optional func channel(_ channel: BaseChannel, didUpdate message: BaseMessage)
   @objc(channel:didReceiveMention:) optional func channel(_ channel: BaseChannel, didReceiveMention message: BaseMessage)
@@ -228,6 +228,31 @@ extension PushTriggerOption : Swift.RawRepresentable, Swift.Codable {
   public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
 }
+extension MessageCollection {
+  @objc dynamic public func channel(_ sender: BaseChannel, didReceive message: BaseMessage)
+  @objc dynamic public func channel(_ sender: BaseChannel, didUpdate message: BaseMessage)
+  @objc dynamic public func channel(_ sender: BaseChannel, messageWasDeleted messageId: Swift.Int64)
+  @objc dynamic public func channel(_ sender: BaseChannel, updatedReaction reactionEvent: ReactionEvent)
+  @objc dynamic public func channel(_ channel: BaseChannel, didUpdateThreadInfo threadInfoUpdateEvent: ThreadInfoUpdateEvent)
+  @objc dynamic public func channelWasChanged(_ sender: BaseChannel)
+  @objc dynamic public func channel(_ sender: GroupChannel, didReceiveInvitation invitees: [User]?, inviter: User?)
+  @objc dynamic public func channelDidUpdateDeliveryStatus(_ channel: GroupChannel)
+  @objc dynamic public func channelDidUpdateReadStatus(_ channel: GroupChannel)
+  @objc dynamic public func channelDidChangeMemberCount(_ channels: [GroupChannel])
+  @objc dynamic public func channel(_ sender: BaseChannel, userWasMuted user: User)
+  @objc dynamic public func channel(_ sender: BaseChannel, userWasUnmuted user: User)
+  @objc dynamic public func channelWasFrozen(_ sender: BaseChannel)
+  @objc dynamic public func channelWasUnfrozen(_ sender: BaseChannel)
+  @objc dynamic public func channelWasHidden(_ sender: GroupChannel)
+  @objc dynamic public func channelDidUpdateOperators(_ sender: BaseChannel)
+  @objc dynamic public func channelDidUpdateTypingStatus(_ sender: GroupChannel)
+  @objc dynamic public func channel(_ sender: GroupChannel, userDidLeave user: User)
+  @objc dynamic public func channel(_ sender: BaseChannel, userWasBanned user: User)
+  @objc dynamic public func channel(_ sender: GroupChannel, didDeclineInvitation invitee: User, inviter: User?)
+  @objc dynamic public func channel(_ sender: GroupChannel, userDidJoin user: User)
+  @objc dynamic public func channelWasDeleted(_ channelURL: Swift.String, channelType: ChannelType)
+  @objc dynamic public func channel(_ sender: BaseChannel, didReceiveMention message: BaseMessage)
+}
 @objcMembers @objc(SBDInitParams) public class InitParams : ObjectiveC.NSObject {
   @objc public var applicationId: Swift.String
   @objc public var isLocalCachingEnabled: Swift.Bool
@@ -249,6 +274,9 @@ extension PushTriggerOption : Swift.RawRepresentable, Swift.Codable {
   @objc override dynamic public init()
   public func encode(to encoder: Swift.Encoder) throws
   @objc deinit
+}
+extension MessageCollection : ConnectionDelegate {
+  @objc dynamic public func didSucceedReconnection()
 }
 public typealias SBObjectComparator = (_ obj1: Any?, _ obj2: Any?) -> Foundation.ComparisonResult
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDPreviousMessageListQuery) public class PreviousMessageListQuery : ObjectiveC.NSObject {
@@ -846,6 +874,9 @@ extension MessageMetaArray : Serializable {
   @objc(getChannelWithURL:completionHandler:) dynamic public class func getChannel(url: Swift.String, completionHandler: GroupChannelHandler?)
   @objc(deleteChannelWithCompletionHandler:) dynamic public func delete(completionHandler: SBErrorHandler?)
 }
+extension GroupChannelCollection : ConnectionDelegate {
+  @objc dynamic public func didSucceedReconnection()
+}
 @_hasMissingDesignatedInitializers @objcMembers @objc(SBDChannelContext) public class ChannelContext : ObjectiveC.NSObject {
   @objc public var source: CollectionEventSource {
     get
@@ -858,9 +889,7 @@ extension MessageMetaArray : Serializable {
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDBaseCollection) public class BaseCollection : ObjectiveC.NSObject {
   @objc deinit
 }
-extension BaseCollection : ConnectionDelegate {
-}
-@objc(SBDUserEventDelegate) public protocol UserEventDelegate : ObjectiveC.NSObjectProtocol {
+@objc(SBDUserEventDelegate) public protocol UserEventDelegate {
   @objc optional func didDiscoverFriends(_ friends: [User]?)
   @objc optional func didUpdateTotalUnreadMessageCount(_ totalCount: Swift.Int32, totalCountByCustomType: [Swift.String : Swift.Int]?)
 }
@@ -1406,7 +1435,7 @@ extension GroupChannel {
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDBaseMessageUpdateParams) public class BaseMessageUpdateParams : ObjectiveC.NSObject, Swift.Encodable {
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDBaseMessageUpdateParams) public class BaseMessageUpdateParams : ObjectiveC.NSObject, Swift.Encodable, Foundation.NSCopying {
   @objc public var data: Swift.String?
   @objc public var customType: Swift.String?
   @objc public var mentionType: MentionType {
@@ -1837,6 +1866,28 @@ extension PollDetails {
   public func encode(to encoder: Swift.Encoder) throws
   @objc public func setOperators(_ operators: [User])
   @objc deinit
+}
+extension GroupChannelCollection {
+  @objc dynamic public func channel(_ sender: BaseChannel, didReceive message: BaseMessage)
+  @objc dynamic public func channel(_ sender: BaseChannel, didReceiveMention message: BaseMessage)
+  @objc dynamic public func channelWasChanged(_ sender: BaseChannel)
+  @objc dynamic public func channel(_ sender: GroupChannel, didReceiveInvitation invitees: [User]?, inviter: User?)
+  @objc dynamic public func channel(_ sender: GroupChannel, didDeclineInvitation invitee: User, inviter: User?)
+  @objc dynamic public func channelDidUpdateDeliveryStatus(_ channel: GroupChannel)
+  @objc dynamic public func channelDidUpdateReadStatus(_ channel: GroupChannel)
+  @objc dynamic public func channelDidChangeMemberCount(_ channels: [GroupChannel])
+  @objc dynamic public func channel(_ sender: BaseChannel, userWasMuted user: User)
+  @objc dynamic public func channel(_ sender: BaseChannel, userWasUnmuted user: User)
+  @objc dynamic public func channelWasFrozen(_ sender: BaseChannel)
+  @objc dynamic public func channelWasUnfrozen(_ sender: BaseChannel)
+  @objc dynamic public func channelWasHidden(_ sender: GroupChannel)
+  @objc dynamic public func channelDidUpdateOperators(_ sender: BaseChannel)
+  @objc dynamic public func channelDidUpdateTypingStatus(_ sender: GroupChannel)
+  @objc dynamic public func channel(_ sender: GroupChannel, userDidLeave user: User)
+  @objc dynamic public func channel(_ sender: GroupChannel, userDidJoin user: User)
+  @objc dynamic public func channel(_ sender: BaseChannel, userWasBanned user: User)
+  @objc dynamic public func channel(_ sender: BaseChannel, userWasUnbanned user: User)
+  @objc dynamic public func channelWasDeleted(_ channelURL: Swift.String, channelType: ChannelType)
 }
 @objc extension GroupChannel {
   @objc dynamic public func inviteUser(_ user: User, completionHandler: SBErrorHandler?)
@@ -2856,7 +2907,7 @@ extension ChannelMetaCountersUpdateMode : Swift.RawRepresentable, Swift.Codable 
   @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
   @objc deinit
 }
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDBaseMessageCreateParams) public class BaseMessageCreateParams : ObjectiveC.NSObject, Swift.Codable {
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @objc(SBDBaseMessageCreateParams) public class BaseMessageCreateParams : ObjectiveC.NSObject, Swift.Codable, Foundation.NSCopying {
   @objc public var data: Swift.String?
   @objc public var customType: Swift.String?
   @objc public var pushNotificationDeliveryOption: PushNotificationDeliveryOption
@@ -2903,12 +2954,9 @@ extension MessageCollectionInitPolicy : Swift.Equatable {}
 extension MessageCollectionInitPolicy : Swift.Hashable {}
 extension MessageCollectionInitPolicy : Swift.RawRepresentable {}
 extension GroupChannelListQuery : Foundation.NSCopying {}
-extension UserMessageUpdateParams : Foundation.NSCopying {}
 extension GroupChannelMemberListQuery : Foundation.NSCopying {}
 extension GroupChannelCollection : GroupChannelDelegate {}
-extension BaseCollection : GroupChannelDelegate {}
 extension BlockedUserListQuery : Foundation.NSCopying {}
-extension FileMessageCreateParams : Foundation.NSCopying {}
 extension OperatorListQuery : Foundation.NSCopying {}
 extension PollListQuery : Foundation.NSCopying {}
 extension WebSocketConnectionState : Swift.Equatable {}
@@ -2927,7 +2975,6 @@ extension CoreError : Swift.Equatable {}
 extension CoreError : Swift.Hashable {}
 extension CoreError : Swift.RawRepresentable {}
 extension BannedUserListQuery : Foundation.NSCopying {}
-extension BaseMessageUpdateParams : Foundation.NSCopying {}
 extension MessageTypeFilter : Swift.Equatable {}
 extension MessageTypeFilter : Swift.Hashable {}
 extension MessageTypeFilter : Swift.RawRepresentable {}
@@ -2950,7 +2997,6 @@ extension ChatError : Swift.Equatable {}
 extension ChatError : Swift.Hashable {}
 extension ChatError : Swift.RawRepresentable {}
 extension MutedUserListQuery : Foundation.NSCopying {}
-extension FileMessageUpdateParams : Foundation.NSCopying {}
 extension GroupChannelListOrder : Swift.Equatable {}
 extension GroupChannelListOrder : Swift.Hashable {}
 extension PublicGroupChannelListOrder : Swift.Equatable {}
@@ -2990,12 +3036,9 @@ extension MemberListOrder : Swift.Equatable {}
 extension MemberListOrder : Swift.Hashable {}
 extension RestrictionType : Swift.Equatable {}
 extension RestrictionType : Swift.Hashable {}
-extension ScheduledUserMessageCreateParams : Foundation.NSCopying {}
-extension UserMessageCreateParams : Foundation.NSCopying {}
 extension ChannelType : Swift.Equatable {}
 extension ChannelType : Swift.Hashable {}
 extension MessageSearchQuery : Foundation.NSCopying {}
 extension ChannelMetaCountersUpdateMode : Swift.Equatable {}
 extension ChannelMetaCountersUpdateMode : Swift.Hashable {}
 extension FriendListQuery : Foundation.NSCopying {}
-extension BaseMessageCreateParams : Foundation.NSCopying {}
