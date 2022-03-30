@@ -3,6 +3,22 @@ This repository provides feature-level Chat samples with Swift.
 
 ## 🚀 Get started
 
+You must use [tuist](https://github.com/tuist/tuist) to build these sample apps.
+
+### Install tuist
+```bash
+curl -Ls https://install.tuist.io | bash
+```
+
+### Generate Xcode project & workspace
+```bash
+tuist generate # generate project & workspace 
+```
+
+For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
+
+### Execute sample apps
+
 1. Execute `Samples.xcworkspace`.
 2. Select the scheme of the feature you want to test.
 3. Run the scheme.
@@ -58,22 +74,6 @@ Design considerations (Korean): [Link](https://medium.com/@hongseongho/%EA%B8%B0
 
 # 🛠 For contributors
 Below is an additional explanation for contributors.
-
-## How to manage this project
-
-Since `*.xcworkspace` and `*.xcproject` are included in the git of this repository, the customer does not need to know about [Tuist](https://github.com/tuist/tuist). However, it is recommended to install tuist to contribute to this repository.
-
-### Install tuist
-```bash
-curl -Ls https://install.tuist.io | bash
-```
-
-### Generate Xcode project & workspace
-```bash
-tuist generate # generate project & workspace 
-```
-
-For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 
 ## 📲 How to add new `Feature Sample App` with tuist
 1. Copy [Apps/BasicGroupChannel](Apps/BasicGroupChannel) or [Apps/BasicOpenChannel](Apps/BasicOpenChannel)
