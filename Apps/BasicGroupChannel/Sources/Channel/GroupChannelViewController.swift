@@ -28,6 +28,7 @@ class GroupChannelViewController: UIViewController {
         let subtitleLabel = UILabel()
         subtitleLabel.text = ""
         subtitleLabel.font = .preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
+        subtitleLabel.sizeToFit()
         return subtitleLabel
     }()
 
