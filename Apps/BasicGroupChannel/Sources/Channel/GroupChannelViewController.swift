@@ -226,8 +226,8 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
 // MARK: - GroupChannelTypingIndicatorUseCaseDelegate
 
 extension GroupChannelViewController: GroupChannelTypingIndicatorUseCaseDelegate {
-    func groupChannelTypingIndicatorUseCase(_ useCase: GroupChannelTypingIndicatorUseCase, didReceiveTypingStatus status: String) {
-        subTitleLabel.text = status
+    func groupChannelTypingIndicatorUseCase(_ useCase: GroupChannelTypingIndicatorUseCase, didReceiveTypingStatusMessage statusMessage: String) {
+        subTitleLabel.text = statusMessage
     }
 }
 

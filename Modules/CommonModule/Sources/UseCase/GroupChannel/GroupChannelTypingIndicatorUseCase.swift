@@ -13,7 +13,7 @@ import UIKit
 public protocol GroupChannelTypingIndicatorUseCaseDelegate: AnyObject {
     func groupChannelTypingIndicatorUseCase(
         _ useCase: GroupChannelTypingIndicatorUseCase,
-        didReceiveTypingStatus status: String
+        didReceiveTypingStatusMessage statusMessage: String
     )
 }
 
@@ -44,7 +44,7 @@ public final class GroupChannelTypingIndicatorUseCase: GroupChannelDelegate {
             let status = getTypingStatusString(for: channel.getTypingUsers())
             delegate?.groupChannelTypingIndicatorUseCase(
                 self,
-                didReceiveTypingStatus: status
+                didReceiveTypingStatusMessage: status
             )
         }
     }
