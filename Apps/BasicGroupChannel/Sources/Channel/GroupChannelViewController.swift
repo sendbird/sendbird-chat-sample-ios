@@ -18,6 +18,18 @@ class GroupChannelViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var messageInputView: MessageInputView!
     @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
+    private lazy var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.font = .preferredFont(forTextStyle: UIFont.TextStyle.headline)
+        return titleLabel
+    }()
+    
+    private lazy var subTitleLabel: UILabel = {
+        let subtitleLabel = UILabel()
+        subtitleLabel.text = ""
+        subtitleLabel.font = .preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
+        return subtitleLabel
+    }()
 
     var targetMessageForScrolling: BaseMessage?
     
@@ -36,6 +48,8 @@ class GroupChannelViewController: UIViewController {
     public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
     
     public private(set) lazy var settingUseCase = GroupChannelSettingUseCase(channel: channel)
+    
+    public private(set) lazy var typingIndicatorUseCase = GroupChannelTypingIndicatorUseCase(channel: channel)
     
     public private(set) lazy var imagePickerRouter: ImagePickerRouter = {
         let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoLibrary, .photoCamera, .videoCamera])
@@ -65,6 +79,7 @@ class GroupChannelViewController: UIViewController {
         setupNavigation()
         setupTableView()
         messageInputView.delegate = self
+        typingIndicatorUseCase.delegate = self
         
         messageListUseCase.loadInitialMessages()
     }
@@ -88,8 +103,17 @@ class GroupChannelViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        title = channel.name
+        setupTitleView()
+        titleLabel.text = channel.name
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Setting", style: .plain, target: self, action: #selector(didTouchSettingButton))
+    }
+    
+    private func setupTitleView() {
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, subTitleLabel])
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        navigationItem.titleView = stackView
     }
         
     private func setupTableView() {
@@ -187,7 +211,7 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     }
     
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: GroupChannel) {
-        title = channel.name
+        titleLabel.text = channel.name
     }
     
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: GroupChannel) {
@@ -197,6 +221,15 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     }
     
 }
+
+// MARK: - GroupChannelTypingIndicatorUseCaseDelegate
+
+extension GroupChannelViewController: GroupChannelTypingIndicatorUseCaseDelegate {
+    func groupChannelTypingIndicatorUseCase(_ useCase: GroupChannelTypingIndicatorUseCase, didReceiveTypingStatus status: String) {
+        subTitleLabel.text = status
+    }
+}
+
 
 // MARK: - MessageInputViewDelegate
 
@@ -217,6 +250,13 @@ extension GroupChannelViewController: MessageInputViewDelegate {
         presentAttachFileAlert()
     }
     
+    func messageInputView(_ messageInputView: MessageInputView, didStartTyping sender: UITextField) {
+        typingIndicatorUseCase.startTyping()
+    }
+    
+    func messageInputView(_ messageInputView: MessageInputView, didEndTyping sender: UITextField) {
+        typingIndicatorUseCase.endTyping()
+    }
 }
 
 // MARK: - KeyboardObserverDelegate
@@ -241,3 +281,4 @@ extension GroupChannelViewController: KeyboardObserverDelegate {
     }
     
 }
+

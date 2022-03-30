@@ -10,6 +10,8 @@ import UIKit
 public protocol MessageInputViewDelegate: AnyObject {
     func messageInputView(_ messageInputView: MessageInputView, didTouchSendFileMessageButton sender: UIButton)
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String)
+    func messageInputView(_ messageInputView: MessageInputView, didStartTyping sender: UITextField)
+    func messageInputView(_ messageInputView: MessageInputView, didEndTyping sender: UITextField)
 }
 
 @IBDesignable
@@ -22,11 +24,17 @@ public class MessageInputView: UIView, NibLoadable {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupFromNib()
+        setupTextField()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupFromNib()
+        setupTextField()
+    }
+    
+    func setupTextField(){
+        textField.delegate = self
     }
     
     @IBAction private func didTouchSendFileMessageButton(_ sender: UIButton) {
@@ -39,4 +47,15 @@ public class MessageInputView: UIView, NibLoadable {
         delegate?.messageInputView(self, didTouchUserMessageButton: sender, message: message)
     }
     
+}
+
+extension MessageInputView: UITextFieldDelegate {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        delegate?.messageInputView(self, didStartTyping: textField)
+        return true
+    }
+    
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        delegate?.messageInputView(self, didEndTyping: textField)
+    }
 }
