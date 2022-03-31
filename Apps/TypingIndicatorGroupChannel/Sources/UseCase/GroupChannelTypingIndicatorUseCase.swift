@@ -10,19 +10,19 @@ import Foundation
 import SendbirdChat
 import UIKit
 
-public protocol GroupChannelTypingIndicatorUseCaseDelegate: AnyObject {
+protocol GroupChannelTypingIndicatorUseCaseDelegate: AnyObject {
     func groupChannelTypingIndicatorUseCase(
         _ useCase: GroupChannelTypingIndicatorUseCase,
         didReceiveTypingStatusMessage statusMessage: String
     )
 }
 
-public final class GroupChannelTypingIndicatorUseCase: GroupChannelDelegate {
+final class GroupChannelTypingIndicatorUseCase: GroupChannelDelegate {
     private let channel: GroupChannel
     
-    public weak var delegate: GroupChannelTypingIndicatorUseCaseDelegate?
+    weak var delegate: GroupChannelTypingIndicatorUseCaseDelegate?
 
-    public init(channel: GroupChannel) {
+    init(channel: GroupChannel) {
         self.channel = channel
         subscribeToTypingIndicatorDelegate()
     }
@@ -31,11 +31,11 @@ public final class GroupChannelTypingIndicatorUseCase: GroupChannelDelegate {
         SendbirdChat.add(self, identifier: "[TYPING_INDICATOR_DELEGATE]")
     }
     
-    public func startTyping() {
+    func startTyping() {
         channel.startTyping()
     }
     
-    public func endTyping() {
+    func endTyping() {
         channel.endTyping()
     }
     
