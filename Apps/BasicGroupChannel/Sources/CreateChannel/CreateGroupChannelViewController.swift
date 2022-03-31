@@ -14,8 +14,40 @@ class CreateGroupChannelViewController: UIViewController {
     
     typealias DidCreateChannelHandler = (GroupChannel) -> Void
     
-    @IBOutlet private weak var channelNameTextField: UITextField!
-    @IBOutlet private weak var profileImageView: ProfileImageView!
+    private lazy var containerView: UIView = {
+        let containerView: UIView = UIView()
+        containerView.backgroundColor = .systemGroupedBackground
+        return containerView
+    }()
+    
+    private lazy var bottomBorderView: UIView = {
+        let bottomBorderView: UIView = UIView()
+        bottomBorderView.backgroundColor = .label
+        return bottomBorderView
+    }()
+    
+    private lazy var profileImageView: ProfileImageView = {
+        let profileImageView = ProfileImageView(users: users, frame: .zero)
+        profileImageView.isUserInteractionEnabled = true
+        profileImageView.makeCircularWithSpacing(spacing: 1)
+        
+        let tapCoverImageGesture = UITapGestureRecognizer(target: self, action: #selector(didTouchProfileImageView(_ :)))
+        profileImageView.addGestureRecognizer(tapCoverImageGesture)
+        
+        return profileImageView
+    }()
+    
+    private lazy var cameraImageView: UIImageView = {
+        let cameraIamgeView = UIImageView()
+        cameraIamgeView.image = BasicGroupChannelAsset.imgIconEditCamera.image
+        return cameraIamgeView
+    }()
+    
+    private lazy var channelNameTextField: UITextField = {
+        let channelNameTextField = UITextField()
+        channelNameTextField.placeholder = "Channel Name"
+        return channelNameTextField
+    }()
     
     private let users: [User]
     private let didCreateChannel: DidCreateChannelHandler?
@@ -32,7 +64,7 @@ class CreateGroupChannelViewController: UIViewController {
     init(users: [User], didCreateChannel: DidCreateChannelHandler? = nil) {
         self.users = users
         self.didCreateChannel = didCreateChannel
-        super.init(nibName: "CreateGroupChannelViewController", bundle: Bundle(for: Self.self))
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -42,9 +74,47 @@ class CreateGroupChannelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(containerView)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: 120)
+        ])
+        
+        containerView.addSubview(profileImageView)
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            profileImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            profileImageView.widthAnchor.constraint(equalToConstant: 100),
+            profileImageView.heightAnchor.constraint(equalToConstant: 100)
+        ])
+        profileImageView.layer.cornerRadius = 50
+        profileImageView.clipsToBounds = true
+        
+        containerView.addSubview(cameraImageView)
+        cameraImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            cameraImageView.trailingAnchor.constraint(equalTo: profileImageView.trailingAnchor),
+            cameraImageView.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor),
+            cameraImageView.widthAnchor.constraint(equalToConstant: 28),
+            cameraImageView.heightAnchor.constraint(equalToConstant: 28)
+        ])
+        
+        containerView.addSubview(channelNameTextField)
+        channelNameTextField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            channelNameTextField.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            channelNameTextField.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 16),
+            channelNameTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16)
+        ])
+        
         setupNavigation()
         setupTextField()
-        setupProfileImageView()
     }
     
     private func setupTextField() {
@@ -52,16 +122,7 @@ class CreateGroupChannelViewController: UIViewController {
         let channelNamePlaceholder = memberNicknames.joined(separator: ", ")
         channelNameTextField.placeholder = channelNamePlaceholder
     }
-    
-    private func setupProfileImageView() {
-        self.profileImageView.isUserInteractionEnabled = true
-        let tapCoverImageGesture = UITapGestureRecognizer(target: self, action: #selector(didTouchProfileImageView(_ :)))
-        self.profileImageView.addGestureRecognizer(tapCoverImageGesture)
-
-        profileImageView.users = users
-        profileImageView.makeCircularWithSpacing(spacing: 1)
-    }
-    
+        
     private func setupNavigation() {
         title = "Create Group Channel"
         navigationItem.largeTitleDisplayMode = .never

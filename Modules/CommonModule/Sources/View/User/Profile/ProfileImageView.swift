@@ -93,6 +93,7 @@ public class ProfileImageView: UIView {
     public func makeCircularWithSpacing(spacing: CGFloat){
         self.layer.cornerRadius = self.frame.height/2
         self.spacing = spacing
+        self.clipsToBounds = true
     }
     
     public func setImage(withCoverUrl coverUrl: String) {
