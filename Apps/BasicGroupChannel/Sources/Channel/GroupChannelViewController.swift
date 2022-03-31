@@ -89,9 +89,7 @@ class GroupChannelViewController: UIViewController {
         
         view.addSubview(messageInputView)
         messageInputView.translatesAutoresizingMaskIntoConstraints = false
-        
         messageInputBottomConstraint = messageInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        
         NSLayoutConstraint.activate([
             messageInputView.topAnchor.constraint(equalTo: tableView.bottomAnchor),
             messageInputView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
