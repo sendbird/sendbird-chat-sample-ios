@@ -46,6 +46,8 @@ final class GroupChannelListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
+        
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -56,6 +58,7 @@ final class GroupChannelListViewController: UIViewController {
         ])
         
         setupNavigation()
+        
         useCase.reloadChannels()
     }
     
