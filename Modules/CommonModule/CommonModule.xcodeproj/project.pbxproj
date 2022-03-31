@@ -29,6 +29,7 @@
 		608B05B15F2D044239ADD49A /* MessageSendingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FAA54C789B2B09E4237290 /* MessageSendingStatus.swift */; };
 		678E845BCB99FDD699D17916 /* UserSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF993D2FFFD1932810FB853 /* UserSelectionViewController.xib */; };
 		6BB84F4F86712045A7819C73 /* BasicChannelMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342D7EF6F457DD2B6DCDD65C /* BasicChannelMemberCell.swift */; };
+		6C747A3A0D664541AC22007C /* GroupChannelTypingIndicatorUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CDB47D100B269621467A05 /* GroupChannelTypingIndicatorUseCase.swift */; };
 		6D586E9C77774A6B6497EF3B /* SelectedUserCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35AD240740CA4A47A63C490F /* SelectedUserCollectionViewCell.xib */; };
 		70D6FC8E37E720FF3D57626E /* GroupChannelMessageListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E004D9EEB67F76D154818232 /* GroupChannelMessageListUseCase.swift */; };
 		71F086C3172487269280D8B2 /* OpenChannelMessageListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7517259BBC72F34DE734B0 /* OpenChannelMessageListUseCase.swift */; };
@@ -116,6 +117,7 @@
 		B9FAA54C789B2B09E4237290 /* MessageSendingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSendingStatus.swift; sourceTree = "<group>"; };
 		BD826B9C133D868909959055 /* BasicFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicFileCell.swift; sourceTree = "<group>"; };
 		C0575BC24EE9AFCCA5C7E663 /* UserConnectionUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConnectionUseCase.swift; sourceTree = "<group>"; };
+		C4CDB47D100B269621467A05 /* GroupChannelTypingIndicatorUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelTypingIndicatorUseCase.swift; sourceTree = "<group>"; };
 		CCEC617563E35A538B855AA9 /* CreateGroupChannelUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupChannelUseCase.swift; sourceTree = "<group>"; };
 		DD7517259BBC72F34DE734B0 /* OpenChannelMessageListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChannelMessageListUseCase.swift; sourceTree = "<group>"; };
 		E004D9EEB67F76D154818232 /* GroupChannelMessageListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelMessageListUseCase.swift; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 				1A88853B3E1ED98C118B3B95 /* GroupChannelMemberListUseCase.swift */,
 				E004D9EEB67F76D154818232 /* GroupChannelMessageListUseCase.swift */,
 				F16822D21E97F7B0A454EB32 /* GroupChannelSettingUseCase.swift */,
+				C4CDB47D100B269621467A05 /* GroupChannelTypingIndicatorUseCase.swift */,
 				18BB3BCDE0AE639CF0BDC057 /* GroupChannelUserMessageUseCase.swift */,
 				7663B33DE137594ACC43EA69 /* GroupChannelUserSelectionUseCase.swift */,
 			);
@@ -577,6 +580,7 @@
 				027A1C3A56E591C9BE9C800A /* GroupChannelMemberListUseCase.swift in Sources */,
 				70D6FC8E37E720FF3D57626E /* GroupChannelMessageListUseCase.swift in Sources */,
 				3E678FBBBC30E244F8624B52 /* GroupChannelSettingUseCase.swift in Sources */,
+				6C747A3A0D664541AC22007C /* GroupChannelTypingIndicatorUseCase.swift in Sources */,
 				E33FDDDC3181C349F7F47860 /* GroupChannelUserMessageUseCase.swift in Sources */,
 				FD26D42276683EC5724263FA /* GroupChannelUserSelectionUseCase.swift in Sources */,
 				AFD616A012324E5AC6CE4B7C /* CreateGroupChannelUseCase.swift in Sources */,
@@ -758,7 +762,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.6;
+				SWIFT_VERSION = 5.5.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -794,7 +798,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.6;
+				SWIFT_VERSION = 5.5.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

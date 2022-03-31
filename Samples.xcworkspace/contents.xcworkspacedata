@@ -10,6 +10,9 @@
       <FileRef
          location = "group:BasicOpenChannel/BasicOpenChannel.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:TypingIndicatorGroupChannel/TypingIndicatorGroupChannel.xcodeproj">
+      </FileRef>
    </Group>
    <Group
       location = "group:Modules"
