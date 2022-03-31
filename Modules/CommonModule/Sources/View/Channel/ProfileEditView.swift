@@ -1,5 +1,5 @@
 //
-//  ChannelEditView.swift
+//  ProfileEditView.swift
 //  CommonModule
 //
 //  Created by Ernest Hong on 2022/03/31.
@@ -9,24 +9,22 @@
 import UIKit
 import SendbirdChat
 
-public class ChannelEditView: UIView {
+public class ProfileEditView: UIView {
     
     public typealias DidTouchProfileHandler = () -> Void
-    
-    public var textFieldPlaceholder: String? {
-        get { channelNameTextField.placeholder }
-        set { channelNameTextField.placeholder = newValue }
+        
+    public var placeholder: String? {
+        get { textField.placeholder }
+        set { textField.placeholder = newValue }
     }
     
-    public var textFieldText: String? {
-        get { channelNameTextField.text }
-        set { channelNameTextField.text = newValue }
+    public var text: String? {
+        get { textField.text }
+        set { textField.text = newValue }
     }
     
     private let didTouchProfile: DidTouchProfileHandler
-    
-    private var users: [User]
-        
+            
     private lazy var bottomBorderView: UIView = {
         let bottomBorderView: UIView = UIView()
         bottomBorderView.backgroundColor = .label
@@ -34,7 +32,7 @@ public class ChannelEditView: UIView {
     }()
     
     private lazy var profileImageView: ProfileImageView = {
-        let profileImageView = ProfileImageView(users: users, frame: .zero)
+        let profileImageView = ProfileImageView(frame: .zero)
         profileImageView.isUserInteractionEnabled = true
         profileImageView.makeCircularWithSpacing(spacing: 1)
         
@@ -50,14 +48,13 @@ public class ChannelEditView: UIView {
         return cameraIamgeView
     }()
     
-    private lazy var channelNameTextField: UITextField = {
+    private lazy var textField: UITextField = {
         let channelNameTextField = UITextField()
         channelNameTextField.placeholder = "Channel Name"
         return channelNameTextField
     }()
     
-    public init(users: [User] = [], didTouchProfile: @escaping DidTouchProfileHandler) {
-        self.users = users
+    public init(didTouchProfile: @escaping DidTouchProfileHandler) {
         self.didTouchProfile = didTouchProfile
         super.init(frame: .zero)
         
@@ -68,11 +65,7 @@ public class ChannelEditView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    public func setImage(_ image: UIImage) {
-        profileImageView.setImage(with: image)
-    }
-    
+            
     private func setupSubviews() {
         addSubview(profileImageView)
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -94,17 +87,33 @@ public class ChannelEditView: UIView {
             cameraImageView.heightAnchor.constraint(equalToConstant: 28)
         ])
         
-        addSubview(channelNameTextField)
-        channelNameTextField.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(textField)
+        textField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            channelNameTextField.centerYAnchor.constraint(equalTo: centerYAnchor),
-            channelNameTextField.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 16),
-            channelNameTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+            textField.centerYAnchor.constraint(equalTo: centerYAnchor),
+            textField.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 16),
+            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
     }
     
     @objc private func didTouchProfileImageView(_ sender: UIView) {
         didTouchProfile()
+    }
+    
+    public func setImage(_ image: UIImage) {
+        profileImageView.setImage(with: image)
+    }
+    
+    public func setUser(_ user: User) {
+        profileImageView.setUsers([])
+    }
+    
+    public func setUsers(_ newUsers: [User]) {
+        profileImageView.setUsers(newUsers)
+    }
+    
+    public func setImage(withCoverUrl coverUrl: String) {
+        profileImageView.setImage(withCoverUrl: coverUrl)
     }
     
 }

@@ -66,13 +66,6 @@ public class ProfileImageView: UIView {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }
-            
-    public init(users: [User], frame: CGRect){
-        super.init(frame: frame)
-        
-        setupImageStack()
-        setUsers(users)
-    }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)

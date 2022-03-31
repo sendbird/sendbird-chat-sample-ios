@@ -26,9 +26,14 @@ class CreateGroupChannelViewController: UIViewController {
         return imagePickerRouter
     }()
     
-    private lazy var channelEditView = ChannelEditView(users: users, didTouchProfile: { [weak self] in
-        self?.imagePickerRouter.presentAlert()
-    })
+    private lazy var channelEditView: ProfileEditView = {
+        let channelEditView = ProfileEditView(didTouchProfile: { [weak self] in
+            self?.imagePickerRouter.presentAlert()
+        })
+        channelEditView.setUsers(users)
+        return channelEditView
+    }()
+    
 
     init(users: [User], didCreateChannel: DidCreateChannelHandler? = nil) {
         self.users = users
@@ -64,7 +69,7 @@ class CreateGroupChannelViewController: UIViewController {
     private func setupTextField() {
         let memberNicknames = Array(users.prefix(4)).compactMap { $0.nickname }
         let channelNamePlaceholder = memberNicknames.joined(separator: ", ")
-        channelEditView.textFieldPlaceholder = channelNamePlaceholder
+        channelEditView.placeholder = channelNamePlaceholder
     }
         
     private func setupNavigation() {
@@ -76,7 +81,7 @@ class CreateGroupChannelViewController: UIViewController {
     }
     
     @objc private func didTouchCreateGroupChannel(_ sender: AnyObject) {
-        let channelName = channelEditView.textFieldText != "" ? channelEditView.textFieldText : channelEditView.textFieldPlaceholder
+        let channelName = channelEditView.text != "" ? channelEditView.text : channelEditView.placeholder
 
         useCase.createGroupChannel(channelName: channelName, imageData: channelImageData) { [weak self] result in
             DispatchQueue.main.async {

@@ -19,7 +19,7 @@ class CreateOpenChannelViewController: UIViewController {
     
     private lazy var useCase = CreateOpenChannelUseCase()
     
-    private lazy var channelEditView = ChannelEditView(didTouchProfile: { [weak self] in
+    private lazy var channelEditView = ProfileEditView(didTouchProfile: { [weak self] in
         self?.imagePickerRouter.presentAlert()
     })
         
@@ -60,7 +60,7 @@ class CreateOpenChannelViewController: UIViewController {
     }
     
     private func setupTextField() {
-        channelEditView.textFieldPlaceholder = "Channel Name"
+        channelEditView.placeholder = "Channel Name"
     }
         
     private func setupNavigation() {
@@ -75,7 +75,7 @@ class CreateOpenChannelViewController: UIViewController {
     }
     
     @objc private func didTouchCreateGroupChannel(_ sender: AnyObject) {
-        let channelName = channelEditView.textFieldText != "" ? channelEditView.textFieldText : channelEditView.textFieldPlaceholder
+        let channelName = channelEditView.text != "" ? channelEditView.text : channelEditView.placeholder
 
         useCase.createOpenChannel(channelName: channelName, imageData: channelImageData) { [weak self] result in
             DispatchQueue.main.async {
