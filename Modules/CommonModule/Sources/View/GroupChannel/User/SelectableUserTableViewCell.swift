@@ -10,28 +10,60 @@ import UIKit
 import SendbirdChat
 
 public class SelectableUserTableViewCell: UITableViewCell {
-    @IBOutlet private weak var checkImageView: UIImageView!
-    @IBOutlet private weak var profileImageView: UIImageView!
-    @IBOutlet private weak var nicknameLabel: UILabel!
+    
+    private lazy var checkImageView = UIImageView(image: CommonModuleAsset.imgListChecked.image)
+
+    private lazy var profileImageView: UIImageView = {
+        let profileImageView = UIImageView()
+        profileImageView.layer.cornerRadius = 22.5
+        profileImageView.clipsToBounds = true
+        return profileImageView
+    }()
+    
+    private lazy var nicknameLabel = UILabel()
     
     public var selectedUser: Bool = false {
         didSet {
-            checkImageView.image = selectedUser ? UIImage.named("img_list_checked") : UIImage.named("img_list_unchecked")
+            checkImageView.image = selectedUser ? CommonModuleAsset.imgListChecked.image : CommonModuleAsset.imgListUnchecked.image
         }
     }
     
-    public static func nib() -> UINib {
-        return UINib(nibName: String(describing: self), bundle: Bundle(for: self))
+    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupSubViews()
     }
     
-    public override func awakeFromNib() {
-        super.awakeFromNib()
-        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
+    
+    private func setupSubViews() {
+        contentView.addSubview(checkImageView)
+        checkImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            checkImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            checkImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            checkImageView.widthAnchor.constraint(equalToConstant: 24),
+            checkImageView.heightAnchor.constraint(equalToConstant: 24)
+        ])
 
-    public override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+        contentView.addSubview(profileImageView)
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            profileImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            profileImageView.leadingAnchor.constraint(equalTo: checkImageView.trailingAnchor, constant: 16),
+            profileImageView.widthAnchor.constraint(equalToConstant: 45),
+            profileImageView.heightAnchor.constraint(equalToConstant: 45)
+        ])
         
+        contentView.addSubview(nicknameLabel)
+        nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            nicknameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            nicknameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 8),
+            nicknameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+        ])
     }
     
     public func configure(with user: User, isSelected: Bool) {

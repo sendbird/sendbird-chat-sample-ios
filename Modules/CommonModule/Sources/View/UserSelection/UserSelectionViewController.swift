@@ -12,11 +12,17 @@ public class UserSelectionViewController: UIViewController {
     
     public typealias DidSelectUserHandler = (UserSelectionViewController, [User]) -> Void
     
-    @IBOutlet private weak var tableView: UITableView!
-    
     private let channel: GroupChannel?
     
     private let didSelectUsers: DidSelectUserHandler
+    
+    private lazy var tableView: UITableView = {
+        let tableView: UITableView = UITableView(frame: .zero, style: .plain)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(SelectableUserTableViewCell.self)
+        return tableView
+    }()
     
     private lazy var useCase: GroupChannelUserSelectionUseCase = {
         let useCase = GroupChannelUserSelectionUseCase(channel: channel)
@@ -41,7 +47,7 @@ public class UserSelectionViewController: UIViewController {
     public init(channel: GroupChannel? = nil, didSelectUsers: @escaping DidSelectUserHandler) {
         self.channel = channel
         self.didSelectUsers = didSelectUsers
-        super.init(nibName: "UserSelectionViewController", bundle: Bundle(for: Self.self))
+        super.init(nibName: nil, bundle: nil)
     }
     
     public required init?(coder: NSCoder) {
@@ -51,6 +57,7 @@ public class UserSelectionViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
         setupNavigation()
         setupTableView()
         
@@ -66,9 +73,14 @@ public class UserSelectionViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.registerNib(SelectableUserTableViewCell.self)
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     private func updateOkButton() {
