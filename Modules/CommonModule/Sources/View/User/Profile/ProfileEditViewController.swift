@@ -13,7 +13,19 @@ public class ProfileEditViewController: UIViewController {
     
     public typealias CompletionHandler = () -> Void
     
-    @IBOutlet private weak var profileEditView: ProfileEditView!
+    private lazy var profileEditView: ProfileEditView = {
+        let profileEditView = ProfileEditView { [weak self] in
+            self?.imagePickerRouter.presentAlert()
+        }
+        profileEditView.placeholder = "Please write your nickname"
+        
+        if let currentUser = UserConnectionUseCase.shared.currentUser {
+            profileEditView.setUsers([currentUser])
+            profileEditView.text = currentUser.nickname
+        }
+        
+        return profileEditView
+    }()
     
     private let completion: CompletionHandler?
     
@@ -41,7 +53,7 @@ public class ProfileEditViewController: UIViewController {
     
     public init(completion: CompletionHandler? = nil) {
         self.completion = completion
-        super.init(nibName: "ProfileEditViewController", bundle: Bundle(for: Self.self))
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -51,6 +63,7 @@ public class ProfileEditViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
         setupNavigation()
         setupProfileEditView()
     }
@@ -62,13 +75,14 @@ public class ProfileEditViewController: UIViewController {
     }
     
     private func setupProfileEditView() {
-        profileEditView.placeholder = "Please write your nickname"
-        profileEditView.delegate = self
-        
-        guard let currentUser = UserConnectionUseCase.shared.currentUser else { return }
-        
-        profileEditView.setUsers([currentUser])
-        profileEditView.text = currentUser.nickname
+        view.addSubview(profileEditView)
+        profileEditView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            profileEditView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            profileEditView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            profileEditView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            profileEditView.heightAnchor.constraint(equalToConstant: 120)
+        ])
     }
     
     @objc private func didTouchCancelButton() {
@@ -92,16 +106,6 @@ public class ProfileEditViewController: UIViewController {
     
 }
 
-// MARK: - ProfileEditViewDelegate
-
-extension ProfileEditViewController: ProfileEditViewDelegate {
-
-    public func profileEditViewDidTouchProfileImage(_ profileEditView: ProfileEditView) {
-        imagePickerRouter.presentAlert()
-    }
-    
-}
-
 // MARK: - ImagePickerRouterDelegate
 
 extension ProfileEditViewController: ImagePickerRouterDelegate {
@@ -109,7 +113,7 @@ extension ProfileEditViewController: ImagePickerRouterDelegate {
     public func imagePickerRouter(_ imagePickerRouter: ImagePickerRouter, didFinishPickingMediaFile mediaFile: ImagePickerMediaFile) {
         guard let image = UIImage(data: mediaFile.data) else { return }
         
-        profileEditView.setImage(with: image)
+        profileEditView.setImage(image)
         selectedImageData = mediaFile.data
     }
 

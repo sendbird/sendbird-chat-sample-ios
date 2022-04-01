@@ -13,10 +13,7 @@ import MobileCoreServices
 class CreateGroupChannelViewController: UIViewController {
     
     typealias DidCreateChannelHandler = (GroupChannel) -> Void
-    
-    @IBOutlet private weak var channelNameTextField: UITextField!
-    @IBOutlet private weak var profileImageView: ProfileImageView!
-    
+        
     private let users: [User]
     private let didCreateChannel: DidCreateChannelHandler?
     private var channelImageData: Data?
@@ -28,11 +25,20 @@ class CreateGroupChannelViewController: UIViewController {
         imagePickerRouter.delegate = self
         return imagePickerRouter
     }()
+    
+    private lazy var channelEditView: ProfileEditView = {
+        let channelEditView = ProfileEditView(didTouchProfile: { [weak self] in
+            self?.imagePickerRouter.presentAlert()
+        })
+        channelEditView.setUsers(users)
+        return channelEditView
+    }()
+    
 
     init(users: [User], didCreateChannel: DidCreateChannelHandler? = nil) {
         self.users = users
         self.didCreateChannel = didCreateChannel
-        super.init(nibName: "CreateGroupChannelViewController", bundle: Bundle(for: Self.self))
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -42,26 +48,30 @@ class CreateGroupChannelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
+        
         setupNavigation()
+        setupEditView()
         setupTextField()
-        setupProfileImageView()
+    }
+    
+    private func setupEditView() {
+        view.addSubview(channelEditView)
+        channelEditView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            channelEditView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            channelEditView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            channelEditView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            channelEditView.heightAnchor.constraint(equalToConstant: 120)
+        ])
     }
     
     private func setupTextField() {
         let memberNicknames = Array(users.prefix(4)).compactMap { $0.nickname }
         let channelNamePlaceholder = memberNicknames.joined(separator: ", ")
-        channelNameTextField.placeholder = channelNamePlaceholder
+        channelEditView.placeholder = channelNamePlaceholder
     }
-    
-    private func setupProfileImageView() {
-        self.profileImageView.isUserInteractionEnabled = true
-        let tapCoverImageGesture = UITapGestureRecognizer(target: self, action: #selector(didTouchProfileImageView(_ :)))
-        self.profileImageView.addGestureRecognizer(tapCoverImageGesture)
-
-        profileImageView.users = users
-        profileImageView.makeCircularWithSpacing(spacing: 1)
-    }
-    
+        
     private func setupNavigation() {
         title = "Create Group Channel"
         navigationItem.largeTitleDisplayMode = .never
@@ -71,7 +81,7 @@ class CreateGroupChannelViewController: UIViewController {
     }
     
     @objc private func didTouchCreateGroupChannel(_ sender: AnyObject) {
-        let channelName = self.channelNameTextField.text != "" ? self.channelNameTextField.text : self.channelNameTextField.placeholder
+        let channelName = channelEditView.text != "" ? channelEditView.text : channelEditView.placeholder
 
         useCase.createGroupChannel(channelName: channelName, imageData: channelImageData) { [weak self] result in
             DispatchQueue.main.async {
@@ -87,10 +97,6 @@ class CreateGroupChannelViewController: UIViewController {
         }
     }
     
-    @objc private func didTouchProfileImageView(_ sender: UIView) {
-        imagePickerRouter.presentAlert()
-    }
-    
 }
 
 // MARK: - ImagePickerRouterDelegate
@@ -100,7 +106,7 @@ extension CreateGroupChannelViewController: ImagePickerRouterDelegate {
     func imagePickerRouter(_ imagePickerRouter: ImagePickerRouter, didFinishPickingMediaFile mediaFile: ImagePickerMediaFile) {
         guard let image = UIImage(data: mediaFile.data) else { return }
         
-        profileImageView.setImage(with: image)
+        channelEditView.setImage(image)
         channelImageData = mediaFile.data
     }
     

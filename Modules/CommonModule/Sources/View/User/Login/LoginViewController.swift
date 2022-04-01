@@ -9,17 +9,42 @@ import UIKit
 import SendbirdChat
 
 public final class LoginViewController: UIViewController {
-
-    @IBOutlet private weak var connectButton: UIButton!
-    @IBOutlet private weak var userIdTextField: UITextField!
     
     public typealias DidConnectUserHandler = (User) -> Void
     
     private let didConnectUser: DidConnectUserHandler
     
+    private lazy var userIdLabel: UILabel = {
+        let userIdLabel: UILabel = UILabel()
+        userIdLabel.text = "USER ID"
+        userIdLabel.font = .boldSystemFont(ofSize: 13)
+        userIdLabel.textColor = .secondaryLabel
+        return userIdLabel
+    }()
+    
+    private lazy var userIdTextField: UITextField = {
+        let userIdTextField = UITextField()
+        userIdTextField.placeholder = "USER ID"
+        userIdTextField.font = .systemFont(ofSize: 24)
+        userIdTextField.textColor = .label
+        userIdTextField.tintColor = .systemPurple
+        userIdTextField.borderStyle = .roundedRect
+        return userIdTextField
+    }()
+    
+    private lazy var connectButton: UIButton = {
+        let connectButton: UIButton = UIButton()
+        connectButton.setTitle("Connect", for: .normal)
+        connectButton.addTarget(self, action: #selector(didTouchConnectButton), for: .touchUpInside)
+        connectButton.backgroundColor = .systemPurple
+        connectButton.layer.cornerRadius = 22
+        connectButton.clipsToBounds = true
+        return connectButton
+    }()
+    
     public init(didConnectUser: @escaping DidConnectUserHandler) {
         self.didConnectUser = didConnectUser
-        super.init(nibName: "LoginViewController", bundle: Bundle(for: Self.self))
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -29,9 +54,37 @@ public final class LoginViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupSubviews()
         loadCachedUser()
     }
+    
+    private func setupSubviews() {
+        view.addSubview(userIdLabel)
+        userIdLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            userIdLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            userIdLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            userIdLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+        ])
         
+        view.addSubview(userIdTextField)
+        userIdTextField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            userIdTextField.topAnchor.constraint(equalTo: userIdLabel.bottomAnchor, constant: 5),
+            userIdTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            userIdTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+        ])
+        
+        view.addSubview(connectButton)
+        connectButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            connectButton.topAnchor.constraint(equalTo: userIdTextField.bottomAnchor, constant: 30),
+            connectButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            connectButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            connectButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
     private func loadCachedUser() {
         if let userId = UserConnectionUseCase.shared.userId {
             userIdTextField.text = userId

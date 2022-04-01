@@ -66,13 +66,6 @@ public class ProfileImageView: UIView {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }
-            
-    public init(users: [User], frame: CGRect){
-        super.init(frame: frame)
-        
-        setupImageStack()
-        setUsers(users)
-    }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -93,6 +86,7 @@ public class ProfileImageView: UIView {
     public func makeCircularWithSpacing(spacing: CGFloat){
         self.layer.cornerRadius = self.frame.height/2
         self.spacing = spacing
+        self.clipsToBounds = true
     }
     
     public func setImage(withCoverUrl coverUrl: String) {
@@ -203,7 +197,7 @@ extension UIImageView {
             return image
         }
         
-        return UIImage.named("img_default_profile_image_1")
+        return CommonModuleAsset.imgDefaultProfileImage1.image
     }
     
 }

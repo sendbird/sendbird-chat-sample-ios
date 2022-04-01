@@ -15,9 +15,26 @@ class GroupChannelViewController: UIViewController {
         static let loadMoreThreshold: CGFloat = 100
     }
     
-    @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var messageInputView: MessageInputView!
-    @IBOutlet private weak var messageInputBottomConstraint: NSLayoutConstraint!
+    private lazy var tableView: UITableView = {
+        let tableView: UITableView = UITableView(frame: .zero, style: .plain)
+        tableView.register(BasicMessageCell.self)
+        tableView.register(BasicFileCell.self)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 140.0
+        tableView.delegate = self
+        tableView.dataSource = self
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
+        tableView.addGestureRecognizer(longPress)
+        return tableView
+    }()
+    
+    private lazy var messageInputView: MessageInputView = {
+        let messageInputView = MessageInputView()
+        messageInputView.delegate = self
+        return messageInputView
+    }()
+    
+    private weak var messageInputBottomConstraint: NSLayoutConstraint?
 
     var targetMessageForScrolling: BaseMessage?
     
@@ -52,7 +69,7 @@ class GroupChannelViewController: UIViewController {
     init(channel: GroupChannel, timestampStorage: TimestampStorage) {
         self.channel = channel
         self.timestampStorage = timestampStorage
-        super.init(nibName: "GroupChannelViewController", bundle: Bundle(for: Self.self))
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -62,9 +79,29 @@ class GroupChannelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
+        view.addSubview(messageInputView)
+        messageInputView.translatesAutoresizingMaskIntoConstraints = false
+        messageInputBottomConstraint = messageInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        NSLayoutConstraint.activate([
+            messageInputView.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            messageInputView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            messageInputView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            messageInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            messageInputView.heightAnchor.constraint(equalToConstant: 50),
+            messageInputBottomConstraint
+        ].compactMap { $0 })
+        
         setupNavigation()
-        setupTableView()
-        messageInputView.delegate = self
         
         messageListUseCase.loadInitialMessages()
     }
@@ -90,19 +127,6 @@ class GroupChannelViewController: UIViewController {
     private func setupNavigation() {
         title = channel.name
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Setting", style: .plain, target: self, action: #selector(didTouchSettingButton))
-    }
-        
-    private func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(BasicMessageCell.self)
-        tableView.register(BasicFileCell.self)
-        
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 140.0
-        
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
-        tableView.addGestureRecognizer(longPress)
     }
     
     @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
@@ -225,7 +249,7 @@ extension GroupChannelViewController: KeyboardObserverDelegate {
     
     func keyboardObserver(_ keyboardObserver: KeyboardObserver, willShowKeyboardWith keyboardInfo: KeyboardInfo) {
         let keyboardHeight = keyboardInfo.height - view.safeAreaInsets.bottom
-        messageInputBottomConstraint.constant = -keyboardHeight
+        messageInputBottomConstraint?.constant = -keyboardHeight
         
         keyboardInfo.animate { [weak self] in
             self?.view.layoutIfNeeded()
@@ -233,7 +257,7 @@ extension GroupChannelViewController: KeyboardObserverDelegate {
     }
     
     func keyboardObserver(_ keyboardObserver: KeyboardObserver, willHideKeyboardWith keyboardInfo: KeyboardInfo) {
-        messageInputBottomConstraint.constant = keyboardInfo.height
+        messageInputBottomConstraint?.constant = keyboardInfo.height
         
         keyboardInfo.animate { [weak self] in
             self?.view.layoutIfNeeded()

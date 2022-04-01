@@ -11,8 +11,19 @@ import SendbirdChat
 
 final class OpenChannelListViewController: UIViewController {
     
-    @IBOutlet private weak var tableView: UITableView!
+    private lazy var tableView: UITableView = {
+        let tableView: UITableView = UITableView(frame: .zero, style: .plain)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OpenChannelListCell")
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+        
+        return tableView
+    }()
+    
     private lazy var createChannelBarButton = UIBarButtonItem(
         title: "Create",
         style: .plain,
@@ -27,7 +38,7 @@ final class OpenChannelListViewController: UIViewController {
     }()
     
     init() {
-        super.init(nibName: "OpenChannelListViewController", bundle: Bundle(for: Self.self))
+        super.init(nibName: nil, bundle: nil)
         title = "OpenChannel"
     }
     
@@ -38,23 +49,24 @@ final class OpenChannelListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
         setupNavigation()
-        setupTableView()
+        
         useCase.reloadChannels()
     }
     
     private func setupNavigation() {
         navigationItem.rightBarButtonItem = createChannelBarButton
-    }
-    
-    private func setupTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OpenChannelListCell")
-        
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
-        tableView.refreshControl = refreshControl
     }
     
     @objc private func refreshTableView() {
