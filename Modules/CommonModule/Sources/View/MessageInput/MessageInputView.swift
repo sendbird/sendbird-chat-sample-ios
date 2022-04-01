@@ -14,6 +14,13 @@ public protocol MessageInputViewDelegate: AnyObject {
     func messageInputView(_ messageInputView: MessageInputView, didEndTyping sender: UITextField)
 }
 
+extension MessageInputViewDelegate {
+    public func messageInputView(_ messageInputView: MessageInputView, didStartTyping sender: UITextField) { }
+    public func messageInputView(_ messageInputView: MessageInputView, didEndTyping sender: UITextField) { }
+}
+
+// MARK: - MessageInputView
+
 public class MessageInputView: UIView {
     
     private lazy var sendFileMessageButton: UIButton = {
@@ -36,6 +43,7 @@ public class MessageInputView: UIView {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 14)
         textField.placeholder = "Type a message..."
+        textField.delegate = self
         return textField
     }()
     

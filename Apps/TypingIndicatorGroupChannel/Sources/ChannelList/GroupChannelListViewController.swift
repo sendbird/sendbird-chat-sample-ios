@@ -11,7 +11,13 @@ import SendbirdChat
 
 final class GroupChannelListViewController: UIViewController {
     
-    @IBOutlet private weak var tableView: UITableView!
+    private lazy var tableView: UITableView = {
+        let tableView: UITableView = UITableView(frame: .zero, style: .plain)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(GroupChannelListCell.self)
+        return tableView
+    }()
     
     private lazy var createChannelBarButton = UIBarButtonItem(
         title: "Create",
@@ -29,7 +35,7 @@ final class GroupChannelListViewController: UIViewController {
     private lazy var timestampStorage = TimestampStorage()
     
     init() {
-        super.init(nibName: "GroupChannelListViewController", bundle: Bundle(for: Self.self))
+        super.init(nibName: nil, bundle: nil)
         title = "GroupChannel"
     }
     
@@ -40,21 +46,26 @@ final class GroupChannelListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
         setupNavigation()
-        setupTableView()
+        
         useCase.reloadChannels()
     }
     
     private func setupNavigation() {
         navigationItem.rightBarButtonItem = createChannelBarButton
     }
-    
-    private func setupTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(GroupChannelListCell.self)
-    }
-    
+        
     @objc private func didTouchCreatChannelButton() {
         let userSelectionViewController = UserSelectionViewController(didSelectUsers: { sender, users in
             let createGroupChannelViewController = CreateGroupChannelViewController(users: users)
