@@ -197,7 +197,7 @@ extension UIImageView {
             return image
         }
         
-        return UIImage.named("img_default_profile_image_1")
+        return CommonModuleAsset.imgDefaultProfileImage1.image
     }
     
 }
