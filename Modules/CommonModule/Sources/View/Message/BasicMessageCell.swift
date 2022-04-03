@@ -8,27 +8,41 @@
 import UIKit
 import SendbirdChat
 
-public class BasicMessageCell: UITableViewCell {
+open class BasicMessageCell: UITableViewCell {
     
     private lazy var profileLabel: UILabel = {
         let profileLabel: UILabel = UILabel()
+        profileLabel.translatesAutoresizingMaskIntoConstraints = false
         profileLabel.textColor = .secondaryLabel
         profileLabel.font = .systemFont(ofSize: 14)
         return profileLabel
+    }()
+    
+    public lazy var contentStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        return stackView
     }()
     
     private lazy var profileImageView: UIImageView = {
         let profileImageView: UIImageView = UIImageView()
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 16
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.clipsToBounds = true
         profileImageView.backgroundColor = .secondarySystemBackground
+        NSLayoutConstraint.activate([
+            profileImageView.widthAnchor.constraint(equalToConstant: 32),
+            profileImageView.heightAnchor.constraint(equalToConstant: 32),
+        ])
         return profileImageView
     }()
     
     private lazy var messageLabel: UILabel = {
         let messageLabel: UILabel = UILabel()
         messageLabel.textColor = .label
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.font = .systemFont(ofSize: 17)
         messageLabel.numberOfLines = 0
         return messageLabel
@@ -39,19 +53,16 @@ public class BasicMessageCell: UITableViewCell {
         commonInit()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         commonInit()
     }
     
     private func commonInit() {
         contentView.addSubview(profileImageView)
-        contentView.addSubview(profileLabel)
-        contentView.addSubview(messageLabel)
-
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(contentStackView)
+        contentStackView.addArrangedSubview(profileLabel)
+        contentStackView.addArrangedSubview(messageLabel)
 
         NSLayoutConstraint.activate([
             profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -59,18 +70,12 @@ public class BasicMessageCell: UITableViewCell {
             profileImageView.widthAnchor.constraint(equalToConstant: 32),
             profileImageView.heightAnchor.constraint(equalToConstant: 32),
         ])
-        
+                
         NSLayoutConstraint.activate([
-            profileLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            profileLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
-            profileLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-        ])
-        
-        NSLayoutConstraint.activate([
-            messageLabel.topAnchor.constraint(equalTo: profileLabel.bottomAnchor),
-            messageLabel.leadingAnchor.constraint(equalTo: profileLabel.leadingAnchor),
-            messageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            messageLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            contentStackView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
@@ -90,7 +95,6 @@ public class BasicMessageCell: UITableViewCell {
         } else if message is AdminMessage {
             profileLabel.text = "Admin"
         }
-        
         messageLabel.text = "\(message.message)\(MessageSendingStatus(message).description) (\(Date.sbu_from(message.createdAt).sbu_toString(format: .hhmma)))"
     }
     
