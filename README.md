@@ -1,4 +1,10 @@
 # [Sendbird Chat](https://sendbird.com/docs/chat) SDK Sample for iOS
+
+[![Platform](https://img.shields.io/badge/Platform-iOS-orange.svg)](https://github.com/sendbird/sendbird-chat-sample-ios)
+[![Language](https://img.shields.io/badge/Language-Swift-orange.svg)](https://github.com/sendbird/sendbird-chat-sample-ios)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tuist - Build](https://github.com/sendbird/sendbird-chat-sample-ios/actions/workflows/tuist-build.yml/badge.svg)](https://github.com/sendbird/sendbird-chat-sample-ios/actions/workflows/tuist-build.yml)
+
 This repository provides feature-level Chat samples with Swift.
 
 ## 🚀 Get started
