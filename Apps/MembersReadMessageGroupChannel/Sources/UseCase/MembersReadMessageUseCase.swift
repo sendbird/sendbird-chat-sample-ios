@@ -9,7 +9,7 @@
 import Foundation
 import SendbirdChat
 
-final class MembersReadMessageUseCase: GroupChannelDelegate {
+final class MembersReadMessageUseCase {
     private let channel: GroupChannel
     
     init(channel: GroupChannel) {
