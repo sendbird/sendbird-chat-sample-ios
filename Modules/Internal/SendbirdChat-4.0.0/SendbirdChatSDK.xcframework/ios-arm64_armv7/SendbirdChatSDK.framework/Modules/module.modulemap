@@ -1,0 +1,4 @@
+framework module SendbirdChatSDK {
+  header "SendbirdChatSDK.h"
+  requires objc
+}

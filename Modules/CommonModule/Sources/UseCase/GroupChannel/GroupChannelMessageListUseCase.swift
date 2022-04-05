@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SendbirdChat
+import SendbirdChatSDK
 
 public protocol GroupChannelMessageListUseCaseDelegate: AnyObject {
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBError)
@@ -123,7 +123,7 @@ open class GroupChannelMessageListUseCase: NSObject {
             params: params
         )
         
-        collection?.delegate = self
+        collection.delegate = self
         
         return collection
     }

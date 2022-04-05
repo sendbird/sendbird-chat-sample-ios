@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SendbirdChat
+import SendbirdChatSDK
 import UIKit
 
 protocol GroupChannelTypingIndicatorUseCaseDelegate: AnyObject {
