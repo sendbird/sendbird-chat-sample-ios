@@ -13,8 +13,8 @@ class GroupMemberListViewController: UIViewController {
 
     private let channel: GroupChannel
 
-    private lazy var useCase: GroupChannelMemberListUseCase = {
-        let useCase = GroupChannelMemberListUseCase(channel: channel)
+    private lazy var useCase: OrderedMemberOperatorsUseCase = {
+        let useCase = OrderedMemberOperatorsUseCase(channel: channel)
         useCase.delegate = self
         return useCase
     }()
@@ -89,12 +89,12 @@ extension GroupMemberListViewController: UITableViewDelegate {
 
 // MARK: - GroupChannelMemberListUseCaseDelegate
 
-extension GroupMemberListViewController: GroupChannelMemberListUseCaseDelegate {
-    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didReceiveError error: SBError) {
+extension GroupMemberListViewController: OrderedMemberOperatorsUseCaseDelegate {
+    func groupChannelOrderedMemberOperatorsUseCase(_ useCase: OrderedMemberOperatorsUseCase, didReceiveError error: SBError) {
         presentAlert(error: error)
     }
     
-    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didUpdateMembers members: [Member]) {
+    func groupChannelOrderedMemberOperatorsUseCase(_ useCase: OrderedMemberOperatorsUseCase, didUpdateMembers members: [Member]) {
         tableView.reloadData()
-    }
+    }    
 }
