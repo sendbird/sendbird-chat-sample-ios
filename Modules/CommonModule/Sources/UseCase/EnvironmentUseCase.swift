@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SendbirdChat
+import SendbirdChatSDK
 
 public class EnvironmentUseCase {
     

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SendbirdChat
+import SendbirdChatSDK
 
 public protocol GroupChannelUserSelectionUseCaseDelegate: AnyObject {
     func userSelectionUseCase(_ userSelectionUseCase: GroupChannelUserSelectionUseCase, didReceiveError error: SBError)

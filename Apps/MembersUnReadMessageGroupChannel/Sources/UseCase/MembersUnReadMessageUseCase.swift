@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SendbirdChat
+import SendbirdChatSDK
 
 final class MembersUnReadMessageUseCase {
     private let channel: GroupChannel

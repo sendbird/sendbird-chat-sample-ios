@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SendbirdChat
+import SendbirdChatSDK
 import CommonModule
 
 extension OpenChannelViewController: ImagePickerRouterDelegate {

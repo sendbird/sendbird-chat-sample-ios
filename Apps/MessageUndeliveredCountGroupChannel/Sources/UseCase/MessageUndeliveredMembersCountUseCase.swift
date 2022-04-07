@@ -6,7 +6,7 @@
 //  Copyright © 2022 Sendbird. All rights reserved.
 //
 
-import SendbirdChat
+import SendbirdChatSDK
 import UIKit
 
 final class MessageUndeliveredMembersCountUseCase {
