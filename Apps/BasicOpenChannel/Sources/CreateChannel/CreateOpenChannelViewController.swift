@@ -7,7 +7,7 @@
 
 import UIKit
 import CommonModule
-import SendbirdChat
+import SendbirdChatSDK
 import MobileCoreServices
 
 class CreateOpenChannelViewController: UIViewController {

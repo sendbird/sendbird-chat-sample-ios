@@ -18,7 +18,7 @@ let project = Project(
             resources: ["Resources/**"],
             dependencies: [
                 .xcframework(path: .relativeToRoot("Modules/External/Kingfisher-7.2.0/Kingfisher.xcframework")),
-                .xcframework(path: .relativeToRoot("Modules/Internal/SendbirdChat-4.0.0/SendbirdChat.xcframework")),
+                .xcframework(path: .relativeToRoot("Modules/Internal/SendbirdChat-4.0.0/SendbirdChatSDK.xcframework")),
 //                .project(target: "SendbirdChat", path: .relativeToRoot("Modules/Internal/SendbirdChat-Debug")),
             ]
         )
