@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SendbirdChat
+import SendbirdChatSDK
 
 protocol OrderedMemberOperatorsUseCaseDelegate: AnyObject {
     func groupChannelOrderedMemberOperatorsUseCase(_ useCase: OrderedMemberOperatorsUseCase, didReceiveError error: SBError)
