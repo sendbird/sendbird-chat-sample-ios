@@ -27,6 +27,21 @@ extension OpenChannelViewController {
         )
         
         if settingUseCase.isCurrentOperator {
+            
+            if channel.isFrozen {
+                actionSheet.addAction(
+                    UIAlertAction(title: "Unfreeze Channel", style: .default) { [weak self] _ in
+                        self?.unFreezeChannel()
+                    }
+                )
+            } else {
+                actionSheet.addAction(
+                    UIAlertAction(title: "Freeze Channel", style: .default) { [weak self] _ in
+                        self?.freezeChannel()
+                    }
+                )
+            }
+
             actionSheet.addAction(
                 UIAlertAction(title: "Update Channel Name", style: .default) { [weak self] _ in
                     self?.presentChangeChannelNameAlert()
