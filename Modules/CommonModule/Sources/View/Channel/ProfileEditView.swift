@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SendbirdChat
+import SendbirdChatSDK
 
 public class ProfileEditView: UIView {
     

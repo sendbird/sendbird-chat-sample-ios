@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SendbirdChat
+import SendbirdChatSDK
 
 public final class LoginViewController: UIViewController {
     

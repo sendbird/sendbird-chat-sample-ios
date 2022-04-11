@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SendbirdChat
+import SendbirdChatSDK
 
 public protocol GroupChannelListUseCaseDelegate: AnyObject {
     func groupChannelListUseCase(_ groupChannelListUseCase: GroupChannelListUseCase, didUpdateChannels channels: [GroupChannel])
