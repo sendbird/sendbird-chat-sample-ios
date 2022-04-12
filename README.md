@@ -11,14 +11,19 @@ This repository provides feature-level Chat samples with Swift.
 
 You must use [tuist](https://github.com/tuist/tuist) to build these sample apps.
 
-### Install tuist
+### 1. Install tuist
 ```bash
 curl -Ls https://install.tuist.io | bash
 ```
 
-### Generate Xcode project & workspace
+### 2. Install Dependencies
 ```bash
-tuist generate # generate project & workspace 
+tuist fetch
+```
+
+### 3. Generate Xcode project & workspace
+```bash
+tuist generate 
 ```
 
 For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
