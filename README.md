@@ -28,7 +28,7 @@ tuist generate
 
 For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 
-### Execute sample apps
+### 4. Execute sample apps
 
 1. Execute `Samples.xcworkspace`.
 2. Select the scheme of the feature you want to test.
@@ -40,9 +40,7 @@ For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 .
 ├── Samples.xcworkspace
 ├── Modules
-│   ├── CommonModule # Common Logic & View
-│   ├── External # External Libraries
-│   └── Internal # Sendbird SDK
+│   └── CommonModule # Common Logic & View
 ├── Apps
 │   ├── BasicGroupChannel
 │   ├── BasicOpenChannel
