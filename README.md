@@ -11,19 +11,24 @@ This repository provides feature-level Chat samples with Swift.
 
 You must use [tuist](https://github.com/tuist/tuist) to build these sample apps.
 
-### Install tuist
+### 1. Install tuist
 ```bash
 curl -Ls https://install.tuist.io | bash
 ```
 
-### Generate Xcode project & workspace
+### 2. Install Dependencies
 ```bash
-tuist generate # generate project & workspace 
+tuist fetch
+```
+
+### 3. Generate Xcode project & workspace
+```bash
+tuist generate 
 ```
 
 For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 
-### Execute sample apps
+### 4. Execute sample apps
 
 1. Execute `Samples.xcworkspace`.
 2. Select the scheme of the feature you want to test.
@@ -35,9 +40,7 @@ For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
 .
 ├── Samples.xcworkspace
 ├── Modules
-│   ├── CommonModule # Common Logic & View
-│   ├── External # External Libraries
-│   └── Internal # Sendbird SDK
+│   └── CommonModule # Common Logic & View
 ├── Apps
 │   ├── BasicGroupChannel
 │   ├── BasicOpenChannel
