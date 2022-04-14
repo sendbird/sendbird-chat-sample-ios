@@ -1,12 +1,12 @@
 //
 //  GroupChannelViewController+EditMessage.swift
-//  BasicGruopChannel
+//  BasicGroupChannel
 //
 //  Created by Ernest Hong on 2022/02/11.
 //
 
 import UIKit
-import SendbirdChat
+import SendbirdChatSDK
 
 extension GroupChannelViewController {
     

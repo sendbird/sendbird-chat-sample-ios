@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SendbirdChat
+import SendbirdChatSDK
 
 final class AddRemoveOperatorUseCase {
     private let channel: GroupChannel
@@ -16,7 +16,7 @@ final class AddRemoveOperatorUseCase {
         self.channel = channel
     }
     
-    func addOperators(users: [User], completion: @escaping(Result<Void, SBError>) -> Void) {
+    func addOperators(users: [Member], completion: @escaping(Result<Void, SBError>) -> Void) {
         let userIds = users.map {
             $0.userId
         }
@@ -29,7 +29,7 @@ final class AddRemoveOperatorUseCase {
         }
     }
     
-    func removeOperator(users: [User], completion: @escaping(Result<Void, SBError>) -> Void) {
+    func removeOperator(users: [Member], completion: @escaping(Result<Void, SBError>) -> Void) {
         let userIds = users.map {
             $0.userId
         }
@@ -42,8 +42,7 @@ final class AddRemoveOperatorUseCase {
         }
     }
     
-    func isOperator(user: User) -> Bool {
-        return channel
+    func isOperator(member: Member) -> Bool {
+        return member.role == .operator
     }
-    
 }

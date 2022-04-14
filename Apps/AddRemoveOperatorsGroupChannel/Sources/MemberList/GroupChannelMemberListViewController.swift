@@ -7,7 +7,7 @@
 
 import UIKit
 import CommonModule
-import SendbirdChat
+import SendbirdChatSDK
 
 class GroupMemberListViewController: UIViewController {
 
@@ -19,8 +19,11 @@ class GroupMemberListViewController: UIViewController {
         return useCase
     }()
     
+    private lazy var addRemoveOperatorUseCase = AddRemoveOperatorUseCase(channel: channel)
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.register(GroupChannelMemberCell.self)
         tableView.register(BasicChannelMemberCell.self)
         tableView.delegate = self
         tableView.dataSource = self
@@ -69,9 +72,17 @@ extension GroupMemberListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: BasicChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.configure(with: useCase.members[indexPath.row])
-        return cell
+        if channel.myRole == .operator {
+            let cell: GroupChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.update(member: useCase.members[indexPath.row], useCase: addRemoveOperatorUseCase)
+            cell.delegate = self
+            return cell
+        } else {
+            let cell: BasicChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.configure(with: useCase.members[indexPath.row])
+            return cell
+
+        }
     }
 
 }
@@ -82,8 +93,17 @@ extension GroupMemberListViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
-            useCase.loadNextPage()
+            tableView.reloadData()
         }
+    }
+}
+
+// MARK: - GroupChannelMemberCellDelegate
+
+extension GroupMemberListViewController: GroupChannelMemberCellDelegate {
+    func groupChannelMemberCell(cell: GroupChannelMemberCell, didUpdateOperators: [Member]) {
+        presentAlert(title: "Operators", message: "Add/Remove Operators successful", closeHandler: nil)
+        tableView.reloadData()
     }
 }
 

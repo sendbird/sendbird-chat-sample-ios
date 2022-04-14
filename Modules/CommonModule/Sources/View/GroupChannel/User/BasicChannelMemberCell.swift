@@ -8,7 +8,7 @@
 import UIKit
 import SendbirdChatSDK
 
-public class BasicChannelMemberCell: UITableViewCell {
+open class BasicChannelMemberCell: UITableViewCell {
     
     private lazy var profileImageView: UIImageView = {
         let profileImageView: UIImageView = UIImageView()
@@ -28,6 +28,7 @@ public class BasicChannelMemberCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 10.0
+        stackView.distribution = .fill
         stackView.axis = .horizontal
         return stackView
     }()
@@ -49,17 +50,17 @@ public class BasicChannelMemberCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            contentStackView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
         
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
         
         profileLabel.text = nil
