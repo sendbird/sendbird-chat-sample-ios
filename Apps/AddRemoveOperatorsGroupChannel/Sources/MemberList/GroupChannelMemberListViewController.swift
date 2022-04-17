@@ -93,7 +93,7 @@ extension GroupMemberListViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
-            tableView.reloadData()
+            useCase.loadNextPage()
         }
     }
 }
@@ -102,8 +102,8 @@ extension GroupMemberListViewController: UITableViewDelegate {
 
 extension GroupMemberListViewController: GroupChannelMemberCellDelegate {
     func groupChannelMemberCell(cell: GroupChannelMemberCell, didUpdateOperators: [Member]) {
+        useCase.resetAndLoad()
         presentAlert(title: "Operators", message: "Add/Remove Operators successful", closeHandler: nil)
-        tableView.reloadData()
     }
     
     func groupChannelMemberCell(cell: GroupChannelMemberCell, didReceiveError error: Error) {
