@@ -19,8 +19,11 @@ class GroupMemberListViewController: UIViewController {
         return useCase
     }()
     
+    private lazy var banUnBanUseCase = BanAndUnBanUseCase(channel: channel)
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.register(GroupChannelMemberCell.self)
         tableView.register(BasicChannelMemberCell.self)
         tableView.delegate = self
         tableView.dataSource = self
@@ -69,9 +72,16 @@ extension GroupMemberListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: BasicChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.configure(with: useCase.members[indexPath.row])
-        return cell
+        if channel.myRole == .operator {
+            let cell: GroupChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.update(member: useCase.members[indexPath.row], useCase: banUnBanUseCase)
+            cell.delegate = self
+            return cell
+        } else {
+            let cell: BasicChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.configure(with: useCase.members[indexPath.row])
+            return cell
+        }
     }
 
 }
@@ -84,6 +94,19 @@ extension GroupMemberListViewController: UITableViewDelegate {
         if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
             useCase.loadNextPage()
         }
+    }
+}
+
+// MARK: - GroupChannelMemberCellDelegate
+
+extension GroupMemberListViewController: GroupChannelMemberCellDelegate {
+    func groupChannelMemberCell(cell: GroupChannelMemberCell, didUpdateMember: Member) {
+        useCase.resetAndLoad()
+        presentAlert(title: "User", message: "Ban/UnBan successful", closeHandler: nil)
+    }
+    
+    func groupChannelMemberCell(cell: GroupChannelMemberCell, didReceiveError error: Error) {
+        presentAlert(error: error)
     }
 }
 
