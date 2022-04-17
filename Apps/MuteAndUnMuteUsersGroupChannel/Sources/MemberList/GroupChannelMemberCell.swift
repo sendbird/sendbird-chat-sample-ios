@@ -72,11 +72,11 @@ class GroupChannelMemberCell: BasicChannelMemberCell {
         }
         
         if useCase.isMuted(user: member) {
-            useCase.mute(user: member) { [weak self] result in
+            useCase.Unmute(user: member) { [weak self] result in
                 self?.handle(result: result, member: member)
             }
         } else {
-            useCase.Unmute(user: member) { [weak self] result in
+            useCase.mute(user: member) { [weak self] result in
                 self?.handle(result: result, member: member)
             }
         }

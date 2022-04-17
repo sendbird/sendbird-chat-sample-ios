@@ -92,7 +92,7 @@ extension GroupMemberListViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
-            tableView.reloadData()
+            useCase.loadNextPage()
         }
     }
 }
@@ -101,8 +101,8 @@ extension GroupMemberListViewController: UITableViewDelegate {
 
 extension GroupMemberListViewController: GroupChannelMemberCellDelegate {
     func groupChannelMemberCell(cell: GroupChannelMemberCell, didUpdateMember: Member) {
+        useCase.resetAndLoad()
         presentAlert(title: "User", message: "Mute/UnMute successful", closeHandler: nil)
-        tableView.reloadData()
     }
     
     func groupChannelMemberCell(cell: GroupChannelMemberCell, didReceiveError error: Error) {
