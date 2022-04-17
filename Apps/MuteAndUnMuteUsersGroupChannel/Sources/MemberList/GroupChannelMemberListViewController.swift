@@ -19,7 +19,7 @@ class GroupMemberListViewController: UIViewController {
         return useCase
     }()
     
-    private lazy var addRemoveOperatorUseCase = AddRemoveOperatorUseCase(channel: channel)
+    private lazy var muteUnmuteUseCase = MuteAndUnmuteUseCase(channel: channel)
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -74,14 +74,13 @@ extension GroupMemberListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if channel.myRole == .operator {
             let cell: GroupChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
-            cell.update(member: useCase.members[indexPath.row], useCase: addRemoveOperatorUseCase)
+            cell.update(member: useCase.members[indexPath.row], useCase: muteUnmuteUseCase)
             cell.delegate = self
             return cell
         } else {
             let cell: BasicChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: useCase.members[indexPath.row])
             return cell
-
         }
     }
 

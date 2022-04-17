@@ -8,20 +8,35 @@
 import UIKit
 import SendbirdChatSDK
 
-public class BasicChannelMemberCell: UITableViewCell {
+open class BasicChannelMemberCell: UITableViewCell {
     
     private lazy var profileImageView: UIImageView = {
         let profileImageView: UIImageView = UIImageView()
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 16
         profileImageView.clipsToBounds = true
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.backgroundColor = .secondarySystemBackground
+        NSLayoutConstraint.activate([
+            profileImageView.widthAnchor.constraint(equalToConstant: 32),
+            profileImageView.heightAnchor.constraint(equalToConstant: 32)
+        ])
         return profileImageView
+    }()
+    
+    public lazy var contentStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 10.0
+        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        return stackView
     }()
     
     private lazy var profileLabel: UILabel = {
         let profileLabel: UILabel = UILabel()
         profileLabel.textColor = .label
+        profileLabel.translatesAutoresizingMaskIntoConstraints = false
         profileLabel.font = .systemFont(ofSize: 16)
         return profileLabel
     }()
@@ -29,32 +44,23 @@ public class BasicChannelMemberCell: UITableViewCell {
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(profileImageView)
-        contentView.addSubview(profileLabel)
-
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            profileImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            profileImageView.widthAnchor.constraint(equalToConstant: 32),
-            profileImageView.heightAnchor.constraint(equalToConstant: 32),
-        ])
+        contentStackView.addArrangedSubview(profileImageView)
+        contentStackView.addArrangedSubview(profileLabel)
+        contentView.addSubview(contentStackView)
         
         NSLayoutConstraint.activate([
-            profileLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            profileLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
-            profileLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
         
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
         
         profileLabel.text = nil
