@@ -62,7 +62,7 @@ class GroupChannelMemberCell: BasicChannelMemberCell {
         self.useCase = useCase
         self.member = member
         configure(with: member)
-        let buttonTitle = useCase.isOperator(member: member) ? "Remove Operator" : "Add Operator"
+        let buttonTitle = useCase.isMuted(user: member) ? "Unmute" : "Mute"
         addRemoveOperatorButton.setTitle(buttonTitle, for: .normal)
     }
     
@@ -70,13 +70,13 @@ class GroupChannelMemberCell: BasicChannelMemberCell {
         guard let useCase = useCase, let member = member else {
             return
         }
-        if useCase.mute(user: member) {
-            useCase.removeOperator(users: [member]) { [weak self] result in
+        
+        if useCase.isMuted(user: member) {
+            useCase.mute(user: member) { [weak self] result in
                 self?.handle(result: result, member: member)
-                
             }
         } else {
-            useCase.addOperators(users: [member]) { [weak self] result in
+            useCase.Unmute(user: member) { [weak self] result in
                 self?.handle(result: result, member: member)
             }
         }
