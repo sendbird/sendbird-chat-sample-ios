@@ -105,6 +105,10 @@ extension GroupMemberListViewController: GroupChannelMemberCellDelegate {
         presentAlert(title: "Operators", message: "Add/Remove Operators successful", closeHandler: nil)
         tableView.reloadData()
     }
+    
+    func groupChannelMemberCell(cell: GroupChannelMemberCell, didReceiveError error: Error) {
+        presentAlert(error: error)
+    }
 }
 
 // MARK: - GroupChannelMemberListUseCaseDelegate

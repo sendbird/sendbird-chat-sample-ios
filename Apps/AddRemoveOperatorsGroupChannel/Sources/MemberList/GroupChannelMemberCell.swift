@@ -15,6 +15,11 @@ protocol GroupChannelMemberCellDelegate: AnyObject {
         cell: GroupChannelMemberCell,
         didUpdateOperators: [Member]
     )
+    
+    func groupChannelMemberCell(
+        cell: GroupChannelMemberCell,
+        didReceiveError error: Error
+    )
 }
 
 class GroupChannelMemberCell: BasicChannelMemberCell {
@@ -29,7 +34,7 @@ class GroupChannelMemberCell: BasicChannelMemberCell {
         button.addTarget(self, action: #selector(addRemoveOperatorAction), for: .touchUpInside)
         return button
     }()
-        
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         useCase = nil
@@ -52,7 +57,7 @@ class GroupChannelMemberCell: BasicChannelMemberCell {
         contentStackView.addArrangedSubview(emptyView)
         contentStackView.addArrangedSubview(addRemoveOperatorButton)
     }
-
+    
     func update(member: Member, useCase: AddRemoveOperatorUseCase) {
         self.useCase = useCase
         self.member = member
@@ -67,14 +72,23 @@ class GroupChannelMemberCell: BasicChannelMemberCell {
         }
         if useCase.isOperator(member: member) {
             useCase.removeOperator(users: [member]) { [weak self] result in
-                guard let self = self else { return  }
-                self.delegate?.groupChannelMemberCell(cell: self, didUpdateOperators: [member])
+                self?.handle(result: result, member: member)
+                
             }
         } else {
             useCase.addOperators(users: [member]) { [weak self] result in
-                guard let self = self else { return  }
-                self.delegate?.groupChannelMemberCell(cell: self, didUpdateOperators: [member])
+                self?.handle(result: result, member: member)
             }
+        }
+    }
+    
+    private func handle(result: Result<Void, SBError>, member: Member) {
+        switch result {
+        case .success():
+            delegate?.groupChannelMemberCell(cell: self, didUpdateOperators: [member])
+        case .failure(let error):
+            delegate?.groupChannelMemberCell(cell: self, didReceiveError: error)
+            
         }
     }
     
