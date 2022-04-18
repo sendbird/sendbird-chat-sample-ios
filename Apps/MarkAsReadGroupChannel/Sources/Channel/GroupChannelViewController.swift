@@ -42,6 +42,12 @@ class GroupChannelViewController: UIViewController {
     
     private let timestampStorage: TimestampStorage
     
+    private lazy var markAsReadUseCase: MarkAsReadUseCase = {
+        let useCase = MarkAsReadUseCase(channel: channel)
+        useCase.delegate = self
+        return useCase
+    }()
+
     public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
         let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, timestampStorage: timestampStorage)
         messageListUseCase.delegate = self
@@ -115,7 +121,7 @@ class GroupChannelViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        messageListUseCase.markAsRead()
+        markAsReadUseCase.markAsRead()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -184,6 +190,19 @@ extension GroupChannelViewController: UITableViewDelegate {
         }
     }
     
+}
+
+// MARK: - MarkAsReadUseCaseDelegate
+
+extension GroupChannelViewController: MarkAsReadUseCaseDelegate {
+    func markAsReadUseCaseUseCase(_ useCase: MarkAsReadUseCase, didUpdateFailed error: SBError) {
+        presentAlert(error: error)
+    }
+    
+    func markAsReadUseCaseUseCase(_ useCase: MarkAsReadUseCase, didDidUpdateReadStatus channel: GroupChannel) {
+        presentAlert(title: "Read Receipt", message: "Messages read and recived receipt", closeHandler: nil)
+        // refresh UI
+    }
 }
 
 // MARK: - GroupChannelMessageListUseCaseDelegate
