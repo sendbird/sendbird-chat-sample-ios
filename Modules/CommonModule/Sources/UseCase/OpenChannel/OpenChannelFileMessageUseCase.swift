@@ -46,9 +46,7 @@ open class OpenChannelFileMessageUseCase {
             
             guard let message = message else { return }
             
-            if let requestId = message.requestId {
-                self?.cachedDatasForResending.removeValue(forKey: requestId)
-            }
+            self?.cachedDatasForResending.removeValue(forKey: message.requestId)
             
             completion(.success(message))
         }
@@ -61,8 +59,7 @@ open class OpenChannelFileMessageUseCase {
     }
     
     open func resendMessage(_ message: FileMessage, completion: @escaping (Result<BaseMessage, SBError>) -> Void) {
-        guard let requestId = message.requestId,
-              let binaryData = cachedDatasForResending[requestId] else { return }
+        guard let binaryData = cachedDatasForResending[message.requestId] else { return }
         
         channel.resendFileMessage(message, binaryData: binaryData) { message, error in
             if let error = error {
