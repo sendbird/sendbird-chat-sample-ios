@@ -45,4 +45,9 @@ open class GroupChannelMemberListUseCase {
         }
     }
         
+    open func resetAndLoad() {
+        members = []
+        memberListQuery = channel.createMemberListQuery()
+        loadNextPage()
+    }
 }
