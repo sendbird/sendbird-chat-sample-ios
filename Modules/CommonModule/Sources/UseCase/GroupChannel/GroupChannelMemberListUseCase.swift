@@ -44,7 +44,7 @@ open class GroupChannelMemberListUseCase {
             self.delegate?.groupChannelMemberListUseCase(self, didUpdateMembers: self.members)
         }
     }
-        
+  
     open func resetAndLoad() {
         members = []
         memberListQuery = channel.createMemberListQuery()
