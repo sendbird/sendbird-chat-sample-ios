@@ -34,6 +34,18 @@ extension GroupChannelViewController {
         
         if channel.myRole == .operator {
             actionSheet.addAction(
+                UIAlertAction(title: "Muted Users", style: .default) { [weak self] _ in
+                    self?.pushMutedList()
+                }
+            )
+            
+            actionSheet.addAction(
+                UIAlertAction(title: "Banned Users", style: .default) { [weak self] _ in
+                    self?.pushBannedList()
+                }
+            )
+
+            actionSheet.addAction(
                 UIAlertAction(title: "Update Channel Name", style: .default) { [weak self] _ in
                     self?.presentChangeChannelNameAlert()
                 }
@@ -55,6 +67,18 @@ extension GroupChannelViewController {
     
     private func pushMemberList() {
         let memberListViewController = GroupMemberListViewController(channel: channel)
+        
+        navigationController?.pushViewController(memberListViewController, animated: true)
+    }
+    
+    private func pushMutedList() {
+        let memberListViewController = GroupChannelMutedMemberListViewController(channel: channel)
+        
+        navigationController?.pushViewController(memberListViewController, animated: true)
+    }
+    
+    private func pushBannedList() {
+        let memberListViewController = GroupChannelBannedMemberListViewController(channel: channel)
         
         navigationController?.pushViewController(memberListViewController, animated: true)
     }
