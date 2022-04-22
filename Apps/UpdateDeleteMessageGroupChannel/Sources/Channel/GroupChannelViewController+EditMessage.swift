@@ -11,7 +11,7 @@ import SendbirdChatSDK
 extension GroupChannelViewController {
     
     func handleLongPress(for message: BaseMessage) {
-        guard message.sender?.userId == SendbirdChat.getCurrentUser()?.userId else { return }
+        guard updateDeleteMessageUseCase.canEdit(message: message) else { return }
         
         if let userMessage = message as? UserMessage {
             presentEditUserMessageAlert(for: userMessage)
@@ -67,6 +67,10 @@ extension GroupChannelViewController {
         userMessageUseCase.deleteMessage(message) { [weak self] result in
             switch result {
             case .success:
+                guard let index = self?.messageListUseCase.messages.firstIndex(of: message) else {
+                    return
+                }
+                self?.messageListUseCase.messages.remove(at: index)
                 break
             case .failure(let error):
                 self?.presentAlert(error: error)

@@ -50,6 +50,8 @@ class GroupChannelViewController: UIViewController {
     
     public private(set) lazy var userMessageUseCase = GroupChannelUserMessageUseCase(channel: channel)
     
+    private(set) lazy var updateDeleteMessageUseCase = UpdateDeleteMessageUseCase(channel: channel)
+    
     public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
     
     public private(set) lazy var settingUseCase = GroupChannelSettingUseCase(channel: channel)
