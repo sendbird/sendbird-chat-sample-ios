@@ -50,6 +50,8 @@ class OpenChannelViewController: UIViewController {
     
     public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
     
+    private(set) lazy var updateMessageUseCase = UpdateMessageUseCase(channel: channel)
+    
     public private(set) lazy var settingUseCase = OpenChannelSettingUseCase(channel: channel)
     
     public private(set) lazy var imagePickerRouter: ImagePickerRouter = {

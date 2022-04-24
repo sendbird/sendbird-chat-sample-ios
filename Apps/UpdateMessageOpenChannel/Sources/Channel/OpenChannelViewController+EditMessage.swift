@@ -52,7 +52,7 @@ extension OpenChannelViewController {
     
     private func presentUpdateUserMessageAlert(for message: UserMessage) {
         presentTextFieldAlert(title: "Update message", message: "Enter new text", defaultTextFieldMessage: message.message) { [weak self] editedMessage in
-            self?.userMessageUseCase.updateMessage(message, to: editedMessage, completion: { result in
+            self?.updateMessageUseCase.updateMessage(message, to: editedMessage, completion: { result in
                 switch result {
                 case .success:
                     break

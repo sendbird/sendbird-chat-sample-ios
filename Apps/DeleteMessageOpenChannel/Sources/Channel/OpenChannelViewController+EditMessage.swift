@@ -64,7 +64,7 @@ extension OpenChannelViewController {
     }
     
     private func deleteMessage(_ message: BaseMessage) {
-        userMessageUseCase.deleteMessage(message) { [weak self] result in
+        deleteMessageUseCase.deleteMessage(message) { [weak self] result in
             switch result {
             case .success:
                 break
