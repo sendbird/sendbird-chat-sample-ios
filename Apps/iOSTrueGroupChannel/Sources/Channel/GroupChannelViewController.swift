@@ -48,6 +48,12 @@ class GroupChannelViewController: UIViewController {
         return messageListUseCase
     }()
     
+    public private(set) lazy var userConnectionUseCase: iOSTrueUseCase = {
+        let useCase = iOSTrueUseCase(channel: channel)
+        useCase.delegate = self
+        return useCase
+    }()
+    
     public private(set) lazy var userMessageUseCase = GroupChannelUserMessageUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
@@ -108,7 +114,7 @@ class GroupChannelViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        userConnectionUseCase.checkUserConnectionStatus()
         keyboardObserver.add()
     }
     
@@ -264,4 +270,12 @@ extension GroupChannelViewController: KeyboardObserverDelegate {
         }
     }
     
+}
+
+extension GroupChannelViewController: iOSTrueUseCaseDelegate {
+    func userConnection(_ useCase: iOSTrueUseCase, didUpdateUserStatus isOnline: Bool) {
+        if !isOnline {
+            presentAlert(title: "User Status", message: "User is Offline. Please check your connection", closeHandler: nil)
+        }
+    }
 }
