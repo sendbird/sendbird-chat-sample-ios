@@ -50,6 +50,7 @@ open class OpenChannelMessageListUseCase: NSObject {
     
     open func addEventObserver() {
         SendbirdChat.add(self as BaseChannelDelegate, identifier: description)
+        SendbirdChat.add(self as OpenChannelDelegate, identifier: description)
     }
     
     open func removeEventObserver() {
@@ -155,7 +156,7 @@ open class OpenChannelMessageListUseCase: NSObject {
 
 // MARK: - BaseChannelDelegate
 
-extension OpenChannelMessageListUseCase: BaseChannelDelegate {
+extension OpenChannelMessageListUseCase: BaseChannelDelegate, OpenChannelDelegate {
     
     open func channelWasChanged(_ sender: BaseChannel) {
         guard sender.channelURL == channel.channelURL,
