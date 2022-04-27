@@ -28,10 +28,10 @@ class MarkAsReadUseCase: GroupChannelDelegate {
 
     init(channel: GroupChannel) {
         self.channel = channel
-        subscribeToTypingIndicatorDelegate()
+        subscribeToGroupChannelDelegate()
     }
     
-    private func subscribeToTypingIndicatorDelegate() {
+    private func subscribeToGroupChannelDelegate() {
         SendbirdChat.add(self, identifier: String(describing: self))
     }
 
