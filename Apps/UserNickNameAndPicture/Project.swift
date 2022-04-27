@@ -3,4 +3,4 @@ import ProjectDescriptionHelpers
 
 // MARK: - Project
 
-let project = Project.app(name: "UserNickName")
+let project = Project.app(name: "UserNickNameAndPicture")

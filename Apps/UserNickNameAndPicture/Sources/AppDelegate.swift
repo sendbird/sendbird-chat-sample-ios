@@ -26,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    private func createLoginViewController() -> LoginViewController {
-        return LoginViewController(didConnectUser: { [weak self] _ in
+    private func createLoginViewController() -> UserLoginViewController {
+        return UserLoginViewController(didConnectUser: { [weak self] _ in
             self?.presentMainViewController()
         })
     }
