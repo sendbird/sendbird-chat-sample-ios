@@ -11,13 +11,41 @@ import SendbirdChatSDK
 extension GroupChannelViewController {
     
     func handleLongPress(for message: BaseMessage) {
-        guard message.sender?.userId == SendbirdChat.getCurrentUser()?.userId else { return }
+        guard message.sender?.userId == SendbirdChat.getCurrentUser()?.userId else {
+            presentReportingMessageAlert(for: message)
+            return
+        }
         
         if let userMessage = message as? UserMessage {
             presentEditUserMessageAlert(for: userMessage)
         } else if let fileMessage = message as? FileMessage {
             presentEditFileMessageAlert(for: fileMessage)
         }
+    }
+    
+    private func presentReportingMessageAlert(for message: BaseMessage) {
+        let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
+    
+        alert.addAction(
+            UIAlertAction(title: "Report this message", style: .destructive) { [weak self] _ in
+                self?.reportMessage(message)
+            }
+        )
+        
+        let user = message.sender
+        let reportUserString = String(format: "Report %@", user?.userId ?? "User")
+        alert.addAction(
+            UIAlertAction(title: reportUserString, style: .destructive) { [weak self] _ in
+                guard let user = user else { return }
+                self?.reportUser(user)
+            }
+        )
+        
+        alert.addAction(
+            UIAlertAction(title: "Cancel", style: .cancel)
+        )
+
+        present(alert, animated: true)
     }
     
     private func presentEditUserMessageAlert(for message: UserMessage) {
@@ -48,6 +76,14 @@ extension GroupChannelViewController {
         )
 
         present(alert, animated: true)
+    }
+    
+    private func reportMessage(_ message: BaseMessage) {
+        reportUseCase.reportMessage(message)
+    }
+    
+    private func reportUser(_ user: User) {
+        reportUseCase.reportUser(user)
     }
     
     private func presentUpdateUserMessageAlert(for message: UserMessage) {

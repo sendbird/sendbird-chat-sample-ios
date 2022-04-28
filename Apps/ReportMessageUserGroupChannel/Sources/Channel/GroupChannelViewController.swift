@@ -42,6 +42,12 @@ class GroupChannelViewController: UIViewController {
     
     private let timestampStorage: TimestampStorage
     
+    private(set) lazy var reportUseCase: ReportMessageUserUseCase = {
+        let reportUseCase = ReportMessageUserUseCase(channel: channel)
+        reportUseCase.delegate = self
+        return reportUseCase
+    }()
+    
     public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
         let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, timestampStorage: timestampStorage)
         messageListUseCase.delegate = self
@@ -185,6 +191,23 @@ extension GroupChannelViewController: UITableViewDelegate {
     }
     
 }
+
+// MARK: - GroupChannelReportUseCaseDelegate
+
+extension GroupChannelViewController: ReportMessageUserUseCaseDelegate {
+    func reportMessageUserUseCase(_ useCase: ReportMessageUserUseCase, didSuccessReporting user: User) {
+        presentAlert(title: "Success", message: String(format: "%@ successfully reported", user.userId), closeHandler: nil)
+    }
+    
+    func reportMessageUserUseCase(_ useCase: ReportMessageUserUseCase, didFailedReporting error: SBError) {
+        presentAlert(error: error)
+    }
+    
+    func reportMessageUserUseCase(_ useCase: ReportMessageUserUseCase, didSuccessReporting message: BaseMessage) {
+        presentAlert(title: "Success", message: String(format: "%@ successfully reported", message.message), closeHandler: nil)
+    }
+}
+
 
 // MARK: - GroupChannelMessageListUseCaseDelegate
 
