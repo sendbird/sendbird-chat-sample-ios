@@ -9,11 +9,57 @@
 import Foundation
 import SendbirdChatSDK
 
-final class DeleteMessageUseCase {
+protocol ReportMessageUserUseCaseDelegate: AnyObject {
+    func reportMessageUserUseCase(
+        _ useCase: ReportMessageUserUseCase,
+        didSuccessReporting message: BaseMessage
+    )
+    
+    func reportMessageUserUseCase(
+        _ useCase: ReportMessageUserUseCase,
+        didFailedReporting error: SBError
+    )
+    
+    func reportMessageUserUseCase(
+        _ useCase: ReportMessageUserUseCase,
+        didSuccessReporting user: User
+    )
+}
+
+
+final class ReportMessageUserUseCase {
     
     private let channel: OpenChannel
     
+    weak var delegate: ReportMessageUserUseCaseDelegate?
+    
     init(channel: OpenChannel) {
         self.channel = channel
+    }
+    
+    func reportMessage(_ message: BaseMessage) {
+        channel.report(message: message, reportCategory: .spam, reportDescription: "Message contains spamming information") { [weak self] error in
+            guard let self = self else {
+                return
+            }
+            if let error = error {
+                self.delegate?.reportMessageUserUseCase(self, didFailedReporting: error)
+            } else {
+                self.delegate?.reportMessageUserUseCase(self, didSuccessReporting: message)
+            }
+        }
+    }
+    
+    func reportUser(_ user: User) {
+        channel.report(offendingUser: user, reportCategory: .harassing, reportDescription: "User is abusive") { [weak self] error in
+            guard let self = self else {
+                return
+            }
+            if let error = error {
+                self.delegate?.reportMessageUserUseCase(self, didFailedReporting: error)
+            } else {
+                self.delegate?.reportMessageUserUseCase(self, didSuccessReporting: user)
+            }
+        }
     }
 }

@@ -46,6 +46,12 @@ class OpenChannelViewController: UIViewController {
         return messageListUseCase
     }()
     
+    private(set) lazy var reportUseCase: ReportMessageUserUseCase = {
+        let reportUseCase = ReportMessageUserUseCase(channel: channel)
+        reportUseCase.delegate = self
+        return reportUseCase
+    }()
+    
     public private(set) lazy var userMessageUseCase = OpenChannelUserMessageUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
@@ -179,7 +185,23 @@ extension OpenChannelViewController: UITableViewDelegate {
     
 }
 
-// MARK: - GroupChannelUseCaseDelegate
+// MARK: - OpenChannelReportUseCaseDelegate
+
+extension OpenChannelViewController: ReportMessageUserUseCaseDelegate {
+    func reportMessageUserUseCase(_ useCase: ReportMessageUserUseCase, didSuccessReporting user: User) {
+        presentAlert(title: "Success", message: String(format: "%@ successfully reported", user.userId), closeHandler: nil)
+    }
+    
+    func reportMessageUserUseCase(_ useCase: ReportMessageUserUseCase, didFailedReporting error: SBError) {
+        presentAlert(error: error)
+    }
+    
+    func reportMessageUserUseCase(_ useCase: ReportMessageUserUseCase, didSuccessReporting message: BaseMessage) {
+        presentAlert(title: "Success", message: String(format: "%@ successfully reported", message.message), closeHandler: nil)
+    }
+}
+
+// MARK: - OpenChannelMessageListUseCaseDelegate
 
 extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
     
