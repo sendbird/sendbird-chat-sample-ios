@@ -46,6 +46,12 @@ class OpenChannelViewController: UIViewController {
         return messageListUseCase
     }()
     
+    public private(set) lazy var copyMessageUseCase: CopyMessageUseCase = {
+        let copyMessageUseCase = CopyMessageUseCase(channel: channel)
+        copyMessageUseCase.delegate = self
+        return copyMessageUseCase
+    }()
+    
     public private(set) lazy var userMessageUseCase = OpenChannelUserMessageUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
@@ -178,6 +184,33 @@ extension OpenChannelViewController: UITableViewDelegate {
     }
     
 }
+
+// MARK: - CopyMessageToChannelViewControllerDelegate
+
+extension OpenChannelViewController: CopyMessageToChannelViewControllerDelegate {
+    func didSelect(channel: OpenChannel, forMessage message: BaseMessage) {
+        if let userMessage = message as? UserMessage {
+            copyMessageUseCase.copyUserMessage(userMessage, toChannel: channel)
+        } else if let fileMessage = message as? FileMessage {
+            copyMessageUseCase.copyFileMessage(fileMessage, toChannel: channel)
+        }
+    }
+}
+
+// MARK: - CopyMessageUseCaseDelegate
+
+extension OpenChannelViewController: CopyMessageUseCaseDelegate {
+    
+    func copyMessageUseCase(_ useCase: CopyMessageUseCase, didCopyFailed error: SBError) {
+        presentAlert(error: error)
+    }
+    
+    func copyMessageUseCase(_ useCase: CopyMessageUseCase, didCopySuccessfully message: BaseMessage?) {
+        presentAlert(title: "Success", message: "Message copied", closeHandler: nil)
+    }
+}
+
+
 
 // MARK: - GroupChannelUseCaseDelegate
 

@@ -32,6 +32,12 @@ extension OpenChannelViewController {
         }
         
         alert.addAction(
+            UIAlertAction(title: "Copy", style: .default) { [weak self] _ in
+                self?.presentCopyMessageViewController(message: message)
+            }
+        )
+
+        alert.addAction(
             UIAlertAction(title: "Update", style: .default) { [weak self] _ in
                 self?.presentUpdateUserMessageAlert(for: message)
             }
@@ -48,6 +54,12 @@ extension OpenChannelViewController {
         )
 
         present(alert, animated: true)
+    }
+    
+    private func presentCopyMessageViewController(message: BaseMessage) {
+        let viewController = CopyMessageToChannelViewController(with: message)
+        viewController.delegate = self
+        self.present(viewController, animated: true, completion: nil)
     }
     
     private func presentUpdateUserMessageAlert(for message: UserMessage) {
@@ -77,6 +89,12 @@ extension OpenChannelViewController {
     private func presentEditFileMessageAlert(for message: FileMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.name, preferredStyle: .actionSheet)
         
+        alert.addAction(
+            UIAlertAction(title: "Copy", style: .default) { [weak self] _ in
+                self?.presentCopyMessageViewController(message: message)
+            }
+        )
+
         alert.addAction(
             UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
                 self?.deleteMessage(message)
