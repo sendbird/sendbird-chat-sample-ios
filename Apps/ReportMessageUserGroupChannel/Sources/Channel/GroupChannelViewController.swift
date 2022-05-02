@@ -206,6 +206,10 @@ extension GroupChannelViewController: ReportMessageUserUseCaseDelegate {
     func reportMessageUserUseCase(_ useCase: ReportMessageUserUseCase, didSuccessReporting message: BaseMessage) {
         presentAlert(title: "Success", message: String(format: "%@ successfully reported", message.message), closeHandler: nil)
     }
+    
+    func reportMessageUserUseCase(_ useCase: ReportMessageUserUseCase, didSuccessReporting channel: GroupChannel) {
+        presentAlert(title: "Success", message: String(format: "%@ successfully reported", channel.name), closeHandler: nil)
+    }
 }
 
 
