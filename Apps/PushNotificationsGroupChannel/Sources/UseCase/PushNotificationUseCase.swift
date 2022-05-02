@@ -29,8 +29,12 @@ class PushNotificationUseCase {
     }
     
     func setPushNotification(enable: Bool) {
+        guard let pushToken = SendbirdChat.getPendingPushToken() else {
+            return
+        }
+
         if enable {
-            SendbirdChat.registerDevicePushToken(SendbirdChat.getPendingPushToken()!, unique: true, completionHandler: { (status, error) in
+            SendbirdChat.registerDevicePushToken(pushToken, unique: true, completionHandler: { (status, error) in
                 guard error == nil else {
                     // Handle error.
                     return
@@ -38,7 +42,7 @@ class PushNotificationUseCase {
             })
         }
         else {
-            SendbirdChat.unregisterPushToken(SendbirdChat.getPendingPushToken()!, completionHandler: { (response, error) in
+            SendbirdChat.unregisterPushToken(pushToken, completionHandler: { (response, error) in
                 guard error == nil else {
                     // Handle error.
                     return

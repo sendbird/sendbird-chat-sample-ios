@@ -13,6 +13,7 @@ public final class SettingViewController: UIViewController {
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        stackView.spacing = 16.0
         return stackView
     }()
     
@@ -24,6 +25,24 @@ public final class SettingViewController: UIViewController {
         return editUserProfileButton
     }()
     
+    private lazy var pushSwitchView: UIView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 16.0
+        
+        let switchButton = UISwitch()
+        switchButton.translatesAutoresizingMaskIntoConstraints = false
+        switchButton.addTarget(self, action: #selector(switchControlValueChanged(_:)), for: .valueChanged)
+        
+        let switchLabel = UILabel()
+        switchLabel.translatesAutoresizingMaskIntoConstraints = false
+        switchLabel.text = "Push Notifications"
+        
+        stackView.addArrangedSubview(switchLabel)
+        stackView.addArrangedSubview(switchButton)
+        return stackView
+    }()
+    
     private lazy var logoutButton: UIButton = {
         let logoutButton = UIButton(frame: .zero)
         logoutButton.addTarget(self, action: #selector(didTouchLogoutButton(_:)), for: .touchUpInside)
@@ -31,6 +50,8 @@ public final class SettingViewController: UIViewController {
         logoutButton.setTitleColor(.systemRed, for: .normal)
         return logoutButton
     }()
+    
+    private let usecase = PushNotificationUseCase()
     
     public init() {
         super.init(nibName: nil, bundle: nil)
@@ -50,12 +71,17 @@ public final class SettingViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
         ])
         
         stackView.addArrangedSubview(editUserProfileButton)
         stackView.addArrangedSubview(logoutButton)
+        stackView.addArrangedSubview(pushSwitchView)
+    }
+    
+    @objc private func switchControlValueChanged(_ sender: UISwitch) {
+        usecase.setPushNotification(enable: sender.isOn)
     }
     
     @objc private func didTouchEditUserProfileButton(_ sender: Any) {
