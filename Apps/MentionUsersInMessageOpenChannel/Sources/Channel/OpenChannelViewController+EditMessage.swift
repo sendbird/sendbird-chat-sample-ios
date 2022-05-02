@@ -38,6 +38,12 @@ extension OpenChannelViewController {
         )
         
         alert.addAction(
+            UIAlertAction(title: "Mention members", style: .default) { [weak self] _ in
+                self?.presentMemberSelectionScreen(for: message)
+            }
+        )
+        
+        alert.addAction(
             UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
                 self?.deleteMessage(message)
             }
@@ -48,6 +54,10 @@ extension OpenChannelViewController {
         )
 
         present(alert, animated: true)
+    }
+    
+    private func presentMemberSelectionScreen(for message: BaseMessage) {
+        
     }
     
     private func presentUpdateUserMessageAlert(for message: UserMessage) {
