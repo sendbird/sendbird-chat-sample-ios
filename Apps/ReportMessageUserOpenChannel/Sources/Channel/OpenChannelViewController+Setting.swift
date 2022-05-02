@@ -26,6 +26,13 @@ extension OpenChannelViewController {
             }
         )
         
+        actionSheet.addAction(
+            UIAlertAction(title: "Report Channel", style: .destructive) { [weak self] _ in
+                self?.reportChannel()
+            }
+        )
+
+        
         if settingUseCase.isCurrentOperator {
             actionSheet.addAction(
                 UIAlertAction(title: "Update Channel Name", style: .default) { [weak self] _ in
@@ -45,6 +52,10 @@ extension OpenChannelViewController {
         )
 
         present(actionSheet, animated: true)
+    }
+    
+    private func reportChannel() {
+        reportUseCase.reportChannel()
     }
 
     private func pushMemberList() {

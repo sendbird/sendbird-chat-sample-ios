@@ -24,6 +24,11 @@ protocol ReportMessageUserUseCaseDelegate: AnyObject {
         _ useCase: ReportMessageUserUseCase,
         didSuccessReporting user: User
     )
+    
+    func reportMessageUserUseCase(
+        _ useCase: ReportMessageUserUseCase,
+        didSuccessReporting channel: OpenChannel
+    )
 }
 
 
@@ -62,4 +67,18 @@ final class ReportMessageUserUseCase {
             }
         }
     }
+    
+    func reportChannel() {
+        channel.report(category: .suspicious, reportDescription: "Suspicious", completionHandler: { [weak self] error in
+            guard let self = self else {
+                return
+            }
+            if let error = error {
+                self.delegate?.reportMessageUserUseCase(self, didFailedReporting: error)
+            } else {
+                self.delegate?.reportMessageUserUseCase(self, didSuccessReporting: self.channel)
+            }
+        })
+    }
+
 }
