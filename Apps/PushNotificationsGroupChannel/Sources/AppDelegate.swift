@@ -65,6 +65,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         PushNotificationUseCase().registerPushToken(deviceToken: deviceToken)
     }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        let alertMsg = (userInfo["aps"] as! NSDictionary)["alert"] as! NSDictionary
+        print("Alert Message:", alertMsg)
+        let payload = userInfo["sendbird"] as! NSDictionary
+        print("User Info payload:", payload)
+        // Implement your custom way to parse payload
+        if (application.applicationState == .inactive) {
+            // Receiving a notification while your app is inactive.
+        } else {
+            // Receiving a notification while your app is in either foreground or background.
+        }
+
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
 
 }
 

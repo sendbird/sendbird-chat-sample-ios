@@ -27,4 +27,34 @@ class PushNotificationUseCase {
         }
 
     }
+    
+    func setPushNotification(enable: Bool) {
+        if enable {
+            SendbirdChat.registerDevicePushToken(SendbirdChat.getPendingPushToken()!, unique: true, completionHandler: { (status, error) in
+                guard error == nil else {
+                    // Handle error.
+                    return
+                }
+            })
+        }
+        else {
+            SendbirdChat.unregisterPushToken(SendbirdChat.getPendingPushToken()!, completionHandler: { (response, error) in
+                guard error == nil else {
+                    // Handle error.
+                    return
+                }
+            })
+        }
+    }
+    
+    func unRegisterAllDevices() {
+        SendbirdChat.unregisterAllPushToken(completionHandler: { (response, error) in
+            guard error == nil else {
+                // Handle error.
+                return
+            }
+        })
+
+    }
+
 }
