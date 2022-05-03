@@ -7,6 +7,7 @@
 
 import UIKit
 import CommonModule
+import SwiftUI
 
 public final class SettingViewController: UIViewController {
     
@@ -43,6 +44,44 @@ public final class SettingViewController: UIViewController {
         return stackView
     }()
     
+    private lazy var dndSwitchView: UIView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 16.0
+        
+        let switchButton = UISwitch()
+        switchButton.translatesAutoresizingMaskIntoConstraints = false
+        switchButton.addTarget(self, action: #selector(dndControlValueChanged(_:)), for: .valueChanged)
+        
+        let switchLabel = UILabel()
+        switchLabel.translatesAutoresizingMaskIntoConstraints = false
+        switchLabel.text = "Do not disturb"
+        
+        stackView.addArrangedSubview(switchLabel)
+        stackView.addArrangedSubview(switchButton)
+        return stackView
+    }()
+    
+    private lazy var snoozeSwitchView: UIView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 16.0
+        
+        let switchButton = UISwitch()
+        switchButton.translatesAutoresizingMaskIntoConstraints = false
+        switchButton.addTarget(self, action: #selector(snoozeControlValueChanged(_:)), for: .valueChanged)
+        
+        let switchLabel = UILabel()
+        switchLabel.translatesAutoresizingMaskIntoConstraints = false
+        switchLabel.text = "Snooze"
+        
+        stackView.addArrangedSubview(switchLabel)
+        stackView.addArrangedSubview(switchButton)
+        return stackView
+    }()
+    
+    
+    
     private lazy var logoutButton: UIButton = {
         let logoutButton = UIButton(frame: .zero)
         logoutButton.addTarget(self, action: #selector(didTouchLogoutButton(_:)), for: .touchUpInside)
@@ -52,6 +91,8 @@ public final class SettingViewController: UIViewController {
     }()
     
     private let usecase = PushNotificationUseCase()
+    
+    private lazy var dndSnoozeUseCase = UserDNDSnoozeUseCase()
     
     public init() {
         super.init(nibName: nil, bundle: nil)
@@ -78,10 +119,37 @@ public final class SettingViewController: UIViewController {
         stackView.addArrangedSubview(editUserProfileButton)
         stackView.addArrangedSubview(logoutButton)
         stackView.addArrangedSubview(pushSwitchView)
+        stackView.addArrangedSubview(dndSwitchView)
+        stackView.addArrangedSubview(snoozeSwitchView)
+
     }
     
     @objc private func switchControlValueChanged(_ sender: UISwitch) {
         usecase.setPushNotification(enable: sender.isOn)
+    }
+    
+    @objc private func snoozeControlValueChanged(_ sender: UISwitch) {
+        dndSnoozeUseCase.setSnooze(enable: sender.isOn) { [weak self] result in
+            switch result {
+            case .success:
+                self?.presentAlert(title: "Success", message: "Snooze succeeded", closeHandler: nil)
+            case .failure(let error):
+                sender.setOn(false, animated: true)
+                self?.presentAlert(error: error)
+            }
+        }
+    }
+    
+    @objc private func dndControlValueChanged(_ sender: UISwitch) {
+        dndSnoozeUseCase.setDND(enable: sender.isOn) { [weak self] result in
+            switch result {
+            case .success:
+                self?.presentAlert(title: "Success", message: "DND succeeded", closeHandler: nil)
+            case .failure(let error):
+                sender.setOn(false, animated: true)
+                self?.presentAlert(error: error)
+            }
+        }
     }
     
     @objc private func didTouchEditUserProfileButton(_ sender: Any) {

@@ -107,4 +107,8 @@ extension Date {
             return false
         }
     }
+    
+    public func nextDay() -> Date? {
+        return Calendar.current.date(byAdding: .day, value: 1, to: self)
+    }
 }
