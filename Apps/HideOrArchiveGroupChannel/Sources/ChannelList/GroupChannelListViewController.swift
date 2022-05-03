@@ -32,6 +32,14 @@ final class GroupChannelListViewController: UIViewController {
         return useCase
     }()
     
+    private lazy var hideArchiveChannelListUseCase: HideArchiveChannelListUsecase = {
+        let useCase = HideArchiveChannelListUsecase()
+        useCase.delegate = self
+        return useCase
+    }()
+    
+    private lazy var hideArchiveUseCase = HideArchiveChannelUsecase()
+    
     private lazy var timestampStorage = TimestampStorage()
     
     init() {
@@ -58,8 +66,12 @@ final class GroupChannelListViewController: UIViewController {
         ])
         
         setupNavigation()
-        
+        reloadChannels()
+    }
+    
+    private func reloadChannels() {
         useCase.reloadChannels()
+        hideArchiveChannelListUseCase.reloadChannels()
     }
     
     private func setupNavigation() {
@@ -82,14 +94,26 @@ final class GroupChannelListViewController: UIViewController {
 
 extension GroupChannelListViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        useCase.channels.count
+        if section == 0 {
+            return hideArchiveChannelListUseCase.channels.count
+        } else {
+            return useCase.channels.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var channel: GroupChannel
+        if indexPath.section == 0 {
+            channel = hideArchiveChannelListUseCase.channels[indexPath.row]
+        } else {
+            channel = useCase.channels[indexPath.row]
+        }
         let cell: GroupChannelListCell = tableView.dequeueReusableCell(for: indexPath)
-        let channel = useCase.channels[indexPath.row]
-        
         cell.configure(with: channel)
         
         return cell
@@ -103,36 +127,83 @@ extension GroupChannelListViewController: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let channel = useCase.channels[indexPath.row]
-        let channelViewController = GroupChannelViewController(channel: channel, timestampStorage: timestampStorage)
-        channelViewController.hidesBottomBarWhenPushed = true
-        
-        navigationController?.pushViewController(channelViewController, animated: true)
+        if indexPath.section == 1 {
+            let channel = useCase.channels[indexPath.row]
+            let channelViewController = GroupChannelViewController(channel: channel, timestampStorage: timestampStorage)
+            channelViewController.hidesBottomBarWhenPushed = true
+            
+            navigationController?.pushViewController(channelViewController, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Hidden/Archived Channels"
+        } else {
+            return "Channels"
+        }
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let leaveAction = UIContextualAction(style: .destructive, title: "Hide") { [weak self] _, _, completion in
-            guard let self = self else { return }
-            
-            let channel = self.useCase.channels[indexPath.row]
-            
-            self.useCase.leaveChannel(channel) { result in
-                switch result {
-                case .success:
-                    completion(true)
-                case .failure:
-                    completion(false)
-                }
-            }
-        }
+        if indexPath.section == 0 {
+            let channel = self.hideArchiveChannelListUseCase.channels[indexPath.row]
 
-        return UISwipeActionsConfiguration(actions: [leaveAction])
+            let title = channel.hiddenState == .hiddenPreventAutoUnhide ? "UnArchive" : "UnHide"
+            let unHideAction = UIContextualAction(style: .normal, title: title) { [weak self] _, _, completion in
+                guard let self = self else { return }
+                                
+                self.hideArchiveUseCase.unHideChannel(channel, completion: { result in
+                    switch result {
+                    case .success:
+                        self.reloadChannels()
+                        completion(true)
+                    case .failure:
+                        completion(false)
+                    }
+                })
+            }
+            return UISwipeActionsConfiguration(actions: [unHideAction])
+        } else {
+            let hideAction = UIContextualAction(style: .normal, title: "Hide") { [weak self] _, _, completion in
+                guard let self = self else { return }
+                
+                let channel = self.useCase.channels[indexPath.row]
+                
+                self.hideArchiveUseCase.hideChannel(channel, completion: { result in
+                    switch result {
+                    case .success:
+                        self.reloadChannels()
+                        completion(true)
+                    case .failure:
+                        completion(false)
+                    }
+                })
+            }
+            
+            let archiveAction = UIContextualAction(style: .normal, title: "Archive") { [weak self] _, _, completion in
+                guard let self = self else { return }
+                
+                let channel = self.useCase.channels[indexPath.row]
+                
+                self.hideArchiveUseCase.archiveChannel(channel, completion: { result in
+                    switch result {
+                    case .success:
+                        self.reloadChannels()
+                        completion(true)
+                    case .failure:
+                        completion(false)
+                    }
+                })
+            }
+
+            return UISwipeActionsConfiguration(actions: [hideAction, archiveAction])
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
             useCase.loadNextPage()
+            hideArchiveChannelListUseCase.loadNextPage()
         }
     }
 
@@ -155,3 +226,20 @@ extension GroupChannelListViewController: GroupChannelListUseCaseDelegate {
     }
     
 }
+
+// MARK: - HideArchiveChannelListUsecaseDelegate
+
+extension GroupChannelListViewController: HideArchiveChannelListUsecaseDelegate {
+    func groupChannelListUseCase(_ groupChannelListUseCase: HideArchiveChannelListUsecase, didUpdateChannels channels: [GroupChannel]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
+    
+    func groupChannelListUseCase(_ groupChannelListUseCase: HideArchiveChannelListUsecase, didReceiveError error: SBError) {
+        DispatchQueue.main.async { [weak self] in
+            self?.presentAlert(error: error)
+        }
+    }
+}
+
