@@ -18,7 +18,7 @@ class CreateGroupChannelViewController: UIViewController {
     private let didCreateChannel: DidCreateChannelHandler?
     private var channelImageData: Data?
     
-    private lazy var useCase = CreateGroupChannelUseCase(users: users)
+    private lazy var useCase = CreateWithCategoryGroupChannelUseCase(users: users)
     
     private lazy var imagePickerRouter: ImagePickerRouter = {
         let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoCamera, .photoLibrary])
