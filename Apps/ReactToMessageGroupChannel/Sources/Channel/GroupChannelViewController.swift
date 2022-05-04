@@ -17,7 +17,7 @@ class GroupChannelViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView: UITableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(BasicMessageCell.self)
+        tableView.register(ReactToMessageCell.self)
         tableView.register(BasicFileCell.self)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -49,6 +49,8 @@ class GroupChannelViewController: UIViewController {
     }()
     
     public private(set) lazy var userMessageUseCase = GroupChannelUserMessageUseCase(channel: channel)
+    
+    public private(set) lazy var reactToMessageUseCase = ReactToMessageUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
     
@@ -158,8 +160,8 @@ extension GroupChannelViewController: UITableViewDataSource {
             cell.configure(with: fileMessage)
             return cell
         } else {
-            let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: message)
+            let cell: ReactToMessageCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.updateMessageDetails(with: message)
             return cell
         }
     }

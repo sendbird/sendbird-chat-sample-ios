@@ -11,15 +11,46 @@ import SendbirdChatSDK
 extension GroupChannelViewController {
     
     func handleLongPress(for message: BaseMessage) {
-        guard message.sender?.userId == SendbirdChat.getCurrentUser()?.userId else { return }
-        
-        if let userMessage = message as? UserMessage {
-            presentEditUserMessageAlert(for: userMessage)
-        } else if let fileMessage = message as? FileMessage {
-            presentEditFileMessageAlert(for: fileMessage)
-        }
+        presentEditUserMessageAlert(for: message)
     }
     
+    private func presentEditUserMessageAlert(for message: BaseMessage) {
+        let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
+        
+        alert.addAction(
+            UIAlertAction(title: "👍" , style: .default) { [weak self] _ in
+                self?.reacToMessage(message, reaction: "👍")
+            }
+        )
+        alert.addAction(
+            UIAlertAction(title: "👏" , style: .default) { [weak self] _ in
+                self?.reacToMessage(message, reaction: "👏")
+            }
+        )
+        alert.addAction(
+            UIAlertAction(title: "😂" , style: .default) { [weak self] _ in
+                self?.reacToMessage(message, reaction: "😂")
+            }
+        )
+        alert.addAction(
+            UIAlertAction(title: "😵‍💫" , style: .default) { [weak self] _ in
+                self?.reacToMessage(message, reaction: "😵‍💫")
+            }
+        )
+        alert.addAction(
+            UIAlertAction(title: "😡" , style: .default) { [weak self] _ in
+                self?.reacToMessage(message, reaction: "😡")
+            }
+        )
+
+        
+        present(alert, animated: true)
+    }
+    
+    private func reacToMessage(_ message: BaseMessage, reaction: String) {
+        reactToMessageUseCase.reactToMessage(message, reaction: reaction)
+    }
+
     private func presentEditUserMessageAlert(for message: UserMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
         
