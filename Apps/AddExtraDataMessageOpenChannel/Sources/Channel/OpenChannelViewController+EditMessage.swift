@@ -32,6 +32,12 @@ extension OpenChannelViewController {
         }
         
         alert.addAction(
+            UIAlertAction(title: "Add Extra Data", style: .default) { [weak self] _ in
+                self?.addExtraData(for: message)
+            }
+        )
+        
+        alert.addAction(
             UIAlertAction(title: "Update", style: .default) { [weak self] _ in
                 self?.presentUpdateUserMessageAlert(for: message)
             }
@@ -48,6 +54,10 @@ extension OpenChannelViewController {
         )
 
         present(alert, animated: true)
+    }
+    
+    private func addExtraData(for message: BaseMessage) {
+        addExtraDataMessageUseCase.addExtraDataToMessage(message)
     }
     
     private func presentUpdateUserMessageAlert(for message: UserMessage) {
