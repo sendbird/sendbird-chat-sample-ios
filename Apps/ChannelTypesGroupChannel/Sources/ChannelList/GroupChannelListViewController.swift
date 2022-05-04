@@ -15,7 +15,7 @@ final class GroupChannelListViewController: UIViewController {
         let tableView: UITableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(GroupChannelListCell.self)
+        tableView.register(GroupChannelTypeListCell.self)
         return tableView
     }()
     
@@ -87,11 +87,9 @@ extension GroupChannelListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: GroupChannelListCell = tableView.dequeueReusableCell(for: indexPath)
+        let cell: GroupChannelTypeListCell = tableView.dequeueReusableCell(for: indexPath)
         let channel = useCase.channels[indexPath.row]
-        
         cell.configure(with: channel)
-        
         return cell
     }
     

@@ -8,7 +8,7 @@
 import UIKit
 import SendbirdChatSDK
 
-public class GroupChannelListCell: UITableViewCell {
+open class GroupChannelListCell: UITableViewCell {
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
@@ -16,11 +16,11 @@ public class GroupChannelListCell: UITableViewCell {
         accessoryType = .disclosureIndicator
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
         
-    public func configure(with channel: GroupChannel) {
+    open func configure(with channel: GroupChannel) {
         if #available(iOS 14.0, *) {
             var content = defaultContentConfiguration()
             content.text = channel.name

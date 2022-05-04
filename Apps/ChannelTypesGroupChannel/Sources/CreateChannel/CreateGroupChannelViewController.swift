@@ -10,6 +10,12 @@ import CommonModule
 import SendbirdChatSDK
 import MobileCoreServices
 
+enum ChannelType: Int {
+    case publicGroup = 0
+    case privateGroup
+    case superGroup
+}
+
 class CreateGroupChannelViewController: UIViewController {
     
     typealias DidCreateChannelHandler = (GroupChannel) -> Void
@@ -17,8 +23,9 @@ class CreateGroupChannelViewController: UIViewController {
     private let users: [User]
     private let didCreateChannel: DidCreateChannelHandler?
     private var channelImageData: Data?
+    private var channelType: ChannelType = .privateGroup
     
-    private lazy var useCase = CreateGroupChannelUseCase(users: users)
+    private lazy var useCase = CreateGroupChannelWithTypeUseCase(users: users)
     
     private lazy var imagePickerRouter: ImagePickerRouter = {
         let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoCamera, .photoLibrary])
@@ -32,6 +39,13 @@ class CreateGroupChannelViewController: UIViewController {
         })
         channelEditView.setUsers(users)
         return channelEditView
+    }()
+    
+    private lazy var segmentControl: UISegmentedControl = {
+       let control = UISegmentedControl(items: ["Public", "Private", "Super Group"])
+        control.addTarget(self, action: #selector(channelTypeChanged(_:)), for: .valueChanged)
+        control.translatesAutoresizingMaskIntoConstraints = false
+        return control
     }()
     
 
@@ -57,12 +71,18 @@ class CreateGroupChannelViewController: UIViewController {
     
     private func setupEditView() {
         view.addSubview(channelEditView)
+        view.addSubview(segmentControl)
         channelEditView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             channelEditView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             channelEditView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             channelEditView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            channelEditView.heightAnchor.constraint(equalToConstant: 120)
+            channelEditView.heightAnchor.constraint(equalToConstant: 120),
+            
+            segmentControl.topAnchor.constraint(equalTo: channelEditView.bottomAnchor, constant: 20),
+            segmentControl.heightAnchor.constraint(equalToConstant: 44),
+            segmentControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            segmentControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
     }
     
@@ -80,10 +100,14 @@ class CreateGroupChannelViewController: UIViewController {
         navigationItem.rightBarButtonItem = createButtonItem
     }
     
+    @objc private func channelTypeChanged(_ sender: UISegmentedControl) {
+        channelType = ChannelType.init(rawValue: sender.selectedSegmentIndex) ?? .privateGroup
+    }
+    
     @objc private func didTouchCreateGroupChannel(_ sender: AnyObject) {
         let channelName = channelEditView.text != "" ? channelEditView.text : channelEditView.placeholder
 
-        useCase.createGroupChannel(channelName: channelName, imageData: channelImageData) { [weak self] result in
+        useCase.createGroupChannel(channelName: channelName, channelType: channelType, imageData: channelImageData) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let channel):
