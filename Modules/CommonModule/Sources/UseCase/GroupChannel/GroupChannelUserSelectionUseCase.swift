@@ -94,17 +94,17 @@ open class GroupChannelUserSelectionUseCase {
         let currentUser = SendbirdChat.getCurrentUser()
 
         return users.filter {
-            $0.userId != currentUser?.userId
-            && hasMember(ofUserId: $0.userId) == false
+            $0.userID != currentUser?.userID
+            && hasMember(ofUserId: $0.userID) == false
         }
     }
     
-    private func hasMember(ofUserId userId: String) -> Bool {
+    private func hasMember(ofUserId userID: String) -> Bool {
         guard let channel = channel else {
             return false
         }
 
-        return channel.hasMember(userId)
+        return channel.hasMember(userID)
     }
     
 }
