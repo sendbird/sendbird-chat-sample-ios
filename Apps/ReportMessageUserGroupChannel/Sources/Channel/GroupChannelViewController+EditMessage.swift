@@ -11,7 +11,7 @@ import SendbirdChatSDK
 extension GroupChannelViewController {
     
     func handleLongPress(for message: BaseMessage) {
-        guard message.sender?.userId == SendbirdChat.getCurrentUser()?.userId else {
+        guard message.sender?.userID == SendbirdChat.getCurrentUser()?.userID else {
             presentReportingMessageAlert(for: message)
             return
         }
@@ -33,7 +33,7 @@ extension GroupChannelViewController {
         )
         
         let user = message.sender
-        let reportUserString = String(format: "Report %@", user?.userId ?? "User")
+        let reportUserString = String(format: "Report %@", user?.userID ?? "User")
         alert.addAction(
             UIAlertAction(title: reportUserString, style: .destructive) { [weak self] _ in
                 guard let user = user else { return }

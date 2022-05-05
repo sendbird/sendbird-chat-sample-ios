@@ -23,8 +23,8 @@ open class CreateGroupChannelUseCase {
         params.addUsers(users)
         params.name = channelName
         
-        if let operatorUserId = SendbirdChat.getCurrentUser()?.userId {
-            params.operatorUserIds = [operatorUserId]
+        if let operatorUserId = SendbirdChat.getCurrentUser()?.userID {
+            params.operatorUserIDs = [operatorUserId]
         }
         
         GroupChannel.createChannel(params: params) { channel, error in

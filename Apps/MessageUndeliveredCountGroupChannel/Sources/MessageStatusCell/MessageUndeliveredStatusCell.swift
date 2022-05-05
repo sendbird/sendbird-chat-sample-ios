@@ -39,8 +39,8 @@ class MessageUndeliveredStatusCell: BasicMessageCell {
         undeliveredCountUseCase: MessageUndeliveredMembersCountUseCase
     ) {
         configure(with: message)
-        let currentUserId = UserConnectionUseCase.shared.currentUser?.userId
-        if message.sender?.userId == currentUserId {
+        let currentUserId = UserConnectionUseCase.shared.currentUser?.userID
+        if message.sender?.userID == currentUserId {
             unReadStatusLabel.isHidden = false
             unReadStatusLabel.text = undeliveredCountUseCase.getUndeliveredMessageStatus(for: message)
         } else {
