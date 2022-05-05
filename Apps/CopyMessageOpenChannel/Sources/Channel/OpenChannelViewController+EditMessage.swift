@@ -11,7 +11,7 @@ import SendbirdChatSDK
 extension OpenChannelViewController {
     
     func presentEditMessageAlert(for message: BaseMessage) {
-        guard message.sender?.userId == SendbirdChat.getCurrentUser()?.userId else { return }
+        guard message.sender?.userID == SendbirdChat.getCurrentUser()?.userID else { return }
         
         if let userMessage = message as? UserMessage {
             presentEditUserMessageAlert(for: userMessage)
