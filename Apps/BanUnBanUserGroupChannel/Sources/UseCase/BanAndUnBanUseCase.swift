@@ -17,7 +17,7 @@ final class BanAndUnBanUseCase {
     }
     
     func ban(user: Member, completion: @escaping(Result<Void, SBError>) -> Void) {
-        channel.banUser(userId: user.userId, seconds: 120, description: nil, completionHandler: { error in
+        channel.banUser(userID: user.userID, seconds: 120, description: nil, completionHandler: { error in
             guard let error = error else {
                 completion(.success(()))
                 return
@@ -27,7 +27,7 @@ final class BanAndUnBanUseCase {
     }
     
     func unBan(user: Member, completion: @escaping(Result<Void, SBError>) -> Void) {
-        channel.unbanUser(userId: user.userId, completionHandler: { error in
+        channel.unbanUser(userID: user.userID, completionHandler: { error in
             guard let error = error else {
                 completion(.success(()))
                 return

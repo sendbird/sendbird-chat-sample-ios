@@ -185,14 +185,14 @@ extension OpenChannelMessageListUseCase: BaseChannelDelegate, OpenChannelDelegat
         replaceMessages([message])
     }
     
-    open func channel(_ sender: BaseChannel, messageWasDeleted messageId: Int64) {
+    open func channel(_ sender: BaseChannel, messageWasDeleted messageID: Int64) {
         guard sender.channelURL == channel.channelURL else { return }
         
-        deleteMessages(byMessageIds: [messageId])
+        deleteMessages(byMessageIds: [messageID])
     }
     
     private func appendNewMessage(_ message: BaseMessage) {
-        guard messages.contains(where: { $0.messageId == message.messageId }) == false else { return }
+        guard messages.contains(where: { $0.messageID == message.messageID }) == false else { return }
         
         self.messages.append(message)
     }
@@ -200,24 +200,24 @@ extension OpenChannelMessageListUseCase: BaseChannelDelegate, OpenChannelDelegat
     private func replaceMessages(_ newMessages: [BaseMessage]) {
         newMessages.forEach { newMessage in
             if let index = messages.firstIndex(where: {
-                $0.messageId == newMessage.messageId
-                || $0.requestId == newMessage.requestId
+                $0.messageID == newMessage.messageID
+                || $0.requestID == newMessage.requestID
             }) {
                 messages[index] = newMessage
             }
         }
     }
     
-    private func deleteMessages(byMessageIds messageIds: [Int64]) {
+    private func deleteMessages(byMessageIds messageIDs: [Int64]) {
         self.messages = self.messages.filter {
-            messageIds.contains($0.messageId) == false
+            messageIDs.contains($0.messageID) == false
         }
     }
         
     private func deleteMessage(_ message: BaseMessage) {
         self.messages = self.messages.filter {
-            $0.requestId != message.requestId
-            && $0.messageId != message.messageId
+            $0.requestID != message.requestID
+            && $0.messageID != message.messageID
         }
     }
     
