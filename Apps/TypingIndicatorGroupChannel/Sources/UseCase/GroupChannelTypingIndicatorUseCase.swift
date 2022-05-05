@@ -72,6 +72,6 @@ final class GroupChannelTypingIndicatorUseCase: GroupChannelDelegate {
     }
     
     private func getUsername(user: User) -> String {
-        return user.nickname ?? user.userId
+        return user.nickname ?? user.userID
     }
 }
