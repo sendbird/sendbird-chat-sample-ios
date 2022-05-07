@@ -206,7 +206,7 @@ extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
         defer { self.targetMessageForScrolling = nil }
         
         guard let focusMessage = targetMessageForScrolling,
-              focusMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
+              focusMessage.messageID == messageListUseCase.messages.last?.messageID else { return }
         
         let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
         
