@@ -42,8 +42,8 @@ class GroupChannelViewController: UIViewController {
     
     private let timestampStorage: TimestampStorage
     
-    public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
-        let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, timestampStorage: timestampStorage)
+    public private(set) lazy var messageListUseCase: LocalCachingMessageListUseCase = {
+        let messageListUseCase = LocalCachingMessageListUseCase(channel: channel, timestampStorage: timestampStorage)
         messageListUseCase.delegate = self
         return messageListUseCase
     }()
@@ -186,16 +186,16 @@ extension GroupChannelViewController: UITableViewDelegate {
     
 }
 
-// MARK: - GroupChannelMessageListUseCaseDelegate
+// MARK: - LocalCachingMessageListUseCaseDelegate
 
-extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
+extension GroupChannelViewController: LocalCachingMessageListUseCaseDelegate {
     
 
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBError) {
+    func localCachingMessageListUseCase(_ useCase: LocalCachingMessageListUseCase, didReceiveError error: SBError) {
         presentAlert(error: error)
     }
     
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage]) {
+    func localCachingMessageListUseCase(_ useCase: LocalCachingMessageListUseCase, didUpdateMessages messages: [BaseMessage]) {
         tableView.reloadData()
         scrollToFocusMessage()
     }
@@ -210,11 +210,11 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
         tableView.scrollToRow(at: focusMessageIndexPath, at: .bottom, animated: false)
     }
     
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: GroupChannel) {
+    func localCachingMessageListUseCase(_ useCase: LocalCachingMessageListUseCase, didUpdateChannel channel: GroupChannel) {
         title = channel.name
     }
     
-    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: GroupChannel) {
+    func localCachingMessageListUseCase(_ useCase: LocalCachingMessageListUseCase, didDeleteChannel channel: GroupChannel) {
         presentAlert(title: "This channel has been deleted", message: nil) { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
