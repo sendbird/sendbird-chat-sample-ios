@@ -17,7 +17,7 @@ class OpenChannelViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView: UITableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(BasicMessageCell.self)
+        tableView.register(MentionedUserMessageCell.self)
         tableView.register(BasicFileCell.self)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -47,6 +47,8 @@ class OpenChannelViewController: UIViewController {
     }()
     
     public private(set) lazy var userMessageUseCase = OpenChannelUserMessageUseCase(channel: channel)
+    
+    public private(set) lazy var mentionUsersUseCase = MentionUsersInMessageUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
     
@@ -151,8 +153,8 @@ extension OpenChannelViewController: UITableViewDataSource {
             cell.configure(with: fileMessage)
             return cell
         } else {
-            let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: message)
+            let cell: MentionedUserMessageCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.updateMessageDetails(with: message)
             return cell
         }
     }
@@ -206,7 +208,7 @@ extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
         defer { self.targetMessageForScrolling = nil }
         
         guard let focusMessage = targetMessageForScrolling,
-              focusMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
+              focusMessage.messageID == messageListUseCase.messages.last?.messageID else { return }
         
         let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
         
@@ -222,22 +224,25 @@ extension OpenChannelViewController: MessageInputViewDelegate {
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
         var sendingMessage: BaseMessage?
         
-        sendingMessage = userMessageUseCase.sendMessage(message) { [weak self] result in
-            switch result {
-            case .success(let message):
-                self?.targetMessageForScrolling = message
-                self?.messageListUseCase.didSuccessSendMessage(message)
-            case .failure(let error):
-                self?.targetMessageForScrolling = nil
-                self?.messageListUseCase.didFailSendMessage(sendingMessage)
-                self?.presentAlert(error: error)
+        let viewController = MentionUserSelectionViewController(channel: channel) { [weak self] _, users in
+            sendingMessage = self?.mentionUsersUseCase.sendMessage(message, mentionedUsers: users) { [weak self] result in
+                switch result {
+                case .success(let message):
+                    self?.targetMessageForScrolling = message
+                    self?.messageListUseCase.didSuccessSendMessage(message)
+                case .failure(let error):
+                    self?.targetMessageForScrolling = nil
+                    self?.messageListUseCase.didFailSendMessage(sendingMessage)
+                    self?.presentAlert(error: error)
+                }
             }
+            guard let sendingMessage = sendingMessage else { return }
+            
+            self?.targetMessageForScrolling = sendingMessage
+            self?.messageListUseCase.didStartSendMessage(sendingMessage)
         }
-        
-        guard let sendingMessage = sendingMessage else { return }
-        
-        targetMessageForScrolling = sendingMessage
-        messageListUseCase.didStartSendMessage(sendingMessage)
+        let navigation = UINavigationController(rootViewController: viewController)
+        present(navigation, animated: true)
     }
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchSendFileMessageButton sender: UIButton) {
