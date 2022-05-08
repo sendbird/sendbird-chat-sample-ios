@@ -17,7 +17,7 @@ class GroupChannelViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView: UITableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(BasicMessageCell.self)
+        tableView.register(OGMetaDataMessageCell.self)
         tableView.register(BasicFileCell.self)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -158,8 +158,8 @@ extension GroupChannelViewController: UITableViewDataSource {
             cell.configure(with: fileMessage)
             return cell
         } else {
-            let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: message)
+            let cell: OGMetaDataMessageCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.updateMessageDetails(with: message)
             return cell
         }
     }
