@@ -48,7 +48,7 @@ class OpenChannelViewController: UIViewController {
     
     public private(set) lazy var userMessageUseCase = OpenChannelUserMessageUseCase(channel: channel)
     
-    public private(set) lazy var addExtraDataMessageUseCase = MetaDataCounterUseCase(channel: channel)
+    public private(set) lazy var metaDataCounterUseCase = MetaDataCounterUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
     
@@ -103,6 +103,8 @@ class OpenChannelViewController: UIViewController {
         setupNavigation()
         
         messageListUseCase.loadInitialMessages()
+        
+        fetchMetaData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -122,6 +124,19 @@ class OpenChannelViewController: UIViewController {
     private func setupNavigation() {
         title = channel.name
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Setting", style: .plain, target: self, action: #selector(didTouchSettingButton))
+    }
+    
+    private func fetchMetaData() {
+        metaDataCounterUseCase.getMetaData { [weak self] result in
+            switch result {
+            case .success(let data):
+                if let hexString = data["color"] {
+                    self?.view.backgroundColor = UIColor(hexString: hexString)
+                }
+            default:
+                break
+            }
+        }
     }
         
     @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {

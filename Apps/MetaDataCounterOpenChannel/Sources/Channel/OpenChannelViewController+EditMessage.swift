@@ -12,7 +12,6 @@ extension OpenChannelViewController {
     
     func presentEditMessageAlert(for message: BaseMessage) {
         guard message.sender?.userID == SendbirdChat.getCurrentUser()?.userID else {
-            presentCopyUserMessageAlert(for: message)
             return
         }
         
@@ -22,23 +21,6 @@ extension OpenChannelViewController {
             presentEditFileMessageAlert(for: fileMessage)
         }
     }
-    
-    private func presentCopyUserMessageAlert(for message: BaseMessage) {
-        let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
-                
-        alert.addAction(
-            UIAlertAction(title: "Copy", style: .default) { [weak self] _ in
-                self?.addExtraData(for: message)
-            }
-        )
-        
-        alert.addAction(
-            UIAlertAction(title: "Cancel", style: .cancel)
-        )
-
-        present(alert, animated: true)
-    }
-
     
     private func presentEditUserMessageAlert(for message: UserMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
@@ -50,13 +32,7 @@ extension OpenChannelViewController {
                 }
             )
         }
-        
-        alert.addAction(
-            UIAlertAction(title: "Vote for background", style: .default) { [weak self] _ in
-                self?.addExtraData(for: message)
-            }
-        )
-        
+                
         alert.addAction(
             UIAlertAction(title: "Update", style: .default) { [weak self] _ in
                 self?.presentUpdateUserMessageAlert(for: message)
@@ -75,11 +51,7 @@ extension OpenChannelViewController {
 
         present(alert, animated: true)
     }
-    
-    private func addExtraData(for message: BaseMessage) {
-        addExtraDataMessageUseCase.addExtraDataToMessage(message)
-    }
-    
+        
     private func presentUpdateUserMessageAlert(for message: UserMessage) {
         presentTextFieldAlert(title: "Update message", message: "Enter new text", defaultTextFieldMessage: message.message) { [weak self] editedMessage in
             self?.userMessageUseCase.updateMessage(message, to: editedMessage, completion: { result in

@@ -8,6 +8,7 @@
 
 import Foundation
 import SendbirdChatSDK
+import UIKit
 
 class MetaDataCounterUseCase {
     private let channel: OpenChannel
@@ -16,38 +17,85 @@ class MetaDataCounterUseCase {
         self.channel = channel
     }
     
-    func addExtraDataToMessage(_ message: BaseMessage) {
-        if isMetaDataExists(for: "copied_users", message: message) {
-            let currentUserId = SendbirdChat.getCurrentUser()?.userID ?? "UnKnown"
-            let valuesToAdd = [
-                "copied_users": [currentUserId]
-            ]
-            channel.addMessageMetaArrayValues(message: message, keyValues: valuesToAdd) { _, _ in
-                // Update message
+    func addMetaData(completion: @escaping (Result<[String: String], SBError>)-> Void) {
+        let metaData = ["color": "#0000FF"]
+        channel.createMetaData(metaData) { metaData, error in
+            if let error = error {
+                completion(.failure(error))
+                return
             }
-        } else {
-            channel.createMessageMetaArrayKeys(message: message, keys: ["copied_users"]) { [weak self] _, error in
-                guard error == nil else { return }
-                let currentUserId = SendbirdChat.getCurrentUser()?.userID ?? "UnKnown"
-                let valuesToAdd = [
-                    "copied_users": [currentUserId],
-                ]
-                self?.channel.addMessageMetaArrayValues(message: message, keyValues: valuesToAdd) { _, _ in
-                    // Update message
-                }
+            guard let data = metaData else {
+                return
             }
+            completion(.success(data))
         }
     }
     
-    private func isMetaDataExists(
-        for key: String,
-        message: BaseMessage
-    ) -> Bool {
-        guard let metaArrays = message.metaArrays else {
-            return false
+    func updateMetaData(completion: @escaping (Result<[String: String], SBError>)-> Void) {
+        let metaData = ["color": "#808080"]
+        channel.updateMetaData(metaData) { metaData, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let data = metaData else {
+                return
+            }
+            completion(.success(data))
         }
-       return metaArrays.contains(where: { metaArray in
-            metaArray.key == key
-        })
+    }
+    
+    func addMetaDataCounter(completion: @escaping (Result<[String: Int], SBError>)-> Void) {
+        let counter = ["likes": 1]
+        channel.createMetaCounters(counter) { metaData, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let data = metaData else {
+                return
+            }
+            completion(.success(data))
+        }
+    }
+    
+    func increaseMetaDataCounter(completion: @escaping (Result<[String: Int], SBError>)-> Void) {
+        let counter = ["likes": 1]
+        channel.increaseMetaCounters(counter) { metaData, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let data = metaData else {
+                return
+            }
+            completion(.success(data))
+        }
+    }
+    
+    func getMetaDataCounter(completion: @escaping (Result<[String: Int], SBError>)-> Void)  {
+        channel.getAllMetaCounters { metaData, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let data = metaData else {
+                return
+            }
+            completion(.success(data))
+        }
+    }
+    
+    func getMetaData(completion: @escaping (Result<[String: String], SBError>)-> Void) {
+        channel.getAllMetaData { metaData, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let data = metaData else {
+                return
+            }
+            completion(.success(data))
+        }
     }
 }
