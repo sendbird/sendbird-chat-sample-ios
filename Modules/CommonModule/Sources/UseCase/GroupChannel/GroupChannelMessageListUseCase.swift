@@ -116,6 +116,9 @@ open class GroupChannelMessageListUseCase: NSObject {
         let params = MessageListParams()
         params.previousResultSize = 20
         params.nextResultSize = 20
+        params.replyType = .all
+        params.includeThreadInfo = true
+        params.includeParentMessageInfo = true
         
         let collection = SendbirdChat.createMessageCollection(
             channel: channel,
