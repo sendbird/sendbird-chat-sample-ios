@@ -14,16 +14,14 @@ import UIKit
 class AddStructuredDataUseCase: OpenChannelUserMessageUseCase {
     override func sendMessage(_ message: String, completion: @escaping (Result<UserMessage, SBError>) -> Void) -> UserMessage? {
         
-        let dictionary: [String: Any] = ["color": UIColor.systemBlue, "fontSize": "14", "description": "Json data added with customized UI for message"]
+        let dictionary: [String: String] = ["color": "#6a0dad", "fontSize": "14", "description": "Json data added with customized UI for message"]
         let encoder = JSONEncoder()
         guard let jsonData = try? encoder.encode(dictionary),
              let jsonString = String(data: jsonData, encoding: .utf8) else {
                  return nil
             }
-        }
-        
         let params = UserMessageCreateParams(message: message)
-        params.data = jso
+        params.data = jsonString
         
         return channel.sendUserMessage(params: params) { message, error in
             if let error = error {

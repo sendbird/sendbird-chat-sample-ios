@@ -1,5 +1,5 @@
 //
-//  CategorizeUserMessageCell.swift
+//  StructuredDataMessageCell.swift
 //  CategorizeMessageOpenChannel
 //
 //  Created by Yogesh Veeraraj on 03.05.22.
@@ -10,7 +10,7 @@ import UIKit
 import CommonModule
 import SendbirdChatSDK
 
-class CategorizeUserMessageCell: BasicMessageCell {
+class StructuredDataMessageCell: BasicMessageCell {
     
     lazy var categorizeLabel: UILabel = {
         let categorizeLabel: UILabel = UILabel()
@@ -38,11 +38,16 @@ class CategorizeUserMessageCell: BasicMessageCell {
         with message: BaseMessage
     ) {
         configure(with: message)
-        if let customType = message.customType, !customType.isEmpty {
-            categorizeLabel.isHidden = false
-            categorizeLabel.text = String(format: "Custom type: %@", customType)
-        } else {
+        let data = message.data
+        if data.isEmpty {
             categorizeLabel.isHidden = true
+        } else {
+            let dictionary = try? JSONDecoder().decode([String: String].self, from: Data(data.utf8))
+            if let structuredData = dictionary {
+                categorizeLabel.isHidden = false
+                categorizeLabel.text = structuredData["description"]
+                categorizeLabel.textColor = UIColor(hexString: structuredData["color"] ?? "#6a0dad")
+            }
         }
     }
 }

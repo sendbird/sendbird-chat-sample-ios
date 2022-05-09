@@ -17,7 +17,7 @@ class OpenChannelViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView: UITableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(CategorizeUserMessageCell.self)
+        tableView.register(StructuredDataMessageCell.self)
         tableView.register(BasicFileCell.self)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -46,7 +46,7 @@ class OpenChannelViewController: UIViewController {
         return messageListUseCase
     }()
     
-    public private(set) lazy var userMessageUseCase = CategorizeMessageUseCase(channel: channel)
+    public private(set) lazy var userMessageUseCase = AddStructuredDataUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
     
@@ -151,7 +151,7 @@ extension OpenChannelViewController: UITableViewDataSource {
             cell.configure(with: fileMessage)
             return cell
         } else {
-            let cell: CategorizeUserMessageCell = tableView.dequeueReusableCell(for: indexPath)
+            let cell: StructuredDataMessageCell = tableView.dequeueReusableCell(for: indexPath)
             cell.updateMessageDetails(with: message)
             return cell
         }
