@@ -17,7 +17,7 @@ class OpenChannelViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView: UITableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(BasicMessageCell.self)
+        tableView.register(MesageThreadCell.self)
         tableView.register(BasicFileCell.self)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -47,6 +47,8 @@ class OpenChannelViewController: UIViewController {
     }()
     
     public private(set) lazy var userMessageUseCase = OpenChannelUserMessageUseCase(channel: channel)
+    
+    public private(set) lazy var replyMessageUseCase = ReplyToMessageUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
     
@@ -151,8 +153,8 @@ extension OpenChannelViewController: UITableViewDataSource {
             cell.configure(with: fileMessage)
             return cell
         } else {
-            let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: message)
+            let cell: MesageThreadCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.updateMessageDetails(with: message)
             return cell
         }
     }

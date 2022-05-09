@@ -11,8 +11,6 @@ import SendbirdChatSDK
 extension OpenChannelViewController {
     
     func presentEditMessageAlert(for message: BaseMessage) {
-        guard message.sender?.userID == SendbirdChat.getCurrentUser()?.userID else { return }
-        
         if let userMessage = message as? UserMessage {
             presentEditUserMessageAlert(for: userMessage)
         } else if let fileMessage = message as? FileMessage {
@@ -23,23 +21,9 @@ extension OpenChannelViewController {
     private func presentEditUserMessageAlert(for message: UserMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
         
-        if message.sendingStatus == .failed {
-            alert.addAction(
-                UIAlertAction(title: "Resend", style: .default) { [weak self] _ in
-                    self?.resend(message)
-                }
-            )
-        }
-        
         alert.addAction(
-            UIAlertAction(title: "Update", style: .default) { [weak self] _ in
-                self?.presentUpdateUserMessageAlert(for: message)
-            }
-        )
-        
-        alert.addAction(
-            UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
-                self?.deleteMessage(message)
+            UIAlertAction(title: "Reply", style: .default) { [weak self] _ in
+                self?.presentReplyUserMessageAlert(for: message)
             }
         )
         
@@ -48,6 +32,23 @@ extension OpenChannelViewController {
         )
 
         present(alert, animated: true)
+    }
+    
+    private func presentReplyUserMessageAlert(for message: UserMessage) {
+        presentTextFieldAlert(title: "Reply to message", message: "Enter your reply", defaultTextFieldMessage: "") { [weak self] messageString in
+           let userMessage = self?.replyMessageUseCase.replyToMessage(message,reply: messageString) { result in
+                switch result {
+                case .success(let message):
+                    self?.targetMessageForScrolling = message
+                    self?.messageListUseCase.didSuccessSendMessage(message)
+                case .failure(let error):
+                    self?.presentAlert(error: error)
+                }
+            }
+            self?.targetMessageForScrolling = userMessage
+            self?.messageListUseCase.didStartSendMessage(userMessage)
+
+        }
     }
     
     private func presentUpdateUserMessageAlert(for message: UserMessage) {
