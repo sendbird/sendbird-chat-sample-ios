@@ -62,6 +62,7 @@ open class OpenChannelMessageListUseCase: NSObject {
         params.isInclusive = true
         params.previousResultSize = Constant.previousResultSize
         params.nextResultSize = Constant.nextResultSize
+        params.includeMetaArray = true
 
         isLoading = true
         
@@ -89,6 +90,7 @@ open class OpenChannelMessageListUseCase: NSObject {
         params.isInclusive = false
         params.previousResultSize = Constant.previousResultSize
         params.nextResultSize = 0
+        params.includeMetaArray = true
 
         isLoading = true
 
@@ -118,7 +120,7 @@ open class OpenChannelMessageListUseCase: NSObject {
         params.isInclusive = false
         params.previousResultSize = 0
         params.nextResultSize = Constant.nextResultSize
-
+        params.includeMetaArray = true
         isLoading = true
         
         channel.getMessagesByTimestamp(timestamp, params: params) { [weak self] messages, error in

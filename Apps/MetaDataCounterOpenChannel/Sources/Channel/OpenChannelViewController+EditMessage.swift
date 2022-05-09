@@ -32,7 +32,7 @@ extension OpenChannelViewController {
         }
         
         alert.addAction(
-            UIAlertAction(title: "Add Extra Data", style: .default) { [weak self] _ in
+            UIAlertAction(title: "Vote for background", style: .default) { [weak self] _ in
                 self?.addExtraData(for: message)
             }
         )

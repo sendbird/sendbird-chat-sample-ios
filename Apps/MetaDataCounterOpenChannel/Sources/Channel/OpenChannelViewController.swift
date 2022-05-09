@@ -48,7 +48,7 @@ class OpenChannelViewController: UIViewController {
     
     public private(set) lazy var userMessageUseCase = OpenChannelUserMessageUseCase(channel: channel)
     
-    public private(set) lazy var addExtraDataMessageUseCase = AddExtraDataToMessageUseCase(channel: channel)
+    public private(set) lazy var addExtraDataMessageUseCase = MetaDataCounterUseCase(channel: channel)
     
     public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
     
