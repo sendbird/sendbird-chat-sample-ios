@@ -22,7 +22,7 @@ extension GroupChannelViewController {
         let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
         
         alert.addAction(
-            UIAlertAction(title: "Reply", style: .destructive) { [weak self] _ in
+            UIAlertAction(title: "Reply", style: .default) { [weak self] _ in
                 self?.presentReplyUserMessageAlert(for: message)
             }
         )
@@ -35,8 +35,8 @@ extension GroupChannelViewController {
     }
     
     private func presentReplyUserMessageAlert(for message: UserMessage) {
-        presentTextFieldAlert(title: "Reply to message", message: "Enter your reply", defaultTextFieldMessage: message.message) { [weak self] messageString in
-            replyMessageUseCase.replyToMessage(message, reply: messageString) { result in
+        presentTextFieldAlert(title: "Reply to message", message: "Enter your reply", defaultTextFieldMessage: "") { [weak self] messageString in
+            self?.replyMessageUseCase.replyToMessage(message,reply: messageString) { result in
                 switch result {
                 case .success:
                     break
@@ -46,7 +46,6 @@ extension GroupChannelViewController {
             }
         }
     }
-    
     
     private func presentEditFileMessageAlert(for message: FileMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.name, preferredStyle: .actionSheet)
@@ -58,13 +57,7 @@ extension GroupChannelViewController {
                 }
             )
         }
-        
-        alert.addAction(
-            UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
-                self?.deleteMessage(message)
-            }
-        )
-        
+                
         alert.addAction(
             UIAlertAction(title: "Cancel", style: .cancel)
         )
