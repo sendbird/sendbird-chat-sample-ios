@@ -116,6 +116,7 @@ open class OpenChannelMessageListUseCase: NSObject {
         
         let params = MessageListParams()
         params.isInclusive = false
+        params.includeReactions = true
         params.previousResultSize = 0
         params.nextResultSize = Constant.nextResultSize
 
