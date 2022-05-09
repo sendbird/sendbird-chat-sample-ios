@@ -13,7 +13,7 @@ class CreateWithCategoryOpenChannelUseCase {
     
     func createOpenChannel(channelName: String?, imageData: Data?, completion: @escaping (Result<OpenChannel, SBError>) -> Void) {
         let params = OpenChannelCreateParams()
-        params.operatorUserIds = [SendbirdChat.getCurrentUser()?.userId].compactMap { $0 }
+        params.operatorUserIDs = [SendbirdChat.getCurrentUser()?.userID].compactMap { $0 }
         let random = Int.random(in: 0...3)
         let customTypes = ["School", "Music", "Contacts", "People"]
         params.customType = customTypes[random]

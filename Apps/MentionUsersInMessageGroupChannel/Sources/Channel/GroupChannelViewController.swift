@@ -1,5 +1,5 @@
 //
-//  OpenChannelViewController.swift
+//  GroupChannelViewController.swift
 //  BasicGruopChannel
 //
 //  Created by Ernest Hong on 2022/02/09.
@@ -9,7 +9,7 @@ import UIKit
 import CommonModule
 import SendbirdChatSDK
 
-class OpenChannelViewController: UIViewController {
+class GroupChannelViewController: UIViewController {
     
     private enum Constant {
         static let loadMoreThreshold: CGFloat = 100
@@ -17,7 +17,7 @@ class OpenChannelViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView: UITableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(BasicMessageCell.self)
+        tableView.register(MentionedUserMessageCell.self)
         tableView.register(BasicFileCell.self)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
@@ -38,22 +38,26 @@ class OpenChannelViewController: UIViewController {
 
     var targetMessageForScrolling: BaseMessage?
     
-    let channel: OpenChannel
+    let channel: GroupChannel
     
-    public private(set) lazy var messageListUseCase: OpenChannelMessageListUseCase = {
-        let messageListUseCase = OpenChannelMessageListUseCase(channel: channel)
+    private let timestampStorage: TimestampStorage
+    
+    public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
+        let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, timestampStorage: timestampStorage)
         messageListUseCase.delegate = self
         return messageListUseCase
     }()
     
-    public private(set) lazy var userMessageUseCase = OpenChannelUserMessageUseCase(channel: channel)
+    public private(set) lazy var userMessageUseCase = GroupChannelUserMessageUseCase(channel: channel)
     
-    public private(set) lazy var fileMessageUseCase = OpenChannelFileMessageUseCase(channel: channel)
+    public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
     
-    public private(set) lazy var settingUseCase = OpenChannelSettingUseCase(channel: channel)
+    public private(set) lazy var mentionUsersUseCase = MentionUsersInMessageUseCase(channel: channel)
+    
+    public private(set) lazy var settingUseCase = GroupChannelSettingUseCase(channel: channel)
     
     public private(set) lazy var imagePickerRouter: ImagePickerRouter = {
-        let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoCamera, .photoLibrary])
+        let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoLibrary, .photoCamera, .videoCamera])
         imagePickerRouter.delegate = self
         return imagePickerRouter
     }()
@@ -64,8 +68,9 @@ class OpenChannelViewController: UIViewController {
         return keyboardObserver
     }()
     
-    init(channel: OpenChannel) {
+    init(channel: GroupChannel, timestampStorage: TimestampStorage) {
         self.channel = channel
+        self.timestampStorage = timestampStorage
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -107,21 +112,25 @@ class OpenChannelViewController: UIViewController {
         super.viewWillAppear(animated)
 
         keyboardObserver.add()
-        messageListUseCase.addEventObserver()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        messageListUseCase.markAsRead()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         keyboardObserver.remove()
-        messageListUseCase.removeEventObserver()
     }
     
     private func setupNavigation() {
         title = channel.name
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Setting", style: .plain, target: self, action: #selector(didTouchSettingButton))
     }
-        
+    
     @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
         guard sender.state == .began else { return }
         
@@ -130,14 +139,14 @@ class OpenChannelViewController: UIViewController {
 
         let message = messageListUseCase.messages[indexPath.row]
         
-        presentEditMessageAlert(for: message)
+        handleLongPress(for: message)
     }
 
 }
 
 // MARK: - UITableViewDataSource
 
-extension OpenChannelViewController: UITableViewDataSource {
+extension GroupChannelViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         messageListUseCase.messages.count
@@ -151,8 +160,8 @@ extension OpenChannelViewController: UITableViewDataSource {
             cell.configure(with: fileMessage)
             return cell
         } else {
-            let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: message)
+            let cell: MentionedUserMessageCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.updateMessageDetails(with: message)
             return cell
         }
     }
@@ -161,7 +170,7 @@ extension OpenChannelViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension OpenChannelViewController: UITableViewDelegate {
+extension GroupChannelViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -179,67 +188,61 @@ extension OpenChannelViewController: UITableViewDelegate {
     
 }
 
-// MARK: - GroupChannelUseCaseDelegate
+// MARK: - GroupChannelMessageListUseCaseDelegate
 
-extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
+extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateChannel channel: OpenChannel) {
-        title = channel.name
-    }
-    
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didDeleteChannel channel: OpenChannel) {
-        presentAlert(title: "This channel has been deleted", message: nil) { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
-        }
-    }
-    
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didReceiveError error: SBError) {
+
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBError) {
         presentAlert(error: error)
     }
     
-    func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage]) {
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage]) {
         tableView.reloadData()
         scrollToFocusMessage()
     }
     
     private func scrollToFocusMessage() {
-        defer { self.targetMessageForScrolling = nil }
-        
         guard let focusMessage = targetMessageForScrolling,
               focusMessage.messageID == messageListUseCase.messages.last?.messageID else { return }
+        self.targetMessageForScrolling = nil
         
         let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
         
         tableView.scrollToRow(at: focusMessageIndexPath, at: .bottom, animated: false)
     }
-
+    
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didUpdateChannel channel: GroupChannel) {
+        title = channel.name
+    }
+    
+    func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didDeleteChannel channel: GroupChannel) {
+        presentAlert(title: "This channel has been deleted", message: nil) { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+    }
+    
 }
 
 // MARK: - MessageInputViewDelegate
 
-extension OpenChannelViewController: MessageInputViewDelegate {
+extension GroupChannelViewController: MessageInputViewDelegate {
     
     func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
-        var sendingMessage: BaseMessage?
-        
-        sendingMessage = userMessageUseCase.sendMessage(message) { [weak self] result in
-            switch result {
-            case .success(let message):
-                self?.targetMessageForScrolling = message
-                self?.messageListUseCase.didSuccessSendMessage(message)
-            case .failure(let error):
-                self?.targetMessageForScrolling = nil
-                self?.messageListUseCase.didFailSendMessage(sendingMessage)
-                self?.presentAlert(error: error)
+        let viewController = MentionUserSelectionViewController(channel: channel) { [weak self] _, users in
+            self?.targetMessageForScrolling = self?.mentionUsersUseCase.sendMessage(message, mentionedUsers: users) { [weak self] result in
+                switch result {
+                case .success(let sendedMessage):
+                    self?.targetMessageForScrolling = sendedMessage
+                case .failure(let error):
+                    self?.presentAlert(error: error)
+                }
             }
         }
-        
-        guard let sendingMessage = sendingMessage else { return }
-        
-        targetMessageForScrolling = sendingMessage
-        messageListUseCase.didStartSendMessage(sendingMessage)
+        let navigation = UINavigationController(rootViewController: viewController)
+        present(navigation, animated: true)
     }
-    
+
     func messageInputView(_ messageInputView: MessageInputView, didTouchSendFileMessageButton sender: UIButton) {
         presentAttachFileAlert()
     }
@@ -248,10 +251,10 @@ extension OpenChannelViewController: MessageInputViewDelegate {
 
 // MARK: - KeyboardObserverDelegate
 
-extension OpenChannelViewController: KeyboardObserverDelegate {
+extension GroupChannelViewController: KeyboardObserverDelegate {
     
     func keyboardObserver(_ keyboardObserver: KeyboardObserver, willShowKeyboardWith keyboardInfo: KeyboardInfo) {
-        let keyboardHeight = keyboardInfo.height - self.view.safeAreaInsets.bottom
+        let keyboardHeight = keyboardInfo.height - view.safeAreaInsets.bottom
         messageInputBottomConstraint?.constant = -keyboardHeight
         
         keyboardInfo.animate { [weak self] in
