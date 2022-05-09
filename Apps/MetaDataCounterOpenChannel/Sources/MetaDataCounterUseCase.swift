@@ -17,20 +17,20 @@ class MetaDataCounterUseCase {
     }
     
     func addExtraDataToMessage(_ message: BaseMessage) {
-        if isMetaDataExists(for: "votes_background", message: message) {
-            let value = valueForKey("votes_background", message: message)
-            let incrementalCount = (Int(value) ?? 0) + 1
+        if isMetaDataExists(for: "copied_users", message: message) {
+            let currentUserId = SendbirdChat.getCurrentUser()?.userID ?? "UnKnown"
             let valuesToAdd = [
-                "votes_background": [String(incrementalCount)]
+                "copied_users": [currentUserId]
             ]
             channel.addMessageMetaArrayValues(message: message, keyValues: valuesToAdd) { _, _ in
                 // Update message
             }
         } else {
-            channel.createMessageMetaArrayKeys(message: message, keys: ["votes_background"]) { [weak self] _, error in
+            channel.createMessageMetaArrayKeys(message: message, keys: ["copied_users"]) { [weak self] _, error in
                 guard error == nil else { return }
+                let currentUserId = SendbirdChat.getCurrentUser()?.userID ?? "UnKnown"
                 let valuesToAdd = [
-                    "votes_background": ["1"],
+                    "copied_users": [currentUserId],
                 ]
                 self?.channel.addMessageMetaArrayValues(message: message, keyValues: valuesToAdd) { _, _ in
                     // Update message
@@ -49,11 +49,5 @@ class MetaDataCounterUseCase {
        return metaArrays.contains(where: { metaArray in
             metaArray.key == key
         })
-    }
-    
-    private func valueForKey(_ key: String, message: BaseMessage) -> String {
-        return message.metaArrays?.first(where: { metaArray in
-            metaArray.key == key
-        })?.value.first ?? "0"
     }
 }

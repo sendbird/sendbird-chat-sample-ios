@@ -11,7 +11,10 @@ import SendbirdChatSDK
 extension OpenChannelViewController {
     
     func presentEditMessageAlert(for message: BaseMessage) {
-        guard message.sender?.userID == SendbirdChat.getCurrentUser()?.userID else { return }
+        guard message.sender?.userID == SendbirdChat.getCurrentUser()?.userID else {
+            presentCopyUserMessageAlert(for: message)
+            return
+        }
         
         if let userMessage = message as? UserMessage {
             presentEditUserMessageAlert(for: userMessage)
@@ -19,6 +22,23 @@ extension OpenChannelViewController {
             presentEditFileMessageAlert(for: fileMessage)
         }
     }
+    
+    private func presentCopyUserMessageAlert(for message: BaseMessage) {
+        let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
+                
+        alert.addAction(
+            UIAlertAction(title: "Copy", style: .default) { [weak self] _ in
+                self?.addExtraData(for: message)
+            }
+        )
+        
+        alert.addAction(
+            UIAlertAction(title: "Cancel", style: .cancel)
+        )
+
+        present(alert, animated: true)
+    }
+
     
     private func presentEditUserMessageAlert(for message: UserMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.message, preferredStyle: .actionSheet)
