@@ -79,3 +79,6 @@ let project = Project.app(name: {FeatureSampleName})
 ```
 tuist generate
 ```
+
+## Considerations in real world app
+ - In this sample repo users are connecting to sendbird using a user ID (Sendbird Dashboard --> Security --> Read & Write). Read & Write is not secure and will create a new user automatically from the SDK if none exists. In production be sure to change the Sendbird Dashboard security settings to Deny login, and [authenticate users](https://sendbird.com/docs/chat/v4/ios/guides/authentication#2-connect-to-sendbird-server-with-a-user-id-and-an-access-token) with a Sendbird generated Session Token.
