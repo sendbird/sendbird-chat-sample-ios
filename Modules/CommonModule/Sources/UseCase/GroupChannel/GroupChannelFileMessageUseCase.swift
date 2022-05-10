@@ -11,9 +11,9 @@ import SendbirdChatSDK
 open class GroupChannelFileMessageUseCase {
     
     public struct MediaFile {
-        let data: Data
-        let name: String
-        let mimeType: String
+        public let data: Data
+        public let name: String
+        public let mimeType: String
         
         public init(data: Data, name: String, mimeType: String) {
             self.data = data
@@ -22,9 +22,9 @@ open class GroupChannelFileMessageUseCase {
         }
     }
     
-    private let channel: GroupChannel
+    public let channel: GroupChannel
     
-    private var cachedDatasForResending: [String: Data] = [:]
+    public var cachedDatasForResending: [String: Data] = [:]
     
     public init(channel: GroupChannel) {
         self.channel = channel

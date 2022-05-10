@@ -34,6 +34,20 @@ class GroupChannelViewController: UIViewController {
         return messageInputView
     }()
     
+    public lazy var progressView: UIProgressView = {
+        let progressBar =  UIProgressView(progressViewStyle: .bar)
+        progressBar.tintColor = .systemPurple
+        return progressBar
+    }()
+    
+    public lazy var alertView: UIAlertController = {
+       let alertView = UIAlertController(title: "Please wait", message: "File upload in progress", preferredStyle: .alert)
+        alertView.addAction(UIAlertAction(title: "Cancel Upload", style: .cancel, handler: { [weak self] _ in
+            self?.fileMessageUseCase.cancelUpload()
+        }))
+        return alertView
+    }()
+    
     private weak var messageInputBottomConstraint: NSLayoutConstraint?
 
     var targetMessageForScrolling: BaseMessage?
@@ -50,7 +64,11 @@ class GroupChannelViewController: UIViewController {
     
     public private(set) lazy var userMessageUseCase = GroupChannelUserMessageUseCase(channel: channel)
     
-    public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
+    public private(set) lazy var fileMessageUseCase: TrackAndCancelFileUploadUseCase = {
+        let useCase = TrackAndCancelFileUploadUseCase(channel: channel)
+        useCase.delegate = self
+        return useCase
+    }()
     
     public private(set) lazy var settingUseCase = GroupChannelSettingUseCase(channel: channel)
     
