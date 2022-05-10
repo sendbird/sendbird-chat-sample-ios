@@ -65,6 +65,7 @@ open class OpenChannelMessageListUseCase: NSObject {
         params.includeParentMessageInfo = true
         params.replyType = .all
         params.includeThreadInfo = true
+        params.includeMetaArray = true
 
         isLoading = true
         
@@ -95,7 +96,8 @@ open class OpenChannelMessageListUseCase: NSObject {
         params.includeParentMessageInfo = true
         params.replyType = .all
         params.includeThreadInfo = true
-        
+        params.includeMetaArray = true
+      
         isLoading = true
 
         channel.getMessagesByTimestamp(timestamp, params: params) { [weak self] messages, error in
@@ -128,7 +130,8 @@ open class OpenChannelMessageListUseCase: NSObject {
         params.includeParentMessageInfo = true
         params.replyType = .all
         params.includeThreadInfo = true
-
+        params.includeMetaArray = true
+      
         isLoading = true
         
         channel.getMessagesByTimestamp(timestamp, params: params) { [weak self] messages, error in
