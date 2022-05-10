@@ -127,7 +127,7 @@ public class BasicFileCell: UITableViewCell {
             profileImageView.setProfileImageView(for: sender)
         }
         
-        messageLabel.text = "\(message.message)\(MessageSendingStatus(message).description) (\(Date.sbu_from(message.createdAt).sbu_toString(format: .hhmma)))"
+        messageLabel.text = "\(message.name)\(MessageSendingStatus(message).description) (\(Date.sbu_from(message.createdAt).sbu_toString(format: .hhmma)))"
         
         guard let imageURL = imageURL(for: message) else {
             previewPlaceholderImageView.isHidden = false
