@@ -153,8 +153,8 @@ class LocalCachingMessageListUseCase: NSObject {
     private func replaceMessages(_ newMessages: [BaseMessage]) {
         newMessages.forEach { newMessage in
             if let index = messages.firstIndex(where: {
-                $0.messageID == newMessage.messageID
-                || $0.requestID == newMessage.requestID
+                $0.messageId == newMessage.messageId
+                || $0.requestId == newMessage.requestId
             }) {
                 messages[index] = newMessage
             }
@@ -187,7 +187,7 @@ extension LocalCachingMessageListUseCase: MessageCollectionDelegate {
         switch context.sendingStatus {
         case .succeeded:
             self.messages = self.messages.filter { oldMessage in
-                deletedMessages.map { $0.messageID }.contains(oldMessage.messageID) == false
+                deletedMessages.map { $0.messageId }.contains(oldMessage.messageId) == false
             }
         case .failed:
             // Remove the failed message from your data source.

@@ -50,20 +50,20 @@ class GenerateThumbnailFileMessageUseCase {
             
             guard let message = message else { return }
             
-            self?.cachedDatasForResending.removeValue(forKey: message.requestID)
+            self?.cachedDatasForResending.removeValue(forKey: message.requestId)
             
             completion(.success(message))
         }
         
-        if let requestID = fileMessage?.requestID {
-            cachedDatasForResending[requestID] = mediaFile.data
+        if let requestId = fileMessage?.requestId {
+            cachedDatasForResending[requestId] = mediaFile.data
         }
             
         return fileMessage
     }
     
     open func resendMessage(_ message: FileMessage, completion: @escaping (Result<BaseMessage, SBError>) -> Void) {
-        guard let binaryData = cachedDatasForResending[message.requestID] else { return }
+        guard let binaryData = cachedDatasForResending[message.requestId] else { return }
         
         channel.resendFileMessage(message, binaryData: binaryData) { message, error in
             if let error = error {

@@ -65,8 +65,9 @@ open class OpenChannelListUseCase: NSObject {
     }
         
     open func createOpenChannelListQuery() -> OpenChannelListQuery {
-        let channelListQuery = OpenChannel.createOpenChannelListQuery()
-        channelListQuery.limit = 20
+        let channelListQuery = OpenChannel.createOpenChannelListQuery {
+            $0.limit = 20
+        }
         return channelListQuery
     }
     

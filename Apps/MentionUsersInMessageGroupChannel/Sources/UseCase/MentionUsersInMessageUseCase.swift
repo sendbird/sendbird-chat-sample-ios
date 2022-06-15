@@ -19,7 +19,7 @@ class MentionUsersInMessageUseCase {
     func sendMessage(_ message: String, mentionedUsers: [User], completion: @escaping (Result<UserMessage, SBError>) -> Void) -> UserMessage? {
         let userParams = UserMessageCreateParams(message: message)
         userParams.mentionedUserIDs = mentionedUsers.map({
-            return $0.userID
+            return $0.userId
         })
         userParams.mentionType = .users
         return channel.sendUserMessage(params: userParams, completionHandler: { message, error in

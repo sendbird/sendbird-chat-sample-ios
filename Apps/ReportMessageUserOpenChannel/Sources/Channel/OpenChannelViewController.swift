@@ -189,7 +189,7 @@ extension OpenChannelViewController: UITableViewDelegate {
 
 extension OpenChannelViewController: ReportMessageUserUseCaseDelegate {
     func reportMessageUserUseCase(_ useCase: ReportMessageUserUseCase, didSuccessReporting user: User) {
-        presentAlert(title: "Success", message: String(format: "%@ successfully reported", user.userID), closeHandler: nil)
+        presentAlert(title: "Success", message: String(format: "%@ successfully reported", user.userId), closeHandler: nil)
     }
     
     func reportMessageUserUseCase(_ useCase: ReportMessageUserUseCase, didFailedReporting error: SBError) {
@@ -232,7 +232,7 @@ extension OpenChannelViewController: OpenChannelMessageListUseCaseDelegate {
         defer { self.targetMessageForScrolling = nil }
         
         guard let focusMessage = targetMessageForScrolling,
-              focusMessage.messageID == messageListUseCase.messages.last?.messageID else { return }
+              focusMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
         
         let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
         

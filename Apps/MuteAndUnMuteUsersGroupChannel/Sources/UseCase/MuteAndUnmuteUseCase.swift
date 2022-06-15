@@ -17,7 +17,7 @@ final class MuteAndUnmuteUseCase {
     }
     
     func mute(user: Member, completion: @escaping(Result<Void, SBError>) -> Void) {
-        channel.muteUser(userID: user.userID, seconds: 120, description: nil, completionHandler: { error in
+        channel.muteUser(userId: user.userId, seconds: 120, description: nil, completionHandler: { error in
             guard let error = error else {
                 completion(.success(()))
                 return
@@ -27,7 +27,7 @@ final class MuteAndUnmuteUseCase {
     }
     
     func Unmute(user: Member, completion: @escaping(Result<Void, SBError>) -> Void) {
-        channel.unmuteUser(userID: user.userID, completionHandler: { error in
+        channel.unmuteUser(userId: user.userId, completionHandler: { error in
             guard let error = error else {
                 completion(.success(()))
                 return

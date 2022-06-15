@@ -11,7 +11,7 @@ import SendbirdChatSDK
 extension OpenChannelViewController {
     
     func presentEditMessageAlert(for message: BaseMessage) {
-        guard message.sender?.userID == SendbirdChat.getCurrentUser()?.userID else {
+        guard message.sender?.userId == SendbirdChat.getCurrentUser()?.userId else {
             presentReportingMessageAlert(for: message)
             return
         }
@@ -33,7 +33,7 @@ extension OpenChannelViewController {
         )
         
         let user = message.sender
-        let reportUserString = String(format: "Report %@", user?.userID ?? "User")
+        let reportUserString = String(format: "Report %@", user?.userId ?? "User")
         alert.addAction(
             UIAlertAction(title: reportUserString, style: .destructive) { [weak self] _ in
                 guard let user = user else { return }
@@ -79,7 +79,7 @@ extension OpenChannelViewController {
         )
         
         let user = message.sender
-        let reportUserString = String(format: "Report %@", user?.userID ?? "User")
+        let reportUserString = String(format: "Report %@", user?.userId ?? "User")
         alert.addAction(
             UIAlertAction(title: reportUserString, style: .destructive) { [weak self] _ in
                 guard let user = user else { return }

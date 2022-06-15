@@ -123,7 +123,7 @@ public class BasicFileCell: UITableViewCell {
 
     public func configure(with message: FileMessage) {
         if let sender = message.sender {
-            profileLabel.text = "\(sender.nickname ?? "(Unknown)")"
+            profileLabel.text = "\(sender.nickname)"
             profileImageView.setProfileImageView(for: sender)
         }
         

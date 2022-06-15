@@ -43,7 +43,7 @@ class TrackAndCancelFileUploadUseCase: GroupChannelFileMessageUseCase {
         fileMessageParams.mimeType = mediaFile.mimeType
         fileMessageParams.thumbnailSizes = [.make(maxWidth: 320.0, maxHeight: 320.0)]
         
-        currentFileMessage = channel.sendFileMessage(params: fileMessageParams) { [weak self] requestID, bytesSent, totalBytesSent, totalBytesExpectedToSend in
+        currentFileMessage = channel.sendFileMessage(params: fileMessageParams) { [weak self] requestId, bytesSent, totalBytesSent, totalBytesExpectedToSend in
             guard let self = self else { return }
             let uploadProgress: Float = Float(totalBytesSent) / Float(totalBytesExpectedToSend)
             self.delegate?.trackAndCancelFileUploadUseCase(self, fileProgress: uploadProgress)
@@ -57,25 +57,25 @@ class TrackAndCancelFileUploadUseCase: GroupChannelFileMessageUseCase {
             
             guard let message = message, let self = self else { return }
             
-            self.cachedDatasForResending.removeValue(forKey: message.requestID)
+            self.cachedDatasForResending.removeValue(forKey: message.requestId)
             
             completion(.success(message))
             
             self.delegate?.trackAndCancelFileUploadUseCase(self, didSuccessUploadMessage: message)
         }
         
-        if let requestID = currentFileMessage?.requestID {
-            cachedDatasForResending[requestID] = mediaFile.data
+        if let requestId = currentFileMessage?.requestId {
+            cachedDatasForResending[requestId] = mediaFile.data
         }
         self.delegate?.trackAndCancelFileUploadUseCase(self, willUploadMessage: currentFileMessage)
         return currentFileMessage
     }
     
     func cancelUpload() {
-        guard let requestId = currentFileMessage?.requestID else {
+        guard let requestId = currentFileMessage?.requestId else {
             return
         }
-        GroupChannel.cancelUploadingFileMessage(requestID: requestId) { result, error in
+        GroupChannel.cancelUploadingFileMessage(requestId: requestId) { result, error in
             // Handle error and success
         }
     }

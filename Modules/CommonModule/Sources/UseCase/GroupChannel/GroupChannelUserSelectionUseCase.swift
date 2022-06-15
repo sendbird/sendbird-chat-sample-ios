@@ -71,8 +71,9 @@ open class GroupChannelUserSelectionUseCase {
     }
     
     open func createApplicationUserListQuery() -> ApplicationUserListQuery {
-        let query = SendbirdChat.createApplicationUserListQuery()
-        query.limit = 20
+        let query = SendbirdChat.createApplicationUserListQuery {
+            $0.limit = 20
+        }
         return query
     }
     
@@ -94,17 +95,17 @@ open class GroupChannelUserSelectionUseCase {
         let currentUser = SendbirdChat.getCurrentUser()
 
         return users.filter {
-            $0.userID != currentUser?.userID
-            && hasMember(ofUserId: $0.userID) == false
+            $0.userId != currentUser?.userId
+            && hasMember(ofUserId: $0.userId) == false
         }
     }
     
-    private func hasMember(ofUserId userID: String) -> Bool {
+    private func hasMember(ofUserId userId: String) -> Bool {
         guard let channel = channel else {
             return false
         }
 
-        return channel.hasMember(userID)
+        return channel.hasMember(userId)
     }
     
 }

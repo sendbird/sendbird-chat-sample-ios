@@ -20,7 +20,7 @@ final class UpdateDeleteMessageUseCase {
     func updateMessage(_ message: UserMessage, to newMessage: String, completion: @escaping (Result<UserMessage, SBError>) -> Void) {
         let params = UserMessageUpdateParams(message: newMessage)
         
-        channel.updateUserMessage(messageID: message.messageID, params: params) { message, error in
+        channel.updateUserMessage(messageId: message.messageId, params: params) { message, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -44,8 +44,8 @@ final class UpdateDeleteMessageUseCase {
     }
     
     func canEdit(message: BaseMessage) -> Bool {
-        let currentUserId = SendbirdChat.getCurrentUser()?.userID
-        return message.sender?.userID == currentUserId
+        let currentUserId = SendbirdChat.getCurrentUser()?.userId
+        return message.sender?.userId == currentUserId
                 || channel.myRole == .operator
     }
     

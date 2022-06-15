@@ -18,7 +18,7 @@ class ReplyToMessageUseCase {
     
     func replyToMessage(_ message: BaseMessage, reply: String, completion: @escaping (Result<UserMessage, SBError>) -> Void) {
         let params = UserMessageCreateParams(message: reply)
-        params.parentMessageID = message.messageID
+        params.parentMessageID = message.messageId
         
         channel.sendUserMessage(params: params) { message, error in
             if let error = error {
