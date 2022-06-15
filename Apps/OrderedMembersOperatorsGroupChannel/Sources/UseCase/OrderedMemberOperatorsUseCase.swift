@@ -22,10 +22,11 @@ class OrderedMemberOperatorsUseCase {
     
     private let channel: GroupChannel
     
-    private lazy var membersListQuery: GroupChannelMemberListQuery? = {
-        let query = channel.createMemberListQuery()
-        query?.limit = 10
-        query?.order = .operatorThenMemberNicknameAlphabetical
+    private lazy var membersListQuery: MemberListQuery? = {
+        let query = channel.createMemberListQuery {
+            $0.limit = 10
+            $0.order = .operatorThenMemberNicknameAlphabetical
+        }
         return query
     }()
     

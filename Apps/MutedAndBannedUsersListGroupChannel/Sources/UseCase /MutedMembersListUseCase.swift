@@ -23,8 +23,9 @@ class MutedMembersListUseCase {
     private let channel: GroupChannel
     
     private lazy var membersListQuery: MutedUserListQuery? = {
-        let query = channel.createMutedUserListQuery()
-        query?.limit = 10
+        let query = channel.createMutedUserListQuery {
+            $0.limit = 10
+        }
         return query
     }()
     

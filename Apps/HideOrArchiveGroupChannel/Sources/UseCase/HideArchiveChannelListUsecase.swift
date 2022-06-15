@@ -64,10 +64,11 @@ class HideArchiveChannelListUsecase: NSObject {
     }
         
     func createGroupChannelListCollection() -> GroupChannelCollection? {
-        let channelListQuery = GroupChannel.createMyGroupChannelListQuery()
-        channelListQuery.order = .latestLastMessage
-        channelListQuery.limit = 20
-        channelListQuery.channelHiddenStateFilter = .hiddenOnly
+        let channelListQuery = GroupChannel.createMyGroupChannelListQuery {
+            $0.order = .latestLastMessage
+            $0.limit = 20
+            $0.channelHiddenStateFilter = .hiddenOnly
+        }
         
         let collection = SendbirdChat.createGroupChannelCollection(query: channelListQuery)
         collection?.delegate = self

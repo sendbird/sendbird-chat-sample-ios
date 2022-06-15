@@ -23,8 +23,9 @@ class BannedMembersListUseCase {
     private let channel: GroupChannel
     
     private lazy var membersListQuery: BannedUserListQuery? = {
-        let query = channel.createBannedUserListQuery()
-        query?.limit = 10
+        let params = BannedUserListQueryParams()
+        params.limit = 10
+        let query = channel.createBannedUserListQuery(params: params)
         return query
     }()
     

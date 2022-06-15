@@ -45,8 +45,9 @@ class iOSTrueUseCase: NSObject {
         
     private func createApplicationUserListQuery() -> ApplicationUserListQuery {
         let currentUserId = SendbirdChat.getCurrentUser()!.userId
-        let query = SendbirdChat.createApplicationUserListQuery()
-        query.userIdsFilter = [currentUserId]
+        let query = SendbirdChat.createApplicationUserListQuery {
+            $0.userIdsFilter = [currentUserId]
+        }
         return query
     }
 }
