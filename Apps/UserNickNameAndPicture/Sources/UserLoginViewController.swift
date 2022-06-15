@@ -114,7 +114,7 @@ public final class UserLoginViewController: UIViewController {
             
             switch result {
             case .success(let user):
-                if user.nickname?.isEmpty ?? true {
+                if user.nickname.isEmpty {
                     self?.presentEditViewController(user: user)
                 } else {
                     self?.didConnectUser(user)
