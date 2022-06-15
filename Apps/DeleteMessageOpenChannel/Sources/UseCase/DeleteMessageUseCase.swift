@@ -35,7 +35,7 @@ final class DeleteMessageUseCase {
 }
 
 extension DeleteMessageUseCase: OpenChannelDelegate {
-    func channel(_ channel: BaseChannel, messageWasDeleted messageID: Int64) {
+    func channel(_ channel: BaseChannel, messageWasDeleted messageId: Int64) {
         // Refresh or show indicator that message been deleted
     }
 }

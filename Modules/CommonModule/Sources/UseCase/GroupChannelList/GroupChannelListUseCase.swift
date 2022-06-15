@@ -63,10 +63,11 @@ open class GroupChannelListUseCase: NSObject {
     }
         
     open func createGroupChannelListCollection() -> GroupChannelCollection? {
-        let channelListQuery = GroupChannel.createMyGroupChannelListQuery()
-        channelListQuery.order = .latestLastMessage
-        channelListQuery.limit = 20
-        channelListQuery.includeEmptyChannel = true
+        let channelListQuery = GroupChannel.createMyGroupChannelListQuery {
+            $0.order = .latestLastMessage
+            $0.limit = 20
+            $0.includeEmptyChannel = true
+        }
         
         let collection = SendbirdChat.createGroupChannelCollection(query: channelListQuery)
         collection?.delegate = self

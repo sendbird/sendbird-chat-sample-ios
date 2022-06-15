@@ -24,9 +24,9 @@ public class EnvironmentUseCase {
         }
     }
     
-    public static func initializeSendbirdSDK(applicationID: ApplicationId) {
+    public static func initializeSendbirdSDK(applicationId: ApplicationId) {
         let initParams = InitParams(
-            applicationID: applicationID.rawValue,
+            applicationId: applicationId.rawValue,
             isLocalCachingEnabled: false,
             logLevel: .error,
             appVersion: "1.0.0"

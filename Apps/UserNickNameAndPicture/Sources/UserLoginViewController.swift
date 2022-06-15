@@ -15,22 +15,22 @@ public final class UserLoginViewController: UIViewController {
     
     private let didConnectUser: DidConnectUserHandler
     
-    private lazy var userIDLabel: UILabel = {
-        let userIDLabel: UILabel = UILabel()
-        userIDLabel.text = "USER ID"
-        userIDLabel.font = .boldSystemFont(ofSize: 13)
-        userIDLabel.textColor = .secondaryLabel
-        return userIDLabel
+    private lazy var userIdLabel: UILabel = {
+        let userIdLabel: UILabel = UILabel()
+        userIdLabel.text = "USER ID"
+        userIdLabel.font = .boldSystemFont(ofSize: 13)
+        userIdLabel.textColor = .secondaryLabel
+        return userIdLabel
     }()
     
-    private lazy var userIDTextField: UITextField = {
-        let userIDTextField = UITextField()
-        userIDTextField.placeholder = "USER ID"
-        userIDTextField.font = .systemFont(ofSize: 24)
-        userIDTextField.textColor = .label
-        userIDTextField.tintColor = .systemPurple
-        userIDTextField.borderStyle = .roundedRect
-        return userIDTextField
+    private lazy var userIdTextField: UITextField = {
+        let userIdTextField = UITextField()
+        userIdTextField.placeholder = "USER ID"
+        userIdTextField.font = .systemFont(ofSize: 24)
+        userIdTextField.textColor = .label
+        userIdTextField.tintColor = .systemPurple
+        userIdTextField.borderStyle = .roundedRect
+        return userIdTextField
     }()
     
     private lazy var connectButton: UIButton = {
@@ -60,26 +60,26 @@ public final class UserLoginViewController: UIViewController {
     }
     
     private func setupSubviews() {
-        view.addSubview(userIDLabel)
-        userIDLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(userIdLabel)
+        userIdLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            userIDLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            userIDLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            userIDLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+            userIdLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            userIdLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            userIdLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
         ])
         
-        view.addSubview(userIDTextField)
-        userIDTextField.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(userIdTextField)
+        userIdTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            userIDTextField.topAnchor.constraint(equalTo: userIDLabel.bottomAnchor, constant: 5),
-            userIDTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            userIDTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+            userIdTextField.topAnchor.constraint(equalTo: userIdLabel.bottomAnchor, constant: 5),
+            userIdTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            userIdTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
         ])
         
         view.addSubview(connectButton)
         connectButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            connectButton.topAnchor.constraint(equalTo: userIDTextField.bottomAnchor, constant: 30),
+            connectButton.topAnchor.constraint(equalTo: userIdTextField.bottomAnchor, constant: 30),
             connectButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             connectButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             connectButton.heightAnchor.constraint(equalToConstant: 50)
@@ -87,8 +87,8 @@ public final class UserLoginViewController: UIViewController {
     }
     
     private func loadCachedUser() {
-        if let userID = UserConnectionUseCase.shared.userID {
-            userIDTextField.text = userID
+        if let userId = UserConnectionUseCase.shared.userId {
+            userIdTextField.text = userId
         }
         
         if UserConnectionUseCase.shared.isAutoLogin {
@@ -100,8 +100,8 @@ public final class UserLoginViewController: UIViewController {
         view.endEditing(true)
         
         guard
-            let userID = userIDTextField.text,
-            validateText(userID: userID)
+            let userId = userIdTextField.text,
+            validateText(userId: userId)
         else {
             presentAlert(title: "Error", message: "User ID and Nickname are required.")
             return
@@ -109,12 +109,12 @@ public final class UserLoginViewController: UIViewController {
         
         updateUIForConnecting()
         
-        UserConnectionUseCase.shared.login(userID: userID) { [weak self] result in
+        UserConnectionUseCase.shared.login(userId: userId) { [weak self] result in
             self?.updateUIForDefault()
             
             switch result {
             case .success(let user):
-                if user.nickname?.isEmpty ?? true {
+                if user.nickname.isEmpty {
                     self?.presentEditViewController(user: user)
                 } else {
                     self?.didConnectUser(user)
@@ -135,18 +135,18 @@ public final class UserLoginViewController: UIViewController {
         present(navigation, animated: true)
     }
     
-    private func validateText(userID: String) -> Bool {
-        userID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+    private func validateText(userId: String) -> Bool {
+        userId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
     }
     
     private func updateUIForDefault() {
-        userIDTextField.isEnabled = true
+        userIdTextField.isEnabled = true
         connectButton.isEnabled = true
         connectButton.setTitle("Connect", for: .normal)
     }
 
     private func updateUIForConnecting() {
-        userIDTextField.isEnabled = false
+        userIdTextField.isEnabled = false
         connectButton.isEnabled = false
         connectButton.setTitle("Connecting...", for: .normal)
     }
@@ -163,7 +163,7 @@ public final class UserLoginViewController: UIViewController {
 extension UserLoginViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == userIDTextField {
+        if textField == userIdTextField {
             connectUser()
             textField.resignFirstResponder()
         }

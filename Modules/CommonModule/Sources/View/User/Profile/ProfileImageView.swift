@@ -193,7 +193,7 @@ extension UIImageView {
     }
     
     private func defaultUserProfileImage(user: User) -> UIImage? {
-        if let nickname = user.nickname, let image = UIImage.named("img_default_profile_image_\(nickname.count % 4)") {
+        if let image = UIImage.named("img_default_profile_image_\(user.nickname.count % 4)") {
             return image
         }
         

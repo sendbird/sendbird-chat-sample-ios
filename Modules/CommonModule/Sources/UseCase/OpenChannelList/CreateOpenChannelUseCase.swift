@@ -14,7 +14,7 @@ open class CreateOpenChannelUseCase {
     
     open func createOpenChannel(channelName: String?, imageData: Data?, completion: @escaping (Result<OpenChannel, SBError>) -> Void) {
         let params = OpenChannelCreateParams()
-        params.operatorUserIDs = [SendbirdChat.getCurrentUser()?.userID].compactMap { $0 }
+        params.operatorUserIds = [SendbirdChat.getCurrentUser()?.userId].compactMap { $0 }
         params.coverImage = imageData
         params.name = channelName
 

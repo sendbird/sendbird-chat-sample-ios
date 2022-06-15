@@ -17,10 +17,10 @@ final class AddRemoveOperatorUseCase {
     }
     
     func addOperators(users: [Member], completion: @escaping(Result<Void, SBError>) -> Void) {
-        let userIDs = users.map {
-            $0.userID
+        let userIds = users.map {
+            $0.userId
         }
-        channel.addOperators(userIDs: userIDs) { error in
+        channel.addOperators(userIds: userIds) { error in
             guard let error = error else {
                 completion(.success(()))
                 return
@@ -30,10 +30,10 @@ final class AddRemoveOperatorUseCase {
     }
     
     func removeOperator(users: [Member], completion: @escaping(Result<Void, SBError>) -> Void) {
-        let userIDs = users.map {
-            $0.userID
+        let userIds = users.map {
+            $0.userId
         }
-        channel.removeOperators(userIDs: userIDs) { error in
+        channel.removeOperators(userIds: userIds) { error in
             guard let error = error else {
                 completion(.success(()))
                 return

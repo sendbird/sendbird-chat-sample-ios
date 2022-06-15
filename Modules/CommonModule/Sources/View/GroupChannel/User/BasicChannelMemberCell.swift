@@ -69,7 +69,7 @@ open class BasicChannelMemberCell: UITableViewCell {
     }
 
     public func configure(with user: User) {
-        profileLabel.text = "\(user.nickname ?? "(Unknown)") \(connectionStatus(with: user))"
+        profileLabel.text = "\(user.nickname) \(connectionStatus(with: user))"
         profileImageView.setProfileImageView(for: user)
     }
     

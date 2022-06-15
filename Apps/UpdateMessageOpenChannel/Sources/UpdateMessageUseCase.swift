@@ -20,7 +20,7 @@ final class UpdateMessageUseCase {
     func updateMessage(_ message: UserMessage, to newMessage: String, completion: @escaping (Result<UserMessage, SBError>) -> Void) {
         let params = UserMessageUpdateParams(message: newMessage)
         
-        channel.updateUserMessage(messageID: message.messageID, params: params) { message, error in
+        channel.updateUserMessage(messageId: message.messageId, params: params) { message, error in
             if let error = error {
                 completion(.failure(error))
                 return

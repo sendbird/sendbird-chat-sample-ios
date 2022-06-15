@@ -44,25 +44,26 @@ class iOSTrueUseCase: NSObject {
     }
         
     private func createApplicationUserListQuery() -> ApplicationUserListQuery {
-        let currentUserId = SendbirdChat.getCurrentUser()!.userID
-        let query = SendbirdChat.createApplicationUserListQuery()
-        query.userIDsFilter = [currentUserId]
+        let currentUserId = SendbirdChat.getCurrentUser()!.userId
+        let query = SendbirdChat.createApplicationUserListQuery {
+            $0.userIdsFilter = [currentUserId]
+        }
         return query
     }
 }
 
 extension iOSTrueUseCase: ConnectionDelegate {
     
-    func didConnect(userID: String) {
-        let currentUserId = SendbirdChat.getCurrentUser()!.userID
-        if userID == currentUserId {
+    func didConnect(userId: String) {
+        let currentUserId = SendbirdChat.getCurrentUser()!.userId
+        if userId == currentUserId {
             self.delegate?.userConnection(self, didUpdateUserStatus: true)
         }
     }
     
-    func didDisconnect(userID: String) {
-        let currentUserId = SendbirdChat.getCurrentUser()!.userID
-        if userID == currentUserId {
+    func didDisconnect(userId: String) {
+        let currentUserId = SendbirdChat.getCurrentUser()!.userId
+        if userId == currentUserId {
             self.delegate?.userConnection(self, didUpdateUserStatus: false)
         }
     }

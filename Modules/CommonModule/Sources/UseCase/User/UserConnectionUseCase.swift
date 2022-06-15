@@ -16,7 +16,7 @@ public class UserConnectionUseCase {
     public private(set) var isAutoLogin: Bool
     
     @UserDefault(key: "sendbird_user_id", defaultValue: nil)
-    public private(set) var userID: String?
+    public private(set) var userId: String?
     
     public var currentUser: User? {
         SendbirdChat.getCurrentUser()
@@ -24,9 +24,9 @@ public class UserConnectionUseCase {
         
     private init() { }
     
-    public func login(userID: String,
+    public func login(userId: String,
                       completion: @escaping (Result<User, SBError>) -> Void) {
-        SendbirdChat.connect(userID: userID) { [weak self] user, error in
+        SendbirdChat.connect(userId: userId) { [weak self] user, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -83,7 +83,7 @@ public class UserConnectionUseCase {
     }
         
     private func storeUserInfo(_ user: User) {
-        userID = user.userID
+        userId = user.userId
         isAutoLogin = true
     }
             

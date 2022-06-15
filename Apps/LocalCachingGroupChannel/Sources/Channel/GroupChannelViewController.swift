@@ -202,7 +202,7 @@ extension GroupChannelViewController: LocalCachingMessageListUseCaseDelegate {
     
     private func scrollToFocusMessage() {
         guard let focusMessage = targetMessageForScrolling,
-              focusMessage.messageID == messageListUseCase.messages.last?.messageID else { return }
+              focusMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
         self.targetMessageForScrolling = nil
         
         let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
