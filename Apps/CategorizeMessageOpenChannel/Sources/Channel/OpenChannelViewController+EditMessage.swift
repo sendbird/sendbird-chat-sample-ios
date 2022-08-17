@@ -30,6 +30,20 @@ extension OpenChannelViewController {
                 }
             )
         }
+
+        if message.customType == "Pinned" {
+            alert.addAction(
+                UIAlertAction(title: "UnPin Message", style: .default) { [weak self] _ in
+                    self?.pinMessage(message, isEnablePin: false)
+                }
+            )
+        } else {
+            alert.addAction(
+                UIAlertAction(title: "Pin Message", style: .default) { [weak self] _ in
+                    self?.pinMessage(message, isEnablePin: true)
+                }
+            )
+        }
         
         alert.addAction(
             UIAlertAction(title: "Update", style: .default) { [weak self] _ in
@@ -48,6 +62,18 @@ extension OpenChannelViewController {
         )
 
         present(alert, animated: true)
+    }
+
+    private func pinMessage(_ message: UserMessage, isEnablePin: Bool) {
+        userMessageUseCase.pinMessage(message, isEnablePin: isEnablePin) { [weak self] result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                self?.presentAlert(error: error)
+            }
+        }
+
     }
     
     private func presentUpdateUserMessageAlert(for message: UserMessage) {

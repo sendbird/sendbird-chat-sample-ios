@@ -11,19 +11,17 @@ import CommonModule
 import SendbirdChatSDK
 
 class CategorizeMessageUseCase: OpenChannelUserMessageUseCase {
-    override func sendMessage(_ message: String, completion: @escaping (Result<UserMessage, SBError>) -> Void) -> UserMessage? {
-        
-        let params = UserMessageCreateParams(message: message)
-        let random = Int.random(in: 0...3)
-        let customTypes = ["School", "Music", "Contacts", "People"]
-        params.customType = customTypes[random]
-        
-        return channel.sendUserMessage(params: params) { message, error in
+    open func pinMessage(_ message: BaseMessage, isEnablePin: Bool, completion: @escaping (Result<UserMessage, SBError>) -> Void) {
+        let params = UserMessageUpdateParams()
+        params.customType = isEnablePin ? "Pinned" : ""
+        channel.updateUserMessage(messageId: message.messageId, params: params) { message, error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
+
             guard let message = message else { return }
+
             completion(.success(message))
         }
     }
