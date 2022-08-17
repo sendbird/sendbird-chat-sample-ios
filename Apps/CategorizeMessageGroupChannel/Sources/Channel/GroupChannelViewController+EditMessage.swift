@@ -36,20 +36,44 @@ extension GroupChannelViewController {
                 self?.presentUpdateUserMessageAlert(for: message)
             }
         )
-        
+
+        if message.customType == "Pinned" {
+            alert.addAction(
+                UIAlertAction(title: "UnPin Message", style: .default) { [weak self] _ in
+                    self?.pinMessage(message, isEnablePin: false)
+                }
+            )
+        } else {
+            alert.addAction(
+                UIAlertAction(title: "Pin Message", style: .default) { [weak self] _ in
+                    self?.pinMessage(message, isEnablePin: true)
+                }
+            )
+        }
         alert.addAction(
             UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
                 self?.deleteMessage(message)
             }
         )
-        
+
         alert.addAction(
             UIAlertAction(title: "Cancel", style: .cancel)
         )
 
         present(alert, animated: true)
     }
-    
+
+    private func pinMessage(_ message: UserMessage, isEnablePin: Bool) {
+        userMessageUseCase.pinMessage(message, isEnablePin: isEnablePin) { [weak self] result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                self?.presentAlert(error: error)
+            }
+        }
+    }
+
     private func presentUpdateUserMessageAlert(for message: UserMessage) {
         presentTextFieldAlert(title: "Update message", message: "Enter new text", defaultTextFieldMessage: message.message) { [weak self] editedMessage in
             self?.userMessageUseCase.updateMessage(message, to: editedMessage) { result in
@@ -62,7 +86,7 @@ extension GroupChannelViewController {
             }
         }
     }
-    
+
     private func deleteMessage(_ message: BaseMessage) {
         userMessageUseCase.deleteMessage(message) { [weak self] result in
             switch result {
@@ -73,10 +97,10 @@ extension GroupChannelViewController {
             }
         }
     }
-    
+
     private func presentEditFileMessageAlert(for message: FileMessage) {
         let alert = UIAlertController(title: "Choose action for message", message: message.name, preferredStyle: .actionSheet)
-        
+
         if message.sendingStatus == .failed {
             alert.addAction(
                 UIAlertAction(title: "Resend", style: .default) { [weak self] _ in
@@ -84,20 +108,20 @@ extension GroupChannelViewController {
                 }
             )
         }
-        
+
         alert.addAction(
             UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
                 self?.deleteMessage(message)
             }
         )
-        
+
         alert.addAction(
             UIAlertAction(title: "Cancel", style: .cancel)
         )
 
         present(alert, animated: true)
     }
-    
+
     private func resend(_ message: UserMessage) {
         userMessageUseCase.resendMessage(message) { [weak self] result in
             switch result {
@@ -108,7 +132,7 @@ extension GroupChannelViewController {
             }
         }
     }
-    
+
     private func resend(_ message: FileMessage) {
         fileMessageUseCase.resendMessage(message) { [weak self] result in
             switch result {
@@ -119,5 +143,5 @@ extension GroupChannelViewController {
             }
         }
     }
-    
+
 }
