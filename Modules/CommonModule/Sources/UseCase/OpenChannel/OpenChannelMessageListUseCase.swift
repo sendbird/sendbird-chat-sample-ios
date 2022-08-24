@@ -56,8 +56,8 @@ open class OpenChannelMessageListUseCase: NSObject {
     open func removeEventObserver() {
         SendbirdChat.removeChannelDelegate(forIdentifier: description)
     }
-        
-    open func loadInitialMessages() {
+    
+    open func createMessageListParams() -> MessageListParams {
         let params = MessageListParams()
         params.isInclusive = true
         params.previousResultSize = Constant.previousResultSize
@@ -66,7 +66,11 @@ open class OpenChannelMessageListUseCase: NSObject {
         params.replyType = .all
         params.includeThreadInfo = true
         params.includeMetaArray = true
-
+        return params
+    }
+        
+    open func loadInitialMessages() {
+        let params = createMessageListParams()
         isLoading = true
         
         channel.getMessagesByTimestamp(.max, params: params) { [weak self] messages, error in

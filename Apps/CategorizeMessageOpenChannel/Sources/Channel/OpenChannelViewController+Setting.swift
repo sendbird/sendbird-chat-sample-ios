@@ -41,10 +41,21 @@ extension OpenChannelViewController {
         }
 
         actionSheet.addAction(
+            UIAlertAction(title: "Pinned Messages", style: .default) { [weak self] _ in
+                self?.pushPinnedMessageList()
+            }
+        )
+
+        actionSheet.addAction(
             UIAlertAction(title: "Cancel", style: .cancel)
         )
 
         present(actionSheet, animated: true)
+    }
+
+    private func pushPinnedMessageList() {
+        let viewController = OpenChannelPinnedMessagesViewController(channel: channel)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
     private func pushMemberList() {
