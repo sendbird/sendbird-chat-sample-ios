@@ -45,6 +45,12 @@ extension GroupChannelViewController {
                 }
             )
         }
+
+        actionSheet.addAction(
+            UIAlertAction(title: "Pinned Messages", style: .default) { [weak self] _ in
+                self?.pushPinnedMessageList()
+            }
+        )
         
         actionSheet.addAction(
             UIAlertAction(title: "Cancel", style: .cancel)
@@ -52,12 +58,19 @@ extension GroupChannelViewController {
 
         present(actionSheet, animated: true)
     }
-    
+
     private func pushMemberList() {
         let memberListViewController = GroupMemberListViewController(channel: channel)
         
         navigationController?.pushViewController(memberListViewController, animated: true)
     }
+
+    private func pushPinnedMessageList() {
+        let messageListViewController = GroupChannelPinnedMessagesViewController(channel: channel, timestampStorage: TimestampStorage())
+
+        navigationController?.pushViewController(messageListViewController, animated: true)
+    }
+
     
     private func presentInviteMember() {
         let userSelection = UserSelectionViewController(channel: channel) { [weak self] sender, users in

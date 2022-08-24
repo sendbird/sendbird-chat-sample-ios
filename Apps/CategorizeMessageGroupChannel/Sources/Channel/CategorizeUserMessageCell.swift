@@ -40,7 +40,7 @@ class CategorizeUserMessageCell: BasicMessageCell {
         configure(with: message)
         if let customType = message.customType, !customType.isEmpty {
             categorizeLabel.isHidden = false
-            categorizeLabel.text = String(format: "Custom type: %@", customType)
+            categorizeLabel.text = String(format: "%@", customType)
         } else {
             categorizeLabel.isHidden = true
         }
