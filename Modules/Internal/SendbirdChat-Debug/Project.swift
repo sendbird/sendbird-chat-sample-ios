@@ -4,11 +4,11 @@ import ProjectDescription
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project(
-    name: "SendbirdChat",
+    name: "SendbirdChatSDK",
     organizationName: "Sendbird",
     targets: [
         Target(
-            name: "SendbirdChat",
+            name: "SendbirdChatSDK",
             platform: .iOS,
             product: .framework,
             bundleId: "placeholder"
