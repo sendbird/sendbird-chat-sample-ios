@@ -26,7 +26,7 @@ open class OpenChannelListUseCase: NSObject {
     public override init() {
         super.init()
         
-        SendbirdChat.add(self as BaseChannelDelegate, identifier: self.description)
+        SendbirdChat.addChannelDelegate(self, identifier: self.description)
     }
     
     open func reloadChannels() {

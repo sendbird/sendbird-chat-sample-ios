@@ -41,7 +41,7 @@ open class OpenChannelMessageListUseCase: NSObject {
     public init(channel: OpenChannel) {
         self.channel = channel
         super.init()
-        SendbirdChat.add(self as ConnectionDelegate, identifier: description)
+        SendbirdChat.addConnectionDelegate(self, identifier: description)
     }
     
     deinit {
@@ -49,8 +49,7 @@ open class OpenChannelMessageListUseCase: NSObject {
     }
     
     open func addEventObserver() {
-        SendbirdChat.add(self as BaseChannelDelegate, identifier: description)
-        SendbirdChat.add(self as OpenChannelDelegate, identifier: description)
+        SendbirdChat.addChannelDelegate(self, identifier: description)
     }
     
     open func removeEventObserver() {
