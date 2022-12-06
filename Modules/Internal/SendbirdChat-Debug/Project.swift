@@ -8,7 +8,7 @@ let project = Project(
     organizationName: "Sendbird",
     targets: [
         Target(
-            name: "SendbirdChat",
+            name: "SendbirdChatSDK",
             platform: .iOS,
             product: .framework,
             bundleId: "placeholder"
