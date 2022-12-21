@@ -25,6 +25,11 @@ extension GroupChannelViewController {
                 self?.presentInviteMember()
             }
         )
+        actionSheet.addAction(
+            UIAlertAction(title: "Scheduled messages", style: .default) { [weak self] _ in
+                self?.presentScheduledMessages()
+            }
+        )
         
         actionSheet.addAction(
             UIAlertAction(title: "Leave Channel", style: .destructive) { [weak self] _ in
@@ -49,7 +54,7 @@ extension GroupChannelViewController {
         actionSheet.addAction(
             UIAlertAction(title: "Cancel", style: .cancel)
         )
-
+        
         present(actionSheet, animated: true)
     }
     
@@ -76,6 +81,11 @@ extension GroupChannelViewController {
         let navigation = UINavigationController(rootViewController: userSelection)
         
         present(navigation, animated: true)
+    }
+    
+    private func presentScheduledMessages(){
+        let scheduledMessagesViewController = ScheduledMessagesViewController(channel: channel)
+        navigationController?.pushViewController(scheduledMessagesViewController, animated: true)
     }
     
     private func presentChangeChannelNameAlert() {
@@ -128,5 +138,5 @@ extension GroupChannelViewController {
         
         present(alert, animated: true)
     }
-
+    
 }

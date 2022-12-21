@@ -166,10 +166,8 @@ open class GroupChannelMessageListUseCase: NSObject {
         if let lastTimestamp = messages.last?.createdAt {
             timestampStorage.update(timestamp: lastTimestamp, for: channel)
         }
-        
         delegate?.groupChannelMessageListUseCase(self, didUpdateMessages: messages)
     }
-    
 }
 
 // MARK: - MessageCollectionDelegate

@@ -10,12 +10,17 @@ import SendbirdChatSDK
 import CommonModule
 
 extension GroupChannelViewController: ImagePickerRouterDelegate {
-
+    
     func presentAttachFileAlert() {
         imagePickerRouter.presentAlert()
     }
     
     func imagePickerRouter(_ imagePickerRouter: ImagePickerRouter, didFinishPickingMediaFile mediaFile: ImagePickerMediaFile) {
+    
+        if let timestampForFile = timestampForFile{
+            scheduleMessageUseCase.scheduleFileMessage(timestampForFile, mediaFile.data, completion: {[weak self] error in self?.presentAlert(error: error)})
+            return
+        }
         targetMessageForScrolling = fileMessageUseCase.sendFile(.init(data: mediaFile.data, name: mediaFile.name, mimeType: mediaFile.mimeType)) { [weak self] result in
             switch result {
             case .success(let sendedMessage):
@@ -25,5 +30,5 @@ extension GroupChannelViewController: ImagePickerRouterDelegate {
             }
         }
     }
-
+    
 }

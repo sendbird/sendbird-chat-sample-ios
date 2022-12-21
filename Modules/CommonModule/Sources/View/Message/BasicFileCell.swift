@@ -8,9 +8,9 @@
 import UIKit
 import SendbirdChatSDK
 
-public class BasicFileCell: UITableViewCell {
+open class BasicFileCell: UITableViewCell {
     
-    private lazy var profileLabel: UILabel = {
+    public lazy var profileLabel: UILabel = {
         let profileLabel: UILabel = UILabel()
         profileLabel.textColor = .secondaryLabel
         profileLabel.font = .systemFont(ofSize: 14)
@@ -18,7 +18,7 @@ public class BasicFileCell: UITableViewCell {
         return profileLabel
     }()
     
-    private lazy var profileImageView: UIImageView = {
+    public lazy var profileImageView: UIImageView = {
         let profileImageView: UIImageView = UIImageView()
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 16
@@ -27,7 +27,7 @@ public class BasicFileCell: UITableViewCell {
         return profileImageView
     }()
     
-    private lazy var messageLabel: UILabel = {
+    public lazy var messageLabel: UILabel = {
         let messageLabel: UILabel = UILabel()
         messageLabel.textColor = .label
         messageLabel.font = .systemFont(ofSize: 17)
@@ -35,7 +35,7 @@ public class BasicFileCell: UITableViewCell {
         return messageLabel
     }()
     
-    private lazy var previewImageView: UIImageView = {
+    public lazy var previewImageView: UIImageView = {
         let previewImageView = UIImageView()
         previewImageView.backgroundColor = .secondarySystemBackground
         previewImageView.contentMode = .scaleAspectFill
@@ -44,7 +44,7 @@ public class BasicFileCell: UITableViewCell {
         return previewImageView
     }()
     
-    private lazy var previewPlaceholderImageView: UIImageView = {
+    public lazy var previewPlaceholderImageView: UIImageView = {
         let previewPlaceholderImageView = UIImageView()
         previewPlaceholderImageView.image = .named("img_icon_general_file")
         previewPlaceholderImageView.isHidden = true
@@ -56,7 +56,7 @@ public class BasicFileCell: UITableViewCell {
         commonInit()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         commonInit()
     }
@@ -121,7 +121,7 @@ public class BasicFileCell: UITableViewCell {
         previewPlaceholderImageView.isHidden = true
     }
 
-    public func configure(with message: FileMessage) {
+    open func configure(with message: FileMessage) {
         if let sender = message.sender {
             profileLabel.text = "\(sender.nickname)"
             profileImageView.setProfileImageView(for: sender)

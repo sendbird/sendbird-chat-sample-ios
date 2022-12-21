@@ -28,19 +28,20 @@ class GroupChannelViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var messageInputView: MessageInputView = {
-        let messageInputView = MessageInputView()
+    private lazy var messageInputView: ScheduledMessageInputView = {
+        let messageInputView = ScheduledMessageInputView()
         messageInputView.delegate = self
         return messageInputView
     }()
     
     private weak var messageInputBottomConstraint: NSLayoutConstraint?
-
+    
     var targetMessageForScrolling: BaseMessage?
     
     let channel: GroupChannel
     
     private let timestampStorage: TimestampStorage
+    var timestampForFile:Int64? = nil
     
     public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
         let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, timestampStorage: timestampStorage)
@@ -53,6 +54,8 @@ class GroupChannelViewController: UIViewController {
     public private(set) lazy var fileMessageUseCase = GroupChannelFileMessageUseCase(channel: channel)
     
     public private(set) lazy var settingUseCase = GroupChannelSettingUseCase(channel: channel)
+    
+    public private(set) lazy var scheduleMessageUseCase = ScheduleMesssageUseCase(channel: channel)
     
     public private(set) lazy var imagePickerRouter: ImagePickerRouter = {
         let imagePickerRouter = ImagePickerRouter(target: self, sourceTypes: [.photoLibrary, .photoCamera, .videoCamera])
@@ -108,7 +111,7 @@ class GroupChannelViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         keyboardObserver.add()
     }
     
@@ -117,10 +120,10 @@ class GroupChannelViewController: UIViewController {
         
         messageListUseCase.markAsRead()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         keyboardObserver.remove()
     }
     
@@ -134,12 +137,12 @@ class GroupChannelViewController: UIViewController {
         
         let touchPoint = sender.location(in: tableView)
         guard let indexPath = tableView.indexPathForRow(at: touchPoint) else { return }
-
+        
         let message = messageListUseCase.messages[indexPath.row]
         
         handleLongPress(for: message)
     }
-
+    
 }
 
 // MARK: - UITableViewDataSource
@@ -178,7 +181,7 @@ extension GroupChannelViewController: UITableViewDelegate {
         if scrollView.contentOffset.y - Constant.loadMoreThreshold <= 0 {
             messageListUseCase.loadPreviousMessages()
         }
-         
+        
         if scrollView.contentOffset.y + Constant.loadMoreThreshold >= (scrollView.contentSize.height - scrollView.frame.size.height) {
             messageListUseCase.loadNextMessages()
         }
@@ -190,7 +193,7 @@ extension GroupChannelViewController: UITableViewDelegate {
 
 extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     
-
+    
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBError) {
         presentAlert(error: error)
     }
@@ -224,9 +227,9 @@ extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
 
 // MARK: - MessageInputViewDelegate
 
-extension GroupChannelViewController: MessageInputViewDelegate {
+extension GroupChannelViewController: ScheduledMessageInputViewDelegate {
     
-    func messageInputView(_ messageInputView: MessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
+    func messageInputView(_ messageInputView: ScheduledMessageInputView, didTouchUserMessageButton sender: UIButton, message: String) {
         targetMessageForScrolling = userMessageUseCase.sendMessage(message) { [weak self] result in
             switch result {
             case .success(let sendedMessage):
@@ -237,10 +240,23 @@ extension GroupChannelViewController: MessageInputViewDelegate {
         }
     }
     
-    func messageInputView(_ messageInputView: MessageInputView, didTouchSendFileMessageButton sender: UIButton) {
+    func messageInputView(_ messageInputView: ScheduledMessageInputView, didTouchSendFileMessageButton sender: UIButton) {
+        timestampForFile = nil
         presentAttachFileAlert()
     }
     
+    func messageInputView(_ messageInputView: ScheduledMessageInputView, didLongPressMessageButton sender: UIButton, message: String) {
+        presentScheduleMessageAlert{ [weak self] timestamp in
+            self?.scheduleMessageUseCase.scheduleUserMessage(timestamp, message, completion: {[weak self] error in self?.presentAlert(error: error)})
+        }
+    }
+    
+    func messageInputView(_ messageInputView: ScheduledMessageInputView, didLongPressFileMessageButton sender: UIButton) {
+        presentScheduleMessageAlert{ [weak self] timestamp in
+            self?.timestampForFile = timestamp
+            self?.presentAttachFileAlert()
+        }
+    }
 }
 
 // MARK: - KeyboardObserverDelegate
