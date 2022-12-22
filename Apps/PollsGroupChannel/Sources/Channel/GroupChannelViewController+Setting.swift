@@ -27,6 +27,13 @@ extension GroupChannelViewController {
         )
         
         actionSheet.addAction(
+            UIAlertAction(title: "Create poll", style: .default) { [weak self] _ in
+                self?.createPoll()
+            }
+        )
+        
+        
+        actionSheet.addAction(
             UIAlertAction(title: "Leave Channel", style: .destructive) { [weak self] _ in
                 self?.presentLeaveChannelAlert()
             }
@@ -49,7 +56,7 @@ extension GroupChannelViewController {
         actionSheet.addAction(
             UIAlertAction(title: "Cancel", style: .cancel)
         )
-
+        
         present(actionSheet, animated: true)
     }
     
@@ -57,6 +64,11 @@ extension GroupChannelViewController {
         let memberListViewController = GroupMemberListViewController(channel: channel)
         
         navigationController?.pushViewController(memberListViewController, animated: true)
+    }
+    
+    private func createPoll(){
+        let createPollViewController = CreatePollViewController(channel: channel)
+        navigationController?.pushViewController(createPollViewController, animated: true)
     }
     
     private func presentInviteMember() {
@@ -128,5 +140,5 @@ extension GroupChannelViewController {
         
         present(alert, animated: true)
     }
-
+    
 }

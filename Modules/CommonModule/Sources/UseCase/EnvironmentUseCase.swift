@@ -17,7 +17,7 @@ public class EnvironmentUseCase {
         var rawValue: String {
             switch self {
             case .sample:
-                return "9880C4C1-E6C8-46E8-A8F1-D5890D598C08"
+                return "DE295D7F-DCE0-4D86-8F22-D551FD00ADCC"
             case .custom(let value):
                 return value
             }
