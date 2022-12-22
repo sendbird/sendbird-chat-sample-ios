@@ -10,7 +10,7 @@ import SendbirdChatSDK
 
 open class BasicMessageCell: UITableViewCell {
     
-    private lazy var profileLabel: UILabel = {
+    public lazy var profileLabel: UILabel = {
         let profileLabel: UILabel = UILabel()
         profileLabel.translatesAutoresizingMaskIntoConstraints = false
         profileLabel.textColor = .secondaryLabel
@@ -25,7 +25,7 @@ open class BasicMessageCell: UITableViewCell {
         return stackView
     }()
     
-    private lazy var profileImageView: UIImageView = {
+    public lazy var profileImageView: UIImageView = {
         let profileImageView: UIImageView = UIImageView()
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 16
@@ -39,7 +39,7 @@ open class BasicMessageCell: UITableViewCell {
         return profileImageView
     }()
     
-    private lazy var messageLabel: UILabel = {
+    public lazy var messageLabel: UILabel = {
         let messageLabel: UILabel = UILabel()
         messageLabel.textColor = .label
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +88,7 @@ open class BasicMessageCell: UITableViewCell {
         messageLabel.text = nil
     }
 
-    public func configure(with message: BaseMessage) {
+    open func configure(with message: BaseMessage) {
         if let sender = message.sender {
             profileLabel.text = "\(sender.nickname)"
             profileImageView.setProfileImageView(for: sender)
