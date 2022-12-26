@@ -24,12 +24,4 @@ extension GroupChannelViewController: PollUseCaseDelegate {
         }
         message.apply(pollVoteEvent: event)
     }
-
-    func pollUseCase(_ pollUseCase: PollUseCase, didUpdatePoll event: SendbirdChatSDK.PollUpdateEvent) {
-
-    }
-
-    func pollUseCase(_ pollUseCase: PollUseCase, pollWasDeleted pollId: Int64) {
-
-    }
 }
