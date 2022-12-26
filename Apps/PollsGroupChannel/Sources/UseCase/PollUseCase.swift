@@ -10,8 +10,6 @@ import SendbirdChatSDK
 
 protocol PollUseCaseDelegate: AnyObject{
     func pollUseCase(_ pollUseCase:PollUseCase, didVotePoll event: PollVoteEvent)
-    func pollUseCase(_ pollUseCase:PollUseCase, didUpdatePoll event: PollUpdateEvent)
-    func pollUseCase(_ pollUseCase:PollUseCase, pollWasDeleted pollId: Int64)
     func pollUseCase(_ pollUseCase:PollUseCase, updatedPoll poll: Poll)
 }
 
@@ -28,14 +26,6 @@ class PollUseCase : GroupChannelDelegate{
     
     func channel(_ channel: GroupChannel, didVotePoll event: PollVoteEvent) {
         delegate?.pollUseCase(self, didVotePoll: event)
-    }
-    
-    func channel(_ channel: GroupChannel, didUpdatePoll event: PollUpdateEvent) {
-        delegate?.pollUseCase(self, didUpdatePoll: event)
-    }
-    
-    func channel(_ channel: GroupChannel, pollWasDeleted pollId: Int64) {
-        delegate?.pollUseCase(self, pollWasDeleted: pollId)
     }
     
     func createPoll(pollTitle:String, pollOptions:[String], closeAt:Int64?, allowUserSuggestions:Bool, allowMultipleVotes:Bool, onPollCreated: @escaping (SBError?) -> Void){
