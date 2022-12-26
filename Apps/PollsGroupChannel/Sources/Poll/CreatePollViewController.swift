@@ -2,7 +2,6 @@
 //  CreatePollViewController.swift
 //  PollsGroupChannel
 //
-//  Created by Mihai Moisanu on 21.12.2022.
 //  Copyright © 2022 Sendbird. All rights reserved.
 //
 
@@ -137,8 +136,8 @@ class CreatePollViewController : UIViewController{
         
         pollTitleContainer.addSubview(pollTitleTextField)
         NSLayoutConstraint.activate([
-            pollTitleTextField.leadingAnchor.constraint(equalTo: pollTitleContainer.leadingAnchor, constant: 12),
-            pollTitleTextField.trailingAnchor.constraint(equalTo: pollTitleContainer.trailingAnchor, constant: -12),
+            pollTitleTextField.leadingAnchor.constraint(equalTo: pollTitleContainer.leadingAnchor, constant: 20),
+            pollTitleTextField.trailingAnchor.constraint(equalTo: pollTitleContainer.trailingAnchor, constant: -20),
             pollTitleTextField.topAnchor.constraint(equalTo: pollTitleContainer.topAnchor),
             pollTitleTextField.bottomAnchor.constraint(equalTo: pollTitleContainer.bottomAnchor),
             pollTitleTextField.heightAnchor.constraint(equalToConstant: 40)
@@ -147,22 +146,22 @@ class CreatePollViewController : UIViewController{
         
         NSLayoutConstraint.activate([
             pollTitleContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            pollTitleContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            pollTitleContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            pollTitleContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            pollTitleContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             pollTitleContainer.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         view.addSubview(optionsLabel)
         NSLayoutConstraint.activate([
-            optionsLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            optionsLabel.topAnchor.constraint(equalTo: pollTitleContainer.bottomAnchor),
+            optionsLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            optionsLabel.topAnchor.constraint(equalTo: pollTitleContainer.bottomAnchor, constant: 10),
         ])
         
         view.addSubview(optionsCotainerView)
         NSLayoutConstraint.activate([
             optionsCotainerView.topAnchor.constraint(equalTo: optionsLabel.bottomAnchor),
-            optionsCotainerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            optionsCotainerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            optionsCotainerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            optionsCotainerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
         ])
         
         view.addSubview(addOptionButton)
@@ -216,7 +215,7 @@ class CreatePollViewController : UIViewController{
     
     
     @objc private func addOptionView(){
-        let pollOptionView = PollOptionView()
+        let pollOptionView = CreatePollOptionView()
         pollOptionView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         optionsCotainerView.addArrangedSubview(pollOptionView)
     }
@@ -239,14 +238,14 @@ class CreatePollViewController : UIViewController{
     @objc private func createPoll(){
         guard let pollTitle = pollTitleTextField.text else { return }
         let pollOptions:[String] = optionsCotainerView.subviews.map( {view  in
-            let optionView = view as! PollOptionView
+            let optionView = view as! CreatePollOptionView
             return optionView.getOptionName()!
         }).filter({!$0.isEmpty})
         let allowMultipleVotes = multipleVotesSwitch.isOn
         let allowUserSugestions = userSuggestionSwitch.isOn
         var closeAt:Int64? = nil
         if let timestamp = closeAtDate?.timeIntervalSince1970{
-            closeAt = Int64(timestamp * 1000)
+            closeAt = Int64(timestamp)
         }
         pollUseCase.createPoll(pollTitle: pollTitle, pollOptions: pollOptions, closeAt: closeAt, allowUserSuggestions: allowUserSugestions, allowMultipleVotes: allowMultipleVotes){ [weak self] error in
             

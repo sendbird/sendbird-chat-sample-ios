@@ -2,7 +2,6 @@
 //  TimePicker.swift
 //  PollsGroupChannel
 //
-//  Created by Mihai Moisanu on 22.12.2022.
 //  Copyright © 2022 Sendbird. All rights reserved.
 //
 
