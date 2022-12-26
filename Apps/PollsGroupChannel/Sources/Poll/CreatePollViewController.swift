@@ -241,7 +241,7 @@ class CreatePollViewController : UIViewController{
         let pollOptions:[String] = optionsCotainerView.subviews.map( {view  in
             let optionView = view as! PollOptionView
             return optionView.getOptionName()!
-        })
+        }).filter({!$0.isEmpty})
         let allowMultipleVotes = multipleVotesSwitch.isOn
         let allowUserSugestions = userSuggestionSwitch.isOn
         var closeAt:Int64? = nil

@@ -19,6 +19,7 @@ class GroupChannelViewController: UIViewController {
         let tableView: UITableView = UITableView(frame: .zero, style: .plain)
         tableView.register(BasicMessageCell.self)
         tableView.register(BasicFileCell.self)
+        tableView.register(PollCell.self)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140.0
         tableView.delegate = self
@@ -35,12 +36,13 @@ class GroupChannelViewController: UIViewController {
     }()
     
     private weak var messageInputBottomConstraint: NSLayoutConstraint?
-
+    
     var targetMessageForScrolling: BaseMessage?
     
     let channel: GroupChannel
     
     private let timestampStorage: TimestampStorage
+    private let pollUseCase:PollUseCase
     
     public private(set) lazy var messageListUseCase: GroupChannelMessageListUseCase = {
         let messageListUseCase = GroupChannelMessageListUseCase(channel: channel, timestampStorage: timestampStorage)
@@ -69,7 +71,9 @@ class GroupChannelViewController: UIViewController {
     init(channel: GroupChannel, timestampStorage: TimestampStorage) {
         self.channel = channel
         self.timestampStorage = timestampStorage
+        self.pollUseCase = PollUseCase(channel: channel)
         super.init(nibName: nil, bundle: nil)
+        self.pollUseCase.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -108,7 +112,7 @@ class GroupChannelViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         keyboardObserver.add()
     }
     
@@ -117,10 +121,10 @@ class GroupChannelViewController: UIViewController {
         
         messageListUseCase.markAsRead()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         keyboardObserver.remove()
     }
     
@@ -134,12 +138,12 @@ class GroupChannelViewController: UIViewController {
         
         let touchPoint = sender.location(in: tableView)
         guard let indexPath = tableView.indexPathForRow(at: touchPoint) else { return }
-
+        
         let message = messageListUseCase.messages[indexPath.row]
         
         handleLongPress(for: message)
     }
-
+    
 }
 
 // MARK: - UITableViewDataSource
@@ -152,12 +156,18 @@ extension GroupChannelViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = messageListUseCase.messages[indexPath.row]
-        
         if let fileMessage = message as? FileMessage {
             let cell: BasicFileCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: fileMessage)
             return cell
         } else {
+            let userMessage = message as? UserMessage
+            if let poll = userMessage?.poll{
+                let cell:PollCell = tableView.dequeueReusableCell(for: indexPath)
+                cell.delegate = self
+                cell.configure(poll)
+                return cell
+            }
             let cell: BasicMessageCell = tableView.dequeueReusableCell(for: indexPath)
             cell.configure(with: message)
             return cell
@@ -178,7 +188,7 @@ extension GroupChannelViewController: UITableViewDelegate {
         if scrollView.contentOffset.y - Constant.loadMoreThreshold <= 0 {
             messageListUseCase.loadPreviousMessages()
         }
-         
+        
         if scrollView.contentOffset.y + Constant.loadMoreThreshold >= (scrollView.contentSize.height - scrollView.frame.size.height) {
             messageListUseCase.loadNextMessages()
         }
@@ -190,7 +200,7 @@ extension GroupChannelViewController: UITableViewDelegate {
 
 extension GroupChannelViewController: GroupChannelMessageListUseCaseDelegate {
     
-
+    
     func groupChannelMessageListUseCase(_ useCase: GroupChannelMessageListUseCase, didReceiveError error: SBError) {
         presentAlert(error: error)
     }
@@ -264,4 +274,52 @@ extension GroupChannelViewController: KeyboardObserverDelegate {
         }
     }
     
+}
+
+// MARK: - Poll
+
+extension GroupChannelViewController : PollCellDelegate{
+    
+    func pollOptionVoted(_ pollCell: PollCell, _ poll: SendbirdChatSDK.Poll, _ optionVoted: SendbirdChatSDK.PollOption) {
+        let optionsIds = poll.options.map({$0.pollOptionId})
+        var listToUpdate = [Int64]()
+        if poll.allowMultipleVotes {
+            listToUpdate = poll.votedPollOptionIds
+            if let index = listToUpdate.firstIndex(of: optionVoted.pollOptionId){
+                listToUpdate.remove(at: index)
+            }else{
+                listToUpdate.append(optionVoted.pollOptionId)
+            }
+        }else{
+            if listToUpdate.contains(optionVoted.pollOptionId) {
+                listToUpdate = [Int64]()
+            }else{
+                listToUpdate = [optionVoted.pollOptionId]
+            }
+        }
+        listToUpdate = listToUpdate.filter({ optionsIds.contains($0)})
+        pollUseCase.votePollOptions(poll, listToUpdate, { [weak self] error in
+            if let error = error {
+                self?.presentAlert(error: error)
+                return
+            }
+        })
+    }
+    
+    func addOptionToPoll(_ pollCell: PollCell, _ poll: SendbirdChatSDK.Poll) {
+        presentTextFieldAlert(title: "Add Option", message: "Enter option Name", defaultTextFieldMessage: "") { [weak self] optionToAdd in
+            self?.pollUseCase.addPollOption(poll, optionToAdd, onOptionAdded: { [weak self] error  in
+                self?.presentAlert(error: error)
+            })
+        }
+    }
+    
+    func closePoll(_ pollCell: PollCell, _ poll: SendbirdChatSDK.Poll) {
+        pollUseCase.closePoll(poll: poll, onPollClosed: { [weak self] error in
+            if let error = error {
+                self?.presentAlert(error: error)
+                return
+            }
+        })
+    }
 }
