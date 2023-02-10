@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Chat iOS v4 SDK Sample
+  description: Public Sample for Chat iOS v4
+  annotations:
+    github.com/project-slug: sendbird/sendbird-chat-sample-ios
+spec:
+  type: sample
+  lifecycle: production
+  owner: dep-client-platform
+  system: sendbird-chat
+
