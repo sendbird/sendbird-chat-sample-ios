@@ -42,7 +42,7 @@ class PushNotificationUseCase {
             })
         }
         else {
-            SendbirdChat.unregisterPushToken(pushToken, completionHandler: { (response, error) in
+            SendbirdChat.unregisterPushToken(pushToken, completionHandler: { error in
                 guard error == nil else {
                     // Handle error.
                     return
@@ -52,13 +52,12 @@ class PushNotificationUseCase {
     }
     
     func unRegisterAllDevices() {
-        SendbirdChat.unregisterAllPushToken(completionHandler: { (response, error) in
+        SendbirdChat.unregisterAllPushToken(completionHandler: { error in
             guard error == nil else {
                 // Handle error.
                 return
             }
         })
-
     }
 
 }

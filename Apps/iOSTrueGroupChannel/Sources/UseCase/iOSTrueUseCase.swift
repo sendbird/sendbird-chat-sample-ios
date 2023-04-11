@@ -26,7 +26,7 @@ class iOSTrueUseCase: NSObject {
     init(channel: GroupChannel?) {
         self.channel = channel
         super.init()
-        SendbirdChat.add(self as ConnectionDelegate, identifier: "[CONNECTION_DELEGATE]")
+        SendbirdChat.addConnectionDelegate(self as ConnectionDelegate, identifier: "[CONNECTION_DELEGATE]")
     }
         
     func checkUserConnectionStatus() {

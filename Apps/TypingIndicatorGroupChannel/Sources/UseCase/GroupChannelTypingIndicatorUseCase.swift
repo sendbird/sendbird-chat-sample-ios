@@ -28,7 +28,7 @@ final class GroupChannelTypingIndicatorUseCase: GroupChannelDelegate {
     }
     
     private func subscribeToTypingIndicatorDelegate() {
-        SendbirdChat.add(self, identifier: "[TYPING_INDICATOR_DELEGATE]")
+        SendbirdChat.addChannelDelegate(self, identifier: "[TYPING_INDICATOR_DELEGATE]")
     }
     
     func startTyping() {
@@ -72,6 +72,6 @@ final class GroupChannelTypingIndicatorUseCase: GroupChannelDelegate {
     }
     
     private func getUsername(user: User) -> String {
-        return user.nickname ?? user.userId
+        return user.nickname
     }
 }

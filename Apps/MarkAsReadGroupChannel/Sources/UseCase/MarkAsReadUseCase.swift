@@ -32,7 +32,7 @@ class MarkAsReadUseCase: GroupChannelDelegate {
     }
     
     private func subscribeToGroupChannelDelegate() {
-        SendbirdChat.add(self, identifier: String(describing: self))
+        SendbirdChat.addChannelDelegate(self, identifier: String(describing: self))
     }
 
     func markAsRead() {
