@@ -4,6 +4,9 @@
 .AppleDouble
 .LSOverride
 
+# AppCode
+.idea
+
 # Icon must end with two
 Icon
 
