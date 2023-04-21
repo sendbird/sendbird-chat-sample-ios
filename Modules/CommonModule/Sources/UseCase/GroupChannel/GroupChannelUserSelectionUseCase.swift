@@ -35,11 +35,13 @@ open class GroupChannelUserSelectionUseCase {
     open func reloadUsers() {
         userListQuery = createApplicationUserListQuery()
         
-        guard let userListQuery = userListQuery, userListQuery.hasNext else { return }
-        
+        guard let userListQuery = userListQuery,
+              userListQuery.hasNext,
+              userListQuery.isLoading == false else { return }
+
         userListQuery.loadNextPage { [weak self] users, error in
             guard let self = self else { return }
-            
+
             if let error = error {
                 self.delegate?.userSelectionUseCase(self, didReceiveError: error)
                 return
@@ -53,11 +55,13 @@ open class GroupChannelUserSelectionUseCase {
     }
     
     open func loadNextPage() {
-        guard let userListQuery = userListQuery, userListQuery.hasNext else { return }
-        
+        guard let userListQuery = userListQuery,
+              userListQuery.hasNext,
+              userListQuery.isLoading == false else { return }
+
         userListQuery.loadNextPage { [weak self] users, error in
             guard let self = self else { return }
-            
+
             if let error = error {
                 self.delegate?.userSelectionUseCase(self, didReceiveError: error)
                 return

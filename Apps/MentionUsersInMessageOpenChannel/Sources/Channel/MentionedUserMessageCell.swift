@@ -40,7 +40,7 @@ class MentionedUserMessageCell: BasicMessageCell {
     ) {
         configure(with: message)
         let userNames: [String] = message.mentionedUsers.map {
-            $0.nickname ?? $0.userId
+            $0.nickname
         }
         usersLabel.text = userNames.joined(separator: ",")
     }

@@ -23,7 +23,7 @@ extension UIAlertController{
         addAction(UIAlertAction(title: "Done", style: .cancel, handler: { action in
             onDateSelected(datePicker.date)
         }))
-        let height: NSLayoutConstraint = NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
+        let height: NSLayoutConstraint = NSLayoutConstraint(item: view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
         view.addConstraint(height)
         
         datePicker.translatesAutoresizingMaskIntoConstraints = false

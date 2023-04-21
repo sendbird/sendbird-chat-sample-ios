@@ -19,7 +19,7 @@ final class DeleteMessageUseCase {
     }
     
     private func subscribeToDeleteMessageDelegate() {
-        SendbirdChat.add(self, identifier: "[DELETE_MESSAGE_DELEGATE]")
+        SendbirdChat.addChannelDelegate(self, identifier: "[DELETE_MESSAGE_DELEGATE]")
     }
 
     func deleteMessage(_ message: BaseMessage, completion: @escaping (Result<Void, SBError>) -> Void) {
