@@ -1,89 +1,37 @@
-# [Sendbird Chat](https://sendbird.com/docs/chat) SDK Sample for iOS
+# [Sendbird Chat](https://sendbird.com/docs/chat) SDK Sample for Android
 
 [![Platform](https://img.shields.io/badge/Platform-iOS-orange.svg)](https://github.com/sendbird/sendbird-chat-sample-ios)
 [![Language](https://img.shields.io/badge/Language-Swift-orange.svg)](https://github.com/sendbird/sendbird-chat-sample-ios)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tuist - Build](https://github.com/sendbird/sendbird-chat-sample-ios/actions/workflows/tuist-build.yml/badge.svg)](https://github.com/sendbird/sendbird-chat-sample-ios/actions/workflows/tuist-build.yml)
 
-This repository provides feature-level Chat samples with Swift.
+This repository contains code samples in Kotlin, showcasing the key functionalities provided by Sendbird Chat SDK for Android. Each sample has a dedicated readme file briefing how the feature works on the code level. To learn more, see our [documentation for iOS](https://sendbird.com/docs/chat/v4/ios/overview).
+
+## Prerequisites
++ Xcode 14.1 or later
+
+## Sendbird Application ID
+
+To streamline the implementation process, a sample Application ID has been provided for codes in this repository. However, you need a unique Sendbird Application ID to properly initialize the Chat SDK and enable its features in your production application. Sendbird Application ID can be found in the Overview page on [Sendbird Dashboard](https://dashbaord.sendbird.com). To learn more about how and when to use the Application ID, see our documentation on [initialization](https://sendbird.com/docs/chat/sdk/v4/ios/getting-started/send-first-message#2-get-started-3-step-3-initialize-the-chat-sdk).
+
+## Code samples
+
+Refer to the following list of code samples and their readme files.
+
+- [Group Channel Add Remove Operators](./groupchannel-add-remove-operators/README.md)
+- [Group Channel Admin Message](./groupchannel-admin-message/README.md)
+- [Group Channel Ban Unban User](./groupchannel-ban-unban-user/README.md)
+- [Group Channel Categorize Channels](./groupchannel-categorize-channels/README.md)
+- [Group Channel Categorize Messages](./groupchannel-categorize-messages/README.md)
+- [Group Channel Dnd Snooze](./groupchannel-dnd-snooze/README.md)
+- [Group Channel File Progress Cancel](./groupchannel-file-progress-cancel/README.md)
+- [Group Channel Freeze Unfreeze](./groupchannel-freeze-unfreeze/README.md)
+- [Group Channel Friends](./groupchannel-friends/README.md)
+- [Group Channel Hide Archive](./groupchannel-hide-archive/README.md)
 
 ## 🔒 Security tip
 When a new Sendbird application is created in the dashboard the default security settings are set permissive to simplify running samples and implementing your first code.
 
 Before launching make sure to review the security tab under ⚙️ Settings -> Security, and set Access token permission to Read Only or Disabled so that unauthenticated users can not login as someone else. And review the Access Control lists. Most apps will want to disable "Allow retrieving user list" as that could expose usage numbers and other information.
 
-## 🚀 Get started
-
-You must use [tuist](https://github.com/tuist/tuist) to build these sample apps.
-
-### 1. Install tuist
-```bash
-curl -Ls https://install.tuist.io | bash
-```
-
-### 2. Install Dependencies
-```bash
-tuist fetch
-```
-
-### 3. Generate Xcode project & workspace
-```bash
-tuist generate 
-```
-
-For more details: [Tuist Docs](https://docs.tuist.io/tutorial/get-started)
-
-### 4. Execute sample apps
-
-1. Execute `Samples.xcworkspace`.
-2. Select the scheme of the feature you want to test.
-3. Run the scheme.
-
-## 🏗 Project structure
-
-```
-.
-├── Samples.xcworkspace
-├── Modules
-│   └── CommonModule # Common Logic & View
-├── Apps
-│   ├── BasicGroupChannel
-│   ├── BasicOpenChannel
-│   ├── GroupChannelFeatureA
-│   ├── OpenChannelFeatureA
-│   ├── ...
-│   ├── GroupChannelFeatureN
-│   └── OpenChannelFeatureN
-└── Tuist
-```
-
-### [CommonModule](Modules/CommonModule)
-
-- [UseCase](Modules/CommonModule/Sources/UseCase): Objects that can be conceptually bundled and used in SendbirdSDK.
-  - For example, when implementing the chat room message list, the functions to initialize the list, get the previous message, and get the next message are mostly used together.
-  - So, even if it is not divided into screen units, things that can be grouped with a similar concept are grouped with UseCase.
-  - If necessary, change the Access Control of BaseModule to open and use it.
-- [View](Modules/CommonModule/Sources/UseCase)
-  - Small Views that can be easily modularized
-  - It is recommended to collect all Views that are used for both Group Channel and Open Channel here.
-- `CommonModule` is used as an embedded framework in each Sample App.
-
-
-# 🛠 For contributors
-Below is an additional explanation for contributors.
-
-## 📲 How to add new `Feature Sample App` with tuist
-1. Copy [Apps/BasicGroupChannel](Apps/BasicGroupChannel) or [Apps/BasicOpenChannel](Apps/BasicOpenChannel)
-2. Paste under [Apps](Apps) folder.
-3. Rename folder name `BasicGroupChannel` to `{FeatureSampleName}`
-4. Rename parameter `"BasicGroupChannel"` to `"{FeatureSampleName}"` in `Apps/{FeatureSampleName}/Project.swift`
-```swift
-let project = Project.app(name: {FeatureSampleName})
-```
-5. Re-generate Xcode project & workspace
-```
-tuist generate
-```
-
 ## Considerations in real world app
- - In this sample repo users are connecting to sendbird using a user ID (Sendbird Dashboard --> Security --> Read & Write). Read & Write is not secure and will create a new user automatically from the SDK if none exists. In production be sure to change the Sendbird Dashboard security settings to Deny login, and [authenticate users](https://sendbird.com/docs/chat/v4/ios/guides/authentication#2-connect-to-sendbird-server-with-a-user-id-and-an-access-token) with a Sendbird generated Session Token.
+ - In this sample repo users are connecting to sendbird using a user ID (Sendbird Dashboard --> Security --> Read & Write). Read & Write is not secure and will create a new user automatically from the SDK if none exists. In production be sure to change the Sendbird Dashboard security settings to Deny login, and [authenticate users](https://sendbird.com/docs/chat/sdk/v4/ios/application/authenticating-a-user/authentication#2-connect-to-the-sendbird-server-with-a-user-id) with a Sendbird generated Session Token.
