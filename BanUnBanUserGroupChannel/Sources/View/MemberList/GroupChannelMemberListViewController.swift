@@ -1,5 +1,5 @@
 //
-//  GroupChannelMemberListViewController.swift
+//  GroupChannelBannedUserListViewController.swift
 //  BasicGroupChannel
 //
 //  Created by Ernest Hong on 2022/03/04.
@@ -11,23 +11,28 @@ import SendbirdChatSDK
 class GroupMemberListViewController: UIViewController {
 
     private let channel: GroupChannel
+    private var isBannedListQuery: Bool
 
     private lazy var useCase: GroupChannelMemberListUseCase = {
-        let useCase = GroupChannelMemberListUseCase(channel: channel)
+        let useCase = GroupChannelMemberListUseCase(channel: channel, isBannedListQuery: self.isBannedListQuery)
         useCase.delegate = self
         return useCase
     }()
     
+    private lazy var banUnBanUseCase = BanAndUnBanUseCase(channel: channel)
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.register(GroupChannelMemberCell.self)
         tableView.register(BasicChannelMemberCell.self)
         tableView.delegate = self
         tableView.dataSource = self
         return tableView
     }()
     
-    init(channel: GroupChannel) {
+    init(channel: GroupChannel, isBannedListQuery: Bool) {
         self.channel = channel
+        self.isBannedListQuery = isBannedListQuery
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,7 +49,7 @@ class GroupMemberListViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        title = "Member List"
+        title = isBannedListQuery ? "Banned User List" : "Member List"
     }
     
     private func setupTableView() {
@@ -68,9 +73,16 @@ extension GroupMemberListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: BasicChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.configure(with: useCase.members[indexPath.row])
-        return cell
+        if channel.myRole == .operator {
+            let cell: GroupChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.update(member: useCase.members[indexPath.row], useCase: banUnBanUseCase)
+            cell.delegate = self
+            return cell
+        } else {
+            let cell: BasicChannelMemberCell = tableView.dequeueReusableCell(for: indexPath)
+            cell.configure(with: useCase.members[indexPath.row])
+            return cell
+        }
     }
 
 }
@@ -86,6 +98,19 @@ extension GroupMemberListViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - GroupChannelMemberCellDelegate
+
+extension GroupMemberListViewController: GroupChannelMemberCellDelegate {
+    func groupChannelMemberCell(cell: GroupChannelMemberCell, didUpdateMember: User) {
+        useCase.resetAndLoad()
+        presentAlert(title: "User", message: "Ban/UnBan successful", closeHandler: nil)
+    }
+    
+    func groupChannelMemberCell(cell: GroupChannelMemberCell, didReceiveError error: Error) {
+        presentAlert(error: error)
+    }
+}
+
 // MARK: - GroupChannelMemberListUseCaseDelegate
 
 extension GroupMemberListViewController: GroupChannelMemberListUseCaseDelegate {
@@ -93,7 +118,7 @@ extension GroupMemberListViewController: GroupChannelMemberListUseCaseDelegate {
         presentAlert(error: error)
     }
     
-    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didUpdateMembers members: [Member]) {
+    func groupChannelMemberListUseCase(_ useCase: GroupChannelMemberListUseCase, didUpdateMembers members: [User]) {
         tableView.reloadData()
     }
 }

@@ -20,6 +20,12 @@ extension GroupChannelViewController {
         )
         
         actionSheet.addAction(
+            UIAlertAction(title: "Banned User List", style: .default) { [weak self] _ in
+                self?.pushBannedUserList()
+            }
+        )
+        
+        actionSheet.addAction(
             UIAlertAction(title: "Invite Members", style: .default) { [weak self] _ in
                 self?.presentInviteMember()
             }
@@ -53,7 +59,13 @@ extension GroupChannelViewController {
     }
     
     private func pushMemberList() {
-        let memberListViewController = GroupMemberListViewController(channel: channel)
+        let memberListViewController = GroupMemberListViewController(channel: channel, isBannedListQuery: false)
+        
+        navigationController?.pushViewController(memberListViewController, animated: true)
+    }
+    
+    private func pushBannedUserList() {
+        let memberListViewController = GroupMemberListViewController(channel: channel, isBannedListQuery: true)
         
         navigationController?.pushViewController(memberListViewController, animated: true)
     }

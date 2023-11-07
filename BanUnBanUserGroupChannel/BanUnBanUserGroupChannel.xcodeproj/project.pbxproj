@@ -17,6 +17,8 @@
 		78B08B2280D714E51E3ECD2D /* Bundle+BasicGroupChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D548E10FBD05D25D92C9FD /* Bundle+BasicGroupChannel.swift */; };
 		891F4DF06AF4B81BC7AA8445 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9553FD29176C6F40BA694EA /* Main.storyboard */; };
 		8D3688EBD114978730A2BA23 /* GroupChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3300C912905F567B8C190 /* GroupChannelViewController.swift */; };
+		971A35912AF8D92900DA6FEC /* BanAndUnBanUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971A35902AF8D92900DA6FEC /* BanAndUnBanUseCase.swift */; };
+		971A35932AF8D9CA00DA6FEC /* GroupChannelMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971A35922AF8D9CA00DA6FEC /* GroupChannelMemberCell.swift */; };
 		975BA6362AF3833400232829 /* SendbirdChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 975BA6352AF3833400232829 /* SendbirdChatSDK */; };
 		975BA6392AF3833C00232829 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 975BA6382AF3833C00232829 /* Kingfisher */; };
 		975BA6552AF3837B00232829 /* GroupChannelUserMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975BA6402AF3837B00232829 /* GroupChannelUserMessageUseCase.swift */; };
@@ -80,6 +82,8 @@
 		52D548E10FBD05D25D92C9FD /* Bundle+BasicGroupChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+BasicGroupChannel.swift"; sourceTree = "<group>"; };
 		7FF54CF984A7034FA3493731 /* GroupChannelListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelListViewController.swift; sourceTree = "<group>"; };
 		8969620EAE4F0C05E76EA910 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		971A35902AF8D92900DA6FEC /* BanAndUnBanUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BanAndUnBanUseCase.swift; sourceTree = "<group>"; };
+		971A35922AF8D9CA00DA6FEC /* GroupChannelMemberCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChannelMemberCell.swift; sourceTree = "<group>"; };
 		975BA6402AF3837B00232829 /* GroupChannelUserMessageUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChannelUserMessageUseCase.swift; sourceTree = "<group>"; };
 		975BA6412AF3837B00232829 /* GroupChannelUserSelectionUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChannelUserSelectionUseCase.swift; sourceTree = "<group>"; };
 		975BA6422AF3837B00232829 /* GroupChannelMessageListUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChannelMessageListUseCase.swift; sourceTree = "<group>"; };
@@ -158,6 +162,7 @@
 		1AB9248DF866A361F241CB6F /* MemberList */ = {
 			isa = PBXGroup;
 			children = (
+				971A35922AF8D9CA00DA6FEC /* GroupChannelMemberCell.swift */,
 				3F443189258320E0957546B5 /* GroupChannelMemberListViewController.swift */,
 			);
 			path = MemberList;
@@ -200,9 +205,18 @@
 			name = Project;
 			sourceTree = "<group>";
 		};
+		971A358F2AF8D91D00DA6FEC /* BanAndUnBan */ = {
+			isa = PBXGroup;
+			children = (
+				971A35902AF8D92900DA6FEC /* BanAndUnBanUseCase.swift */,
+			);
+			path = BanAndUnBan;
+			sourceTree = "<group>";
+		};
 		975BA63E2AF3837B00232829 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				971A358F2AF8D91D00DA6FEC /* BanAndUnBan */,
 				975BA63F2AF3837B00232829 /* GroupChannel */,
 				975BA6462AF3837B00232829 /* GroupChannelList */,
 				975BA6492AF3837B00232829 /* User */,
@@ -504,6 +518,7 @@
 				975BA6982AF3838400232829 /* MessageSendingStatus.swift in Sources */,
 				A7110ABEFEE575E6A189F6E0 /* GroupChannelViewController+FileMessage.swift in Sources */,
 				975BA6912AF3838400232829 /* GroupChannelListCell.swift in Sources */,
+				971A35932AF8D9CA00DA6FEC /* GroupChannelMemberCell.swift in Sources */,
 				975BA6A42AF3838400232829 /* UserDefault.swift in Sources */,
 				975BA6552AF3837B00232829 /* GroupChannelUserMessageUseCase.swift in Sources */,
 				113745DF05C9FDB80993A99D /* GroupChannelViewController+Setting.swift in Sources */,
@@ -516,6 +531,7 @@
 				975BA6A72AF3838400232829 /* UIImage+Extension.swift in Sources */,
 				758CE5AFFE10C1014452DF0B /* CreateGroupChannelViewController.swift in Sources */,
 				975BA69C2AF3838400232829 /* ProfileImageView.swift in Sources */,
+				971A35912AF8D92900DA6FEC /* BanAndUnBanUseCase.swift in Sources */,
 				975BA6572AF3837B00232829 /* GroupChannelMessageListUseCase.swift in Sources */,
 				6B2D05D658B67F4E405C546E /* GroupChannelMemberListViewController.swift in Sources */,
 				66C5E5E160F56B8432DFA8AB /* SettingViewController.swift in Sources */,
