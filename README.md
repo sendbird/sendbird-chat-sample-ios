@@ -16,9 +16,9 @@ Before launching make sure to review the security tab under ⚙️ Settings -> S
 
 You must use [tuist](https://github.com/tuist/tuist) to build these sample apps.
 
-### 1. Install tuist
+### 1. Install tuist (`3.0.1`)
 ```bash
-curl -Ls https://install.tuist.io | bash
+curl -Ls https://install.tuist.io | TUIST_VERSION=3.0.1 bash
 ```
 
 ### 2. Install Dependencies
