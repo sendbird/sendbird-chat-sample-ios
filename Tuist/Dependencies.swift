@@ -9,8 +9,8 @@ import ProjectDescription
 
 let dependencies = Dependencies(
     swiftPackageManager: [
-        .remote(url: "https://github.com/sendbird/sendbird-chat-sdk-ios", requirement: .upToNextMinor(from: "4.9.5")),
-        .remote(url: "https://github.com/onevcat/Kingfisher", requirement: .upToNextMinor(from: "7.8.1")),
+        .remote(url: "https://github.com/sendbird/sendbird-chat-sdk-ios", requirement: .exact("4.24.1")),
+        .remote(url: "https://github.com/onevcat/Kingfisher", requirement: .exact("8.1.0")),
     ],
     platforms: [.iOS]
 )
