@@ -242,49 +242,31 @@ extension OpenChannelMessageListUseCase: BaseChannelDelegate, OpenChannelDelegat
 // MARK: - ConnectionDelegate
 
 extension OpenChannelMessageListUseCase: ConnectionDelegate {
-    
     open func didSucceedReconnection() {
         hasNextMessages = true
-        
-        guard let timestamp = messages.last?.createdAt else {
-            return
-        }
-        
-        fetchChangeLogs(sinceTimestamp: timestamp)
+        fetchMessagesOnReconnect(sinceTimestamp: .max)
     }
     
-    private func fetchChangeLogs(sinceTimestamp timestamp: Int64) {
-        let params = MessageChangeLogsParams()
+    private func fetchMessagesOnReconnect(sinceTimestamp timestamp: Int64) {
+        let params = MessageListParams()
+        params.isInclusive = true
+        params.previousResultSize = Constant.previousResultSize
         
-        channel.getMessageChangeLogs(timestamp: timestamp, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
-            guard error == nil else { return }
+        channel.getMessagesByTimestamp(timestamp, params: params) { [weak self] messages, error in
+            guard let self = self else { return }
             
-            self?.handleChangeLogs(updatedMessages: updatedMessages, deletedMessageIds: deletedMessageIds, hasMore: hasMore, token: token)
-        }
-    }
-    
-    private func fetchChangeLogs(sinceToken token: String) {
-        let params = MessageChangeLogsParams()
-        
-        channel.getMessageChangeLogs(token: token, params: params) { [weak self] updatedMessages, deletedMessageIds, hasMore, token, error in
-            guard error == nil else { return }
+            if let error = error {
+                self.delegate?.openChannelMessageListUseCase(self, didReceiveError: error)
+                return
+            }
             
-            self?.handleChangeLogs(updatedMessages: updatedMessages, deletedMessageIds: deletedMessageIds, hasMore: hasMore, token: token)
-        }
-    }
-    
-    private func handleChangeLogs(updatedMessages: [BaseMessage]?, deletedMessageIds: [Int64]?, hasMore: Bool, token: String?) {
-        if let updatedMessages = updatedMessages {
-            replaceMessages(updatedMessages)
-        }
-        
-        if let deletedMessageIds = deletedMessageIds {
-            deleteMessages(byMessageIds: deletedMessageIds)
-        }
-        
-        if hasMore, let token = token {
-            fetchChangeLogs(sinceToken: token)
+            guard let messages = messages else { return }
+            
+            self.hasPreviousMessages = messages.count >= Constant.previousResultSize
+            self.messages = messages
+            self.delegate?.openChannelMessageListUseCase(self, didUpdateMessages: self.messages)
         }
     }
     
 }
+
