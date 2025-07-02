@@ -27,6 +27,7 @@ class OpenChannelPinnedMessagesViewController: UIViewController {
     }()
 
     var targetMessageForScrolling: BaseMessage?
+    private var isInitialLoad = true
 
     let channel: OpenChannel
 
@@ -103,6 +104,11 @@ extension OpenChannelPinnedMessagesViewController: UITableViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y - Constant.loadMoreThreshold <= 0 {
+            if let visibleIndexPaths = tableView.indexPathsForVisibleRows,
+               let firstVisibleIndexPath = visibleIndexPaths.first,
+               firstVisibleIndexPath.row < messageListUseCase.messages.count {
+                targetMessageForScrolling = messageListUseCase.messages[firstVisibleIndexPath.row]
+            }
             messageListUseCase.loadPreviousMessages()
         }
 
@@ -133,18 +139,26 @@ extension OpenChannelPinnedMessagesViewController: OpenChannelMessageListUseCase
 
     func openChannelMessageListUseCase(_ useCase: OpenChannelMessageListUseCase, didUpdateMessages messages: [BaseMessage]) {
         tableView.reloadData()
+        if isInitialLoad && !messages.isEmpty {
+            targetMessageForScrolling = messages.last
+            isInitialLoad = false
+        }
         scrollToFocusMessage()
     }
 
     private func scrollToFocusMessage() {
         defer { self.targetMessageForScrolling = nil }
 
-        guard let focusMessage = targetMessageForScrolling,
-              focusMessage.messageId == messageListUseCase.messages.last?.messageId else { return }
+        guard let focusMessage = targetMessageForScrolling else { return }
 
-        let focusMessageIndexPath = IndexPath(row: messageListUseCase.messages.count - 1, section: 0)
+        guard let messageIndex = messageListUseCase.messages.firstIndex(where: { 
+            $0.messageId == focusMessage.messageId || $0.requestId == focusMessage.requestId 
+        }) else { return }
 
-        tableView.scrollToRow(at: focusMessageIndexPath, at: .bottom, animated: false)
+        let focusMessageIndexPath = IndexPath(row: messageIndex, section: 0)
+
+        let scrollPosition: UITableView.ScrollPosition = (messageIndex == messageListUseCase.messages.count - 1) ? .bottom : .top
+        tableView.scrollToRow(at: focusMessageIndexPath, at: scrollPosition, animated: false)
     }
 
 }
