@@ -68,7 +68,7 @@ public class UserConnectionUseCase {
             return
         }
         
-        SendbirdChat.registerDevicePushToken(pushToken) { status, error in
+        SendbirdChat.registerDevicePushTokenForMultiDevicePush(pushToken) { status, error in
             if let error = error {
                 print("APNS registration failed. \(error)")
                 return

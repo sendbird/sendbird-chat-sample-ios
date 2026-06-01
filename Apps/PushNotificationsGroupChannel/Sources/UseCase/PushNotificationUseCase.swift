@@ -11,7 +11,7 @@ import SendbirdChatSDK
 
 class PushNotificationUseCase {
     func registerPushToken(deviceToken: Data) {
-        SendbirdChat.registerDevicePushToken(deviceToken) { status, error in
+        SendbirdChat.registerDevicePushTokenForMultiDevicePush(deviceToken) { status, error in
             if let error = error {
                 print("APNS registration failed. \(error)")
                 return
@@ -34,7 +34,7 @@ class PushNotificationUseCase {
         }
 
         if enable {
-            SendbirdChat.registerDevicePushToken(pushToken, completionHandler: { (status, error) in
+            SendbirdChat.registerDevicePushTokenForMultiDevicePush(pushToken, completionHandler: { (status, error) in
                 guard error == nil else {
                     // Handle error.
                     return
